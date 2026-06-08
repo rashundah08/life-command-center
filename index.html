@@ -1893,10 +1893,23 @@ function setDriveStatus(state,msg){
   el.style.color=state==='error'?'var(--pink)':state==='saved'?'#63C76C':'var(--txt3)';
 }
 
+async function driveFindFolder(){
+  // Find the "00. Life Command Center (LLC)" folder
+  const folderResp=await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=name='00. Life Command Center (LLC)'+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&spaces=drive&fields=files(id,name)`,
+    {headers:{Authorization:'Bearer '+gdriveToken}}
+  );
+  const folderData=await folderResp.json();
+  if(folderData.files&&folderData.files.length>0){
+    return folderData.files[0].id;
+  }
+  return null;
+}
+
 async function driveFindOrCreateFile(){
-  // Search for existing file
+  // Search for existing file (anywhere in Drive first)
   const searchResp=await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=name='${GDRIVE_FILENAME}'+and+trashed=false&spaces=drive&fields=files(id,name)`,
+    `https://www.googleapis.com/drive/v3/files?q=name='${GDRIVE_FILENAME}'+and+trashed=false&spaces=drive&fields=files(id,name,parents)`,
     {headers:{Authorization:'Bearer '+gdriveToken}}
   );
   const searchData=await searchResp.json();
@@ -1904,8 +1917,11 @@ async function driveFindOrCreateFile(){
     gdriveFileId=searchData.files[0].id;
     return gdriveFileId;
   }
-  // Create new file
-  const meta=new Blob([JSON.stringify({name:GDRIVE_FILENAME,mimeType:'application/json'})],{type:'application/json'});
+  // File not found - create it inside the LLC folder
+  const folderId=await driveFindFolder();
+  const fileMeta={name:GDRIVE_FILENAME,mimeType:'application/json'};
+  if(folderId)fileMeta.parents=[folderId];
+  const meta=new Blob([JSON.stringify(fileMeta)],{type:'application/json'});
   const empty=new Blob([JSON.stringify({})],{type:'application/json'});
   const form=new FormData();
   form.append('metadata',meta);form.append('file',empty);
@@ -1928,9 +1944,13 @@ async function driveLoad(){
       {headers:{Authorization:'Bearer '+gdriveToken}}
     );
     const text=await resp.text();
+    const localRaw=localStorage.getItem(SK);
+    const localData=localRaw?JSON.parse(localRaw):null;
+    const localCount=(localData&&localData.items)?localData.items.length:0;
     if(text&&text.trim().startsWith('{')){
       const p=JSON.parse(text);
-      if(p.items&&p.items.length>0){
+      const driveCount=(p.items)?p.items.length:0;
+      if(driveCount>0&&driveCount>=localCount){
         S.lists=p.lists||DEFAULT_LISTS;
         S.items=p.items||[];
         if(p.sot)S.sot=p.sot;
@@ -1940,17 +1960,27 @@ async function driveLoad(){
         if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
         recalc();
         renderAll();
-        setDriveStatus('saved','Loaded from Drive');
-        toast('✅ Your data loaded from Google Drive!',4000);
-        // Also update localStorage as backup
+        setDriveStatus('saved','Loaded from Drive ('+driveCount+' items)');
+        toast('Your data loaded from Google Drive - '+driveCount+' items!',4000);
         localStorage.setItem(SK,JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek}));
+        return;
+      } else if(localCount>driveCount){
+        setDriveStatus('saving','Uploading your local data to Drive...');
+        await driveSaveNow();
+        setDriveStatus('saved','Your data backed up to Drive ('+localCount+' items)');
+        toast('Your local data ('+localCount+' items) backed up to Google Drive!',4000);
         return;
       }
     }
-    // File is empty/new — push current local data up to Drive
-    setDriveStatus('saving','Uploading your data...');
-    await driveSaveNow();
-    setDriveStatus('saved','Synced to Drive');
+    if(localCount>0){
+      setDriveStatus('saving','Backing up your data to Drive...');
+      await driveSaveNow();
+      setDriveStatus('saved','Your data backed up to Drive ('+localCount+' items)');
+      toast('Your data ('+localCount+' items) backed up to Google Drive!',4000);
+    } else {
+      setDriveStatus('saved','Connected - ready to save');
+      toast('Connected to Google Drive! Data will save automatically.',3000);
+    }
   }catch(e){setDriveStatus('error','Drive error: '+e.message);}
 }
 
