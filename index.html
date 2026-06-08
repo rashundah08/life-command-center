@@ -1886,11 +1886,16 @@ function driveSignOut(){
 }
 
 function setDriveStatus(state,msg){
-  const el=document.getElementById('drive-status');
-  if(!el)return;
-  const icons={saving:'saving',saved:'saved',error:'error',loading:'loading'};
-  el.textContent=(state?'['+icons[state]+'] ':'')+msg;
-  el.style.color=state==='error'?'var(--pink)':state==='saved'?'#63C76C':'var(--txt3)';
+  try{
+    const el=document.getElementById('drive-status');
+    if(!el)return;
+    const icons={saving:'saving',saved:'saved',error:'error',loading:'loading'};
+    el.textContent=(state?'['+icons[state]+'] ':'')+msg;
+    el.style.color=state==='error'?'var(--pink)':state==='saved'?'#63C76C':'var(--txt3)';
+    // Also update button label if needed
+    const btn=document.getElementById('drive-btn-label');
+    if(btn&&state==='saved'&&gdriveToken)btn.textContent='Disconnect';
+  }catch(e){}
 }
 
 async function driveFindFolder(){
