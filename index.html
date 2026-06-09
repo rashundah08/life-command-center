@@ -401,6 +401,12 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <button class="nb" onclick="document.getElementById('imp').click()" style="font-size:11px;color:rgba(255,255,255,.28)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 14V6M5 9l3-3 3 3M3 4h10"/></svg>Import
     </button>
+    <button class="nb" onclick="backupToFile()" style="font-size:11px;color:rgba(134,239,172,.8)" title="Download backup to your device">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12h10"/></svg>Backup
+    </button>
+    <button class="nb" onclick="restoreFromFile()" style="font-size:11px;color:rgba(253,224,71,.8)" title="Restore from backup file">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 14V6M5 9l3-3 3 3M3 4h10"/></svg>Restore
+    </button>
     <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)">
   </div>
 </div>
@@ -417,8 +423,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
         <span id="drive-btn-label">Connect Drive</span>
       </button>
-      <button class="btn sm" onclick="backupToFile()" title="Download backup to your device" style="background:#f0fdf4;border:1px solid #86efac;color:#166534">Backup</button>
-      <button class="btn sm" onclick="restoreFromFile()" title="Restore from a backup file" style="background:#fef9c3;border:1px solid #fde047;color:#713f12">Restore</button>
       <div id="drive-status" style="font-size:10px;color:var(--txt3);white-space:nowrap"></div>
     </div>
   </div>
@@ -1947,28 +1951,31 @@ function showConflictDialog(driveCount, driveTime, localCount, localTime, driveD
   return new Promise((resolve)=>{
     const d=document.createElement('div');
     d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center';
-    d.innerHTML=`<div style="background:var(--card);border-radius:16px;padding:32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
-      <div style="font-size:18px;font-weight:600;color:var(--txt);margin-bottom:8px">Data Conflict Detected</div>
-      <div style="font-size:13px;color:var(--txt2);margin-bottom:24px">Two different versions of your data were found. Choose which one to keep:</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div style="border:2px solid var(--teal);border-radius:12px;padding:16px;cursor:pointer" id="cf-drive">
-          <div style="font-size:12px;color:var(--teal);font-weight:600;margin-bottom:4px">GOOGLE DRIVE</div>
-          <div style="font-size:28px;font-weight:700;color:var(--txt)">${driveCount}</div>
-          <div style="font-size:11px;color:var(--txt2)">items</div>
-          <div style="font-size:10px;color:var(--txt3);margin-top:6px">Saved: ${driveTime}</div>
-        </div>
-        <div style="border:2px solid var(--navy);border-radius:12px;padding:16px;cursor:pointer" id="cf-local">
-          <div style="font-size:12px;color:var(--navy);font-weight:600;margin-bottom:4px">THIS DEVICE</div>
-          <div style="font-size:28px;font-weight:700;color:var(--txt)">${localCount}</div>
-          <div style="font-size:11px;color:var(--txt2)">items</div>
-          <div style="font-size:10px;color:var(--txt3);margin-top:6px">Saved: ${localTime}</div>
-        </div>
+    d.innerHTML=`<div style="background:var(--card);border-radius:16px;padding:24px;max-width:480px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
+      <div style="font-size:18px;font-weight:600;color:var(--txt);margin-bottom:6px">Data Conflict</div>
+      <div style="font-size:13px;color:var(--txt2);margin-bottom:20px">Two versions found. Tap the one you want to KEEP:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <button onclick="window._conflictResolve('drive')" style="border:3px solid var(--teal);border-radius:12px;padding:20px 12px;background:rgba(15,163,163,0.1);cursor:pointer;width:100%;text-align:center;-webkit-tap-highlight-color:rgba(0,0,0,0)">
+          <div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">GOOGLE DRIVE</div>
+          <div style="font-size:32px;font-weight:700;color:var(--txt)">${driveCount}</div>
+          <div style="font-size:11px;color:var(--txt2);margin-bottom:6px">items</div>
+          <div style="font-size:10px;color:var(--txt3)">Saved: ${driveTime}</div>
+        </button>
+        <button onclick="window._conflictResolve('local')" style="border:3px solid var(--navy);border-radius:12px;padding:20px 12px;background:rgba(31,42,68,0.1);cursor:pointer;width:100%;text-align:center;-webkit-tap-highlight-color:rgba(0,0,0,0)">
+          <div style="font-size:11px;color:var(--navy);font-weight:700;margin-bottom:6px">THIS DEVICE</div>
+          <div style="font-size:32px;font-weight:700;color:var(--txt)">${localCount}</div>
+          <div style="font-size:11px;color:var(--txt2);margin-bottom:6px">items</div>
+          <div style="font-size:10px;color:var(--txt3)">Saved: ${localTime}</div>
+        </button>
       </div>
-      <div style="font-size:11px;color:var(--txt3);text-align:center">The version you don't choose will be overwritten. When in doubt, pick the one with more items.</div>
+      <div style="font-size:11px;color:var(--txt3);text-align:center">When in doubt, pick the version with more items.</div>
     </div>`;
     document.body.appendChild(d);
-    d.querySelector('#cf-drive').onclick=()=>{d.remove();resolve('drive');};
-    d.querySelector('#cf-local').onclick=()=>{d.remove();resolve('local');};
+    window._conflictResolve=(choice)=>{
+      delete window._conflictResolve;
+      d.remove();
+      resolve(choice);
+    };
   });
 }
 
@@ -1996,14 +2003,20 @@ async function driveLoad(){
       if(driveCount>0&&localCount>0&&driveCount!==localCount){
         const choice=await showConflictDialog(driveCount,driveTime,localCount,localTime,driveData);
         if(choice==='drive'){
+          // Load Drive version into app
           loadFromDriveData(driveData);
+          // Immediately save Drive data back to Drive to confirm
+          setTimeout(async()=>{await driveSaveNow();},500);
           setDriveStatus('saved','Loaded from Drive ('+driveCount+' items)');
           toast('Drive version loaded - '+driveCount+' items',3000);
         } else {
+          // Keep local version - save it to Drive immediately
           setDriveStatus('saving','Saving your device data to Drive...');
           await driveSaveNow();
           setDriveStatus('saved','Your device data saved to Drive ('+localCount+' items)');
-          toast('Your device data saved to Drive - '+localCount+' items',3000);
+          toast('Your device data saved - '+localCount+' items',3000);
+          // Force re-render to confirm local data is displayed
+          recalc();renderAll();
         }
         return;
       }
