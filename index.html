@@ -105,6 +105,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .tb-none{background:var(--soft);color:var(--txt3)}
 .tb-ask{background:#FFF0F4;color:#C2185B}
 .tb-badge{background:#FDF0F5;color:#8b1a4a}
+.tb-course{background:#EEF2FF;color:#3730A3}
 /* DAYS/STATUS */
 .db{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500}
 .db-over{background:#FCEBEB;color:#8B1A1A}
@@ -153,6 +154,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .tw-ask .type-widget-ttl{color:#C2410C}
 .tw-patch{background:linear-gradient(135deg,#FDF4FF,#FAE8FF);border:1px solid #E879F9}
 .tw-patch .type-widget-ttl{color:#7E22CE}
+.tw-course{background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #A5B4FC}
+.tw-course .type-widget-ttl{color:#3730A3}
 /* COLLAPSIBLE LINKED ITEMS */
 .linked-section{border:1px solid var(--bdr2);border-radius:var(--rl);margin-top:10px;overflow:hidden}
 .linked-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:var(--soft);border:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;transition:background .15s}
@@ -1499,42 +1502,86 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <div id="btab-add-body">
       <div style="font-size:12px;color:var(--txt2);margin-bottom:14px;padding:8px 12px;background:var(--soft);border-radius:var(--r)">Set fields below. Paste item names one per line. All checked fields apply to every item added.</div>
       <div class="g3" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="ba-status"><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="placeholder">📌 Placeholder</option></select></div>
-        <div class="field" style="margin:0"><label>Effort (Tasks)</label><select id="ba-effort"><option value="">-- None --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
+        <div class="field" style="margin:0"><label>Effort Level</label><select id="ba-effort"><option value="">-- None --</option><option value="easy">🟢 Easy (1pt)</option><option value="medium">🟠 Medium (3pts)</option><option value="hard">🔴 Hard (5pts)</option><option value="epic">⭐ Epic (10pts)</option><option value="legendary">👑 Legendary (15pts)</option><option value="ultimate">🔥 Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
-      <div class="field"><label>Lists</label><div id="ba-lists" class="list-checks"></div></div>
-      <div class="field"><label>Categories</label><div id="ba-cats" class="cat-checks"></div></div>
+      <div class="field"><label>Lists <span id="ba-lists-count" style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--teal)"></span></label><div id="ba-lists" class="list-checks"></div></div>
+      <div class="field"><label>Categories <span id="ba-cats-count" style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--teal)"></span></label><div id="ba-cats" class="cat-checks"></div></div>
       <div class="g2" style="margin-bottom:10px">
         <div class="field" style="margin:0"><label>Start Date</label><input id="ba-start" type="date"></div>
         <div class="field" style="margin:0"><label>Target Completion Date</label><div style="display:flex;gap:5px"><input id="ba-date" type="date" style="flex:1"><button type="button" class="btn xs ghost" onclick="document.getElementById('ba-date').value=''" title="Clear">&#x2715;</button></div></div>
       </div>
-      <div class="field"><label>SMART — S (Specific)</label><textarea id="ba-s" rows="1" placeholder="What exactly?"></textarea></div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>M (Measurable)</label><input id="ba-m" placeholder="How measured?"></div>
-        <div class="field" style="margin:0"><label>A (Achievable)</label><input id="ba-a" placeholder="Is this realistic?"></div>
-      </div>
-      <div class="field"><label>R (Relevant)</label><input id="ba-r" placeholder="Why it matters"></div>
-      <div class="field"><label>Effort Level</label>
-        <select id="ba-effort"><option value="">-- None --</option><option value="easy">&#128994; Easy (1pt)</option><option value="medium">&#128992; Medium (3pts)</option><option value="hard">&#128308; Hard (5pts)</option><option value="epic">&#11088; Epic (10pts)</option><option value="legendary">&#128081; Legendary (15pts)</option><option value="ultimate">&#128293; Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select>
-      </div>
-      <div class="field"><label>Response Status (Ask type only)</label>
-        <select id="ba-resp-status"><option value="pending">Pending (default)</option><option value="yes">Yes &#10004;</option><option value="no">No &#10008;</option></select>
-      </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Ask — Who / Company</label><input id="ba-ask-who" placeholder="e.g. Jane Smith..."></div>
-        <div class="field" style="margin:0"><label>Ask Type</label><select id="ba-ask-type"><option value="">-- None --</option><option value="ask">Ask</option><option value="application">Application</option><option value="boundary">Boundary</option><option value="invite">Invite</option><option value="pitch">Pitch</option><option value="publish">Publish</option></select></div>
-      </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Ask Channel</label><select id="ba-ask-channel"><option value="">-- None --</option><option value="email">Email</option><option value="dm">DM</option><option value="inperson">In-Person</option><option value="text">Text</option><option value="call">Call</option><option value="form">Form</option></select></div>
-        <div class="field" style="margin:0"><label>Patch Difficulty</label><select id="ba-patch-diff"><option value="">-- None --</option><option value="bronze">Bronze (10pts)</option><option value="silver">Silver (30pts)</option><option value="gold">Gold (70pts)</option></select></div>
-      </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Patch Category</label><select id="ba-patch-cat"><option value="">-- None --</option><option value="Community &amp; Service">Community &amp; Service</option><option value="Creative">Creative</option><option value="Family &amp; Relationships">Family &amp; Relationships</option><option value="Food &amp; Cooking">Food &amp; Cooking</option><option value="Holidays &amp; Seasonal">Holidays &amp; Seasonal</option><option value="Outings &amp; Experiences">Outings &amp; Experiences</option><option value="Personal Growth">Personal Growth</option><option value="Science &amp; Exploration">Science &amp; Exploration</option><option value="Wellness &amp; Fitness">Wellness &amp; Fitness</option></select></div>
-        <div class="field" style="margin:0"><label>Rotation Week (1-13)</label><input id="ba-rotation-week" type="number" min="1" max="13" placeholder="e.g. 3"></div>
-      </div>
-      <div class="field"><label>Sequence # (blank = auto-assign)</label><input id="ba-seqnum-field" type="number" min="1" placeholder="e.g. 7"></div>
       <div class="field"><label>Notes</label><textarea id="ba-notes" rows="2" placeholder="Context, links, ideas..."></textarea></div>
+      <!-- GOAL SMART FIELDS -->
+      <div style="border:1px solid #86EFAC;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
+        <div onclick="(function(){const b=document.getElementById('ba-smart-body');const a=document.getElementById('ba-smart-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'▼':'▲';})()" style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:linear-gradient(135deg,#F0FDF4,#DCFCE7);cursor:pointer;user-select:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#15803D">🎯 Goal — SMART Fields</div>
+          <span id="ba-smart-arrow" style="color:#15803D">▼</span>
+        </div>
+        <div id="ba-smart-body" style="display:none;padding:12px 14px;background:#f8fff8">
+          <div class="field"><label>S (Specific)</label><textarea id="ba-s" rows="1" placeholder="What exactly?"></textarea></div>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>M (Measurable)</label><input id="ba-m" placeholder="How measured?"></div>
+            <div class="field" style="margin:0"><label>A (Achievable)</label><input id="ba-a" placeholder="Is this realistic?"></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label>R (Relevant)</label><input id="ba-r" placeholder="Why it matters"></div>
+        </div>
+      </div>
+      <!-- ASK FIELDS -->
+      <div style="border:1px solid #FDBA74;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
+        <div onclick="(function(){const b=document.getElementById('ba-ask-body');const a=document.getElementById('ba-ask-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'▼':'▲';})()" style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);cursor:pointer;user-select:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C2410C">📋 Ask Fields</div>
+          <span id="ba-ask-arrow" style="color:#C2410C">▼</span>
+        </div>
+        <div id="ba-ask-body" style="display:none;padding:12px 14px;background:#fffaf5">
+          <div class="field"><label>Response Status</label><select id="ba-resp-status"><option value="pending">Pending (default)</option><option value="yes">Yes ✓</option><option value="no">No ✗</option></select></div>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>Who / Company</label><input id="ba-ask-who" placeholder="e.g. Jane Smith..."></div>
+            <div class="field" style="margin:0"><label>Ask Type</label><select id="ba-ask-type"><option value="">-- None --</option><option value="ask">Ask</option><option value="application">Application</option><option value="boundary">Boundary</option><option value="invite">Invite</option><option value="pitch">Pitch</option><option value="publish">Publish</option></select></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label>Channel</label><select id="ba-ask-channel"><option value="">-- None --</option><option value="email">Email</option><option value="dm">DM</option><option value="inperson">In-Person</option><option value="text">Text</option><option value="call">Call</option><option value="form">Form</option></select></div>
+        </div>
+      </div>
+      <!-- COURSE FIELDS -->
+      <div style="border:1px solid #A5B4FC;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
+        <div onclick="(function(){const b=document.getElementById('ba-course-body');const a=document.getElementById('ba-course-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'▼':'▲';})()" style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);cursor:pointer;user-select:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#3730A3">🎓 Course Fields</div>
+          <span id="ba-course-arrow" style="color:#3730A3">▼</span>
+        </div>
+        <div id="ba-course-body" style="display:none;padding:12px 14px;background:#f5f6ff">
+          <div class="g3" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>Course #</label><input id="ba-course-num" placeholder="e.g. BIOL 1406"></div>
+            <div class="field" style="margin:0"><label>Credit Hours</label><input id="ba-course-hrs" type="number" min="0" max="12" step="0.5" placeholder="e.g. 3"></div>
+            <div class="field" style="margin:0"><label>Proctored</label><select id="ba-course-proctored"><option value="">— Select —</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+          </div>
+          <div class="g3" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>Semester</label><select id="ba-course-sem"><option value="">— Semester —</option><option value="fall">Fall</option><option value="spring">Spring</option><option value="summer">Summer</option></select></div>
+            <div class="field" style="margin:0"><label>Year</label><input id="ba-course-year" type="number" min="2020" max="2035" placeholder="e.g. 2025"></div>
+            <div class="field" style="margin:0"><label>Course Status</label><select id="ba-course-status"><option value="">— Status —</option><option value="enrolled">Enrolled</option><option value="waitlisted">Waitlisted</option><option value="withdrawn">Withdrawn</option><option value="completed">Completed</option><option value="planned">Planned</option></select></div>
+          </div>
+          <div class="g2" style="margin-bottom:0">
+            <div class="field" style="margin:0"><label>Institution</label><select id="ba-course-inst"><option value="">— Institution —</option><option value="Dallas College">Dallas College</option><option value="Collin College">Collin College</option><option value="TSU">TSU</option><option value="Devry">Devry</option><option value="UofP">UofP</option><option value="WGU">WGU</option><option value="South University">South University</option></select></div>
+            <div class="field" style="margin:0"><label>Grade</label><select id="ba-course-grade"><option value="">— Grade —</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="F">F</option><option value="W">W</option><option value="IP">IP (In Progress)</option><option value="passfail">Pass/Fail</option></select></div>
+          </div>
+        </div>
+      </div>
+      <!-- PATCH FIELDS -->
+      <div style="border:1px solid #E879F9;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
+        <div onclick="(function(){const b=document.getElementById('ba-patch-body');const a=document.getElementById('ba-patch-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'▼':'▲';})()" style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:linear-gradient(135deg,#FDF4FF,#FAE8FF);cursor:pointer;user-select:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7E22CE">🏅 Patch Fields</div>
+          <span id="ba-patch-arrow" style="color:#7E22CE">▼</span>
+        </div>
+        <div id="ba-patch-body" style="display:none;padding:12px 14px;background:#fdf5ff">
+          <div class="g2" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>Patch Difficulty</label><select id="ba-patch-diff"><option value="">-- None --</option><option value="bronze">Bronze (10pts)</option><option value="silver">Silver (30pts)</option><option value="gold">Gold (70pts)</option></select></div>
+            <div class="field" style="margin:0"><label>Patch Category</label><select id="ba-patch-cat"><option value="">-- None --</option><option value="Community &amp; Service">Community &amp; Service</option><option value="Creative">Creative</option><option value="Family &amp; Relationships">Family &amp; Relationships</option><option value="Food &amp; Cooking">Food &amp; Cooking</option><option value="Holidays &amp; Seasonal">Holidays &amp; Seasonal</option><option value="Outings &amp; Experiences">Outings &amp; Experiences</option><option value="Personal Growth">Personal Growth</option><option value="Science &amp; Exploration">Science &amp; Exploration</option><option value="Wellness &amp; Fitness">Wellness &amp; Fitness</option></select></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label>Rotation Week (1-13)</label><input id="ba-rotation-week" type="number" min="1" max="13" placeholder="e.g. 3"></div>
+        </div>
+      </div>
+      <!-- SEQUENCE -->
+      <div class="field"><label>Sequence # (blank = auto-assign)</label><input id="ba-seqnum-field" type="number" min="1" placeholder="e.g. 7"></div>
       <!-- WHO I AM BECOMING -->
       <div style="border:1.5px solid #C4773B;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
         <div onclick="(function(){const b=document.getElementById('ba-wiab-body');const a=document.getElementById('ba-wiab-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'▼':'▲';})()" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(135deg,#FFF5F0,#FFF9F5);cursor:pointer;user-select:none">
@@ -1593,7 +1640,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <select id="bu-items" multiple style="height:160px;width:100%;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);padding:4px;outline:none;font-family:'DM Sans',sans-serif"></select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="bu-status"><option value="">-- Keep --</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="done">Done</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort</label><select id="bu-effort"><option value="">-- Keep --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
@@ -2125,7 +2172,7 @@ function daysTag(d,status){
 function pColor(p){return p>=80?'#63C76C':p>=50?'#0FA3A3':p>=25?'#EF9F27':'#D0D0DC'}
 function sCls(s){return{notstarted:'s-notstarted',planned:'s-planned',someday:'s-planned',inprogress:'s-inprogress',behind:'s-behind',done:'s-done'}[s]||'s-notstarted'}
 function sBadge(s){const m={notstarted:['sb-ns','Not Started'],planned:['sb-plan','Planned'],someday:['sb-ns','Someday'],inprogress:['sb-prog','In Progress'],behind:['sb-beh','Behind'],done:['sb-done','Done']};const[c,l]=m[s]||m.notstarted;return`<span class="sb2 ${c}">${l}</span>`;}
-function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
+function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch'],course:['tb-course','Course']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
 function lName(id){return(S.lists.find(l=>l.id===id)||{name:'?'}).name}
 function lColor(id){return(S.lists.find(l=>l.id===id)||{color:'#888'}).color}
 function getItem(id){return S.items.find(x=>x.id===id)}
@@ -2252,6 +2299,10 @@ function makeItem(o){
     askWho:o.askWho||'',
     askChannel:o.askChannel||'',
     rejectionType:o.rejectionType||'',
+    courseNum:o.courseNum||'',courseHours:o.courseHours||'',courseSemester:o.courseSemester||'',
+    courseYear:o.courseYear||'',courseInstitution:o.courseInstitution||'',courseGrade:o.courseGrade||'',
+    courseProctored:o.courseProctored||'',courseStatus:o.courseStatus||'',courseDesc:o.courseDesc||'',
+    courseCategory:o.courseCategory||[],courseDepartment:o.courseDepartment||[],courseTransfer:o.courseTransfer||[],
     timedNotes:o.timedNotes||[],
     themeMonth:o.themeMonth||'',themeName:o.themeName||'',
     whoIAmBecoming:o.whoIAmBecoming||false,isDateNight:o.isDateNight||false,
@@ -2359,7 +2410,7 @@ function openModal(clId,text,type,itemId){
 function closeModal(){document.getElementById('item-modal').style.display='none';S.editId=null;S.pendingClId=null;ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],listIds:[],categories:[]};}
 
 function renderModalBody(type,item,prefill){
-  const typeOpts=[['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
+  const typeOpts=[['ask','Ask'],['course','Course'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
   const statOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']].map(([v,l])=>`<option value="${v}"${item&&item.status===v?' selected':''}>${l}</option>`).join('');
   const effortOpts=(sel)=>[['','-- Select --'],['easy','&#128994; Easy (1 pt)'],['medium','&#128992; Medium (3 pts)'],['hard','&#128308; Hard (5 pts)'],['epic','&#11088; Epic (10 pts)'],['legendary','&#128081; Legendary (15 pts)'],['ultimate','&#128293; Ultimate (20 pts)'],['mythic','&#9889; Mythic (30 pts)'],['elite','&#128142; Elite (40 pts)'],['master','&#128737;&#65039; Master (50 pts)'],['titan','&#128009; Titan (60 pts)'],['cosmic','&#127756; Cosmic (70 pts)'],['immortal','&#128081; Immortal (80 pts)'],['ascended','&#128640; Ascended (90 pts)'],['transcendent','&#127942; Transcendent (100 pts)']].map(([v,l])=>`<option value="${v}"${sel===v?' selected':''} >${l}</option>`).join('');
   const listChecks=`<div>
@@ -2511,21 +2562,92 @@ function renderModalBody(type,item,prefill){
       <div class="field" style="margin-bottom:${listNumFields?'10px':'0'}"><label>Badge Purchase Link <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional)</span></label><input id="m-badge-url" type="url" value="${esc(item?.badgeUrl||'')}" placeholder="https://..."></div>
       ${listNumFields?`<div class="field" style="margin-bottom:0"><label>List Sequence #s</label>${listNumFields}</div>`:''}
     </div>`;
+  } else if(type==='course'){
+    const listNumFields=buildNumFields(item,ML.listIds);
+    const courseStatusOpts=[['enrolled','Enrolled'],['waitlisted','Waitlisted'],['withdrawn','Withdrawn'],['completed','Completed'],['planned','Planned']].map(([v,l])=>`<option value="${v}"${item&&item.courseStatus===v?' selected':''}>${l}</option>`).join('');
+    const gradeOpts=[['','— Grade —'],['A','A'],['B','B'],['C','C'],['D','D'],['F','F'],['W','W'],['IP','IP (In Progress)'],['passfail','Pass/Fail']].map(([v,l])=>`<option value="${v}"${item&&item.courseGrade===v?' selected':''}>${l}</option>`).join('');
+    const semOpts=[['','— Semester —'],['fall','Fall'],['spring','Spring'],['summer','Summer']].map(([v,l])=>`<option value="${v}"${item&&item.courseSemester===v?' selected':''}>${l}</option>`).join('');
+    const instOpts=[['','— Institution —'],['Dallas College','Dallas College'],['Collin College','Collin College'],['TSU','TSU'],['Devry','Devry'],['UofP','UofP'],['WGU','WGU'],['South University','South University']].map(([v,l])=>`<option value="${v}"${item&&item.courseInstitution===v?' selected':''}>${l}</option>`).join('');
+    const proctoredOpts=[['','— Select —'],['yes','Yes'],['no','No']].map(([v,l])=>`<option value="${v}"${item&&item.courseProctored===v?' selected':''}>${l}</option>`).join('');
+    // Multi-select chip builder helper
+    const buildCourseChips=(arr,idPrefix)=>arr.map(v=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#4338CA;color:#fff;border:1px solid #4338CA">${esc(v)}<button type="button" onclick="removeCourseChip('${idPrefix}','${esc(v)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+    const savedCats=item?.courseCategory||[];
+    const savedDepts=item?.courseDepartment||[];
+    const savedTransfer=item?.courseTransfer||[];
+    const allInsts=['Dallas College','Collin College','TSU','Devry','UofP','WGU','South University'];
+    html+=`<div class="type-widget tw-course">
+      <div class="type-widget-head"><span class="type-widget-ttl">🎓 Course Details</span></div>
+      <div class="g3" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Course #</label><input id="m-course-num" value="${esc(item?.courseNum||'')}" placeholder="e.g. BIOL 1406"></div>
+        <div class="field" style="margin:0"><label>Credit Hours</label><input id="m-course-hrs" type="number" min="0" max="12" step="0.5" value="${esc(item?.courseHours||'')}" placeholder="e.g. 3"></div>
+        <div class="field" style="margin:0"><label>Proctored</label><select id="m-course-proctored">${proctoredOpts}</select></div>
+      </div>
+      <div class="g3" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Semester</label><select id="m-course-sem">${semOpts}</select></div>
+        <div class="field" style="margin:0"><label>Year</label><input id="m-course-year" type="number" min="2020" max="2035" value="${esc(item?.courseYear||'')}" placeholder="e.g. 2025"></div>
+        <div class="field" style="margin:0"><label>Course Status</label><select id="m-course-status">${courseStatusOpts}</select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Institution</label><select id="m-course-inst">${instOpts}</select></div>
+        <div class="field" style="margin:0"><label>Grade / Final Grade</label><select id="m-course-grade">${gradeOpts}</select></div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Course Description</label><textarea id="m-course-desc" rows="2" placeholder="Brief description of course content...">${esc(item?.courseDesc||'')}</textarea></div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0">
+          <label>Category <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(select all that apply)</span></label>
+          <select onchange="addCourseChip('coursecat',this.value,['Major Required','General Education','Elective'])" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+            <option value="">— Add Category —</option>
+            <option value="Major Required">Major Required</option>
+            <option value="General Education">General Education</option>
+            <option value="Elective">Elective</option>
+            <option value="__custom__">+ Add custom...</option>
+          </select>
+          <div id="coursecat-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${buildCourseChips(savedCats,'coursecat')}</div>
+          <input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(savedCats))}">
+        </div>
+        <div class="field" style="margin:0">
+          <label>Department <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(select all that apply)</span></label>
+          <select onchange="addCourseChip('coursedept',this.value,['Health Science','Math','Arts & Science','Business','Computer Science','English'])" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+            <option value="">— Add Department —</option>
+            <option value="Health Science">Health Science</option>
+            <option value="Math">Math</option>
+            <option value="Arts &amp; Science">Arts &amp; Science</option>
+            <option value="Business">Business</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="English">English</option>
+            <option value="__custom__">+ Add custom...</option>
+          </select>
+          <div id="coursedept-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${buildCourseChips(savedDepts,'coursedept')}</div>
+          <input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(savedDepts))}">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:${listNumFields?'10px':'0'}">
+        <label>Transfer Eligibility <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(select institutions)</span></label>
+        <select onchange="addCourseChip('coursetransfer',this.value,${JSON.stringify(allInsts)})" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+          <option value="">— Add Institution —</option>
+          ${allInsts.map(i=>`<option value="${i}">${i}</option>`).join('')}
+          <option value="__custom__">+ Add custom...</option>
+        </select>
+        <div id="coursetransfer-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${buildCourseChips(savedTransfer,'coursetransfer')}</div>
+        <input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(savedTransfer))}">
+      </div>
+      ${listNumFields?`<div class="field" style="margin-bottom:0"><label>List Sequence #s</label>${listNumFields}</div>`:''}
+    </div>`;
   }
 
   if(type!=='patch'){html+=`<input type="hidden" id="m-challenge" value="${esc(item?.challengeDetails||'')}"><input type="hidden" id="m-badge-url" value="${esc(item?.badgeUrl||'')}">`;}
-  // WIAB hidden fallbacks
+  if(type!=='course'){html+=`<input type="hidden" id="m-course-num" value="${esc(item?.courseNum||'')}"><input type="hidden" id="m-course-hrs" value="${esc(item?.courseHours||'')}"><input type="hidden" id="m-course-sem" value="${esc(item?.courseSemester||'')}"><input type="hidden" id="m-course-year" value="${esc(item?.courseYear||'')}"><input type="hidden" id="m-course-inst" value="${esc(item?.courseInstitution||'')}"><input type="hidden" id="m-course-grade" value="${esc(item?.courseGrade||'')}"><input type="hidden" id="m-course-proctored" value="${esc(item?.courseProctored||'')}"><input type="hidden" id="m-course-status" value="${esc(item?.courseStatus||'')}"><input type="hidden" id="m-course-desc" value="${esc(item?.courseDesc||'')}"><input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(item?.courseCategory||[]))}"><input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(item?.courseDepartment||[]))}"><input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(item?.courseTransfer||[]))}">`;}  // WIAB hidden fallbacks
   if(!_wiabOpen){html+=`<input type="hidden" id="m-theme-month" value="${esc(item?.themeMonth||'')}"><input type="hidden" id="m-theme-name" value="${esc(item?.themeName||'')}"><input type="hidden" id="m-wiab"><input type="hidden" id="m-is-selfcare"><input type="hidden" id="m-is-weeklyfocus"><input type="hidden" id="m-is-datenight"><input type="hidden" id="m-date-with" value="${esc(item?.dateWith||'')}">`;}
 
   // LINKED ITEMS (collapsible)
   const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length;
   const linkedOpen=totalLinked>0;
   let linkedHtml='';
-  if(type==='goal'||type==='task'||type==='ask'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
-  if(type==='project'||type==='task'||type==='ask'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Goals <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedGoals.length} linked</span></label>${buildLF('goal',ML.linkedGoals)}</div>`;}
-  if(type==='goal'||type==='project'||type==='ask'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedTasks.length} linked</span></label>${buildLF('task',ML.linkedTasks)}</div>`;}
-  if(type==='goal'||type==='project'||type==='task'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
-  if(type==='goal'||type==='project'||type==='task'||type==='ask'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
+  if(type==='goal'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
+  if(type==='project'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Goals <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedGoals.length} linked</span></label>${buildLF('goal',ML.linkedGoals)}</div>`;}
+  if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedTasks.length} linked</span></label>${buildLF('task',ML.linkedTasks)}</div>`;}
+  if(type==='goal'||type==='project'||type==='task'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
+  if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
   html+=`<div class="linked-section" style="margin-bottom:13px">
     <button class="linked-toggle" type="button" onclick="toggleLinkedSection(this)">
       <span class="linked-toggle-lbl">🔗 Linked Items</span>
@@ -2546,6 +2668,41 @@ function toggleLinkedSection(btn){
   const isOpen=!body.classList.contains('collapsed');
   body.classList.toggle('collapsed',isOpen);
   arrow.classList.toggle('open',!isOpen);
+}
+
+function addCourseChip(prefix,val,knownList){
+  if(!val)return;
+  const selEl=document.querySelector(`[onchange*="addCourseChip('${prefix}'"]`);
+  if(selEl)selEl.value=''; // reset select
+  if(val==='__custom__'){
+    const cv=(prompt('Enter custom value:')||'').trim();
+    if(!cv)return;
+    val=cv;
+  }
+  const hiddenEl=document.getElementById('m-course-'+prefix.replace('course','').toLowerCase()+'-data')||document.getElementById('m-course-cat-data')||null;
+  // find the right hidden field
+  const dataId=prefix==='coursecat'?'m-course-cat-data':prefix==='coursedept'?'m-course-dept-data':'m-course-transfer-data';
+  const dataEl=document.getElementById(dataId);if(!dataEl)return;
+  let arr=[];try{arr=JSON.parse(dataEl.value||'[]');}catch{}
+  if(arr.includes(val))return; // no duplicates
+  arr.push(val);
+  dataEl.value=JSON.stringify(arr);
+  const chipsEl=document.getElementById(prefix+'-chips');
+  if(chipsEl){
+    const span=document.createElement('span');
+    span.style.cssText='display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#4338CA;color:#fff;border:1px solid #4338CA';
+    span.innerHTML=`${esc(val)}<button type="button" onclick="removeCourseChip('${prefix}','${val.replace(/'/g,"\\'")}',this.parentElement)" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button>`;
+    chipsEl.appendChild(span);
+  }
+}
+function removeCourseChip(prefix,val,chipEl){
+  const dataId=prefix==='coursecat'?'m-course-cat-data':prefix==='coursedept'?'m-course-dept-data':'m-course-transfer-data';
+  const dataEl=document.getElementById(dataId);if(!dataEl)return;
+  let arr=[];try{arr=JSON.parse(dataEl.value||'[]');}catch{}
+  arr=arr.filter(x=>x!==val);
+  dataEl.value=JSON.stringify(arr);
+  if(chipEl)chipEl.remove();
+  else{const chipsEl=document.getElementById(prefix+'-chips');if(chipsEl){[...chipsEl.children].forEach(c=>{if(c.textContent.replace('×','').trim()===val)c.remove();});}}
 }
 
 
@@ -2808,6 +2965,18 @@ function saveItem(){
     askWho:document.getElementById('m-ask-who')?.value||'',
     askChannel:document.getElementById('m-ask-channel')?.value||'',
     rejectionType:document.getElementById('m-reject-type')?.value||'',
+    courseNum:document.getElementById('m-course-num')?.value||'',
+    courseHours:document.getElementById('m-course-hrs')?.value||'',
+    courseSemester:document.getElementById('m-course-sem')?.value||'',
+    courseYear:document.getElementById('m-course-year')?.value||'',
+    courseInstitution:document.getElementById('m-course-inst')?.value||'',
+    courseGrade:document.getElementById('m-course-grade')?.value||'',
+    courseProctored:document.getElementById('m-course-proctored')?.value||'',
+    courseStatus:document.getElementById('m-course-status')?.value||'',
+    courseDesc:document.getElementById('m-course-desc')?.value||'',
+    courseCategory:(()=>{try{return JSON.parse(document.getElementById('m-course-cat-data')?.value||'[]');}catch{return [];}})(),
+    courseDepartment:(()=>{try{return JSON.parse(document.getElementById('m-course-dept-data')?.value||'[]');}catch{return [];}})(),
+    courseTransfer:(()=>{try{return JSON.parse(document.getElementById('m-course-transfer-data')?.value||'[]');}catch{return [];}})(),
     timedNotes:(()=>{const existing=(S.editId?getItem(S.editId):null)?.timedNotes||[];const newNote=(document.getElementById('m-new-note')?.value||'').trim();if(newNote){existing.push({ts:new Date().toISOString(),text:newNote});}return existing;})(),
     themeMonth:document.getElementById('m-theme-month')?.value||'',
     themeName:document.getElementById('m-theme-name')?.value||'',
@@ -2940,6 +3109,7 @@ function toggleBulkList(mode,id,el,color){
   const arr=mode==='add'?bulkAddLists:bulkUpdateLists;
   if(arr.includes(id)){arr.splice(arr.indexOf(id),1);el.classList.remove('sel');el.style.background='';el.style.borderColor='';}
   else{arr.push(id);el.classList.add('sel');el.style.background=color;el.style.borderColor=color;}
+  if(mode==='add'){const lbl=document.getElementById('ba-lists-count');if(lbl)lbl.textContent=bulkAddLists.length?'✓ '+bulkAddLists.length+' selected':'';}
 }
 function toggleBulkListRemove(id,el,color){
   if(bulkRemoveLists.includes(id)){bulkRemoveLists.splice(bulkRemoveLists.indexOf(id),1);el.classList.remove('sel');el.style.background='';el.style.borderColor='rgba(246,62,115,.3)';}
@@ -2949,6 +3119,7 @@ function toggleBulkCat(mode,c,el){
   const arr=mode==='add'?bulkAddCats:bulkUpdateCats;
   if(arr.includes(c)){arr.splice(arr.indexOf(c),1);el.classList.remove('sel');}
   else{arr.push(c);el.classList.add('sel');}
+  if(mode==='add'){const lbl=document.getElementById('ba-cats-count');if(lbl)lbl.textContent=bulkAddCats.length?'✓ '+bulkAddCats.length+' selected':'';}
 }
 function toggleBulkCatRemove(c,el){
   if(bulkRemoveCats.includes(c)){bulkRemoveCats.splice(bulkRemoveCats.indexOf(c),1);el.classList.remove('sel');el.style.background='';el.style.borderColor='rgba(246,62,115,.3)';}
@@ -2958,7 +3129,7 @@ function resetBulkForm(){
   bulkAddLists=[];bulkAddCats=[];bulkUpdateLists=[];bulkUpdateCats=[];bulkRemoveLists=[];bulkRemoveCats=[];
   ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const prev=document.getElementById('bprev');if(prev)prev.innerHTML='';
-  ['ba-type','ba-status','ba-effort','ba-start','ba-date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['ba-type','ba-status','ba-effort','ba-start','ba-date','ba-resp-status','ba-ask-who','ba-ask-type','ba-ask-channel','ba-patch-diff','ba-patch-cat','ba-rotation-week','ba-seqnum-field','ba-course-num','ba-course-hrs','ba-course-sem','ba-course-year','ba-course-inst','ba-course-grade','ba-course-proctored','ba-course-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.lci.sel,.cci.sel').forEach(el=>{el.classList.remove('sel');el.style.background='';el.style.borderColor='';});
   // Re-render the bulk add tab so chips reset visually
   const bulkModal=document.getElementById('bulk-modal');
@@ -2987,6 +3158,14 @@ function saveBulk(){
     const baPCat=document.getElementById('ba-patch-cat')?.value||'';
     const baRot=parseInt(document.getElementById('ba-rotation-week')?.value)||null;
     const baSeq=(document.getElementById('ba-seqnum-field')?.value||'').trim();
+    const baCourseNum=document.getElementById('ba-course-num')?.value||'';
+    const baCourseHrs=document.getElementById('ba-course-hrs')?.value||'';
+    const baCourseSem=document.getElementById('ba-course-sem')?.value||'';
+    const baCourseYear=document.getElementById('ba-course-year')?.value||'';
+    const baCourseInst=document.getElementById('ba-course-inst')?.value||'';
+    const baCourseGrade=document.getElementById('ba-course-grade')?.value||'';
+    const baCourseProc=document.getElementById('ba-course-proctored')?.value||'';
+    const baCourseStatus=document.getElementById('ba-course-status')?.value||'';
     const baThemeMonth=document.getElementById('ba-theme-month')?.value||'';
     const baWiabMonthly=document.getElementById('ba-wiab-monthly')?.checked||false;
     const baWiabSelfcare=document.getElementById('ba-wiab-selfcare')?.checked||false;
@@ -2998,7 +3177,7 @@ function saveBulk(){
     names.forEach((name,idx)=>{
       const respSt=document.getElementById('ba-resp-status')?.value||'pending';
       const itemEffort=effort||((type==='ask'||classify(name)==='ask')?'hard':'');
-      const item=makeItem({name,type:type||classify(name),listIds,categories,status,date,startDate:start,effort:itemEffort,smart_s,smart_m,smart_a,smart_r,notes,responseStatus:respSt,askWho:baAskWho,askType:baAskType,askChannel:baAskCh,patchDifficulty:baPDiff,patchCategory:baPCat,rotationWeek:baRot});
+      const item=makeItem({name,type:type||classify(name),listIds,categories,status,date,startDate:start,effort:itemEffort,smart_s,smart_m,smart_a,smart_r,notes,responseStatus:respSt,askWho:baAskWho,askType:baAskType,askChannel:baAskCh,patchDifficulty:baPDiff,patchCategory:baPCat,rotationWeek:baRot,courseNum:baCourseNum,courseHours:baCourseHrs,courseSemester:baCourseSem,courseYear:baCourseYear,courseInstitution:baCourseInst,courseGrade:baCourseGrade,courseProctored:baCourseProc,courseStatus:baCourseStatus});
       if(baSeq)item.seqNum=baSeq;
       if(baThemeMonth)item.themeMonth=baThemeMonth;
       if(baWiabMonthly)item.whoIAmBecoming=true;
@@ -3296,7 +3475,7 @@ let MF={types:[],statuses:[],missing:[],due:[],cats:[],lists:[]};
 
 function buildMultiFilters(){
   updateFilterActiveCount();
-  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['patch','Patches']];
+  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['course','Courses'],['patch','Patches']];
   const sf=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']];
   const mf=[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort Level'],['nostartdate','No Start Date'],['nodeadline','No Deadline'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects']];
   const df=[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']];
@@ -3647,7 +3826,7 @@ function renderListDetail(){
         <td onclick="event.stopPropagation()">${inp(i.askWho||'',`inlineField('${i.id}','askWho',this.value)`,'Who...')}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Channel —'],['email','📧 Email'],['dm','💬 DM'],['inperson','🤝 In-Person'],['text','📱 Text'],['call','📞 Call'],['form','📋 Form']],i.askChannel||'',`inlineField('${i.id}','askChannel',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
-        <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy'],['medium','🟠 Med'],['hard','🔴 Hard'],['epic','⭐ Epic'],['legendary','👑 Leg'],['ultimate','🔥 Ult']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy'],['medium','🟠 Med'],['hard','🔴 Hard'],['epic','⭐ Epic'],['legendary','👑 Leg'],['ultimate','🔥 Ult'],['mythic','⚡ Mythic'],['elite','💎 Elite'],['master','🛡️ Master'],['titan','🐉 Titan'],['cosmic','🌌 Cosmic'],['immortal','👑 Immortal'],['ascended','🚀 Ascend'],['transcendent','🏆 Trans']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Response —'],['pending','⏳ Pending'],['yes','✅ Yes'],['no','❌ No'],['maybe','🤔 Maybe']],i.responseStatus||'',`inlineField('${i.id}','responseStatus',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Reject —'],['directno','Direct No'],['ghosted','Ghosted'],['noresponse','No Response'],['softno','Soft No']],i.rejectionType||'',`inlineField('${i.id}','rejectionType',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.startDate,`inlineField('${i.id}','startDate',this.value)`)}</td>
@@ -3692,7 +3871,7 @@ function renderListDetail(){
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:260px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
         <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
-        <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)'],['mythic','⚡ Mythic (30pts)'],['elite','💎 Elite (40pts)'],['master','🛡️ Master (50pts)'],['titan','🐉 Titan (60pts)'],['cosmic','🌌 Cosmic (70pts)'],['immortal','👑 Immortal (80pts)'],['ascended','🚀 Ascended (90pts)'],['transcendent','🏆 Transcendent (100pts)']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.startDate,`inlineField('${i.id}','startDate',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.date,`inlineField('${i.id}','date',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.completedDate,`inlineField('${i.id}','completedDate',this.value)`)}</td>
@@ -3959,6 +4138,7 @@ function renderDash(){
     {f:'attention',l:'Needs Attention',v:attn,c:'#EF9F27',s:'missing fields'},
     {f:'today',l:'Due Today',v:all.filter(i=>i.date===today()&&i.status!=='done').length,c:'var(--navy)'},
     {f:'week',l:'This Week',v:applyFilter(all,'week').length,c:'var(--navy)'},
+    (()=>{const courses=all.filter(i=>i.type==='course');const compHrs=courses.filter(i=>i.courseStatus==='completed'||i.courseGrade&&i.courseGrade!=='W'&&i.courseGrade!=='IP').reduce((s,i)=>s+parseFloat(i.courseHours||0),0);const ipHrs=courses.filter(i=>i.courseStatus==='enrolled'||i.courseGrade==='IP').reduce((s,i)=>s+parseFloat(i.courseHours||0),0);return{f:'courses',l:'Credit Hours',v:compHrs,c:'#3730A3',s:ipHrs>0?ipHrs+' in progress':courses.length+' courses'};})(),
   ];
   document.getElementById('dash-top').innerHTML=metrics.map(m=>`<div class="mc${dashPanelKey===m.f?' active-p':''}" onclick="openDashPanel('${m.f}','${m.l}')"><div class="mc-lbl">${m.l}</div><div class="mc-val" style="color:${m.c}">${m.v}</div>${m.s?`<div class="mc-sub">${m.s}</div>`:''}</div>`).join('');
   // Attention
@@ -3968,7 +4148,7 @@ function renderDash(){
   const behItems=sortByDate(all.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done'))).slice(0,8);
   document.getElementById('dash-beh').innerHTML=behItems.length?behItems.map(i=>{const d=daysUntil(i.date);return`<div class="d-item" onclick="openModal(null,null,null,'${i.id}')"><div class="d-dot" style="background:var(--pink)"></div><div class="d-txt">${esc((i.name||'').slice(0,50))}</div>${d!==null&&d<0?`<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">${Math.abs(d)}d over</span>`:'<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">Behind</span>'}</div>`;}).join(''):`<div style="color:var(--txt3);font-size:12px;padding:12px 0;text-align:center">Nothing behind!</div>`;
   // Breakdown
-  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','patch'].map(t=>{
+  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','patch','course'].map(t=>{
     const ti=all.filter(i=>i.type===t);
     const tns=ti.filter(i=>i.status==='notstarted').length;
     const tpl=ti.filter(i=>i.status==='planned').length;
