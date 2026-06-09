@@ -368,21 +368,15 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <button class="nb" id="nav-habits" onclick="showPage('habits',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>Habits & Routines
     </button>
-    <button class="nb" id="nav-journal" onclick="showPage('journal',this)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>Journal
-    </button>
+
     <button class="nb" id="nav-finance" onclick="showPage('finance',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M8 4V2M5 5.5L3.5 4M11 5.5l1.5-1.5"/><circle cx="8" cy="10" r="2"/></svg>Finance Tracker
     </button>
-    <button class="nb" id="nav-contacts" onclick="showPage('contacts',this)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>People CRM
-    </button>
+
     <button class="nb" id="nav-countdowns" onclick="showPage('countdowns',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="9" r="6"/><path d="M8 6v3l2 1.5M6 1h4"/></svg>Countdowns
     </button>
-    <button class="nb" id="nav-reading" onclick="showPage('reading',this)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h5c1.1 0 2 .9 2 2v8c0-1.1-.9-2-2-2H2V3z"/><path d="M14 3H9c-1.1 0-2 .9-2 2v8c0-1.1.9-2 2-2h5V3z"/></svg>Reading & Watch List
-    </button>
+
     <button class="nb" id="nav-wiab" onclick="showPage('wiab',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"/><path d="M8 8v4M6 6c1-1 2-1 4 0"/></svg>Who I Am Becoming
     </button>
@@ -1214,30 +1208,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     </div>
 
     <!-- JOURNAL PAGE -->
-    <div id="pg-journal" style="display:none">
-      <div style="background:linear-gradient(135deg,#4A1D96,#7C3AED);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 80%,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none"></div>
-        <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px">
-          <div>
-            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.65;margin-bottom:6px">My Inner World</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;font-style:italic;margin-bottom:4px">Journal &amp; Reflections</div>
-            <div style="font-size:13px;opacity:.75;font-style:italic">Capture wins, lessons, gratitude &amp; growth</div>
-          </div>
-          <button class="btn sm" style="background:#fff;color:#4A1D96;border-color:#fff;font-weight:600" onclick="openJournalEntry()">+ New Entry</button>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="jnl-stat-total">0</div><div style="font-size:10px;opacity:.7">entries</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="jnl-stat-streak">0</div><div style="font-size:10px;opacity:.7">day streak</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="jnl-stat-thismonth">0</div><div style="font-size:10px;opacity:.7">this month</div></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:0;border-bottom:2px solid var(--bdr);margin-bottom:16px">
-        <button class="meal-tab active" id="jnl-tab-write" onclick="switchJnlTab('write',this)">✍️ Write</button>
-        <button class="meal-tab" id="jnl-tab-entries" onclick="switchJnlTab('entries',this)">📖 All Entries</button>
-      </div>
-      <div id="jnl-body-write"></div>
-      <div id="jnl-body-entries" style="display:none"></div>
-    </div>
 
     <!-- FINANCE TRACKER PAGE -->
     <div id="pg-finance" style="display:none">
@@ -1270,38 +1240,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="fin-body-budget" style="display:none"></div>
     </div>
 
-    <!-- PEOPLE CRM PAGE -->
-    <div id="pg-contacts" style="display:none">
-      <div style="background:linear-gradient(135deg,#92400E,#D97706);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 80%,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none"></div>
-        <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px">
-          <div>
-            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.65;margin-bottom:6px">Relationships</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;font-style:italic;margin-bottom:4px">People CRM</div>
-            <div style="font-size:13px;opacity:.75;font-style:italic">Nurture the relationships that matter most</div>
-          </div>
-          <button class="btn sm" style="background:#fff;color:#92400E;border-color:#fff;font-weight:600" onclick="openContactModal()">+ Add Person</button>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="crm-stat-total">0</div><div style="font-size:10px;opacity:.7">people</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="crm-stat-followup">0</div><div style="font-size:10px;opacity:.7">follow-ups due</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="crm-stat-bday">0</div><div style="font-size:10px;opacity:.7">bdays this month 🎂</div></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
-        <div class="srch" style="flex:1;min-width:200px"><span class="srch-ic">&#9906;</span><input type="text" id="crm-search" placeholder="Search people..." oninput="renderContacts()" style="width:100%"></div>
-        <select id="crm-group-filter" onchange="renderContacts()" style="padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-          <option value="">All Groups</option>
-          <option value="Family">👨‍👩‍👧 Family</option>
-          <option value="Friends">💛 Friends</option>
-          <option value="Work">💼 Work</option>
-          <option value="Mentors">🌟 Mentors</option>
-          <option value="Community">🤝 Community</option>
-          <option value="Other">📌 Other</option>
-        </select>
-      </div>
-      <div id="crm-content"></div>
-    </div>
 
     <!-- COUNTDOWNS PAGE -->
     <div id="pg-countdowns" style="display:none">
@@ -1319,43 +1257,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="cd-content"></div>
     </div>
 
-    <!-- READING & WATCH LIST PAGE -->
-    <div id="pg-reading" style="display:none">
-      <div style="background:linear-gradient(135deg,#831843,#BE185D);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none"></div>
-        <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px">
-          <div>
-            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.65;margin-bottom:6px">Media &amp; Learning</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;font-style:italic;margin-bottom:4px">Reading &amp; Watch List</div>
-            <div style="font-size:13px;opacity:.75;font-style:italic">Books · Shows · Movies · Podcasts</div>
-          </div>
-          <button class="btn sm" style="background:#fff;color:#831843;border-color:#fff;font-weight:600" onclick="openReadModal()">+ Add Item</button>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="read-stat-total">0</div><div style="font-size:10px;opacity:.7">total items</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="read-stat-done">0</div><div style="font-size:10px;opacity:.7">completed</div></div>
-          <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600" id="read-stat-inprog">0</div><div style="font-size:10px;opacity:.7">in progress</div></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:0;border-bottom:2px solid var(--bdr);margin-bottom:16px">
-        <button class="meal-tab active" id="read-tab-all" onclick="switchReadTab('all',this)">All</button>
-        <button class="meal-tab" id="read-tab-books" onclick="switchReadTab('books',this)">📚 Books</button>
-        <button class="meal-tab" id="read-tab-shows" onclick="switchReadTab('shows',this)">📺 Shows</button>
-        <button class="meal-tab" id="read-tab-movies" onclick="switchReadTab('movies',this)">🎬 Movies</button>
-        <button class="meal-tab" id="read-tab-podcasts" onclick="switchReadTab('podcasts',this)">🎙️ Podcasts</button>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
-        <div class="srch" style="flex:1;min-width:200px"><span class="srch-ic">&#9906;</span><input type="text" id="read-search" placeholder="Search titles, authors..." oninput="renderReadList()" style="width:100%"></div>
-        <select id="read-status-filter" onchange="renderReadList()" style="padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-          <option value="">All Statuses</option>
-          <option value="want">Want to Read/Watch</option>
-          <option value="inprogress">In Progress</option>
-          <option value="done">Completed</option>
-          <option value="dropped">Dropped</option>
-        </select>
-      </div>
-      <div id="read-content"></div>
-    </div>
 
 </div>
 </div>
@@ -4132,12 +4033,12 @@ function goToList(id){
 
 // NAV
 function showPage(page,btn){
-  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','journal','finance','contacts','countdowns','reading','wiab'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
+  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   if(page==='wiab')renderWIABPage();
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',journal:'Journal & Reflections',finance:'Finance Tracker',contacts:'People CRM',countdowns:'Countdowns',reading:'Reading & Watch List',wiab:'Who I Am Becoming'};
+  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='lists')renderLists();
@@ -4149,15 +4050,12 @@ function showPage(page,btn){
   if(page==='meal')renderMealPlanner();
   if(page==='inventory')renderInventory();
   if(page==='habits')renderHabits();
-  if(page==='journal')renderJournal();
   if(page==='finance')renderFinance();
-  if(page==='contacts')renderContacts();
   if(page==='countdowns')renderCountdowns();
-  if(page==='reading')renderReadList();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
-function renderAll(){renderSb();if(document.getElementById('pg-dash').style.display!=='none')renderDash();if(document.getElementById('pg-items').style.display!=='none')renderItems();if(document.getElementById('pg-timeline').style.display!=='none')renderTimeline();if(document.getElementById('pg-lists').style.display!=='none')renderLists();if(document.getElementById('pg-sot').style.display!=='none')renderSot();}
+function renderAll(){renderSb();if(document.getElementById('pg-dash').style.display!=='none')renderDash();if(document.getElementById('pg-items').style.display!=='none')renderItems();if(document.getElementById('pg-lists').style.display!=='none')renderLists();if(document.getElementById('pg-sot').style.display!=='none')renderSot();}
 
 // GENERATE PLACEHOLDER TASKS FROM EXISTING ITEMS
 let genSelections = {};
