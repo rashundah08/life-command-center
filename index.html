@@ -383,6 +383,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <button class="nb" id="nav-wiab" onclick="showPage('wiab',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"/><path d="M8 8v4M6 6c1-1 2-1 4 0"/></svg>Who I Am Becoming
     </button>
+    <button class="nb" id="nav-sprints" onclick="showPage('sprints',this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V1M11 3V1M2 7h12"/><path d="M5.5 10l1.5 1.5L10 9"/></svg>Sprints
+    </button>
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">My Lists</div>
@@ -696,7 +699,19 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           <button onclick="showPage('wiab',document.getElementById('nav-wiab'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='#C4773B'" onmouseout="this.style.borderColor='var(--bdr)'">
             <span style="font-size:20px">🌱</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Who I Am</span>
           </button>
+          <button onclick="showPage('sprints',document.getElementById('nav-sprints'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='#185FA5'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">⚡</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Sprints</span>
+          </button>
         </div>
+      </div>
+
+      <!-- CURRENT SPRINT WIDGET -->
+      <div style="background:linear-gradient(135deg,#EEF4FF,#E8F0FB);border:1.5px solid #185FA5;border-radius:var(--rl);padding:16px 18px;margin-bottom:20px;box-shadow:var(--sh)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#185FA5">⚡ Current Sprint</div>
+          <button onclick="showPage('sprints',document.getElementById('nav-sprints'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid #185FA5;background:transparent;color:#185FA5;cursor:pointer;font-family:'DM Sans',sans-serif">View All Sprints ↗</button>
+        </div>
+        <div id="hub-sprint-widget"></div>
       </div>
 
       <!-- TOP ROW: This Month's Focus + Mindset Tile -->
@@ -1359,6 +1374,24 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="fin-body-budget" style="display:none"></div>
     </div>
 
+
+    <!-- SPRINTS PAGE -->
+    <div id="pg-sprints" style="display:none">
+      <div style="background:linear-gradient(135deg,#185FA5,#0F3D6E);border-radius:var(--rxl);padding:24px 28px 20px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none"></div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">2-Week Sprint Planning</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Sprint Planner</div>
+        <div style="font-size:12px;opacity:.75;font-style:italic">Jan 5, 2026 — Dec 31, 2032 · Your journey to 50</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+          <button onclick="showSprintView('next')" id="sp-tab-next" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">⚡ Next Sprint</button>
+          <button onclick="showSprintView('cards')" id="sp-tab-cards" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">🃏 All Sprints</button>
+          <button onclick="showSprintView('timeline')" id="sp-tab-timeline" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📅 Timeline</button>
+        </div>
+      </div>
+      <div id="sp-view-next"></div>
+      <div id="sp-view-cards" style="display:none"></div>
+      <div id="sp-view-timeline" style="display:none"></div>
+    </div>
 
     <!-- COUNTDOWNS PAGE -->
     <div id="pg-countdowns" style="display:none">
@@ -2159,7 +2192,7 @@ function driveSaveDebounced(){
   if(!gdriveReady||!gdriveToken)return;
   setDriveStatus('saving','Saving...');
   clearTimeout(gdriveSaveTimer);
-  gdriveSaveTimer=setTimeout(driveSaveNow,1500);
+  gdriveSaveTimer=setTimeout(driveSaveNow,120000);
 }
 
 // Manual backup - downloads data as JSON file
@@ -2196,14 +2229,15 @@ function restoreFromFile(){
   input.click();
 }
 
-// Auto-backup every 10 minutes if data exists
+// Auto-backup every 2 minutes if data exists, also force Drive save
 setInterval(()=>{
   if(S.items&&S.items.length>0){
     const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
     localStorage.setItem(SK+'_autobak',payload);
     localStorage.setItem(SK+'_autobak_time',Date.now());
+    if(gdriveReady&&gdriveToken)driveSaveNow();
   }
-},600000);
+},120000);
 
 // ═══════════════════════════════════════════════
 // PERSIST (localStorage + Drive)
@@ -2424,6 +2458,7 @@ function makeItem(o){
     whoIAmBecoming:o.whoIAmBecoming||false,isDateNight:o.isDateNight||false,
     isSelfCare:o.isSelfCare||false,isWeeklyFocus:o.isWeeklyFocus||false,dateWith:o.dateWith||'',
     pinnedFocus:o.pinnedFocus||false,pinnedSticky:o.pinnedSticky||false,
+    estimatedMins:o.estimatedMins||0,
     created:o.created||Date.now(),updated:Date.now()
   };
 }
@@ -2569,7 +2604,12 @@ function renderModalBody(type,item,prefill){
       <div class="field" style="margin:0"><label>Start Date</label><input id="m-start" type="date" value="${item&&item.startDate?item.startDate:''}" onchange="onStartChg()"></div>
       <div class="field" style="margin:0"><label>Target Completion Date</label><input id="m-date" type="date" value="${item&&item.date?item.date:''}" onchange="onDateChg()"></div>
       <div class="field" style="margin:0"><label>Completed Date <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(req. on Done)</span></label><input id="m-completed" type="date" value="${item&&item.completedDate?item.completedDate:''}"></div>
-    </div>`;
+    </div>
+    ${type==='task'?`<div class="g2" style="margin-bottom:13px">
+      <div class="field" style="margin:0"><label>⏱ Est. Minutes <span class="req" id="m-mins-req-star" style="display:${(item&&item.startDate)||false?'inline':'none'}">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(required if start date set — used for sprint capacity)</span></label><input id="m-est-mins" type="number" min="1" step="1" placeholder="e.g. 30, 60, 90..." value="${item&&item.estimatedMins?item.estimatedMins:''}" oninput="onEstMinsChg()"></div>
+      <div class="field" style="margin:0"><label style="color:var(--txt3)">≈ Hours</label><div id="m-est-hrs-display" style="padding:8px 10px;background:var(--soft);border:1px solid var(--bdr);border-radius:var(--r);font-size:13px;color:var(--txt2);min-height:36px">${item&&item.estimatedMins?Math.round(item.estimatedMins/60*10)/10+' hrs':'—'}</div></div>
+    </div>`:''}`;
+
 
   if(type!=='task'){
     const prog=item?item.progress:0;
@@ -2969,8 +3009,9 @@ function addCustomCategory(){
   updatePatchFieldsVisibility();
 }
 function switchType(){const t=document.getElementById('m-type')?.value;if(!t)return;const item=S.editId?getItem(S.editId):null;renderModalBody(t,item,document.getElementById('m-name')?.value);}
-function onDateChg(){const d=document.getElementById('m-date')?.value;const s=document.getElementById('m-status');if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}};
-function onStartChg(){const d=document.getElementById('m-start')?.value;const s=document.getElementById('m-status');if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';}
+function onDateChg(){const d=document.getElementById('m-date')?.value;const s=document.getElementById('m-status');if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}}
+function onStartChg(){const d=document.getElementById('m-start')?.value;const s=document.getElementById('m-status');if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';const star=document.getElementById('m-mins-req-star');if(star)star.style.display=d?'inline':'none';}
+function onEstMinsChg(){const v=parseInt(document.getElementById('m-est-mins')?.value)||0;const disp=document.getElementById('m-est-hrs-display');if(disp)disp.textContent=v>0?Math.round(v/60*10)/10+' hrs':'—';}
 function onStatusChg(){const s=document.getElementById('m-status')?.value;if(s==='done'){const p=document.getElementById('m-prog');if(p)p.value=100;const pv=document.getElementById('prog-v');if(pv)pv.textContent='100%';}}
 
 // LINK FIELDS
@@ -3080,6 +3121,12 @@ function saveItem(){
       if(!pc||!pd||!ch)return alert('Patch fields required. Please fill in Patch Category, Difficulty, and Challenge Requirements before marking a Patch as Done.');
     }
   }
+  // SPRINT VALIDATION: estimatedMins required for tasks with a start date
+  if(type==='task'){
+    const startD=document.getElementById('m-start')?.value||'';
+    const estMins=document.getElementById('m-est-mins')?.value||'';
+    if(startD&&!estMins)return alert('Estimated Minutes is required when a Start Date is set.\n\nThis feeds your sprint capacity calculation. Enter how many minutes this task will take.');
+  }
   const obj=makeItem({
     id:S.editId||uid(),name,type,
     listIds:ML.listIds,categories:ML.categories,status,date:tcd,
@@ -3131,6 +3178,7 @@ function saveItem(){
     dateWith:document.getElementById('m-date-with')?.value||'',
     pinnedFocus:document.getElementById('m-pinned-focus')?.checked||false,
     pinnedSticky:document.getElementById('m-pinned-sticky')?.checked||false,
+    estimatedMins:parseInt(document.getElementById('m-est-mins')?.value||0)||0,
     created:S.editId?(getItem(S.editId)||{}).created||Date.now():Date.now()
   });
   doSave(obj);
@@ -4364,12 +4412,12 @@ function goToList(id){
 
 // NAV
 function showPage(page,btn){
-  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
+  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   if(page==='wiab')renderWIABPage();
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming'};
+  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='lists')renderLists();
@@ -4383,6 +4431,7 @@ function showPage(page,btn){
   if(page==='habits')renderHabits();
   if(page==='finance')renderFinance();
   if(page==='countdowns')renderCountdowns();
+  if(page==='sprints')renderSprints();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
@@ -5291,10 +5340,11 @@ function renderHub(){
     }
   });
 
-  // TODAY'S FOCUS — due today + past due, not done
   renderHubFocus(el);
   // ALL GOALS
   renderHubGoals(el);
+  // SPRINT WIDGET
+  renderHubSprintWidget();
   // NEW MASTER PLAN WIDGETS
   renderHubWidgets();
   renderHubWeekGlance();
@@ -5304,6 +5354,49 @@ function renderHub(){
 }
 
 let hubGoalFilter='all';
+function renderHubSprintWidget(){
+  const el=document.getElementById('hub-sprint-widget');if(!el)return;
+  const curIdx=getCurrentSprintIdx();
+  const sprint=ALL_SPRINTS[curIdx];
+  if(!sprint){el.innerHTML='<div style="font-size:12px;color:var(--txt3);font-style:italic">No active sprint found.</div>';return;}
+  const cap=calcSprintCapacity(sprint);
+  const meta=getSprintMeta(sprint.num);
+  const barPct=Math.min(100,Math.round(cap.plannedHrs/cap.hrsPerSprint*100));
+  const barColor=cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#EF9F27';
+  const psColors={'Not Started':'#9B59B6','Planning':'#EF9F27','Ready':'#059669','In Progress':'#185FA5','Complete':'#63C76C'};
+  const psColor=psColors[meta.planningStatus]||'#9B59B6';
+  const doneTasks=cap.tasks.filter(t=>t.status==='done').length;
+  el.innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#185FA5">Sprint ${sprint.num}</div>
+      <div style="font-size:11px;color:var(--txt2)">${sprint.start} → ${sprint.end}</div>
+      <div style="margin-top:4px"><span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${psColor}22;color:${psColor};font-weight:600">${meta.planningStatus}</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div style="background:rgba(255,255,255,.7);border-radius:var(--r);padding:6px 10px;text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:${barColor}">${cap.plannedHrs}h</div>
+        <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Planned</div>
+      </div>
+      <div style="background:rgba(255,255,255,.7);border-radius:var(--r);padding:6px 10px;text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#185FA5">${cap.hrsPerSprint}h</div>
+        <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Capacity</div>
+      </div>
+      <div style="background:rgba(255,255,255,.7);border-radius:var(--r);padding:6px 10px;text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy)">${cap.tasks.length}</div>
+        <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Tasks</div>
+      </div>
+      <div style="background:rgba(255,255,255,.7);border-radius:var(--r);padding:6px 10px;text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#059669">${doneTasks}</div>
+        <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Done</div>
+      </div>
+    </div>
+  </div>
+  <div style="height:8px;background:rgba(24,95,165,.1);border-radius:4px;overflow:hidden;margin-bottom:4px">
+    <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:4px;transition:width .4s"></div>
+  </div>
+  <div style="font-size:10px;color:${barColor};font-weight:600">${cap.capStatus}</div>`;
+}
 function setHubGoalFilter(f,btn){
   hubGoalFilter=f;
   document.querySelectorAll('.hub-gf').forEach(b=>b.classList.remove('active'));
@@ -9758,7 +9851,442 @@ function renderSOTWIABEditor(){
   `;
 }
 
-function pushWIABToMonth(monthKey,field){
+// ══════════════════════════════════════════════════════════════════════════
+// SPRINT PLANNER ENGINE
+// ══════════════════════════════════════════════════════════════════════════
+
+// ── SPRINT STORAGE ────────────────────────────────────────────────────────
+function loadSprintMeta(){try{return JSON.parse(localStorage.getItem('rlcc_sprint_meta')||'{}');}catch(e){return{};}}
+function saveSprintMeta(d){localStorage.setItem('rlcc_sprint_meta',JSON.stringify(d));}
+
+// ── SPRINT GENERATION ────────────────────────────────────────────────────
+// Generate all 2-week sprint records from Jan 5, 2026 to Dec 31, 2032
+const SPRINT_START='2026-01-05';
+const SPRINT_END='2032-12-31';
+
+function generateSprints(){
+  const sprints=[];
+  let num=1;
+  let start=new Date(SPRINT_START+'T12:00:00');
+  const endDate=new Date(SPRINT_END+'T12:00:00');
+  while(start<=endDate){
+    const end=new Date(start);
+    end.setDate(end.getDate()+13);
+    if(end>endDate)end.setTime(endDate.getTime());
+    const planningDue=new Date(start);
+    planningDue.setDate(planningDue.getDate()-7);
+    sprints.push({
+      num,
+      start:start.toISOString().slice(0,10),
+      end:end.toISOString().slice(0,10),
+      planningDue:planningDue.toISOString().slice(0,10)
+    });
+    num++;
+    start=new Date(end);
+    start.setDate(start.getDate()+1);
+  }
+  return sprints;
+}
+
+const ALL_SPRINTS=generateSprints();
+
+// ── SPRINT HELPERS ────────────────────────────────────────────────────────
+function getCurrentSprintIdx(){
+  const td=today();
+  const idx=ALL_SPRINTS.findIndex(s=>s.start<=td&&s.end>=td);
+  return idx>=0?idx:ALL_SPRINTS.findIndex(s=>s.start>td);
+}
+function getNextSprintIdx(){
+  const cur=getCurrentSprintIdx();
+  return Math.min(cur+1,ALL_SPRINTS.length-1);
+}
+function getSprintMeta(num){
+  const meta=loadSprintMeta();
+  return meta[num]||{weekdayHrs:10,saturdayHrs:10,sundayHrs:8,planningStatus:'Not Started'};
+}
+function saveSprintMetaField(num,field,value){
+  const meta=loadSprintMeta();
+  if(!meta[num])meta[num]={weekdayHrs:10,saturdayHrs:10,sundayHrs:8,planningStatus:'Not Started'};
+  meta[num][field]=value;
+  saveSprintMeta(meta);
+}
+
+// ── CAPACITY CALC ────────────────────────────────────────────────────────
+function calcSprintCapacity(sprint){
+  const m=getSprintMeta(sprint.num);
+  const wdHrs=parseFloat(m.weekdayHrs)||10;
+  const satHrs=parseFloat(m.saturdayHrs)||10;
+  const sunHrs=parseFloat(m.sundayHrs)||8;
+  const hrsPerWeek=wdHrs+satHrs+sunHrs;
+  const hrsPerSprint=hrsPerWeek*2;
+  const capLow=Math.round(hrsPerSprint*0.7*10)/10;
+  const capHigh=Math.round(hrsPerSprint*0.8*10)/10;
+  // Sum estimatedMins from tasks whose startDate falls in sprint window
+  const tasks=getSprintTasks(sprint);
+  const plannedMins=tasks.reduce((s,t)=>s+(t.estimatedMins||0),0);
+  const plannedHrs=Math.round(plannedMins/60*10)/10;
+  const availCap=Math.round((hrsPerSprint-plannedHrs)*10)/10;
+  let capStatus='On Track';
+  if(plannedHrs>hrsPerSprint)capStatus='Over Capacity by '+(Math.round((plannedHrs-hrsPerSprint)*10)/10)+' hrs';
+  else if(plannedHrs<capLow)capStatus='Under — '+Math.round((capLow-plannedHrs)*10)/10+' hrs available';
+  else capStatus='On Track';
+  return{wdHrs,satHrs,sunHrs,hrsPerWeek,hrsPerSprint,capLow,capHigh,plannedHrs,availCap,capStatus,tasks};
+}
+
+function getSprintTasks(sprint){
+  return S.items.filter(i=>
+    i.type==='task'&&
+    i.status!=='placeholder'&&
+    i.startDate&&
+    i.startDate>=sprint.start&&
+    i.startDate<=sprint.end
+  );
+}
+
+function getSprintInFlightTasks(sprint){
+  // Tasks that started before this sprint but end date overlaps (TCD >= sprint.start and < sprint.end, or still in progress)
+  return S.items.filter(i=>
+    i.type==='task'&&
+    i.status!=='placeholder'&&
+    i.startDate&&
+    i.startDate<sprint.start&&
+    i.status!=='done'&&
+    ((!i.date)||(i.date>=sprint.start))
+  );
+}
+
+// ── SPRINT VIEW SWITCHER ─────────────────────────────────────────────────
+let spActiveView='next';
+function showSprintView(view){
+  spActiveView=view;
+  ['next','cards','timeline'].forEach(v=>{
+    const el=document.getElementById('sp-view-'+v);if(el)el.style.display=v===view?'block':'none';
+    const btn=document.getElementById('sp-tab-'+v);
+    if(btn){
+      btn.style.background=v===view?'rgba(255,255,255,.2)':'transparent';
+      btn.style.borderColor=v===view?'rgba(255,255,255,.6)':'rgba(255,255,255,.3)';
+      btn.style.fontWeight=v===view?'600':'400';
+    }
+  });
+  if(view==='next')renderSprintNext();
+  if(view==='cards')renderSprintCards();
+  if(view==='timeline')renderSprintTimeline();
+}
+
+function renderSprints(){showSprintView(spActiveView);}
+
+// ── VIEW A: NEXT SPRINT DETAIL ────────────────────────────────────────────
+function renderSprintNext(){
+  const el=document.getElementById('sp-view-next');if(!el)return;
+  const nextIdx=getNextSprintIdx();
+  const sprint=ALL_SPRINTS[nextIdx];
+  if(!sprint){el.innerHTML='<div class="empty"><p>No upcoming sprints</p></div>';return;}
+  const meta=getSprintMeta(sprint.num);
+  const cap=calcSprintCapacity(sprint);
+  const barPct=Math.min(100,Math.round(cap.plannedHrs/cap.hrsPerSprint*100));
+  const barColor=cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#EF9F27';
+  const lowPct=Math.round(cap.capLow/cap.hrsPerSprint*100);
+  const highPct=Math.round(cap.capHigh/cap.hrsPerSprint*100);
+  const psColors={
+    'Not Started':'#9B59B6','Planning':'#EF9F27','Ready':'#059669','In Progress':'#185FA5','Complete':'#63C76C'
+  };
+  const psColor=psColors[meta.planningStatus]||'#9B59B6';
+  const curIdx=getCurrentSprintIdx();
+  const inFlight=getSprintInFlightTasks(sprint);
+
+  let html=`
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+    <button onclick="renderSprintNextNum(${Math.max(0,nextIdx-1)})" class="btn sm ghost">← Prev</button>
+    <span style="font-size:12px;color:var(--txt2);flex:1;text-align:center">Sprint ${sprint.num} of ${ALL_SPRINTS.length}</span>
+    <button onclick="renderSprintNextNum(${Math.min(ALL_SPRINTS.length-1,nextIdx+1)})" class="btn sm ghost">Next →</button>
+  </div>
+
+  <div style="background:var(--card);border:2px solid #185FA5;border-radius:var(--rxl);padding:20px 24px;margin-bottom:16px;box-shadow:var(--sh)">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#185FA5;margin-bottom:4px">${nextIdx===curIdx?'CURRENT SPRINT':'NEXT SPRINT'} · #${sprint.num}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--navy)">Sprint ${sprint.num}</div>
+        <div style="font-size:13px;color:var(--txt2);margin-top:2px">${sprint.start} → ${sprint.end}</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:2px">Planning due: ${sprint.planningDue}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+        <select onchange="saveSprintMetaField(${sprint.num},'planningStatus',this.value);renderSprintNext()" style="padding:5px 10px;border:1.5px solid ${psColor};border-radius:var(--r);font-size:12px;font-weight:600;color:${psColor};background:#fff;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">
+          ${['Not Started','Planning','Ready','In Progress','Complete'].map(s=>`<option value="${s}"${meta.planningStatus===s?' selected':''}>${s}</option>`).join('')}
+        </select>
+        <span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${cap.plannedHrs>cap.hrsPerSprint?'#FFE4EE':cap.plannedHrs>=cap.capLow?'#E1F5EE':'#FEF3C7'};color:${cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#92400E'};font-weight:600">${cap.capStatus}</span>
+      </div>
+    </div>
+
+    <!-- Capacity Inputs -->
+    <div style="background:var(--soft);border-radius:var(--rl);padding:14px 16px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:10px">⏱ Capacity Setup</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Weekday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.wdHrs}" onchange="saveSprintMetaField(${sprint.num},'weekdayHrs',parseFloat(this.value)||0);renderSprintNext()" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Saturday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.satHrs}" onchange="saveSprintMetaField(${sprint.num},'saturdayHrs',parseFloat(this.value)||0);renderSprintNext()" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Sunday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.sunHrs}" onchange="saveSprintMetaField(${sprint.num},'sundayHrs',parseFloat(this.value)||0);renderSprintNext()" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
+        ${[['Hrs/Week',cap.hrsPerWeek,'#185FA5'],['Hrs/Sprint',cap.hrsPerSprint,'#185FA5'],['Cap Low (70%)',cap.capLow,'#EF9F27'],['Cap High (80%)',cap.capHigh,'#059669'],['Planned',cap.plannedHrs,cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':'var(--navy)'],['Available',cap.availCap,cap.availCap<0?'var(--pink)':'#059669']].map(([lbl,val,col])=>`
+          <div style="background:#fff;border-radius:var(--r);padding:8px 10px;border:1px solid var(--bdr);text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:${col}">${val}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-top:2px">${lbl}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Capacity Bar -->
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);margin-bottom:4px">
+        <span>0 hrs</span><span style="color:#EF9F27">▲ Low ${cap.capLow}h</span><span style="color:#059669">▲ High ${cap.capHigh}h</span><span>${cap.hrsPerSprint}h max</span>
+      </div>
+      <div style="position:relative;height:14px;background:var(--soft);border-radius:7px;overflow:hidden;border:1px solid var(--bdr)">
+        <div style="position:absolute;left:${lowPct}%;top:0;bottom:0;width:2px;background:#EF9F27;opacity:.6"></div>
+        <div style="position:absolute;left:${highPct}%;top:0;bottom:0;width:2px;background:#059669;opacity:.6"></div>
+        <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:7px;transition:width .4s"></div>
+      </div>
+      <div style="font-size:11px;color:var(--txt2);margin-top:4px;text-align:center">${cap.plannedHrs} hrs planned of ${cap.hrsPerSprint} hrs available</div>
+    </div>
+  </div>
+
+  <!-- Tasks In This Sprint -->
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#185FA5;margin-bottom:12px">📋 Tasks Starting This Sprint (${cap.tasks.length})</div>
+    ${cap.tasks.length?cap.tasks.map(t=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal('${t.id}')">
+        <div onclick="event.stopPropagation();toggleDone('${t.id}');renderSprintNext()" style="width:16px;height:16px;border-radius:4px;border:1.5px solid ${t.status==='done'?'#63C76C':'var(--bdr2)'};background:${t.status==='done'?'#63C76C':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          ${t.status==='done'?'<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="3"><path d="M3 8l4 4 6-7"/></svg>':''}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:500;color:${t.status==='done'?'var(--txt3)':'var(--navy)'};${t.status==='done'?'text-decoration:line-through':''};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.name)}</div>
+          <div style="font-size:10px;color:var(--txt3)">Start: ${t.startDate}${t.date?' · Due: '+t.date:''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:11px;font-weight:600;color:#185FA5">${t.estimatedMins?t.estimatedMins+'m':'—'}</div>
+          <div style="font-size:10px;color:var(--txt3)">${t.estimatedMins?Math.round(t.estimatedMins/60*10)/10+'h':''}</div>
+        </div>
+      </div>`).join(''):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint window.<br><span style="font-size:11px">Assign a start date to a task that falls within ${sprint.start} — ${sprint.end}</span></div>`}
+  </div>
+
+  ${inFlight.length?`<div style="background:var(--soft);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px 18px;margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt2);margin-bottom:10px">🔄 In Flight from Previous Sprints (${inFlight.length}) <span style="font-weight:400;font-size:10px;color:var(--txt3)">— not counted in capacity</span></div>
+    ${inFlight.map(t=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal('${t.id}')">
+      <div style="width:8px;height:8px;border-radius:50%;background:#EF9F27;flex-shrink:0"></div>
+      <span style="flex:1;font-size:12px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.name)}</span>
+      <span style="font-size:10px;color:var(--txt3)">started ${t.startDate}</span>
+    </div>`).join('')}
+  </div>`:''}
+  `;
+  el.innerHTML=html;
+}
+
+let spNextDisplayIdx=null;
+function renderSprintNextNum(idx){
+  spNextDisplayIdx=idx;
+  const el=document.getElementById('sp-view-next');if(!el)return;
+  const sprint=ALL_SPRINTS[idx];if(!sprint)return;
+  // Temporarily override getNextSprintIdx for rendering
+  const origFn=getNextSprintIdx;
+  window._sprintOverrideIdx=idx;
+  const origNext=getNextSprintIdx;
+  // Hack: rebuild with explicit idx
+  const meta=getSprintMeta(sprint.num);
+  const cap=calcSprintCapacity(sprint);
+  // Just re-render with this sprint's data directly
+  spNextDisplayIdx=idx;
+  // Re-render using the same logic but for arbitrary sprint
+  renderSprintAtIdx(idx,el);
+}
+
+function renderSprintAtIdx(idx,el){
+  if(!el)return;
+  const sprint=ALL_SPRINTS[idx];if(!sprint){el.innerHTML='';return;}
+  const meta=getSprintMeta(sprint.num);
+  const cap=calcSprintCapacity(sprint);
+  const barPct=Math.min(100,Math.round(cap.plannedHrs/cap.hrsPerSprint*100));
+  const barColor=cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#EF9F27';
+  const lowPct=Math.round(cap.capLow/cap.hrsPerSprint*100);
+  const highPct=Math.round(cap.capHigh/cap.hrsPerSprint*100);
+  const psColors={'Not Started':'#9B59B6','Planning':'#EF9F27','Ready':'#059669','In Progress':'#185FA5','Complete':'#63C76C'};
+  const psColor=psColors[meta.planningStatus]||'#9B59B6';
+  const curIdx=getCurrentSprintIdx();
+  const inFlight=getSprintInFlightTasks(sprint);
+  const label=idx===curIdx?'CURRENT SPRINT':idx===curIdx+1?'NEXT SPRINT':'SPRINT';
+
+  el.innerHTML=`
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+    <button onclick="renderSprintAtIdx(${Math.max(0,idx-1)},document.getElementById('sp-view-next'))" class="btn sm ghost">← Prev</button>
+    <span style="font-size:12px;color:var(--txt2);flex:1;text-align:center">Sprint ${sprint.num} of ${ALL_SPRINTS.length}</span>
+    <button onclick="renderSprintAtIdx(${Math.min(ALL_SPRINTS.length-1,idx+1)},document.getElementById('sp-view-next'))" class="btn sm ghost">Next →</button>
+  </div>
+  <div style="background:var(--card);border:2px solid #185FA5;border-radius:var(--rxl);padding:20px 24px;margin-bottom:16px;box-shadow:var(--sh)">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#185FA5;margin-bottom:4px">${label} · #${sprint.num}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--navy)">Sprint ${sprint.num}</div>
+        <div style="font-size:13px;color:var(--txt2);margin-top:2px">${sprint.start} → ${sprint.end}</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:2px">Planning due: ${sprint.planningDue}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+        <select onchange="saveSprintMetaField(${sprint.num},'planningStatus',this.value);renderSprintAtIdx(${idx},document.getElementById('sp-view-next'))" style="padding:5px 10px;border:1.5px solid ${psColor};border-radius:var(--r);font-size:12px;font-weight:600;color:${psColor};background:#fff;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">
+          ${['Not Started','Planning','Ready','In Progress','Complete'].map(s=>`<option value="${s}"${meta.planningStatus===s?' selected':''}>${s}</option>`).join('')}
+        </select>
+        <span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${cap.plannedHrs>cap.hrsPerSprint?'#FFE4EE':cap.plannedHrs>=cap.capLow?'#E1F5EE':'#FEF3C7'};color:${cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#92400E'};font-weight:600">${cap.capStatus}</span>
+      </div>
+    </div>
+    <div style="background:var(--soft);border-radius:var(--rl);padding:14px 16px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:10px">⏱ Capacity Setup</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Weekday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.wdHrs}" onchange="saveSprintMetaField(${sprint.num},'weekdayHrs',parseFloat(this.value)||0);renderSprintAtIdx(${idx},document.getElementById('sp-view-next'))" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Saturday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.satHrs}" onchange="saveSprintMetaField(${sprint.num},'saturdayHrs',parseFloat(this.value)||0);renderSprintAtIdx(${idx},document.getElementById('sp-view-next'))" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+        <div><label style="font-size:10px;font-weight:600;color:var(--txt2);display:block;margin-bottom:4px">Sunday Hrs</label>
+          <input type="number" min="0" step="0.5" value="${cap.sunHrs}" onchange="saveSprintMetaField(${sprint.num},'sundayHrs',parseFloat(this.value)||0);renderSprintAtIdx(${idx},document.getElementById('sp-view-next'))" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;background:#fff"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
+        ${[['Hrs/Week',cap.hrsPerWeek,'#185FA5'],['Hrs/Sprint',cap.hrsPerSprint,'#185FA5'],['Cap Low (70%)',cap.capLow,'#EF9F27'],['Cap High (80%)',cap.capHigh,'#059669'],['Planned',cap.plannedHrs,cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':'var(--navy)'],['Available',cap.availCap,cap.availCap<0?'var(--pink)':'#059669']].map(([lbl,val,col])=>`
+          <div style="background:#fff;border-radius:var(--r);padding:8px 10px;border:1px solid var(--bdr);text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:${col}">${val}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-top:2px">${lbl}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div style="position:relative;height:14px;background:var(--soft);border-radius:7px;overflow:hidden;border:1px solid var(--bdr);margin-bottom:6px">
+      <div style="position:absolute;left:${lowPct}%;top:0;bottom:0;width:2px;background:#EF9F27;opacity:.6"></div>
+      <div style="position:absolute;left:${highPct}%;top:0;bottom:0;width:2px;background:#059669;opacity:.6"></div>
+      <div style="height:100%;width:${barPct}%;background:${barColor};border-radius:7px"></div>
+    </div>
+    <div style="font-size:11px;color:var(--txt2);text-align:center">${cap.plannedHrs} hrs planned of ${cap.hrsPerSprint} hrs available</div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#185FA5;margin-bottom:12px">📋 Tasks Starting This Sprint (${cap.tasks.length})</div>
+    ${cap.tasks.length?cap.tasks.map(t=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal('${t.id}')">
+        <div onclick="event.stopPropagation();toggleDone('${t.id}');renderSprintAtIdx(${idx},document.getElementById('sp-view-next'))" style="width:16px;height:16px;border-radius:4px;border:1.5px solid ${t.status==='done'?'#63C76C':'var(--bdr2)'};background:${t.status==='done'?'#63C76C':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          ${t.status==='done'?'<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="3"><path d="M3 8l4 4 6-7"/></svg>':''}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:500;color:${t.status==='done'?'var(--txt3)':'var(--navy)'};${t.status==='done'?'text-decoration:line-through':''};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.name)}</div>
+          <div style="font-size:10px;color:var(--txt3)">Start: ${t.startDate}${t.date?' · Due: '+t.date:''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:11px;font-weight:600;color:#185FA5">${t.estimatedMins?t.estimatedMins+'m':'—'}</div>
+        </div>
+      </div>`).join(''):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint (${sprint.start} — ${sprint.end})</div>`}
+  </div>
+  ${inFlight.length?`<div style="background:var(--soft);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px 18px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt2);margin-bottom:8px">🔄 In Flight (${inFlight.length}) — not counted in capacity</div>
+    ${inFlight.map(t=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--bdr)">
+      <div style="width:8px;height:8px;border-radius:50%;background:#EF9F27;flex-shrink:0"></div>
+      <span style="flex:1;font-size:12px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.name)}</span>
+      <span style="font-size:10px;color:var(--txt3)">since ${t.startDate}</span>
+    </div>`).join('')}
+  </div>`:''}`;
+}
+
+// ── VIEW B: CARDS GRID ────────────────────────────────────────────────────
+function renderSprintCards(){
+  const el=document.getElementById('sp-view-cards');if(!el)return;
+  const curIdx=getCurrentSprintIdx();
+  const psColors={'Not Started':'#9B59B6','Planning':'#EF9F27','Ready':'#059669','In Progress':'#185FA5','Complete':'#63C76C'};
+  const sprintsToShow=ALL_SPRINTS;
+  let html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">';
+  sprintsToShow.forEach((sprint,idx)=>{
+    const cap=calcSprintCapacity(sprint);
+    const meta=getSprintMeta(sprint.num);
+    const psColor=psColors[meta.planningStatus]||'#9B59B6';
+    const isCur=idx===curIdx;
+    const capColor=cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#EF9F27';
+    const barPct=Math.min(100,Math.round(cap.plannedHrs/cap.hrsPerSprint*100));
+    html+=`<div onclick="showSprintView('next');setTimeout(()=>renderSprintAtIdx(${idx},document.getElementById('sp-view-next')),50)" style="background:var(--card);border:${isCur?'2px solid #185FA5':'1px solid var(--bdr)'};border-radius:var(--rl);padding:14px 16px;box-shadow:var(--sh);cursor:pointer;transition:all .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${isCur?'#185FA5':'var(--txt2)'}">Sprint ${sprint.num}${isCur?' ← Current':''}</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:1px">${sprint.start} → ${sprint.end}</div>
+        </div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:8px;background:${psColor}22;color:${psColor};font-weight:600">${meta.planningStatus}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+        <div style="text-align:center;padding:6px;background:var(--soft);border-radius:var(--r)">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:${capColor}">${cap.plannedHrs}</div>
+          <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Planned hrs</div>
+        </div>
+        <div style="text-align:center;padding:6px;background:var(--soft);border-radius:var(--r)">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#185FA5">${cap.hrsPerSprint}</div>
+          <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Capacity</div>
+        </div>
+        <div style="text-align:center;padding:6px;background:var(--soft);border-radius:var(--r)">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--navy)">${cap.tasks.length}</div>
+          <div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">Tasks</div>
+        </div>
+      </div>
+      <div style="height:6px;background:var(--soft);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${barPct}%;background:${capColor};border-radius:3px"></div>
+      </div>
+      <div style="font-size:10px;color:${capColor};margin-top:4px;font-weight:600">${cap.capStatus}</div>
+    </div>`;
+  });
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+// ── VIEW C: TIMELINE ──────────────────────────────────────────────────────
+function renderSprintTimeline(){
+  const el=document.getElementById('sp-view-timeline');if(!el)return;
+  const curIdx=getCurrentSprintIdx();
+  const psColors={'Not Started':'rgba(155,89,182,.2)','Planning':'rgba(239,159,39,.2)','Ready':'rgba(5,150,105,.2)','In Progress':'rgba(24,95,165,.2)','Complete':'rgba(99,199,108,.2)'};
+  const psBorder={'Not Started':'#9B59B6','Planning':'#EF9F27','Ready':'#059669','In Progress':'#185FA5','Complete':'#63C76C'};
+
+  // Group by year
+  const byYear={};
+  ALL_SPRINTS.forEach((s,idx)=>{
+    const yr=s.start.slice(0,4);
+    if(!byYear[yr])byYear[yr]=[];
+    byYear[yr].push({s,idx});
+  });
+
+  let html='';
+  Object.entries(byYear).forEach(([yr,sprints])=>{
+    html+=`<div style="margin-bottom:28px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--bdr)">${yr}</div>
+      <div style="display:flex;flex-direction:column;gap:4px">`;
+    sprints.forEach(({s,idx})=>{
+      const cap=calcSprintCapacity(s);
+      const meta=getSprintMeta(s.num);
+      const isCur=idx===curIdx;
+      const barPct=Math.min(100,Math.round(cap.plannedHrs/cap.hrsPerSprint*100));
+      const capColor=cap.plannedHrs>cap.hrsPerSprint?'var(--pink)':cap.plannedHrs>=cap.capLow?'#059669':'#EF9F27';
+      const bg=psColors[meta.planningStatus]||'rgba(24,95,165,.1)';
+      const border=psBorder[meta.planningStatus]||'#185FA5';
+      html+=`<div onclick="showSprintView('next');setTimeout(()=>renderSprintAtIdx(${idx},document.getElementById('sp-view-next')),50)" style="display:grid;grid-template-columns:90px 1fr 80px 120px;gap:12px;align-items:center;padding:8px 12px;background:${isCur?'rgba(24,95,165,.08)':bg};border:${isCur?'2px solid #185FA5':'1px solid '+border+'44'};border-radius:var(--r);cursor:pointer;transition:all .1s" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:${isCur?'#185FA5':'var(--navy)'}">Sprint ${s.num}${isCur?' ★':''}</div>
+          <div style="font-size:9px;color:var(--txt3)">${s.start}</div>
+        </div>
+        <div>
+          <div style="height:8px;background:rgba(255,255,255,.5);border-radius:4px;overflow:hidden;margin-bottom:3px">
+            <div style="height:100%;width:${barPct}%;background:${capColor};border-radius:4px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--txt3)">${cap.plannedHrs}h / ${cap.hrsPerSprint}h</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">${cap.tasks.length}</div>
+          <div style="font-size:9px;color:var(--txt3)">tasks</div>
+        </div>
+        <div>
+          <span style="font-size:9px;padding:2px 7px;border-radius:6px;background:${border}22;color:${border};font-weight:600">${meta.planningStatus}</span>
+        </div>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+
   const fieldLabels={selfcare:'Self-Care Activity',weeklyfocus:'Weekly Focus',monthlytask:'Monthly Task',ask:'Monthly Ask'};
   const name=prompt(`Add a ${fieldLabels[field]||field} item to ${monthKey}:\n(It will be tagged to this theme month)`);
   if(!name||!name.trim())return;
