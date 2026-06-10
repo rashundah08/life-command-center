@@ -9408,7 +9408,7 @@ function renderWIAB(){
   const liveThemes=getWIABThemes();
   const liveT=liveThemes[wiabActiveKey]||WIAB_DEFAULT_THEMES[wiabActiveKey]||{};
   if(id)id.textContent='"'+(liveT.identity||WIAB_IDENTITIES[wiabActiveKey]||'')+'"';
-  const tasks=S.items.filter(i=>i.whoIAmBecoming&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const tasks=S.items.filter(i=>i.whoIAmBecoming&&(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&i.status!=='placeholder');
   const doneTasks=tasks.filter(i=>i.status==='done').length;
   const taskCount=document.getElementById('wiab-task-count');
   const taskBar=document.getElementById('wiab-task-bar');
@@ -9419,7 +9419,7 @@ function renderWIAB(){
     if(!tasks.length){tasksList.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No tasks tagged yet.</div>';}
     else{tasksList.innerHTML=tasks.map(t=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(196,119,59,.1);cursor:pointer" onclick="openModal('${t.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${t.id}');renderWIAB()" style="width:14px;height:14px;border-radius:3px;border:1.5px solid ${month.color};background:${t.status==='done'?month.color:'transparent'};flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center">${t.status==='done'?'<span style="color:#fff;font-size:9px">✓</span>':''}</div><span style="flex:1;${t.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(t.name)}</span></div>`).join('');}
   }
-  const asks=S.items.filter(i=>calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.type==='ask'&&i.status!=='placeholder');
+  const asks=S.items.filter(i=>(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&i.type==='ask'&&i.status!=='placeholder');
   const asksList=document.getElementById('wiab-asks-list');
   if(asksList){
     if(!asks.length){asksList.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No asks tagged yet.</div>';}
@@ -9430,7 +9430,7 @@ function renderWIAB(){
       asksList.innerHTML=`<div style="display:flex;gap:6px;margin-bottom:8px"><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#E1F5EE;color:#0A5E47;font-weight:600">${yesCount} yes</span><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#FCEBEB;color:#8B1A1A;font-weight:600">${noCount} no</span><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#FFF3CD;color:#856404;font-weight:600">${pendCount} pending</span></div>`+asks.slice(0,6).map(a=>{const col=a.responseStatus==='yes'?'#0A5E47':a.responseStatus==='no'?'#8B1A1A':'#856404';const bg=a.responseStatus==='yes'?'#E1F5EE':a.responseStatus==='no'?'#FCEBEB':'#FFF3CD';return`<div style="display:flex;align-items:center;gap:5px;padding:3px 0;cursor:pointer" onclick="openModal('${a.id}');renderWIAB()"><span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${bg};color:${col};font-weight:600;flex-shrink:0">${(a.responseStatus||'pending').toUpperCase()}</span><span style="flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.name)}</span></div>`;}).join('')+(asks.length>6?`<div style="font-size:10px;color:#8C7B6E;margin-top:4px">+${asks.length-6} more</div>`:'');
     }
   }
-  const selfCareItems=S.items.filter(i=>i.isSelfCare&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const selfCareItems=S.items.filter(i=>i.isSelfCare&&(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&i.status!=='placeholder');
   const selfCareEl=document.getElementById('wiab-selfcare-list');
   if(selfCareEl){
     if(!selfCareItems.length){selfCareEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No self-care items tagged yet.</div>';}
@@ -9442,19 +9442,19 @@ function renderWIAB(){
     if(!rules.length){rulesEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No rules set. Edit in SOT.</div>';}
     else{rulesEl.innerHTML=rules.map((r,i)=>`<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid rgba(196,119,59,.1)"><span style="font-weight:700;color:#C4773B;font-size:11px;min-width:14px">${i+1}.</span><span style="font-size:11px">${esc(r)}</span></div>`).join('');}
   }
-  const weeklyItems=S.items.filter(i=>i.isWeeklyFocus&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const weeklyItems=S.items.filter(i=>i.isWeeklyFocus&&(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&i.status!=='placeholder');
   const weeklyEl=document.getElementById('wiab-weekly-list');
   if(weeklyEl){
     if(!weeklyItems.length){weeklyEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No weekly focus items tagged yet.</div>';}
     else{weeklyEl.innerHTML=weeklyItems.map(i=>`<div style="display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer" onclick="openModal('${i.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${i.id}');renderWIAB()" style="width:13px;height:13px;border-radius:3px;border:1.5px solid #185FA5;background:${i.status==='done'?'#185FA5':'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i.status==='done'?'<span style="color:#fff;font-size:8px">✓</span>':''}</div><span style="font-size:11px;${i.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(i.name)}</span></div>`).join('');}
   }
-  const items101=S.items.filter(i=>calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&(i.listIds||[]).includes('101g')&&i.status!=='placeholder');
+  const items101=S.items.filter(i=>(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&(i.listIds||[]).includes('101g')&&i.status!=='placeholder');
   const list101=document.getElementById('wiab-101-list');
   if(list101){
     if(!items101.length){list101.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No 101 items tagged to this month yet.</div>';}
     else{list101.innerHTML=items101.map(i=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(24,95,165,.1);cursor:pointer" onclick="openModal('${i.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${i.id}');renderWIAB()" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #185FA5;background:${i.status==='done'?'#185FA5':'transparent'};flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center">${i.status==='done'?'<span style="color:#fff;font-size:9px">✓</span>':''}</div><span style="flex:1;font-size:11px;${i.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(i.name)}</span></div>`).join('');}
   }
-  const dates=S.items.filter(i=>i.isDateNight&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const dates=S.items.filter(i=>i.isDateNight&&(calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey)&&i.status!=='placeholder');
   const datesList=document.getElementById('wiab-dates-list');
   if(datesList){
     const allPeople=['Solo','Jacoby','Ravyn','Mom','Friends','FAM'];
@@ -9497,7 +9497,7 @@ function getWIABItems(){
     if(i.status==='placeholder')return false;
     if(!i.themeMonth&&!i.whoIAmBecoming&&!i.isDateNight)return false;
     if(typeF&&i.type!==typeF)return false;
-    if(monthF&&calMonthNameToWIABKey(i.themeMonth)!==monthF&&i.themeMonth!==monthF)return false;
+    if(monthF&&!(calMonthNameToWIABKey(i.themeMonth)===monthF||i.themeMonth===monthF))return false;
     if(statusF&&i.status!==statusF)return false;
     if(datewithF&&i.dateWith!==datewithF)return false;
     if(monthlyF&&!i.whoIAmBecoming)return false;
