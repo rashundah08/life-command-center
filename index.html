@@ -4386,7 +4386,7 @@ function showPage(page,btn){
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
-function renderAll(){renderSb();if(document.getElementById('pg-dash').style.display!=='none')renderDash();if(document.getElementById('pg-items').style.display!=='none')renderItems();if(document.getElementById('pg-lists').style.display!=='none')renderLists();if(document.getElementById('pg-sot').style.display!=='none')renderSot();}
+function renderAll(){renderSb();if(document.getElementById('pg-dash').style.display!=='none')renderDash();if(document.getElementById('pg-items').style.display!=='none')renderItems();if(document.getElementById('pg-lists').style.display!=='none')renderLists();if(document.getElementById('pg-sot').style.display!=='none')renderSot();if(document.getElementById('pg-hub')?.style.display!=='none'){renderHub();setTimeout(()=>{if(typeof renderWIAB==='function')renderWIAB();},100);}}
 
 // GENERATE PLACEHOLDER TASKS FROM EXISTING ITEMS
 let genSelections = {};
@@ -5042,35 +5042,37 @@ function renderHubWidgets(){
 
 function renderHubWeekGlance(){
   const el=document.getElementById('hub-week-glance');if(!el)return;
+  const td=today();
+  const ew=endOfWeek();
   const now=new Date();
-  const dayOfWeek=now.getDay(); // 0=Sun
-  const monday=new Date(now);
-  monday.setDate(now.getDate()-(dayOfWeek===0?6:dayOfWeek-1));
+  // Day names Sun=0..Sat=6 → we show Mon-Sun
   const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const today=now.toLocaleDateString('en-US',{weekday:'short'});
-  // Get items due this week that are not done
+  const todayName=now.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Chicago'});
+
+  // Get items due today through end of week, not done — matches applyFilter('week') + today
   const weekItems=S.items.filter(i=>{
     if(!i.date||i.status==='done'||i.status==='placeholder')return false;
-    const d=new Date(i.date+'T12:00:00');
-    const diff=Math.floor((d-monday)/86400000);
-    return diff>=0&&diff<7;
+    return i.date>=td&&i.date<=ew;
   });
+
+  // Build a date→day-name map for this week
   const dayMap={Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
   weekItems.forEach(i=>{
     const d=new Date(i.date+'T12:00:00');
     const dayName=d.toLocaleDateString('en-US',{weekday:'short'});
-    if(dayMap[dayName])dayMap[dayName].push(i);
+    if(dayMap[dayName]!==undefined)dayMap[dayName].push(i);
   });
+
   const html=days.map(day=>{
-    const isToday=today===day;
+    const isToday=todayName===day;
     const count=dayMap[day]?.length||0;
     return`<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:${isToday?'rgba(15,163,163,.1)':'transparent'};border:${isToday?'1px solid var(--teal)':'1px solid transparent'}">
       <span style="font-size:10px;font-weight:${isToday?'700':'500'};color:${isToday?'var(--teal)':'var(--txt2)'};width:28px">${day}</span>
-      ${count>0?`<span style="font-size:11px;color:var(--txt);flex:1">${dayMap[day].slice(0,2).map(i=>esc((i.name||'').slice(0,28))).join(', ')}${count>2?` +${count-2} more`:''}</span>`:'<span style="font-size:10px;color:var(--txt3);flex:1;font-style:italic">No items due</span>'}
+      ${count>0?`<span style="font-size:11px;color:var(--txt);flex:1">${dayMap[day].slice(0,2).map(i=>esc((i.name||'').slice(0,30))).join(', ')}${count>2?` +${count-2} more`:''}</span>`:'<span style="font-size:10px;color:var(--txt3);flex:1;font-style:italic">No items due</span>'}
       ${count>0?`<span style="font-size:10px;background:var(--soft);color:var(--txt2);padding:1px 6px;border-radius:8px">${count}</span>`:''}
     </div>`;
   }).join('');
-  el.innerHTML=html||'<div style="color:var(--txt3);font-size:11px;font-style:italic">No items scheduled this week</div>';
+  el.innerHTML=html;
 }
 
 function renderHubUpcomingEvents(){
