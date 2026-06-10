@@ -668,6 +668,122 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           </div>
         </div>
       </div>
+      <!-- QUICK LINKS NAVIGATION -->
+      <div style="margin-bottom:20px">
+        <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);margin-bottom:10px">🔁 Quick Links</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="showPage('sot',document.getElementById('nav-sot'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">📅</span><span style="font-size:10px;color:var(--txt2);font-weight:500">13-Week SOT</span>
+          </button>
+          <button onclick="showPage('meal',document.getElementById('nav-meal'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">🍽️</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Meal Planner</span>
+          </button>
+          <button onclick="showPage('habits',document.getElementById('nav-habits'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">✅</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Habits</span>
+          </button>
+          <button onclick="showPage('finance',document.getElementById('nav-finance'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">💰</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Finance</span>
+          </button>
+          <button onclick="showPage('countdowns',document.getElementById('nav-countdowns'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">🗓️</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Countdowns</span>
+          </button>
+          <button onclick="showPage('inventory',document.getElementById('nav-inventory'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">🏠</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Inventory</span>
+          </button>
+          <button onclick="showPage('items',document.getElementById('nav-items'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">⚡</span><span style="font-size:10px;color:var(--txt2);font-weight:500">All Actions</span>
+          </button>
+          <button onclick="showPage('wiab',document.getElementById('nav-wiab'))" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;min-width:72px" onmouseover="this.style.borderColor='#C4773B'" onmouseout="this.style.borderColor='var(--bdr)'">
+            <span style="font-size:20px">🌱</span><span style="font-size:10px;color:var(--txt2);font-weight:500">Who I Am</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOP ROW: This Month's Focus + Mindset Tile -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+        <!-- THIS MONTH'S FOCUS -->
+        <div style="background:linear-gradient(135deg,#F0F7FF,#E8F4FD);border:1.5px solid #185FA5;border-radius:var(--rl);padding:18px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#185FA5">🎯 This Month's Focus</div>
+            <button onclick="showPage('items',document.getElementById('nav-items'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid #185FA5;background:transparent;color:#185FA5;cursor:pointer;font-family:'DM Sans',sans-serif">+ Pin Items ↗</button>
+          </div>
+          <div id="hub-month-focus-display" style="font-size:12px;color:#1F2A44;line-height:1.7"></div>
+        </div>
+        <!-- MINDSET / MOTIVATION -->
+        <div id="hub-mindset-tile" style="background:linear-gradient(135deg,#FFF5F0,#FEF3C7);border:1.5px solid #D4890A;border-radius:var(--rl);padding:18px;box-shadow:var(--sh);position:relative">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#D4890A">🪞 Mindset & Motivation</div>
+            <button onclick="editMindset()" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid #D4890A;background:transparent;color:#D4890A;cursor:pointer;font-family:'DM Sans',sans-serif">Edit</button>
+          </div>
+          <div id="hub-mindset-display" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#7A4A00;line-height:1.5;text-align:center;padding:8px 0"></div>
+        </div>
+      </div>
+
+      <!-- CURRENT WEEK AT A GLANCE + UPCOMING EVENTS ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+        <!-- CURRENT WEEK AT A GLANCE -->
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;box-shadow:var(--sh)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);margin-bottom:12px">📆 This Week At-a-Glance</div>
+          <div id="hub-week-glance" style="display:flex;flex-direction:column;gap:5px"></div>
+        </div>
+        <!-- UPCOMING EVENTS & PREP (from Countdowns) -->
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">🗓️ Upcoming Events</div>
+            <button onclick="showPage('countdowns',document.getElementById('nav-countdowns'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid var(--bdr2);background:transparent;color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif">View All ↗</button>
+          </div>
+          <div id="hub-upcoming-events" style="display:flex;flex-direction:column;gap:7px"></div>
+        </div>
+      </div>
+
+      <!-- STICKY NOTES + FILE LINKS ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+        <!-- STICKY NOTES -->
+        <div style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:1.5px solid #F9A825;border-radius:var(--rl);padding:18px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E65100">📍 Sticky Notes & Reminders</div>
+            <button onclick="showPage('items',document.getElementById('nav-items'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid #E65100;background:transparent;color:#E65100;cursor:pointer;font-family:'DM Sans',sans-serif">+ Pin Items ↗</button>
+          </div>
+          <div id="hub-sticky-display" style="font-size:12px;color:#4A3000;line-height:1.8;white-space:pre-wrap"></div>
+        </div>
+        <!-- FILE LINKS -->
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">📎 Important Links</div>
+            <button onclick="editFileLinks()" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid var(--bdr2);background:transparent;color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif">Edit</button>
+          </div>
+          <div id="hub-filelinks-display" style="display:flex;flex-direction:column;gap:6px"></div>
+        </div>
+      </div>
+
+      <!-- HABITS TODAY + FINANCE PEEK + ACTIVE SOPs ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px">
+        <!-- HABITS TODAY -->
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">✅ Today's Routines</div>
+            <button onclick="showPage('habits',document.getElementById('nav-habits'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid var(--bdr2);background:transparent;color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif">View ↗</button>
+          </div>
+          <div id="hub-habits-today" style="display:flex;flex-direction:column;gap:5px"></div>
+        </div>
+        <!-- FINANCE PEEK -->
+        <div style="background:linear-gradient(135deg,#F0FFF4,#DCFCE7);border:1.5px solid #059669;border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#059669">💰 Money Peek</div>
+            <button onclick="showPage('finance',document.getElementById('nav-finance'))" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid #059669;background:transparent;color:#059669;cursor:pointer;font-family:'DM Sans',sans-serif">View ↗</button>
+          </div>
+          <div id="hub-finance-peek" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+        <!-- ACTIVE SOPs -->
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">🛠 SOP Library</div>
+            <button onclick="openSOPLibrary()" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid var(--bdr2);background:transparent;color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif">Manage ↗</button>
+          </div>
+          <div id="hub-sops-display" style="display:flex;flex-direction:column;gap:6px"></div>
+        </div>
+      </div>
+
       <!-- TODAY'S FOCUS -->
       <div style="margin-bottom:24px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
@@ -2307,6 +2423,7 @@ function makeItem(o){
     themeMonth:o.themeMonth||'',themeName:o.themeName||'',
     whoIAmBecoming:o.whoIAmBecoming||false,isDateNight:o.isDateNight||false,
     isSelfCare:o.isSelfCare||false,isWeeklyFocus:o.isWeeklyFocus||false,dateWith:o.dateWith||'',
+    pinnedFocus:o.pinnedFocus||false,pinnedSticky:o.pinnedSticky||false,
     created:o.created||Date.now(),updated:Date.now()
   };
 }
@@ -2473,7 +2590,12 @@ function renderModalBody(type,item,prefill){
   const _wiabListSel2=ML.listIds.some(lid=>{const ll=S.lists.find(x=>x.id===lid);return ll&&ll.name.toLowerCase().includes('who i am becoming');});
   const _wiabHasVal=!!(item&&(item.themeMonth||item.whoIAmBecoming||item.isSelfCare||item.isWeeklyFocus||item.isDateNight));
   const _wiabOpen=_wiabListSel2||_wiabHasVal;
-  const _wiabMoOpts=[['','\u2014 Theme Month \u2014'],['may-foundation','May \u2014 Foundation'],['jun-softness','June \u2014 Softness'],['jul-awakening','July \u2014 Awakening'],['aug-discipline','August \u2014 Discipline'],['sep-expansion','September \u2014 Expansion'],['oct-clarity','October \u2014 Clarity'],['nov-joy','November \u2014 Joy'],['dec-relationships','December \u2014 Relationships'],['jan-mastery','January \u2014 Mastery'],['feb-abundance','February \u2014 Abundance'],['mar-strength','March \u2014 Strength'],['apr-integration','April \u2014 Integration']].map(([v,l])=>`<option value="${v}"${item&&item.themeMonth===v?' selected':''} >${l}</option>`).join('');
+  const _itemThemeMonthName=item?.themeMonth?(
+    ['January','February','March','April','May','June','July','August','September','October','November','December'].includes(item.themeMonth)
+    ? item.themeMonth // already stored as month name
+    : wiabKeyToCalMonthName(item.themeMonth) // legacy key — convert
+  ):'';
+  const _wiabMoOpts=getWIABMonthOptions(_itemThemeMonthName,true);
   html+=`<div style="border:1.5px solid #C4773B;border-radius:var(--rl);overflow:hidden;margin-bottom:13px">
     <div onclick="(function(){const b=document.getElementById('wiab-modal-body');const a=document.getElementById('wiab-modal-arrow');b.style.display=b.style.display==='none'?'block':'none';a.textContent=b.style.display==='none'?'\u25bc':'\u25b2';})()" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(135deg,#FFF5F0,#FFF9F5);cursor:pointer;user-select:none">
       <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C4773B">&#127807; Who I Am Becoming${_wiabListSel2?' <span style=\"font-size:9px;color:#15803D\">(Theme Month required)</span>':''}</div>
@@ -2495,6 +2617,28 @@ function renderModalBody(type,item,prefill){
           <option value="">\u2014 Select \u2014</option>
           ${['Solo','Jacoby','Ravyn','Mom','Friends','FAM'].map(p=>`<option value="${p}"${item&&item.dateWith===p?' selected':''}>${p}</option>`).join('')}
         </select></div>
+      </div>
+    </div>
+  </div>`;
+
+  // PIN TO MASTER PLAN
+  html+=`<div style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:1px solid #F9A825;border-radius:var(--rl);overflow:hidden;margin-bottom:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none" onclick="(function(){const b=document.getElementById('pin-modal-body');b.style.display=b.style.display==='none'?'block':'none';})()">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E65100">📌 Pin to Master Plan</div>
+      <span style="color:#E65100;font-size:11px">▼</span>
+    </div>
+    <div id="pin-modal-body" style="display:${(item&&(item.pinnedFocus||item.pinnedSticky))?'block':'none'};padding:10px 14px 12px;background:linear-gradient(135deg,#FFFDE7,#FFFBF5)">
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
+          <input type="checkbox" id="m-pinned-focus" ${item&&item.pinnedFocus?'checked':''} style="accent-color:#185FA5;width:14px;height:14px">
+          <span>🎯 Monthly Focus</span>
+          <span style="font-size:10px;color:var(--txt3)">(shows in This Month's Focus)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
+          <input type="checkbox" id="m-pinned-sticky" ${item&&item.pinnedSticky?'checked':''} style="accent-color:#E65100;width:14px;height:14px">
+          <span>📍 Sticky Reminder</span>
+          <span style="font-size:10px;color:var(--txt3)">(shows in Sticky Notes)</span>
+        </label>
       </div>
     </div>
   </div>`;
@@ -2985,6 +3129,8 @@ function saveItem(){
     isWeeklyFocus:document.getElementById('m-is-weeklyfocus')?.checked||false,
     isDateNight:document.getElementById('m-is-datenight')?.checked||false,
     dateWith:document.getElementById('m-date-with')?.value||'',
+    pinnedFocus:document.getElementById('m-pinned-focus')?.checked||false,
+    pinnedSticky:document.getElementById('m-pinned-sticky')?.checked||false,
     created:S.editId?(getItem(S.editId)||{}).created||Date.now():Date.now()
   });
   doSave(obj);
@@ -3027,6 +3173,11 @@ let bulkAddLists=[],bulkAddCats=[],bulkUpdateLists=[],bulkUpdateCats=[],bulkRemo
 function openBulk(mode){
   currentBulkTab=mode==='delete'?'delete':mode==='update'?'update':'add';
   document.getElementById('bulk-modal').style.display='flex';
+  // Populate theme month dropdowns with rotated calendar labels
+  const baThemeSel=document.getElementById('ba-theme-month');
+  if(baThemeSel)baThemeSel.innerHTML=`<option value="">— None —</option>`+getWIABMonthOptions('',false);
+  const buThemeSel=document.getElementById('bu-theme-month');
+  if(buThemeSel)buThemeSel.innerHTML=`<option value="">— Keep existing —</option>`+getWIABMonthOptions('',false)+`<option value="__CLEAR__">✕ Clear Theme Month</option>`;
   switchBulkTab(currentBulkTab);
 }
 
@@ -4636,6 +4787,395 @@ function daysUntilDate(dateStr){
   return Math.ceil((new Date(dateStr+'T12:00:00')-new Date())/86400000);
 }
 
+// ── MASTER PLAN WIDGET DATA ────────────────────────────────────────────────────
+function loadSOPs(){try{return JSON.parse(localStorage.getItem('rlcc_sops')||'[]');}catch(e){return[];}}
+function saveSOPs(d){localStorage.setItem('rlcc_sops',JSON.stringify(d));}
+
+function editSOPs(){openSOPLibrary();}
+function openSOPLibrary(){
+  const sops=loadSOPs();
+  const statusColors={Active:'#059669',Draft:'#185FA5',Seasonal:'#D4890A',Reviewing:'#F63E73',Archived:'#9B59B6'};
+  const statusBg={Active:'#E1F5EE',Draft:'#E8F0FB',Seasonal:'#FEF3C7',Reviewing:'#FFE4EE',Archived:'#F5EEF8'};
+  const cats=['Home','Seasonal','Business','Personal','Financial','Health','Family'];
+
+  let modal=document.getElementById('sop-library-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='sop-library-modal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px';
+    document.body.appendChild(modal);
+  }
+
+  const renderSOPList=()=>{
+    const all=loadSOPs();
+    const listEl=document.getElementById('sop-lib-list');
+    if(!listEl)return;
+    if(!all.length){listEl.innerHTML='<div style="color:var(--txt3);font-size:12px;font-style:italic;padding:12px 0">No SOPs yet. Add your first one above.</div>';return;}
+    listEl.innerHTML=all.map((s,i)=>{
+      const col=statusColors[s.status]||'#185FA5';
+      const bg=statusBg[s.status]||'#E8F0FB';
+      return`<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--soft);border-radius:var(--r);border:1px solid var(--bdr);margin-bottom:6px">
+        <span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${bg};color:${col};font-weight:600;white-space:nowrap;flex-shrink:0">${esc(s.status)}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--navy)">${esc(s.name)}</div>
+          ${s.category?`<div style="font-size:10px;color:var(--txt2)">${esc(s.category)}</div>`:''}
+        </div>
+        ${s.url?`<a href="${esc(s.url)}" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;flex-shrink:0;padding:3px 8px;border:1px solid var(--teal);border-radius:6px">Open Doc ↗</a>`:'<span style="font-size:10px;color:var(--txt3);flex-shrink:0">No link</span>'}
+        <button onclick="deleteSOP(${i})" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid rgba(246,62,115,.3);background:transparent;color:var(--pink);cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0">✕</button>
+      </div>`;
+    }).join('');
+  };
+
+  const statOpts=['Active','Draft','Seasonal','Reviewing','Archived'].map(s=>`<option value="${s}">${s}</option>`).join('');
+  const catOpts=cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+
+  modal.innerHTML=`<div style="background:var(--card);border-radius:var(--rxl);width:100%;max-width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)">
+    <div style="padding:20px 24px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)">🛠 SOP Library</div>
+        <div style="font-size:11px;color:var(--txt2);margin-top:2px">Link your Google Docs SOPs &amp; procedures</div>
+      </div>
+      <button onclick="document.getElementById('sop-library-modal').style.display='none'" style="font-size:18px;background:transparent;border:none;cursor:pointer;color:var(--txt2);padding:4px 8px">✕</button>
+    </div>
+    <div style="padding:20px 24px">
+      <div style="background:var(--soft);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;margin-bottom:18px">
+        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--navy);margin-bottom:10px">Add New SOP</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <input id="sop-new-name" placeholder="SOP Name (e.g. Morning Routine, Back to School Prep)" style="padding:8px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);outline:none">
+          <input id="sop-new-url" placeholder="Google Doc URL (paste link here)" style="padding:8px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);outline:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <select id="sop-new-status" style="padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);outline:none">${statOpts}</select>
+            <select id="sop-new-cat" style="padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);outline:none"><option value="">— Category —</option>${catOpts}</select>
+          </div>
+          <button onclick="addSOP()" style="padding:8px 16px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;align-self:flex-start">+ Add SOP</button>
+        </div>
+      </div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-bottom:8px">Your SOPs (${sops.length})</div>
+      <div id="sop-lib-list"></div>
+    </div>
+  </div>`;
+
+  modal.style.display='flex';
+  renderSOPList();
+}
+
+function addSOP(){
+  const name=(document.getElementById('sop-new-name')?.value||'').trim();
+  const url=(document.getElementById('sop-new-url')?.value||'').trim();
+  const status=document.getElementById('sop-new-status')?.value||'Active';
+  const category=document.getElementById('sop-new-cat')?.value||'';
+  if(!name)return alert('SOP name is required');
+  const sops=loadSOPs();
+  sops.push({id:'sop_'+Date.now(),name,url,status,category,created:Date.now()});
+  saveSOPs(sops);
+  document.getElementById('sop-new-name').value='';
+  document.getElementById('sop-new-url').value='';
+  const listEl=document.getElementById('sop-lib-list');
+  if(listEl){
+    const all=loadSOPs();
+    const statusColors={Active:'#059669',Draft:'#185FA5',Seasonal:'#D4890A',Reviewing:'#F63E73',Archived:'#9B59B6'};
+    const statusBg={Active:'#E1F5EE',Draft:'#E8F0FB',Seasonal:'#FEF3C7',Reviewing:'#FFE4EE',Archived:'#F5EEF8'};
+    listEl.innerHTML=all.map((s,i)=>{
+      const col=statusColors[s.status]||'#185FA5';
+      const bg=statusBg[s.status]||'#E8F0FB';
+      return`<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--soft);border-radius:var(--r);border:1px solid var(--bdr);margin-bottom:6px">
+        <span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${bg};color:${col};font-weight:600;white-space:nowrap;flex-shrink:0">${esc(s.status)}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--navy)">${esc(s.name)}</div>
+          ${s.category?`<div style="font-size:10px;color:var(--txt2)">${esc(s.category)}</div>`:''}
+        </div>
+        ${s.url?`<a href="${esc(s.url)}" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;flex-shrink:0;padding:3px 8px;border:1px solid var(--teal);border-radius:6px">Open Doc ↗</a>`:'<span style="font-size:10px;color:var(--txt3);flex-shrink:0">No link</span>'}
+        <button onclick="deleteSOP(${i})" style="font-size:10px;padding:2px 7px;border-radius:6px;border:1px solid rgba(246,62,115,.3);background:transparent;color:var(--pink);cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0">✕</button>
+      </div>`;
+    }).join('');
+  }
+  renderHubWidgets();
+  toast('SOP added ✅');
+}
+
+function deleteSOP(idx){
+  if(!confirm('Remove this SOP from the library?'))return;
+  const sops=loadSOPs();
+  sops.splice(idx,1);
+  saveSOPs(sops);
+  openSOPLibrary();
+  renderHubWidgets();
+}
+
+
+
+function editMonthFocus(){
+  const d=loadMPWidgets();
+  const cur=(d.monthFocus||'').split('\n').filter(Boolean);
+  const val=prompt('This Month\'s Focus (one item per line, max 5):',cur.join('\n'));
+  if(val===null)return;
+  d.monthFocus=val.split('\n').slice(0,5).join('\n');
+  saveMPWidgets(d);renderHubWidgets();
+}
+function editMindset(){
+  const d=loadMPWidgets();
+  const val=prompt('Quote or affirmation for this month:',d.mindset||'');
+  if(val===null)return;
+  d.mindset=val.trim();
+  saveMPWidgets(d);renderHubWidgets();
+}
+function editStickyNotes(){
+  const d=loadMPWidgets();
+  const val=prompt('Sticky notes & reminders (freeform):',d.sticky||'');
+  if(val===null)return;
+  d.sticky=val.trim();
+  saveMPWidgets(d);renderHubWidgets();
+}
+function editFileLinks(){
+  const d=loadMPWidgets();
+  const cur=(d.fileLinks||[]).map(l=>l.label+'|'+l.url).join('\n');
+  const val=prompt('Important links — one per line as: Label|URL\n(e.g. Google Drive|https://drive.google.com)',cur);
+  if(val===null)return;
+  d.fileLinks=val.split('\n').filter(Boolean).slice(0,8).map(line=>{
+    const [label,...rest]=line.split('|');
+    return{label:label.trim(),url:(rest.join('|')||'').trim()};
+  });
+  saveMPWidgets(d);renderHubWidgets();
+}
+function editSOPs(){
+  const d=loadMPWidgets();
+  const cur=(d.sops||[]).map(s=>s.name+'|'+s.status).join('\n');
+  const val=prompt('Active SOPs — one per line as: Name|Status\nStatus options: Active, Draft, Seasonal, Reviewing\n(e.g. Morning Routine SOP|Active)',cur);
+  if(val===null)return;
+  const statusColors={Active:'#059669',Draft:'#185FA5',Seasonal:'#D4890A',Reviewing:'#F63E73'};
+  d.sops=val.split('\n').filter(Boolean).slice(0,6).map(line=>{
+    const parts=line.split('|');
+    const name=parts[0].trim();
+    const status=(parts[1]||'Active').trim();
+    return{name,status};
+  });
+  saveMPWidgets(d);renderHubWidgets();
+}
+
+function renderHubWidgets(){
+  const d=loadMPWidgets();
+  const el=id=>document.getElementById(id);
+
+  // This Month's Focus — pull from items flagged pinnedFocus
+  const focusEl=el('hub-month-focus-display');
+  if(focusEl){
+    const focusItems=S.items.filter(i=>i.pinnedFocus&&i.status!=='done'&&i.status!=='placeholder');
+    if(focusItems.length){
+      focusEl.innerHTML=focusItems.map(i=>{
+        const typeColors={goal:'#185FA5',project:'#7C3AED',task:'#059669',ask:'#D97706'};
+        const col=typeColors[i.type]||'#185FA5';
+        return`<div style="display:flex;align-items:flex-start;gap:8px;padding:4px 0;border-bottom:1px solid rgba(24,95,165,.1);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+          <span style="color:${col};flex-shrink:0;margin-top:1px">◆</span>
+          <span style="font-size:12px;flex:1;color:#1F2A44">${esc(i.name||'')}</span>
+          ${i.date?`<span style="font-size:10px;color:var(--txt3);flex-shrink:0">${i.date.slice(5)}</span>`:''}
+        </div>`;
+      }).join('');
+    } else {
+      focusEl.innerHTML='<div style="color:var(--txt3);font-size:11px;font-style:italic">No focus items pinned yet. Open any goal, project, or task and check <strong>📌 Pin to Master Plan → Monthly Focus</strong>.</div>';
+    }
+  }
+
+  // Sticky Notes — pull from items flagged pinnedSticky
+  const stickyEl=el('hub-sticky-display');
+  if(stickyEl){
+    const stickyItems=S.items.filter(i=>i.pinnedSticky&&i.status!=='done'&&i.status!=='placeholder');
+    if(stickyItems.length){
+      stickyEl.style.whiteSpace='normal';
+      stickyEl.innerHTML=stickyItems.map(i=>{
+        return`<div style="display:flex;align-items:flex-start;gap:7px;padding:4px 0;border-bottom:1px solid rgba(230,81,0,.1);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+          <span style="color:#E65100;flex-shrink:0;font-size:14px">📌</span>
+          <span style="font-size:12px;color:#4A3000;flex:1">${esc(i.name||'')}</span>
+          ${i.date?`<span style="font-size:10px;color:#E65100;flex-shrink:0">${i.date.slice(5)}</span>`:''}
+        </div>`;
+      }).join('');
+    } else {
+      stickyEl.style.whiteSpace='normal';
+      stickyEl.innerHTML='<div style="color:#999;font-size:11px;font-style:italic">No sticky reminders yet. Open any item and check <strong>📌 Pin to Master Plan → Sticky Note</strong>.</div>';
+    }
+  }
+
+  // File Links
+  const linksEl=el('hub-filelinks-display');
+  if(linksEl){
+    const links=d.fileLinks||[];
+    if(links.length){
+      linksEl.innerHTML=links.map(l=>`<a href="${esc(l.url)}" target="_blank" style="display:flex;align-items:center;gap:7px;padding:5px 8px;background:var(--soft);border-radius:7px;text-decoration:none;color:var(--navy);font-size:11px;border:1px solid var(--bdr);transition:all .15s" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--bdr)'"><span>🔗</span><span style="flex:1">${esc(l.label)}</span><span style="color:var(--teal)">↗</span></a>`).join('');
+    } else {
+      linksEl.innerHTML='<div style="color:var(--txt3);font-size:11px;font-style:italic">Click Edit to add links to important documents, drives, or tools</div>';
+    }
+  }
+
+  // Mindset
+  const mindEl=el('hub-mindset-display');
+  if(mindEl){
+    const d2=loadMPWidgets();
+    mindEl.textContent=d2.mindset||'Click Edit to add your quote or affirmation for the month';
+    mindEl.style.color=d2.mindset?'#7A4A00':'var(--txt3)';
+    mindEl.style.fontStyle=d2.mindset?'italic':'normal';
+    mindEl.style.fontSize=d2.mindset?'16px':'11px';
+    mindEl.style.fontFamily=d2.mindset?'\'Cormorant Garamond\',serif':'\'DM Sans\',sans-serif';
+  }
+
+  // SOP Library widget
+  const sopsEl=el('hub-sops-display');
+  if(sopsEl){
+    const sops=loadSOPs();
+    const statusColors={Active:'#059669',Draft:'#185FA5',Seasonal:'#D4890A',Reviewing:'#F63E73',Archived:'#9B59B6'};
+    const statusBg={Active:'#E1F5EE',Draft:'#E8F0FB',Seasonal:'#FEF3C7',Reviewing:'#FFE4EE',Archived:'#F5EEF8'};
+    const visible=sops.filter(s=>s.status!=='Archived').slice(0,6);
+    if(visible.length){
+      sopsEl.innerHTML=visible.map(s=>{
+        const col=statusColors[s.status]||'#185FA5';
+        const bg=statusBg[s.status]||'#E8F0FB';
+        const linkPart=s.url?`<a href="${esc(s.url)}" target="_blank" onclick="event.stopPropagation()" style="font-size:10px;color:var(--teal);text-decoration:none;flex-shrink:0">Open ↗</a>`:'';
+        return`<div style="display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--bdr)">
+          <span style="font-size:10px;padding:2px 6px;border-radius:8px;background:${bg};color:${col};font-weight:600;white-space:nowrap;flex-shrink:0">${esc(s.status)}</span>
+          <span style="font-size:11px;color:var(--txt);flex:1">${esc(s.name)}</span>
+          ${linkPart}
+        </div>`;
+      }).join('');
+    } else {
+      sopsEl.innerHTML='<div style="color:var(--txt3);font-size:11px;font-style:italic">No SOPs yet — click Manage to add your Google Docs SOPs</div>';
+    }
+  }
+}
+
+function renderHubWeekGlance(){
+  const el=document.getElementById('hub-week-glance');if(!el)return;
+  const now=new Date();
+  const dayOfWeek=now.getDay(); // 0=Sun
+  const monday=new Date(now);
+  monday.setDate(now.getDate()-(dayOfWeek===0?6:dayOfWeek-1));
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const today=now.toLocaleDateString('en-US',{weekday:'short'});
+  // Get items due this week that are not done
+  const weekItems=S.items.filter(i=>{
+    if(!i.date||i.status==='done'||i.status==='placeholder')return false;
+    const d=new Date(i.date+'T12:00:00');
+    const diff=Math.floor((d-monday)/86400000);
+    return diff>=0&&diff<7;
+  });
+  const dayMap={Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+  weekItems.forEach(i=>{
+    const d=new Date(i.date+'T12:00:00');
+    const dayName=d.toLocaleDateString('en-US',{weekday:'short'});
+    if(dayMap[dayName])dayMap[dayName].push(i);
+  });
+  const html=days.map(day=>{
+    const isToday=today===day;
+    const count=dayMap[day]?.length||0;
+    return`<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:${isToday?'rgba(15,163,163,.1)':'transparent'};border:${isToday?'1px solid var(--teal)':'1px solid transparent'}">
+      <span style="font-size:10px;font-weight:${isToday?'700':'500'};color:${isToday?'var(--teal)':'var(--txt2)'};width:28px">${day}</span>
+      ${count>0?`<span style="font-size:11px;color:var(--txt);flex:1">${dayMap[day].slice(0,2).map(i=>esc((i.name||'').slice(0,28))).join(', ')}${count>2?` +${count-2} more`:''}</span>`:'<span style="font-size:10px;color:var(--txt3);flex:1;font-style:italic">No items due</span>'}
+      ${count>0?`<span style="font-size:10px;background:var(--soft);color:var(--txt2);padding:1px 6px;border-radius:8px">${count}</span>`:''}
+    </div>`;
+  }).join('');
+  el.innerHTML=html||'<div style="color:var(--txt3);font-size:11px;font-style:italic">No items scheduled this week</div>';
+}
+
+function renderHubUpcomingEvents(){
+  const el=document.getElementById('hub-upcoming-events');if(!el)return;
+  const cds=loadCountdowns();
+  const now=new Date();
+  const upcoming=cds
+    .filter(c=>c.date)
+    .map(c=>{
+      const d=new Date(c.date+'T12:00:00');
+      const diff=Math.ceil((d-now)/86400000);
+      return{...c,daysLeft:diff};
+    })
+    .filter(c=>c.daysLeft>=0)
+    .sort((a,b)=>a.daysLeft-b.daysLeft)
+    .slice(0,5);
+  if(!upcoming.length){
+    el.innerHTML='<div style="color:var(--txt3);font-size:11px;font-style:italic">No upcoming events — add some in Countdowns</div>';
+    return;
+  }
+  el.innerHTML=upcoming.map(c=>{
+    const urgent=c.daysLeft<=7;
+    const soon=c.daysLeft<=30;
+    const col=urgent?'#F63E73':soon?'#D4890A':'#185FA5';
+    const bg=urgent?'#FFE4EE':soon?'#FEF3C7':'#E8F0FB';
+    const label=c.daysLeft===0?'TODAY':c.daysLeft===1?'1 day':c.daysLeft+' days';
+    return`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr)">
+      <span style="font-size:18px">${c.emoji||'📅'}</span>
+      <span style="font-size:11px;color:var(--txt);flex:1">${esc(c.name||'')}</span>
+      <span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${bg};color:${col};font-weight:600;white-space:nowrap">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderHubHabitsToday(){
+  const el=document.getElementById('hub-habits-today');if(!el)return;
+  const habs=loadHabits();
+  const todayKey=todayStr();
+  const logs=loadHabLogs();
+  const dayName=new Date().toLocaleDateString('en-US',{weekday:'short'});
+  const todayHabs=habs.filter(h=>{
+    const f=h.freq||'Daily';
+    if(f==='Daily')return true;
+    if(f==='Weekdays')return['Mon','Tue','Wed','Thu','Fri'].includes(dayName);
+    if(f==='Weekends')return['Sat','Sun'].includes(dayName);
+    if(f==='3x/week')return['Mon','Wed','Fri'].includes(dayName);
+    if(f==='Weekly')return dayName==='Mon';
+    if(h.days&&h.days.includes(dayName))return true;
+    return false;
+  }).slice(0,8);
+  if(!todayHabs.length){
+    el.innerHTML='<div style="color:var(--txt3);font-size:11px;font-style:italic">No habits scheduled for today — add them in Habits & Routines</div>';
+    return;
+  }
+  const done=todayHabs.filter(h=>logs[h.id+'_'+todayKey]).length;
+  const pct=Math.round(done/todayHabs.length*100);
+  el.innerHTML=`<div style="height:4px;background:var(--soft);border-radius:2px;overflow:hidden;margin-bottom:8px"><div style="height:100%;width:${pct}%;background:${pct===100?'#63C76C':'var(--teal)'};border-radius:2px;transition:width .4s"></div></div>
+  <div style="font-size:10px;color:var(--txt2);margin-bottom:7px">${done}/${todayHabs.length} done today</div>`+
+  todayHabs.map(h=>{
+    const done=logs[h.id+'_'+todayKey];
+    return`<div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="toggleHabitToday('${h.id}');renderHubHabitsToday()">
+      <div style="width:14px;height:14px;border-radius:4px;border:1.5px solid ${done?'var(--teal)':'var(--bdr2)'};background:${done?'var(--teal)':'#fff'};flex-shrink:0;display:flex;align-items:center;justify-content:center">
+        ${done?'<svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="2,5 4,7 8,3"/></svg>':''}
+      </div>
+      <span style="font-size:11px;color:${done?'var(--txt3)':'var(--txt)'};flex:1;${done?'text-decoration:line-through':''}">${h.emoji||''} ${esc(h.name||'')}</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleHabitToday(hid){
+  const todayKey=todayStr();
+  const logs=loadHabLogs();
+  const key=hid+'_'+todayKey;
+  if(logs[key])delete logs[key];
+  else logs[key]=Date.now();
+  saveHabLogs(logs);
+}
+
+function renderHubFinancePeek(){
+  const el=document.getElementById('hub-finance-peek');if(!el)return;
+  const goals=loadFinGoals();
+  const tx=loadFinTx();
+  const thisMonth=new Date().toISOString().slice(0,7);
+  const totalSaved=goals.reduce((s,g)=>s+(g.saved||0),0);
+  const totalTarget=goals.filter(g=>g.status!=='complete').reduce((s,g)=>s+(g.target||0),0);
+  const spentThisMonth=tx.filter(t=>t.type==='expense'&&t.date.startsWith(thisMonth)).reduce((s,t)=>s+(t.amount||0),0);
+  const activeGoals=goals.filter(g=>g.status!=='complete');
+  const pctSaved=totalTarget?Math.min(100,Math.round(totalSaved/totalTarget*100)):0;
+  el.innerHTML=`
+    <div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+        <span style="color:#065F46;font-weight:600">Total Saved</span>
+        <span style="color:#065F46;font-weight:700">$${totalSaved.toLocaleString()}</span>
+      </div>
+      <div style="height:5px;background:rgba(5,150,105,.15);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pctSaved}%;background:#059669;border-radius:3px;transition:width .4s"></div>
+      </div>
+      <div style="font-size:10px;color:#059669;margin-top:2px">${pctSaved}% toward ${activeGoals.length} active goal${activeGoals.length!==1?'s':''}</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-top:1px solid rgba(5,150,105,.15)">
+      <span style="font-size:11px;color:#065F46">Spent This Month</span>
+      <span style="font-size:13px;font-weight:700;color:${spentThisMonth>0?'#C2410C':'#059669'}">$${spentThisMonth.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}</span>
+    </div>`;
+}
+
 function renderHub(){
   // Date/time (Waxahachie TX = Central Time)
   const now=new Date();
@@ -4753,6 +5293,12 @@ function renderHub(){
   renderHubFocus(el);
   // ALL GOALS
   renderHubGoals(el);
+  // NEW MASTER PLAN WIDGETS
+  renderHubWidgets();
+  renderHubWeekGlance();
+  renderHubUpcomingEvents();
+  renderHubHabitsToday();
+  renderHubFinancePeek();
 }
 
 let hubGoalFilter='all';
@@ -8761,6 +9307,27 @@ function getWIABMonths(){
   });
 }
 
+// Build <option> list for theme month dropdowns — simple calendar month names
+function getWIABMonthOptions(selectedVal,includePlaceholder){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const ph=includePlaceholder?`<option value="">\u2014 Theme Month \u2014</option>`:'';
+  return ph+months.map(m=>`<option value="${m}"${selectedVal===m?' selected':''}>${m}</option>`).join('');
+}
+
+// Convert a calendar month name to the WIAB theme key (based on journey start)
+function calMonthNameToWIABKey(monthName){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const idx=months.indexOf(monthName);
+  if(idx===-1)return null;
+  return getWIABKeyForCalMonth(idx);
+}
+
+// Get the calendar month name for the current active WIAB key
+function wiabKeyToCalMonthName(key){
+  const m=getWIABMonths().find(x=>x.key===key);
+  return m?m.label:null;
+}
+
 function getWIABKeyForCalMonth(calMonthIdx){
   const startMonth=getWIABStartMonth();
   const offset=(calMonthIdx-startMonth+12)%12;
@@ -8841,7 +9408,7 @@ function renderWIAB(){
   const liveThemes=getWIABThemes();
   const liveT=liveThemes[wiabActiveKey]||WIAB_DEFAULT_THEMES[wiabActiveKey]||{};
   if(id)id.textContent='"'+(liveT.identity||WIAB_IDENTITIES[wiabActiveKey]||'')+'"';
-  const tasks=S.items.filter(i=>i.whoIAmBecoming&&i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const tasks=S.items.filter(i=>i.whoIAmBecoming&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
   const doneTasks=tasks.filter(i=>i.status==='done').length;
   const taskCount=document.getElementById('wiab-task-count');
   const taskBar=document.getElementById('wiab-task-bar');
@@ -8852,7 +9419,7 @@ function renderWIAB(){
     if(!tasks.length){tasksList.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No tasks tagged yet.</div>';}
     else{tasksList.innerHTML=tasks.map(t=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(196,119,59,.1);cursor:pointer" onclick="openModal('${t.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${t.id}');renderWIAB()" style="width:14px;height:14px;border-radius:3px;border:1.5px solid ${month.color};background:${t.status==='done'?month.color:'transparent'};flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center">${t.status==='done'?'<span style="color:#fff;font-size:9px">✓</span>':''}</div><span style="flex:1;${t.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(t.name)}</span></div>`).join('');}
   }
-  const asks=S.items.filter(i=>i.themeMonth===wiabActiveKey&&i.type==='ask'&&i.status!=='placeholder');
+  const asks=S.items.filter(i=>calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.type==='ask'&&i.status!=='placeholder');
   const asksList=document.getElementById('wiab-asks-list');
   if(asksList){
     if(!asks.length){asksList.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No asks tagged yet.</div>';}
@@ -8863,7 +9430,7 @@ function renderWIAB(){
       asksList.innerHTML=`<div style="display:flex;gap:6px;margin-bottom:8px"><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#E1F5EE;color:#0A5E47;font-weight:600">${yesCount} yes</span><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#FCEBEB;color:#8B1A1A;font-weight:600">${noCount} no</span><span style="font-size:10px;padding:2px 7px;border-radius:10px;background:#FFF3CD;color:#856404;font-weight:600">${pendCount} pending</span></div>`+asks.slice(0,6).map(a=>{const col=a.responseStatus==='yes'?'#0A5E47':a.responseStatus==='no'?'#8B1A1A':'#856404';const bg=a.responseStatus==='yes'?'#E1F5EE':a.responseStatus==='no'?'#FCEBEB':'#FFF3CD';return`<div style="display:flex;align-items:center;gap:5px;padding:3px 0;cursor:pointer" onclick="openModal('${a.id}');renderWIAB()"><span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${bg};color:${col};font-weight:600;flex-shrink:0">${(a.responseStatus||'pending').toUpperCase()}</span><span style="flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.name)}</span></div>`;}).join('')+(asks.length>6?`<div style="font-size:10px;color:#8C7B6E;margin-top:4px">+${asks.length-6} more</div>`:'');
     }
   }
-  const selfCareItems=S.items.filter(i=>i.isSelfCare&&i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const selfCareItems=S.items.filter(i=>i.isSelfCare&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
   const selfCareEl=document.getElementById('wiab-selfcare-list');
   if(selfCareEl){
     if(!selfCareItems.length){selfCareEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No self-care items tagged yet.</div>';}
@@ -8875,19 +9442,19 @@ function renderWIAB(){
     if(!rules.length){rulesEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No rules set. Edit in SOT.</div>';}
     else{rulesEl.innerHTML=rules.map((r,i)=>`<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid rgba(196,119,59,.1)"><span style="font-weight:700;color:#C4773B;font-size:11px;min-width:14px">${i+1}.</span><span style="font-size:11px">${esc(r)}</span></div>`).join('');}
   }
-  const weeklyItems=S.items.filter(i=>i.isWeeklyFocus&&i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const weeklyItems=S.items.filter(i=>i.isWeeklyFocus&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
   const weeklyEl=document.getElementById('wiab-weekly-list');
   if(weeklyEl){
     if(!weeklyItems.length){weeklyEl.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No weekly focus items tagged yet.</div>';}
     else{weeklyEl.innerHTML=weeklyItems.map(i=>`<div style="display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer" onclick="openModal('${i.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${i.id}');renderWIAB()" style="width:13px;height:13px;border-radius:3px;border:1.5px solid #185FA5;background:${i.status==='done'?'#185FA5':'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i.status==='done'?'<span style="color:#fff;font-size:8px">✓</span>':''}</div><span style="font-size:11px;${i.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(i.name)}</span></div>`).join('');}
   }
-  const items101=S.items.filter(i=>i.themeMonth===wiabActiveKey&&(i.listIds||[]).includes('101g')&&i.status!=='placeholder');
+  const items101=S.items.filter(i=>calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&(i.listIds||[]).includes('101g')&&i.status!=='placeholder');
   const list101=document.getElementById('wiab-101-list');
   if(list101){
     if(!items101.length){list101.innerHTML='<div style="color:#8C7B6E;font-style:italic;font-size:11px">No 101 items tagged to this month yet.</div>';}
     else{list101.innerHTML=items101.map(i=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(24,95,165,.1);cursor:pointer" onclick="openModal('${i.id}');renderWIAB()"><div onclick="event.stopPropagation();toggleDone('${i.id}');renderWIAB()" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #185FA5;background:${i.status==='done'?'#185FA5':'transparent'};flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center">${i.status==='done'?'<span style="color:#fff;font-size:9px">✓</span>':''}</div><span style="flex:1;font-size:11px;${i.status==='done'?'text-decoration:line-through;color:#8C7B6E':''}">${esc(i.name)}</span></div>`).join('');}
   }
-  const dates=S.items.filter(i=>i.isDateNight&&i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
+  const dates=S.items.filter(i=>i.isDateNight&&calMonthNameToWIABKey(i.themeMonth)===wiabActiveKey||i.themeMonth===wiabActiveKey&&i.status!=='placeholder');
   const datesList=document.getElementById('wiab-dates-list');
   if(datesList){
     const allPeople=['Solo','Jacoby','Ravyn','Mom','Friends','FAM'];
@@ -8930,7 +9497,7 @@ function getWIABItems(){
     if(i.status==='placeholder')return false;
     if(!i.themeMonth&&!i.whoIAmBecoming&&!i.isDateNight)return false;
     if(typeF&&i.type!==typeF)return false;
-    if(monthF&&i.themeMonth!==monthF)return false;
+    if(monthF&&calMonthNameToWIABKey(i.themeMonth)!==monthF&&i.themeMonth!==monthF)return false;
     if(statusF&&i.status!==statusF)return false;
     if(datewithF&&i.dateWith!==datewithF)return false;
     if(monthlyF&&!i.whoIAmBecoming)return false;
@@ -8961,7 +9528,7 @@ function renderWIABTable(){
       <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','status',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:${sbg};color:${sc};border:1px solid ${sc}33;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">${['notstarted','planned','inprogress','behind','done'].map(s=>`<option value="${s}"${i.status===s?' selected':''}>${s==='notstarted'?'Not Started':s==='inprogress'?'In Progress':s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}</select></td>
       <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','type',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:var(--soft);color:var(--txt);border:1px solid var(--bdr2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">${['goal','project','task','ask'].map(t=>`<option value="${t}"${i.type===t?' selected':''}>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select></td>
       <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','effort',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:var(--soft);color:var(--txt);border:1px solid var(--bdr2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;max-width:90px"><option value="">—</option>${['easy','medium','hard','epic','legendary'].map(e=>`<option value="${e}"${i.effort===e?' selected':''}>${EFFORT_LABELS[e]||e}</option>`).join('')}</select></td>
-      <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','themeMonth',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:${themeColor}18;color:${themeColor};border:1px solid ${themeColor}44;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer"><option value="">— None —</option>${WIAB_MONTHS.map(m=>`<option value="${m.key}"${i.themeMonth===m.key?' selected':''}>${m.label} — ${m.theme}</option>`).join('')}</select></td>
+      <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','themeMonth',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:${themeColor}18;color:${themeColor};border:1px solid ${themeColor}44;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer"><option value="">— None —</option>${['January','February','March','April','May','June','July','August','September','October','November','December'].map(mn=>`<option value="${mn}"${(i.themeMonth===mn||(calMonthNameToWIABKey(i.themeMonth)&&calMonthNameToWIABKey(i.themeMonth)===calMonthNameToWIABKey(mn)))?' selected':''}>${mn}</option>`).join('')}</select></td>
       <td style="padding:8px 10px;text-align:center" onclick="event.stopPropagation()"><input type="checkbox" ${i.whoIAmBecoming?'checked':''} onchange="inlineUpdateWIAB('${i.id}','whoIAmBecoming',this.checked)" style="accent-color:#C4773B;width:15px;height:15px"></td>
       <td style="padding:8px 10px;text-align:center" onclick="event.stopPropagation()"><input type="checkbox" ${i.isDateNight?'checked':''} onchange="inlineUpdateWIAB('${i.id}','isDateNight',this.checked)" style="accent-color:#9B59B6;width:15px;height:15px"></td>
       <td style="padding:8px 10px" onclick="event.stopPropagation()"><select onchange="inlineUpdateWIAB('${i.id}','dateWith',this.value)" style="padding:3px 6px;border-radius:var(--r);font-size:11px;background:var(--soft);color:var(--txt);border:1px solid var(--bdr2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer"><option value="">—</option>${['Solo','Jacoby','Ravyn','Mom','Friends','FAM'].map(p=>`<option value="${p}"${i.dateWith===p?' selected':''}>${p}</option>`).join('')}</select></td>
@@ -9023,7 +9590,7 @@ function renderWIABMonthDetail(){
   const month=WIAB_MONTHS.find(m=>m.key===wiabDetailMonth)||WIAB_MONTHS[0];
   const themes=getWIABThemes();
   const t=themes[wiabDetailMonth]||WIAB_DEFAULT_THEMES[wiabDetailMonth]||{};
-  const monthItems=S.items.filter(i=>i.themeMonth===wiabDetailMonth&&i.status!=='placeholder');
+  const monthItems=S.items.filter(i=>(calMonthNameToWIABKey(i.themeMonth)===wiabDetailMonth||i.themeMonth===wiabDetailMonth)&&i.status!=='placeholder');
   const tasks8=monthItems.filter(i=>i.whoIAmBecoming);
   const asks=monthItems.filter(i=>i.type==='ask');
   const items101=monthItems.filter(i=>(i.listIds||[]).includes('101g'));
@@ -9107,7 +9674,7 @@ function renderSOTWIABEditor(){
   const t=themes[m.key]||WIAB_DEFAULT_THEMES[m.key]||{};
   const rules=(t.rules||['','','','','']).concat(['','','','','']).slice(0,5);
   const wl=(t.weeklyLoop||[['Week 1',''],['Week 2',''],['Week 3',''],['Week 4','']]).concat([['Week 1',''],['Week 2',''],['Week 3',''],['Week 4','']]).slice(0,4);
-  const monthItems=S.items.filter(i=>i.themeMonth===m.key&&i.status!=='placeholder');
+  const monthItems=S.items.filter(i=>(calMonthNameToWIABKey(i.themeMonth)===m.key||i.themeMonth===m.key)&&i.status!=='placeholder');
   const tasks8=monthItems.filter(i=>i.whoIAmBecoming);
   const asks=monthItems.filter(i=>i.type==='ask');
   const items101=monthItems.filter(i=>(i.listIds||[]).includes('101g'));
