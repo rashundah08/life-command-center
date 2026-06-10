@@ -6279,6 +6279,24 @@ function executePushWeek(){
   toast(`✓ Created ${created} task${created!==1?'s':''} for Week ${wk} — see below!`,3500);
 }
 
+// ── SPRINT DATA (must be before init) ─────────────────────────────────────
+const SPRINT_START='2026-01-05';
+const SPRINT_END='2032-12-31';
+function generateSprints(){
+  const sprints=[];let num=1;
+  let start=new Date(SPRINT_START+'T12:00:00');
+  const endDate=new Date(SPRINT_END+'T12:00:00');
+  while(start<=endDate){
+    const end=new Date(start);end.setDate(end.getDate()+13);
+    if(end>endDate)end.setTime(endDate.getTime());
+    const planningDue=new Date(start);planningDue.setDate(planningDue.getDate()-7);
+    sprints.push({num,start:start.toISOString().slice(0,10),end:end.toISOString().slice(0,10),planningDue:planningDue.toISOString().slice(0,10)});
+    num++;start=new Date(end);start.setDate(start.getDate()+1);
+  }
+  return sprints;
+}
+const ALL_SPRINTS=generateSprints();
+
 function init(){
   load();
   initRewards();
@@ -6320,37 +6338,6 @@ function init(){
 // ── SPRINT STORAGE ────────────────────────────────────────────────────────
 function loadSprintMeta(){try{return JSON.parse(localStorage.getItem('rlcc_sprint_meta')||'{}');}catch(e){return{};}}
 function saveSprintMeta(d){localStorage.setItem('rlcc_sprint_meta',JSON.stringify(d));}
-
-// ── SPRINT GENERATION ────────────────────────────────────────────────────
-// Generate all 2-week sprint records from Jan 5, 2026 to Dec 31, 2032
-const SPRINT_START='2026-01-05';
-const SPRINT_END='2032-12-31';
-
-function generateSprints(){
-  const sprints=[];
-  let num=1;
-  let start=new Date(SPRINT_START+'T12:00:00');
-  const endDate=new Date(SPRINT_END+'T12:00:00');
-  while(start<=endDate){
-    const end=new Date(start);
-    end.setDate(end.getDate()+13);
-    if(end>endDate)end.setTime(endDate.getTime());
-    const planningDue=new Date(start);
-    planningDue.setDate(planningDue.getDate()-7);
-    sprints.push({
-      num,
-      start:start.toISOString().slice(0,10),
-      end:end.toISOString().slice(0,10),
-      planningDue:planningDue.toISOString().slice(0,10)
-    });
-    num++;
-    start=new Date(end);
-    start.setDate(start.getDate()+1);
-  }
-  return sprints;
-}
-
-const ALL_SPRINTS=generateSprints();
 
 // ── SPRINT HELPERS ────────────────────────────────────────────────────────
 function getCurrentSprintIdx(){
