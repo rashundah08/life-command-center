@@ -1488,6 +1488,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div class="field" style="margin:0"><label>Start Date</label><input id="ba-start" type="date"></div>
         <div class="field" style="margin:0"><label>Target Completion Date</label><div style="display:flex;gap:5px"><input id="ba-date" type="date" style="flex:1"><button type="button" class="btn xs ghost" onclick="document.getElementById('ba-date').value=''" title="Clear">&#x2715;</button></div></div>
       </div>
+      <div class="field" style="margin-bottom:10px"><label>&#9201; Est. Minutes (Tasks) <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">— sprint capacity</span></label><input id="ba-est-mins" type="number" min="1" step="1" placeholder="e.g. 30, 60, 90..."></div>
       <div class="field"><label>Notes</label><textarea id="ba-notes" rows="2" placeholder="Context, links, ideas..."></textarea></div>
       <!-- GOAL SMART FIELDS -->
       <div style="border:1px solid #86EFAC;border-radius:var(--rl);overflow:hidden;margin-bottom:10px">
@@ -1619,6 +1620,10 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="bu-status"><option value="">-- Keep --</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="done">Done</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort</label><select id="bu-effort"><option value="">-- Keep --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Rename (replaces name on all selected)</label><input id="bu-name" placeholder="Leave blank to keep existing names"></div>
+        <div class="field" style="margin:0"><label>&#9201; Est. Minutes <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">— sprint capacity</span></label><input id="bu-est-mins" type="number" min="1" step="1" placeholder="Leave blank to keep"></div>
       </div>
       <div class="field"><label>Add to Lists</label><div id="bu-lists" class="list-checks"></div></div>
       <div class="field"><label>Remove from Lists <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--pink)">(uncheck from selected items)</span></label><div id="bu-lists-remove" class="list-checks"></div></div>
@@ -2492,28 +2497,6 @@ function renderModalBody(type,item,prefill){
     </div>
   </div>`;
 
-  // PIN TO MASTER PLAN
-  html+=`<div style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:1px solid #F9A825;border-radius:var(--rl);overflow:hidden;margin-bottom:8px">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none" onclick="(function(){const b=document.getElementById('pin-modal-body');b.style.display=b.style.display==='none'?'block':'none';})()">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E65100">📌 Pin to Master Plan</div>
-      <span style="color:#E65100;font-size:11px">▼</span>
-    </div>
-    <div id="pin-modal-body" style="display:${(item&&(item.pinnedFocus||item.pinnedSticky))?'block':'none'};padding:10px 14px 12px;background:linear-gradient(135deg,#FFFDE7,#FFFBF5)">
-      <div style="display:flex;gap:16px;flex-wrap:wrap">
-        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
-          <input type="checkbox" id="m-pinned-focus" ${item&&item.pinnedFocus?'checked':''} style="accent-color:#185FA5;width:14px;height:14px">
-          <span>🎯 Monthly Focus</span>
-          <span style="font-size:10px;color:var(--txt3)">(shows in This Month's Focus)</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
-          <input type="checkbox" id="m-pinned-sticky" ${item&&item.pinnedSticky?'checked':''} style="accent-color:#E65100;width:14px;height:14px">
-          <span>📍 Sticky Reminder</span>
-          <span style="font-size:10px;color:var(--txt3)">(shows in Sticky Notes)</span>
-        </label>
-      </div>
-    </div>
-  </div>`;
-
   // TYPE-SPECIFIC WIDGETS
   if(type==='goal'){
     const listNumFields=buildNumFields(item,ML.listIds);
@@ -3157,7 +3140,7 @@ function toggleBulkCatRemove(c,el){
 }
 function resetBulkForm(){
   bulkAddLists=[];bulkAddCats=[];bulkUpdateLists=[];bulkUpdateCats=[];bulkRemoveLists=[];bulkRemoveCats=[];
-  ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes','ba-est-mins','bu-name','bu-est-mins'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const prev=document.getElementById('bprev');if(prev)prev.innerHTML='';
   ['ba-type','ba-status','ba-effort','ba-start','ba-date','ba-resp-status','ba-ask-who','ba-ask-type','ba-ask-channel','ba-patch-diff','ba-patch-cat','ba-rotation-week','ba-seqnum-field','ba-course-num','ba-course-hrs','ba-course-sem','ba-course-year','ba-course-inst','ba-course-grade','ba-course-proctored','ba-course-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.lci.sel,.cci.sel').forEach(el=>{el.classList.remove('sel');el.style.background='';el.style.borderColor='';});
@@ -3202,12 +3185,14 @@ function saveBulk(){
     const baWiabWeekly=document.getElementById('ba-wiab-weeklyfocus')?.checked||false;
     const baWiabDatenight=document.getElementById('ba-wiab-datenight')?.checked||false;
     const baWiabDatewith=document.getElementById('ba-wiab-datewith')?.value||'';
+    const baEstMins=parseInt(document.getElementById('ba-est-mins')?.value||0)||0;
     const listIds=bulkAddLists.length?[...bulkAddLists]:['uncat'];
     const categories=[...bulkAddCats];
     names.forEach((name,idx)=>{
       const respSt=document.getElementById('ba-resp-status')?.value||'pending';
       const itemEffort=effort||((type==='ask'||classify(name)==='ask')?'hard':'');
       const item=makeItem({name,type:type||classify(name),listIds,categories,status,date,startDate:start,effort:itemEffort,smart_s,smart_m,smart_a,smart_r,notes,responseStatus:respSt,askWho:baAskWho,askType:baAskType,askChannel:baAskCh,patchDifficulty:baPDiff,patchCategory:baPCat,rotationWeek:baRot,courseNum:baCourseNum,courseHours:baCourseHrs,courseSemester:baCourseSem,courseYear:baCourseYear,courseInstitution:baCourseInst,courseGrade:baCourseGrade,courseProctored:baCourseProc,courseStatus:baCourseStatus});
+      if(baEstMins)item.estimatedMins=baEstMins;
       if(baSeq)item.seqNum=baSeq;
       if(baThemeMonth)item.themeMonth=baThemeMonth;
       if(baWiabMonthly)item.whoIAmBecoming=true;
@@ -3228,6 +3213,8 @@ function saveBulk(){
     const type=document.getElementById('bu-type')?.value||'';
     const status=document.getElementById('bu-status')?.value||'';
     const effort=document.getElementById('bu-effort')?.value||'';
+    const buName=(document.getElementById('bu-name')?.value||'').trim();
+    const buEstMins=parseInt(document.getElementById('bu-est-mins')?.value||0)||0;
     const start=document.getElementById('bu-start')?.value||'';
     const date=document.getElementById('bu-date')?.value||'';
     const completed=document.getElementById('bu-completed')?.value||'';
@@ -3239,6 +3226,8 @@ function saveBulk(){
     let updated=0;
     ids.forEach(id=>{
       const item=getItem(id);if(!item)return;
+      if(buName)item.name=buName;
+      if(buEstMins)item.estimatedMins=buEstMins;
       if(type)item.type=type;
       if(effort)item.effort=effort;
       [...bulkUpdateLists].forEach(lid=>{if(!item.listIds.includes(lid))item.listIds.push(lid);});
