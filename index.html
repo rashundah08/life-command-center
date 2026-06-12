@@ -1602,6 +1602,10 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           </div>
         </div>
       </div>
+      <div class="field"><label>Link Items to <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional — links every added item to the selected parent)</span></label>
+        <input type="text" id="ba-link-search" placeholder="Search to filter..." oninput="filterLinkSelect('ba-link-any',this.value)" style="width:100%;padding:5px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+        <select id="ba-link-any" size="5" style="width:100%;font-size:11px;padding:4px 6px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><option value="">-- None --</option></select>
+      </div>
       <div class="field"><label>Item Names <span class="req">*</span> — one per line</label><textarea class="btxt" id="ba-text" placeholder="Goal name 1&#10;Goal name 2&#10;..." oninput="previewBulk()"></textarea></div>
       <div class="bprev" id="bprev"></div>
     </div>
@@ -1666,21 +1670,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       </div>
       <div class="field"><label>R — Relevant</label><input id="bu-r" placeholder="Leave blank to keep"></div>
       <div class="field"><label>Sequence # <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(leave blank to keep existing)</span></label><input id="bu-seqnum" placeholder="e.g. 1, 7, 42..."></div>
-      <div class="field"><label>Bulk Link Items <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(link selected items to a goal, project, or task)</span></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px">
-          <div>
-            <div style="font-size:10px;color:var(--txt2);margin-bottom:4px;font-weight:500">Link to Goal</div>
-            <select id="bu-link-goal" style="width:100%;font-size:11px;padding:4px 6px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><option value="">-- None --</option></select>
-          </div>
-          <div>
-            <div style="font-size:10px;color:var(--txt2);margin-bottom:4px;font-weight:500">Link to Project</div>
-            <select id="bu-link-project" style="width:100%;font-size:11px;padding:4px 6px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><option value="">-- None --</option></select>
-          </div>
-          <div>
-            <div style="font-size:10px;color:var(--txt2);margin-bottom:4px;font-weight:500">Link to Task</div>
-            <select id="bu-link-task" style="width:100%;font-size:11px;padding:4px 6px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><option value="">-- None --</option></select>
-          </div>
-        </div>
+      <div class="field"><label>Bulk Link Items <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(links selected items to the chosen parent)</span></label>
+        <input type="text" id="bu-link-search" placeholder="Search to filter..." oninput="filterLinkSelect('bu-link-any',this.value)" style="width:100%;padding:5px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+        <select id="bu-link-any" size="5" style="width:100%;font-size:11px;padding:4px 6px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><option value="">-- None --</option></select>
       </div>
       <div class="field"><label>Notes <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(replaces existing)</span></label><textarea id="bu-notes" rows="2" placeholder="Leave blank to keep existing"></textarea></div>
       <!-- WHO I AM BECOMING -->
@@ -2185,6 +2177,7 @@ function missingFields(item){
   if(!item.categories||!item.categories.length)m.push('Category');
   if(!item.effort&&item.status!=='done'&&item.status!=='placeholder')m.push('Effort Level');
   if(!item.startDate&&item.status!=='done'&&item.status!=='placeholder')m.push('Start Date');
+  if(item.startDate&&!item.date&&item.duration==null&&item.status!=='done'&&item.status!=='placeholder')m.push('Duration');
   if(item.type==='task'&&item.startDate&&!item.estimatedMins&&item.status!=='done'&&item.status!=='placeholder')m.push('Est. Minutes');
   return m;
 }
@@ -2291,6 +2284,7 @@ function makeItem(o){
     isSelfCare:o.isSelfCare||false,isWeeklyFocus:o.isWeeklyFocus||false,dateWith:o.dateWith||'',
     pinnedFocus:o.pinnedFocus||false,pinnedSticky:o.pinnedSticky||false,
     estimatedMins:o.estimatedMins||0,
+    duration:o.duration!=null?o.duration:null,
     created:o.created||Date.now(),updated:Date.now()
   };
 }
@@ -2436,6 +2430,14 @@ function renderModalBody(type,item,prefill){
       <div class="field" style="margin:0"><label>Start Date</label><input id="m-start" type="date" value="${item&&item.startDate?item.startDate:''}" onchange="onStartChg()"></div>
       <div class="field" style="margin:0"><label>Target Completion Date</label><input id="m-date" type="date" value="${item&&item.date?item.date:''}" onchange="onDateChg()"></div>
       <div class="field" style="margin:0"><label>Completed Date <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(req. on Done)</span></label><input id="m-completed" type="date" value="${item&&item.completedDate?item.completedDate:''}"></div>
+    </div>
+    <div style="margin-bottom:13px">
+      <div class="field" style="margin:0"><label>⏳ Duration (days) <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">— enter with Start Date to auto-fill TCD, or with TCD to count back to Start Date. 0 = same day.</span></label>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input id="m-duration" type="number" min="0" step="1" placeholder="e.g. 1, 7, 30..." value="${item&&item.duration!=null?item.duration:''}" oninput="onDurationChg()" style="width:120px">
+          <span id="m-duration-preview" style="font-size:11px;color:var(--txt3);font-style:italic"></span>
+        </div>
+      </div>
     </div>
     `;
   if(type==='task'){
@@ -2640,7 +2642,7 @@ function renderModalBody(type,item,prefill){
   // LINKED ITEMS (collapsible)
   const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length;
   const linkedOpen=totalLinked>0;
-  let linkedHtml='';
+  let linkedHtml=`<div class="field" style="margin:0"><label>Link Any Item <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">search across all types</span></label>${buildLF('any',[])}</div>`;
   if(type==='goal'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
   if(type==='project'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Goals <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedGoals.length} linked</span></label>${buildLF('goal',ML.linkedGoals)}</div>`;}
   if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedTasks.length} linked</span></label>${buildLF('task',ML.linkedTasks)}</div>`;}
@@ -2823,8 +2825,59 @@ function addCustomCategory(){
   updatePatchFieldsVisibility();
 }
 function switchType(){const t=document.getElementById('m-type')?.value;if(!t)return;const item=S.editId?getItem(S.editId):null;renderModalBody(t,item,document.getElementById('m-name')?.value);}
-function onDateChg(){const d=document.getElementById('m-date')?.value;const s=document.getElementById('m-status');if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}}
-function onStartChg(){const d=document.getElementById('m-start')?.value;const s=document.getElementById('m-status');if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';const star=document.getElementById('m-mins-req-star');if(star)star.style.display=d?'inline':'none';}
+function addDays(dateStr,days){const d=new Date(dateStr+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
+function subDays(dateStr,days){return addDays(dateStr,-days);}
+function onDateChg(){
+  const d=document.getElementById('m-date')?.value;
+  const s=document.getElementById('m-status');
+  if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
+  const durEl=document.getElementById('m-duration');
+  const startEl=document.getElementById('m-start');
+  if(d&&durEl&&durEl.value!==''&&!startEl?.value){
+    const days=parseInt(durEl.value)||0;
+    const computed=subDays(d,days);
+    if(startEl)startEl.value=computed;
+  }
+  updateDurationPreview();
+}
+function onStartChg(){
+  const d=document.getElementById('m-start')?.value;
+  const s=document.getElementById('m-status');
+  if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
+  const star=document.getElementById('m-mins-req-star');
+  if(star)star.style.display=d?'inline':'none';
+  const durEl=document.getElementById('m-duration');
+  const tcdEl=document.getElementById('m-date');
+  if(d&&durEl&&durEl.value!==''&&!tcdEl?.value){
+    const days=parseInt(durEl.value)||0;
+    const computed=addDays(d,days);
+    if(tcdEl)tcdEl.value=computed;
+  }
+  updateDurationPreview();
+}
+function onDurationChg(){
+  const durEl=document.getElementById('m-duration');
+  const startEl=document.getElementById('m-start');
+  const tcdEl=document.getElementById('m-date');
+  if(!durEl||durEl.value==='')return updateDurationPreview();
+  const days=parseInt(durEl.value)||0;
+  const start=startEl?.value||'';
+  const tcd=tcdEl?.value||'';
+  if(start&&!tcd){if(tcdEl)tcdEl.value=addDays(start,days);}
+  else if(tcd&&!start){if(startEl)startEl.value=subDays(tcd,days);}
+  else if(start&&tcd){if(tcdEl)tcdEl.value=addDays(start,days);}
+  updateDurationPreview();
+}
+function updateDurationPreview(){
+  const prev=document.getElementById('m-duration-preview');if(!prev)return;
+  const start=document.getElementById('m-start')?.value||'';
+  const tcd=document.getElementById('m-date')?.value||'';
+  if(start&&tcd){
+    const diff=Math.round((new Date(tcd+'T12:00:00')-new Date(start+'T12:00:00'))/(1000*60*60*24));
+    prev.textContent=diff===0?'Same day':diff>0?`${diff} day${diff!==1?'s':''} (${start} → ${tcd})`:`⚠ TCD is before Start`;
+    prev.style.color=diff<0?'var(--pink)':'var(--txt3)';
+  }else{prev.textContent='';}
+}
 function onEstMinsChg(){const v=parseInt(document.getElementById('m-est-mins')?.value)||0;const disp=document.getElementById('m-est-hrs-display');if(disp)disp.textContent=v>0?Math.round(v/60*10)/10+' hrs':'—';}
 function onStatusChg(){const s=document.getElementById('m-status')?.value;if(s==='done'){const p=document.getElementById('m-prog');if(p)p.value=100;const pv=document.getElementById('prog-v');if(pv)pv.textContent='100%';}}
 
@@ -2840,11 +2893,16 @@ function buildLF(linkType,linkedIds){
 function showLDD(type,q){
   const dd=document.getElementById('ldd-'+type);if(!dd)return;
   const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
-  const existing=ML[keyMap[type]]||[];
-  const searchType=type==='ask'?'ask':type==='patch'?'patch':type;
-  const results=S.items.filter(i=>i.type===searchType&&!existing.includes(i.id)&&(i.name||'').toLowerCase().includes(q.toLowerCase())).slice(0,8);
-  const rows=results.map(i=>`<div class="lf-opt" onmousedown="addLink('${type}','${i.id}')">${esc((i.name||'').slice(0,55))}${tBadge(i.type)}</div>`).join('');
-  const newRow=q.trim()?`<div class="lf-opt lf-opt-new" onmousedown="createAndLink('${type}','${q.trim().replace(/'/g,'&#39;')}')">+ Create "${q.trim()}" as new ${type}</div>`:'';
+  const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[])];
+  const existing=type==='any'?allLinked:(ML[keyMap[type]]||[]);
+  const results=S.items.filter(i=>
+    (type==='any'||i.type===type)&&
+    !existing.includes(i.id)&&
+    i.status!=='placeholder'&&
+    (i.name||'').toLowerCase().includes(q.toLowerCase())
+  ).slice(0,10);
+  const rows=results.map(i=>`<div class="lf-opt" onmousedown="addLink('${type==='any'?i.type:type}','${i.id}')">${esc((i.name||'').slice(0,55))}${tBadge(i.type)}</div>`).join('');
+  const newRow=(q.trim()&&type!=='any')?`<div class="lf-opt lf-opt-new" onmousedown="createAndLink('${type}','${q.trim().replace(/'/g,'&#39;')}')">+ Create "${q.trim()}" as new ${type}</div>`:'';
   dd.innerHTML=rows+newRow;dd.style.display=(rows||newRow)?'block':'none';
 }
 function hideLDD(type){const dd=document.getElementById('ldd-'+type);if(dd)dd.style.display='none';}
@@ -2859,6 +2917,7 @@ function removeLink(type,id){
   ML[keyMap[type]]=ML[keyMap[type]].filter(x=>x!==id);refreshChips(type);
 }
 function refreshChips(type){
+  if(type==='any')return;
   const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
   const cont=document.getElementById('lfc-'+type);if(!cont)return;
   cont.innerHTML=ML[keyMap[type]].map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${type}','${id}')">&#x00D7;</button></span>`;}).join('');
@@ -2993,6 +3052,7 @@ function saveItem(){
     pinnedFocus:document.getElementById('m-pinned-focus')?.checked||false,
     pinnedSticky:document.getElementById('m-pinned-sticky')?.checked||false,
     estimatedMins:parseInt(document.getElementById('m-est-mins')?.value||0)||0,
+    duration:(()=>{const v=document.getElementById('m-duration')?.value;return v!==''&&v!=null?parseInt(v):null;})(),
     created:S.editId?(getItem(S.editId)||{}).created||Date.now():Date.now()
   });
   doSave(obj);
@@ -3062,6 +3122,9 @@ function switchBulkTab(tab){
     if(bl)bl.innerHTML=S.lists.map(l=>`<div class="lci" onclick="toggleBulkList('add','${l.id}',this,'${l.color}')"><span class="ld" style="background:${l.color}"></span>${esc(l.name)}</div>`).join('');
     const bc=document.getElementById('ba-cats');
     if(bc)bc.innerHTML=CATS.map(c=>`<div class="cci" onclick="toggleBulkCat('add','${c}',this)">${c}</div>`).join('');
+    const noOpt='<option value="">-- None --</option>';
+    const baAny=document.getElementById('ba-link-any');
+    if(baAny)baAny.innerHTML=buildAllLinkOpts();
   }
   if(tab==='update'){
     bulkUpdateLists=[];bulkUpdateCats=[];bulkRemoveLists=[];bulkRemoveCats=[];
@@ -3077,20 +3140,49 @@ function switchBulkTab(tab){
     const nw=document.getElementById('bu-nums-wrap');
     const numbered=S.lists.filter(l=>l.numbered);
     if(nw)nw.innerHTML=numbered.map(l=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="font-size:11px;color:var(--txt2);min-width:140px">${esc(l.name)} #</span><input type="number" id="bun-${l.id}" min="1" max="${l.maxNum||999}" placeholder="1-${l.maxNum||999}" style="width:80px;padding:4px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none"><span style="font-size:11px;color:var(--txt3)">of ${l.maxNum||'?'}</span></div>`).join('');
-    // Populate link dropdowns
-    const noOpt='<option value="">-- None --</option>';
-    const goalSel=document.getElementById('bu-link-goal');
-    if(goalSel)goalSel.innerHTML=noOpt+S.items.filter(i=>i.type==='goal').sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(i=>`<option value="${i.id}">${esc((i.name||'Unnamed').slice(0,60))}</option>`).join('');
-    const projSel=document.getElementById('bu-link-project');
-    if(projSel)projSel.innerHTML=noOpt+S.items.filter(i=>i.type==='project').sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(i=>`<option value="${i.id}">${esc((i.name||'Unnamed').slice(0,60))}</option>`).join('');
-    const taskSel=document.getElementById('bu-link-task');
-    if(taskSel)taskSel.innerHTML=noOpt+S.items.filter(i=>i.type==='task').sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(i=>`<option value="${i.id}">${esc((i.name||'Unnamed').slice(0,60))}</option>`).join('');
+    // Populate link dropdown — all items
+    const buAny=document.getElementById('bu-link-any');
+    if(buAny)buAny.innerHTML=buildAllLinkOpts();
   }
   if(tab==='delete'){
     populateBulkDelItems();
   }
 }
 
+function buildAllLinkOpts(filter=''){
+  const types=['goal','project','task','ask','patch','course'];
+  const typeLabels={goal:'Goals',project:'Projects',task:'Tasks',ask:'Asks',patch:'Patches',course:'Courses'};
+  const q=filter.toLowerCase();
+  let html='<option value="">-- None --</option>';
+  types.forEach(type=>{
+    const items=S.items.filter(i=>i.type===type&&i.status!=='placeholder'&&(!q||(i.name||'').toLowerCase().includes(q))).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+    if(!items.length)return;
+    html+=`<optgroup label="${typeLabels[type]||type}">`;
+    html+=items.map(i=>`<option value="${i.id}">${esc((i.name||'Unnamed').slice(0,70))}</option>`).join('');
+    html+=`</optgroup>`;
+  });
+  return html;
+}
+function filterLinkSelect(selId,query){
+  const sel=document.getElementById(selId);
+  if(sel)sel.innerHTML=buildAllLinkOpts(query);
+}
+function applyLink(parentId,childItem){
+  if(!parentId||!childItem)return;
+  const parent=getItem(parentId);if(!parent)return;
+  // Add parent to child's linked arrays
+  if(parent.type==='goal'){if(!childItem.linkedGoals.includes(parentId))childItem.linkedGoals.push(parentId);}
+  else if(parent.type==='project'){if(!childItem.linkedProjects.includes(parentId))childItem.linkedProjects.push(parentId);}
+  else if(parent.type==='task'){if(!childItem.linkedTasks.includes(parentId))childItem.linkedTasks.push(parentId);}
+  else if(parent.type==='ask'){if(!childItem.linkedAsks)childItem.linkedAsks=[];if(!childItem.linkedAsks.includes(parentId))childItem.linkedAsks.push(parentId);}
+  else if(parent.type==='patch'){if(!childItem.linkedPatches)childItem.linkedPatches=[];if(!childItem.linkedPatches.includes(parentId))childItem.linkedPatches.push(parentId);}
+  // Add child to parent's linked arrays
+  if(childItem.type==='goal'){if(!parent.linkedGoals)parent.linkedGoals=[];if(!parent.linkedGoals.includes(childItem.id))parent.linkedGoals.push(childItem.id);}
+  else if(childItem.type==='project'){if(!parent.linkedProjects)parent.linkedProjects=[];if(!parent.linkedProjects.includes(childItem.id))parent.linkedProjects.push(childItem.id);}
+  else if(childItem.type==='task'){if(!parent.linkedTasks)parent.linkedTasks=[];if(!parent.linkedTasks.includes(childItem.id))parent.linkedTasks.push(childItem.id);}
+  else if(childItem.type==='ask'){if(!parent.linkedAsks)parent.linkedAsks=[];if(!parent.linkedAsks.includes(childItem.id))parent.linkedAsks.push(childItem.id);}
+  else if(childItem.type==='patch'){if(!parent.linkedPatches)parent.linkedPatches=[];if(!parent.linkedPatches.includes(childItem.id))parent.linkedPatches.push(childItem.id);}
+}
 function populateBulkUpdateItems(){
   const sel=document.getElementById('bu-items');if(!sel)return;
   const q=(document.getElementById('bu-search')?.value||'').toLowerCase();
@@ -3140,7 +3232,7 @@ function toggleBulkCatRemove(c,el){
 }
 function resetBulkForm(){
   bulkAddLists=[];bulkAddCats=[];bulkUpdateLists=[];bulkUpdateCats=[];bulkRemoveLists=[];bulkRemoveCats=[];
-  ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes','ba-est-mins','bu-name','bu-est-mins'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes','ba-est-mins','bu-name','bu-est-mins','ba-link-any','bu-link-any','ba-link-search','bu-link-search'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const prev=document.getElementById('bprev');if(prev)prev.innerHTML='';
   ['ba-type','ba-status','ba-effort','ba-start','ba-date','ba-resp-status','ba-ask-who','ba-ask-type','ba-ask-channel','ba-patch-diff','ba-patch-cat','ba-rotation-week','ba-seqnum-field','ba-course-num','ba-course-hrs','ba-course-sem','ba-course-year','ba-course-inst','ba-course-grade','ba-course-proctored','ba-course-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.lci.sel,.cci.sel').forEach(el=>{el.classList.remove('sel');el.style.background='';el.style.borderColor='';});
@@ -3200,6 +3292,9 @@ function saveBulk(){
       if(baWiabWeekly)item.isWeeklyFocus=true;
       if(baWiabDatenight)item.isDateNight=true;
       if(baWiabDatewith)item.dateWith=baWiabDatewith;
+      // LINKS
+      const baLinkAny=document.getElementById('ba-link-any')?.value||'';
+      if(baLinkAny)applyLink(baLinkAny,item);
       autoNumberItem(item);
       S.items.push(item);
     });
@@ -3274,12 +3369,8 @@ function saveBulk(){
         if(inp&&inp.value){if(!item.listNums)item.listNums={};item.listNums[l.id]=parseInt(inp.value);}
       });
       // Bulk link to goal/project/task
-      const linkGoal=document.getElementById('bu-link-goal')?.value||'';
-      const linkProj=document.getElementById('bu-link-project')?.value||'';
-      const linkTask=document.getElementById('bu-link-task')?.value||'';
-      if(linkGoal){const g=getItem(linkGoal);if(g){if(!item.linkedGoals.includes(linkGoal))item.linkedGoals.push(linkGoal);if(!g.linkedProjects)g.linkedProjects=[];if(!g.linkedTasks)g.linkedTasks=[];if(item.type==='project'&&!g.linkedProjects.includes(item.id))g.linkedProjects.push(item.id);if(item.type==='task'&&!g.linkedTasks.includes(item.id))g.linkedTasks.push(item.id);}}
-      if(linkProj){const p=getItem(linkProj);if(p){if(!item.linkedProjects.includes(linkProj))item.linkedProjects.push(linkProj);if(!p.linkedTasks)p.linkedTasks=[];if(item.type==='task'&&!p.linkedTasks.includes(item.id))p.linkedTasks.push(item.id);if(!p.linkedGoals)p.linkedGoals=[];(item.linkedGoals||[]).forEach(gid=>{if(!p.linkedGoals.includes(gid))p.linkedGoals.push(gid);});}}
-      if(linkTask){const t=getItem(linkTask);if(t){if(!item.linkedTasks.includes(linkTask))item.linkedTasks.push(linkTask);if(!t.linkedProjects)t.linkedProjects=[];if(item.type==='project'&&!t.linkedProjects.includes(item.id))t.linkedProjects.push(item.id);if(!t.linkedGoals)t.linkedGoals=[];(item.linkedGoals||[]).forEach(gid=>{if(!t.linkedGoals.includes(gid))t.linkedGoals.push(gid);});}}
+      const linkAny=document.getElementById("bu-link-any")?.value||"";
+      if(linkAny)applyLink(linkAny,item);
       // WIAB fields
       const _buThemeMonth=document.getElementById('bu-theme-month')?.value||'';
       if(_buThemeMonth==='__CLEAR__')item.themeMonth='';
@@ -3663,10 +3754,9 @@ function openBulkForList(){
 }
 function renderCardsSorted(list,containerId){
   const cont=document.getElementById(containerId);
+  if(!cont)return;
   if(!list.length){cont.innerHTML='<div class="empty"><p>No action items match your filters</p><small>Try adjusting the filters above</small></div>';return;}
-  // Render first 50 immediately, then append the rest in batches
-  const BATCH=50;
-  const renderBatch=(items)=>items.map(i=>{
+  cont.innerHTML=list.map(i=>{
     const d=daysUntil(i.date);const attn=needsAttn(i);
     const lP=(i.linkedProjects||[]).length,lT=(i.linkedTasks||[]).length,lG=(i.linkedGoals||[]).length;
     const listTags=(i.listIds||[]).map(lid=>{const l=S.lists.find(x=>x.id===lid);const n=getListNum(i,lid);return`<span class="list-tag"><span class="ld" style="background:${lColor(lid)}"></span>${esc(lName(lid))}${n?` <span style="font-size:9px;background:${lColor(lid)};color:#fff;padding:0 4px;border-radius:6px;font-weight:600">#${i.seqNum||n}${l&&l.maxNum?' of '+l.maxNum:''}</span>`:''}</span>`;}).join('');
@@ -3706,19 +3796,6 @@ function renderCardsSorted(list,containerId){
       </div>
     </div>`;
   }).join('');
-  cont.innerHTML=renderBatch(list.slice(0,BATCH));
-  if(list.length>BATCH){
-    let offset=BATCH;
-    const loadMore=()=>{
-      if(offset>=list.length)return;
-      const frag=document.createElement('div');
-      frag.innerHTML=renderBatch(list.slice(offset,offset+BATCH));
-      while(frag.firstChild)cont.appendChild(frag.firstChild);
-      offset+=BATCH;
-      if(offset<list.length)requestAnimationFrame(loadMore);
-    };
-    requestAnimationFrame(loadMore);
-  }
 }
 
 // TIMELINE
