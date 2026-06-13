@@ -106,6 +106,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .tb-ask{background:#FFF0F4;color:#C2185B}
 .tb-badge{background:#FDF0F5;color:#8b1a4a}
 .tb-course{background:#EEF2FF;color:#3730A3}
+.tb-content{background:#F5F3FF;color:#7C3AED}
 /* DAYS/STATUS */
 .db{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500}
 .db-over{background:#FCEBEB;color:#8B1A1A}
@@ -385,6 +386,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     </button>
     <button class="nb" id="nav-sprints" onclick="showPage('sprints',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V1M11 3V1M2 7h12"/><path d="M5.5 10l1.5 1.5L10 9"/></svg>Sprints
+    </button>
+    <button class="nb" id="nav-content" onclick="showPage('content',this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h4"/><circle cx="12" cy="12" r="3" fill="var(--teal)" stroke="none"/><path d="M11 12h2M12 11v2" stroke="#fff" stroke-width="1.2"/></svg>Content Planner
     </button>
   </div>
   <div class="sb-sec">
@@ -1220,6 +1224,27 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="sp-view-timeline" style="display:none"></div>
     </div>
 
+    <!-- CONTENT PLANNER PAGE -->
+    <div id="pg-content" style="display:none">
+      <div style="background:linear-gradient(135deg,#5B21B6,#7C3AED);border-radius:var(--rxl);padding:24px 28px 20px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">LLC Content Studio</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Content Planner</div>
+        <div style="font-size:12px;opacity:.75;font-style:italic">Pipeline · Series · Stats · Readiness</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+          <button onclick="showContentView('dashboard')" id="cv-tab-dash" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📊 Dashboard</button>
+          <button onclick="showContentView('pipeline')" id="cv-tab-pipe" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">🎬 Pipeline</button>
+          <button onclick="showContentView('table')" id="cv-tab-table" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📋 Table</button>
+          <button onclick="showContentView('series')" id="cv-tab-series" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📺 Series</button>
+          <button onclick="openModal(null,null,'content')" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;margin-left:auto">+ New Content</button>
+        </div>
+      </div>
+      <div id="cv-view-dashboard"></div>
+      <div id="cv-view-pipeline" style="display:none"></div>
+      <div id="cv-view-table" style="display:none"></div>
+      <div id="cv-view-series" style="display:none"></div>
+    </div>
+
     <!-- COUNTDOWNS PAGE -->
     <div id="pg-countdowns" style="display:none">
       <div style="background:linear-gradient(135deg,#1F2A44,#374163);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
@@ -1478,7 +1503,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <div id="btab-add-body">
       <div style="font-size:12px;color:var(--txt2);margin-bottom:14px;padding:8px 12px;background:var(--soft);border-radius:var(--r)">Set fields below. Paste item names one per line. All checked fields apply to every item added.</div>
       <div class="g3" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="content">Content</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="ba-status"><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort Level</label><select id="ba-effort"><option value="">-- None --</option><option value="easy">🟢 Easy (1pt)</option><option value="medium">🟠 Medium (3pts)</option><option value="hard">🔴 Hard (5pts)</option><option value="epic">⭐ Epic (10pts)</option><option value="legendary">👑 Legendary (15pts)</option><option value="ultimate">🔥 Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
@@ -1621,7 +1646,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <select id="bu-items" multiple style="height:160px;width:100%;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);padding:4px;outline:none;font-family:'DM Sans',sans-serif"></select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="content">Content</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="bu-status"><option value="">-- Keep --</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="done">Done</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort</label><select id="bu-effort"><option value="">-- Keep --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
@@ -1989,13 +2014,13 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   recalc();
   renderAll();
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
   localStorage.setItem(SK,payload);
 }
 
 async function driveSaveNow(){
   if(!gdriveToken||!gdriveFileId)return;
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
   try{
     await fetch(
       'https://www.googleapis.com/upload/drive/v3/files/'+gdriveFileId+'?uploadType=media',
@@ -2010,7 +2035,7 @@ async function driveSaveNow(){
 function driveSaveDebounced(){
   // Always save to localStorage immediately with timestamp
   try{
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
     localStorage.setItem(SK,payload);
   }catch(e){}
   if(!gdriveReady||!gdriveToken)return;
@@ -2056,7 +2081,7 @@ function restoreFromFile(){
 // Auto-backup every 2 minutes if data exists, also force Drive save
 setInterval(()=>{
   if(S.items&&S.items.length>0){
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
     localStorage.setItem(SK+'_autobak',payload);
     localStorage.setItem(SK+'_autobak_time',Date.now());
     if(gdriveReady&&gdriveToken)driveSaveNow();
@@ -2079,6 +2104,7 @@ function load(){
       if(p.rewards)S.rewards=p.rewards;
       if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
       if(p.hubDisplayWeek)S.hubDisplayWeek=p.hubDisplayWeek;
+      if(p.contentSeries)S.contentSeries=p.contentSeries;
       recalc();
       if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
     }
@@ -2097,20 +2123,31 @@ function load(){
 }
 function exportItemsExcel(){
   const items=S.items.filter(i=>i.status!=='placeholder');
-  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL'];
-  const rows=items.map(i=>[
-    i.seqNum||'',i.name||'',i.type||'',i.status||'',i.effort||'',
-    (i.listIds||[]).map(lid=>lName(lid)).join('; '),
-    (i.categories||[]).join('; '),
-    i.startDate||'',i.date||'',i.completedDate||'',
-    i.progress||0,
-    (i.linkedGoals||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-    (i.linkedProjects||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-    (i.linkedTasks||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-    (i.notes||'').replace(/\n/g,' '),
-    i.askType||'',i.askWho||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',
-    (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||''
-  ]);
+  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Stage','Platform(s)','Publish Date','Hook','CTA','Series','Doc Link','Readiness%','Views','Likes','Comments','Shares','Saves','Follows','Link Clicks'];
+  const rows=items.map(i=>{
+    const serName=(S.contentSeries||[]).find(s=>s.id===i.contentSeriesId)?.name||'';
+    const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+    const clTotal=CLENS[i.contentType]||0;
+    const clDone=(i.contentChecklist||[]).length;
+    const readyPct=clTotal>0?Math.round(clDone/clTotal*100):0;
+    return[
+      i.seqNum||'',i.name||'',i.type||'',i.status||'',i.effort||'',
+      (i.listIds||[]).map(lid=>lName(lid)).join('; '),
+      (i.categories||[]).join('; '),
+      i.startDate||'',i.date||'',i.completedDate||'',
+      i.progress||0,
+      (i.linkedGoals||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+      (i.linkedProjects||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+      (i.linkedTasks||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+      (i.notes||'').replace(/\n/g,' '),
+      i.askType||'',i.askWho||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',
+      (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||'',
+      i.contentType||'',i.contentStage||'',(i.contentPlatforms||[]).join('; '),
+      i.contentPublishDate||'',i.contentHook||'',i.contentCta||'',serName,i.contentDocUrl||'',
+      i.type==='content'?readyPct+'%':'',
+      i.statViews||'',i.statLikes||'',i.statComments||'',i.statShares||'',i.statSaves||'',i.statFollows||'',i.statClicks||''
+    ];
+  });
   const csv=[headers,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const bom='﻿';
   const b=new Blob([bom+csv],{type:'text/csv;charset=utf-8'});
@@ -2146,7 +2183,7 @@ function daysTag(d,status){
 function pColor(p){return p>=80?'#63C76C':p>=50?'#0FA3A3':p>=25?'#EF9F27':'#D0D0DC'}
 function sCls(s){return{notstarted:'s-notstarted',planned:'s-planned',someday:'s-planned',inprogress:'s-inprogress',behind:'s-behind',done:'s-done'}[s]||'s-notstarted'}
 function sBadge(s){const m={notstarted:['sb-ns','Not Started'],planned:['sb-plan','Planned'],someday:['sb-ns','Someday'],inprogress:['sb-prog','In Progress'],behind:['sb-beh','Behind'],done:['sb-done','Done']};const[c,l]=m[s]||m.notstarted;return`<span class="sb2 ${c}">${l}</span>`;}
-function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch'],course:['tb-course','Course']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
+function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch'],course:['tb-course','Course'],content:['tb-content','Content']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
 function lName(id){return(S.lists.find(l=>l.id===id)||{name:'?'}).name}
 function lColor(id){return(S.lists.find(l=>l.id===id)||{color:'#888'}).color}
 function getItem(id){return S.items.find(x=>x.id===id)}
@@ -2376,9 +2413,12 @@ function openModal(clId,text,type,itemId){
     linkedTasks:(item?.linkedTasks||[]).slice(),
     linkedAsks:(item?.linkedAsks||[]).slice(),
     linkedPatches:((item?.linkedPatches||item?.linkedBadges)||[]).slice(),
+    linkedContent:(item?.linkedContent||[]).slice(),
     listIds:(item?.listIds||[]).slice(),
     categories:(item?.categories||[]).slice()
   };
+  // Auto-default Content & Digital category for new content items
+  if(t==='content'&&!item&&!ML.categories.includes('Content & Digital')){ML.categories.push('Content & Digital');}
   document.getElementById('m-title').textContent=item?'Edit Action Item':'Add Action Item';
   document.getElementById('m-del').style.display=item?'inline-flex':'none';
   renderModalBody(t,item,text);
@@ -2388,7 +2428,7 @@ function openModal(clId,text,type,itemId){
 function closeModal(){document.getElementById('item-modal').style.display='none';S.editId=null;S.pendingClId=null;ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],listIds:[],categories:[]};}
 
 function renderModalBody(type,item,prefill){
-  const typeOpts=[['ask','Ask'],['course','Course'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
+  const typeOpts=[['ask','Ask'],['content','Content'],['course','Course'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
   const statOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']].map(([v,l])=>`<option value="${v}"${item&&item.status===v?' selected':''}>${l}</option>`).join('');
   const effortOpts=(sel)=>[['','-- Select --'],['easy','&#128994; Easy (1 pt)'],['medium','&#128992; Medium (3 pts)'],['hard','&#128308; Hard (5 pts)'],['epic','&#11088; Epic (10 pts)'],['legendary','&#128081; Legendary (15 pts)'],['ultimate','&#128293; Ultimate (20 pts)'],['mythic','&#9889; Mythic (30 pts)'],['elite','&#128142; Elite (40 pts)'],['master','&#128737;&#65039; Master (50 pts)'],['titan','&#128009; Titan (60 pts)'],['cosmic','&#127756; Cosmic (70 pts)'],['immortal','&#128081; Immortal (80 pts)'],['ascended','&#128640; Ascended (90 pts)'],['transcendent','&#127942; Transcendent (100 pts)']].map(([v,l])=>`<option value="${v}"${sel===v?' selected':''} >${l}</option>`).join('');
   const listChecks=`<div>
@@ -2633,10 +2673,116 @@ function renderModalBody(type,item,prefill){
       </div>
       ${listNumFields?`<div class="field" style="margin-bottom:0"><label>List Sequence #s</label>${listNumFields}</div>`:''}
     </div>`;
+  } else if(type==='content'){
+    const CONTENT_TYPES=['Blog Post','Carousel','Live','Newsletter','Podcast','Reel','Short Video','Story','Thread','TikTok','YouTube Video'];
+    const PLATFORMS=['Email List','Facebook','Instagram','LinkedIn','Pinterest','Podcast Host','TikTok','Website','X/Twitter','YouTube'];
+    const CONTENT_STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
+    const CONTENT_DURATIONS={Blog_Post:14,Carousel:10,Live:5,Newsletter:10,Podcast:14,Reel:7,Short_Video:7,Story:2,Thread:4,TikTok:7,YouTube_Video:21};
+    const CONTENT_CHECKLISTS={
+      'Reel':['Hook written','Script finalized','Filmed (multiple takes)','B-roll gathered','Edited','Captions added','Cover image selected','Audio/music cleared','Caption + hashtags written','Scheduled in app'],
+      'TikTok':['Hook written','Script/outline done','Filmed','Edited','Text overlays added','Sound selected','Caption + hashtags written','Duet/Stitch settings checked','Scheduled'],
+      'Story':['Concept decided','Text/graphics laid out','Designed in Canva or native','CTA or link added','Scheduled'],
+      'Carousel':['Topic & angle decided','Outline created (per slide)','Copy written per slide','Slides designed','CTA slide added','Cover slide optimized','Proofread','Exported','Caption + hashtags written','Scheduled'],
+      'Thread':['Hook post written','All posts drafted','Flow reviewed','Images/media added','CTA final post written','Proofread','Scheduled'],
+      'Blog Post':['Topic & keyword researched','Outline approved','First draft written','SEO title & meta written','Internal links added','Images sourced','Proofread','Formatted in CMS','Published','Repurpose plan noted'],
+      'Newsletter':['Subject line written','Preview text written','Body drafted','Links checked','Images added','Proofread','Audience segmented','Test send reviewed','Scheduled','Sent'],
+      'YouTube Video':['Topic & thumbnail concept decided','Script written','Filmed','Edited','Thumbnail designed','Title & description written','Tags added','End screen set','Scheduled','Published'],
+      'Podcast':['Topic & guest confirmed','Outline/questions prepared','Recorded','Edited','Show notes written','Transcript created','Cover art ready','Uploaded to host','Distributed','Promoted on socials'],
+      'Live':['Topic & format decided','Outline & talking points ready','Tech setup tested','Promoted ahead of time','Live delivered','Replay saved/posted'],
+      'Short Video':['Hook written','Script finalized','Filmed','Edited','Captions added','Cover image selected','Caption + hashtags written','Scheduled']
+    };
+    const curType=item?.contentType||'';
+    const curStage=item?.contentStage||'idea';
+    const curPlatforms=item?.contentPlatforms||[];
+    const curChecklist=item?.contentChecklist||[];
+    const isPublished=curStage==='published';
+    const stageIdx=CONTENT_STAGES.findIndex(s=>s[0]===curStage);
+    const showChecklist=stageIdx>0; // show after Idea
+    const checklistItems=curType&&CONTENT_CHECKLISTS[curType]?CONTENT_CHECKLISTS[curType]:[];
+    const checklistHtml=showChecklist&&checklistItems.length?checklistItems.map((ci,idx)=>{
+      const checked=(curChecklist||[]).includes(idx);
+      const doneCount=(curChecklist||[]).length;
+      return`<label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txt);cursor:pointer;padding:3px 0"><input type="checkbox" ${checked?'checked':''} onchange="toggleContentCheck(${idx})" style="accent-color:var(--teal);cursor:pointer"><span style="${checked?'text-decoration:line-through;color:var(--txt3)':''}">${ci}</span></label>`;
+    }).join(''):'';
+    const doneCount=curChecklist.length;
+    const totalCount=checklistItems.length;
+    const readyPct=totalCount>0?Math.round(doneCount/totalCount*100):0;
+    const platformChips=curPlatforms.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+    const seriesList=S.contentSeries||[];
+    const seriesOpts=[`<option value="">— No Series —`,...seriesList.map(s=>`<option value="${s.id}"${item?.contentSeriesId===s.id?' selected':''}>${esc(s.name)}</option>`)].join('');
+    html+=`<div class="type-widget" style="border-color:#7C3AED;background:rgba(124,58,237,.04)">
+      <div class="type-widget-head"><span class="type-widget-ttl" style="color:#7C3AED">🎬 Content Details</span></div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Content Type <span class="req">*</span></label>
+          <select id="m-content-type" onchange="onContentTypeChg(this.value)" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
+            <option value="">— Select Type —</option>
+            ${CONTENT_TYPES.map(t=>`<option value="${t}"${curType===t?' selected':''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field" style="margin:0"><label>Content Stage</label>
+          <select id="m-content-stage" onchange="onContentStageChg(this.value)" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
+            ${CONTENT_STAGES.map(([v,l])=>`<option value="${v}"${curStage===v?' selected':''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Platform(s)</label>
+        <select onchange="addContentPlatform(this.value);this.value=''" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:6px">
+          <option value="">— Add Platform —</option>
+          ${PLATFORMS.map(p=>`<option value="${p}">${p}</option>`).join('')}
+        </select>
+        <div id="content-platform-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${platformChips}</div>
+        <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(curPlatforms))}">
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Hook / Headline</label><input id="m-content-hook" value="${esc(item?.contentHook||'')}" placeholder="What's the core hook?"></div>
+        <div class="field" style="margin:0"><label>CTA</label><input id="m-content-cta" value="${esc(item?.contentCta||'')}" placeholder="Desired audience action..."></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Publish Date</label><input id="m-content-publish-date" type="date" value="${esc(item?.contentPublishDate||'')}"></div>
+        <div class="field" style="margin:0"><label>Series</label><select id="m-content-series" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select></div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Google Doc Link</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input id="m-content-doc" type="url" value="${esc(item?.contentDocUrl||'')}" placeholder="https://docs.google.com/..." style="flex:1">
+          ${item?.contentDocUrl?`<a href="${esc(item.contentDocUrl)}" target="_blank" class="btn xs primary" style="text-decoration:none">Open Doc ↗</a>`:''}
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Repurpose From <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional — link source content)</span></label>
+        <div class="lf-wrap"><input class="lf-inp" type="text" id="lfs-content" placeholder="Search content items..." oninput="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)"><div class="lf-dd" id="ldd-content"></div></div>
+        <div class="lf-chips" id="lfc-content">${(ML.linkedContent||[]).map(id=>{const it=getItem(id);return it?`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="ML.linkedContent=ML.linkedContent.filter(x=>x!=='${id}');document.getElementById('lfc-content').innerHTML='';renderLinkedContentChips()">×</button></span>`:''}).join('')}</div>
+      </div>
+      ${showChecklist&&checklistItems.length?`
+      <div style="background:var(--soft);border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#7C3AED">📋 Content Readiness</span>
+          <span style="font-size:12px;font-weight:700;color:${readyPct===100?'#059669':'#7C3AED'}">${readyPct}%</span>
+        </div>
+        <div style="height:4px;background:var(--bdr);border-radius:2px;margin-bottom:10px"><div style="height:100%;width:${readyPct}%;background:#7C3AED;border-radius:2px;transition:width .3s"></div></div>
+        <div id="content-checklist-items">${checklistHtml}</div>
+        <input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(curChecklist))}">
+      </div>`:'<input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(curChecklist))}">'}
+      ${isPublished?`
+      <div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(15,163,163,.06));border:1px solid rgba(124,58,237,.2);border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#7C3AED;margin-bottom:10px">📊 Post Stats <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">— updated ${esc(item?.statsUpdated||'never')}</span></div>
+        <div class="g3" style="margin-bottom:8px">
+          <div class="field" style="margin:0"><label>👁️ Views/Plays</label><input id="m-stat-views" type="number" min="0" value="${esc(item?.statViews||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+          <div class="field" style="margin:0"><label>❤️ Likes</label><input id="m-stat-likes" type="number" min="0" value="${esc(item?.statLikes||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+          <div class="field" style="margin:0"><label>💬 Comments</label><input id="m-stat-comments" type="number" min="0" value="${esc(item?.statComments||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+        </div>
+        <div class="g3">
+          <div class="field" style="margin:0"><label>🔁 Shares</label><input id="m-stat-shares" type="number" min="0" value="${esc(item?.statShares||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+          <div class="field" style="margin:0"><label>🔖 Saves</label><input id="m-stat-saves" type="number" min="0" value="${esc(item?.statSaves||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+          <div class="field" style="margin:0"><label>👥 Follows</label><input id="m-stat-follows" type="number" min="0" value="${esc(item?.statFollows||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+        </div>
+        <div class="field" style="margin-top:8px;margin-bottom:0"><label>🔗 Link Clicks / CTA</label><input id="m-stat-clicks" type="number" min="0" value="${esc(item?.statClicks||'')}" placeholder="0" oninput="updateStatsTs()"></div>
+        <input type="hidden" id="m-stats-updated" value="${esc(item?.statsUpdated||'')}">
+      </div>`:'<input type="hidden" id="m-stat-views" value=""><input type="hidden" id="m-stat-likes" value=""><input type="hidden" id="m-stat-comments" value=""><input type="hidden" id="m-stat-shares" value=""><input type="hidden" id="m-stat-saves" value=""><input type="hidden" id="m-stat-follows" value=""><input type="hidden" id="m-stat-clicks" value=""><input type="hidden" id="m-stats-updated" value="">'}
+    </div>`;
   }
 
   if(type!=='patch'){html+=`<input type="hidden" id="m-challenge" value="${esc(item?.challengeDetails||'')}"><input type="hidden" id="m-badge-url" value="${esc(item?.badgeUrl||'')}">`;}
-  if(type!=='course'){html+=`<input type="hidden" id="m-course-num" value="${esc(item?.courseNum||'')}"><input type="hidden" id="m-course-hrs" value="${esc(item?.courseHours||'')}"><input type="hidden" id="m-course-sem" value="${esc(item?.courseSemester||'')}"><input type="hidden" id="m-course-year" value="${esc(item?.courseYear||'')}"><input type="hidden" id="m-course-inst" value="${esc(item?.courseInstitution||'')}"><input type="hidden" id="m-course-grade" value="${esc(item?.courseGrade||'')}"><input type="hidden" id="m-course-proctored" value="${esc(item?.courseProctored||'')}"><input type="hidden" id="m-course-status" value="${esc(item?.courseStatus||'')}"><input type="hidden" id="m-course-desc" value="${esc(item?.courseDesc||'')}"><input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(item?.courseCategory||[]))}"><input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(item?.courseDepartment||[]))}"><input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(item?.courseTransfer||[]))}">`;}  // WIAB hidden fallbacks
+  if(type!=='course'){html+=`<input type="hidden" id="m-course-num" value="${esc(item?.courseNum||'')}"><input type="hidden" id="m-course-hrs" value="${esc(item?.courseHours||'')}"><input type="hidden" id="m-course-sem" value="${esc(item?.courseSemester||'')}"><input type="hidden" id="m-course-year" value="${esc(item?.courseYear||'')}"><input type="hidden" id="m-course-inst" value="${esc(item?.courseInstitution||'')}"><input type="hidden" id="m-course-grade" value="${esc(item?.courseGrade||'')}"><input type="hidden" id="m-course-proctored" value="${esc(item?.courseProctored||'')}"><input type="hidden" id="m-course-status" value="${esc(item?.courseStatus||'')}"><input type="hidden" id="m-course-desc" value="${esc(item?.courseDesc||'')}"><input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(item?.courseCategory||[]))}"><input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(item?.courseDepartment||[]))}"><input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(item?.courseTransfer||[]))}">`;}
+  if(type!=='content'){html+=`<input type="hidden" id="m-content-type" value="${esc(item?.contentType||'')}"><input type="hidden" id="m-content-stage" value="${esc(item?.contentStage||'idea')}"><input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(item?.contentPlatforms||[]))}"><input type="hidden" id="m-content-hook" value="${esc(item?.contentHook||'')}"><input type="hidden" id="m-content-cta" value="${esc(item?.contentCta||'')}"><input type="hidden" id="m-content-publish-date" value="${esc(item?.contentPublishDate||'')}"><input type="hidden" id="m-content-series" value="${esc(item?.contentSeriesId||'')}"><input type="hidden" id="m-content-doc" value="${esc(item?.contentDocUrl||'')}"><input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(item?.contentChecklist||[]))}"><input type="hidden" id="m-stat-views" value="${esc(item?.statViews||'')}"><input type="hidden" id="m-stat-likes" value="${esc(item?.statLikes||'')}"><input type="hidden" id="m-stat-comments" value="${esc(item?.statComments||'')}"><input type="hidden" id="m-stat-shares" value="${esc(item?.statShares||'')}"><input type="hidden" id="m-stat-saves" value="${esc(item?.statSaves||'')}"><input type="hidden" id="m-stat-follows" value="${esc(item?.statFollows||'')}"><input type="hidden" id="m-stat-clicks" value="${esc(item?.statClicks||'')}"><input type="hidden" id="m-stats-updated" value="${esc(item?.statsUpdated||'')}">`;}
   if(!_wiabOpen){html+=`<input type="hidden" id="m-theme-month" value="${esc(item?.themeMonth||'')}"><input type="hidden" id="m-theme-name" value="${esc(item?.themeName||'')}"><input type="hidden" id="m-wiab"><input type="hidden" id="m-is-selfcare"><input type="hidden" id="m-is-weeklyfocus"><input type="hidden" id="m-is-datenight"><input type="hidden" id="m-date-with" value="${esc(item?.dateWith||'')}">`;}
 
   // LINKED ITEMS (collapsible)
@@ -2648,6 +2794,8 @@ function renderModalBody(type,item,prefill){
   if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedTasks.length} linked</span></label>${buildLF('task',ML.linkedTasks)}</div>`;}
   if(type==='goal'||type==='project'||type==='task'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
   if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
+  if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Content <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedContent||[]).length} linked</span></label>${buildLF('content',ML.linkedContent||[])}</div>`;}
+  if(type==='content'){ML.linkedContent=ML.linkedContent||[];}
   html+=`<div class="linked-section" style="margin-bottom:13px">
     <button class="linked-toggle" type="button" onclick="toggleLinkedSection(this)">
       <span class="linked-toggle-lbl">🔗 Linked Items</span>
@@ -2824,13 +2972,145 @@ function addCustomCategory(){
   refreshCatTags();
   updatePatchFieldsVisibility();
 }
-function switchType(){const t=document.getElementById('m-type')?.value;if(!t)return;const item=S.editId?getItem(S.editId):null;renderModalBody(t,item,document.getElementById('m-name')?.value);}
+function switchType(){
+  const t=document.getElementById('m-type')?.value;if(!t)return;
+  const item=S.editId?getItem(S.editId):null;
+  renderModalBody(t,item,document.getElementById('m-name')?.value);
+  // Auto-set category to Content & Digital and default duration when type=content
+  if(t==='content'){
+    if(!ML.categories.includes('Content & Digital')){ML.categories.push('Content & Digital');refreshCatTags();}
+  }
+}
+const CONTENT_DURATIONS_MAP={'Blog Post':14,'Carousel':10,'Live':5,'Newsletter':10,'Podcast':14,'Reel':7,'Short Video':7,'Story':2,'Thread':4,'TikTok':7,'YouTube Video':21};
+const CONTENT_DEFAULT_PLATFORMS={'Reel':['Instagram'],'TikTok':['TikTok'],'Story':['Instagram'],'Carousel':['Instagram','LinkedIn'],'Thread':['X/Twitter'],'Blog Post':['Website'],'Newsletter':['Email List'],'YouTube Video':['YouTube'],'Podcast':['Podcast Host'],'Live':['Instagram','YouTube'],'Short Video':['Instagram','TikTok']};
+function onContentTypeChg(val){
+  // Auto-populate platforms if none selected yet
+  const platEl=document.getElementById('m-content-platforms');
+  if(platEl){
+    let cur=JSON.parse(platEl.value||'[]');
+    const defaults=CONTENT_DEFAULT_PLATFORMS[val]||[];
+    if(cur.length===0&&defaults.length){
+      cur=defaults;
+      platEl.value=JSON.stringify(cur);
+      const chips=document.getElementById('content-platform-chips');
+      if(chips)chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+    }
+  }
+  // Set default duration
+  const dur=CONTENT_DURATIONS_MAP[val];
+  if(dur){
+    const durEl=document.getElementById('m-duration');
+    if(durEl&&!durEl.value)durEl.value=dur;
+    // If start date set, cascade to TCD
+    const startEl=document.getElementById('m-start');
+    const tcdEl=document.getElementById('m-date');
+    if(startEl?.value&&!tcdEl?.value&&tcdEl){tcdEl.value=addDays(startEl.value,dur);updateDurationPreview();}
+  }
+  // Re-render modal to update checklist
+  const item=S.editId?getItem(S.editId):null;
+  const name=document.getElementById('m-name')?.value||'';
+  const stage=document.getElementById('m-content-stage')?.value||'idea';
+  const platforms=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');
+  const checklist=JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');
+  // patch item temporarily for re-render
+  const tempItem={...(item||{}),contentType:val,contentStage:stage,contentPlatforms:platforms,contentChecklist:checklist,
+    contentHook:document.getElementById('m-content-hook')?.value||'',
+    contentCta:document.getElementById('m-content-cta')?.value||'',
+    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
+    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
+    contentSeriesId:document.getElementById('m-content-series')?.value||''};
+  renderModalBody('content',tempItem,name);
+}
+function onContentStageChg(stage){
+  // Auto-map stage to status
+  const s=document.getElementById('m-status');
+  if(s){
+    const map={idea:'notstarted',scripted:'inprogress',filmed:'inprogress',edited:'inprogress',scheduled:'planned',published:'done'};
+    s.value=map[stage]||'notstarted';
+  }
+  // Re-render to show/hide checklist and stats
+  const item=S.editId?getItem(S.editId):null;
+  const name=document.getElementById('m-name')?.value||'';
+  const ct=document.getElementById('m-content-type')?.value||'';
+  const platforms=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');
+  const checklist=JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');
+  const tempItem={...(item||{}),contentType:ct,contentStage:stage,contentPlatforms:platforms,contentChecklist:checklist,
+    contentHook:document.getElementById('m-content-hook')?.value||'',
+    contentCta:document.getElementById('m-content-cta')?.value||'',
+    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
+    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
+    contentSeriesId:document.getElementById('m-content-series')?.value||''};
+  renderModalBody('content',tempItem,name);
+}
+function toggleContentCheck(idx){
+  const el=document.getElementById('m-content-checklist');if(!el)return;
+  let cur=JSON.parse(el.value||'[]');
+  if(cur.includes(idx))cur=cur.filter(x=>x!==idx);else cur.push(idx);
+  el.value=JSON.stringify(cur);
+  // Update readiness % live
+  const ct=document.getElementById('m-content-type')?.value||'';
+  const CONTENT_CHECKLISTS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+  const total=CONTENT_CHECKLISTS[ct]||0;
+  const pct=total>0?Math.round(cur.length/total*100):0;
+  document.querySelectorAll('.type-widget [style*="7C3AED"][style*="font-weight:700"]').forEach(el=>el.textContent=pct+'%');
+  // Update bar
+  document.querySelectorAll('.type-widget [style*="width:"][style*="background:#7C3AED"]').forEach(el=>el.style.width=pct+'%');
+  // Update strikethrough on label
+  const labels=document.querySelectorAll('#content-checklist-items label');
+  labels.forEach((lbl,i)=>{const span=lbl.querySelector('span');if(span)span.style.textDecoration=cur.includes(i)?'line-through':'';if(span)span.style.color=cur.includes(i)?'var(--txt3)':'';});
+}
+function addContentPlatform(val){
+  if(!val)return;
+  const el=document.getElementById('m-content-platforms');if(!el)return;
+  let cur=JSON.parse(el.value||'[]');
+  if(!cur.includes(val)){cur.push(val);el.value=JSON.stringify(cur);}
+  const chips=document.getElementById('content-platform-chips');if(!chips)return;
+  chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+}
+function removeContentPlatform(val){
+  const el=document.getElementById('m-content-platforms');if(!el)return;
+  let cur=JSON.parse(el.value||'[]');
+  cur=cur.filter(x=>x!==val);el.value=JSON.stringify(cur);
+  const chips=document.getElementById('content-platform-chips');if(!chips)return;
+  chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+}
+function updateStatsTs(){document.getElementById('m-stats-updated').value=today();}
+// Content Series Management
+function openSeriesManager(){
+  const s=S.contentSeries||[];
+  const html=`<div style="padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:12px">📺 Content Series</div>
+  <div style="margin-bottom:10px">${s.map(ser=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--soft);border-radius:var(--r);margin-bottom:5px">
+    <span style="width:8px;height:8px;border-radius:50%;background:${ser.color};flex-shrink:0"></span>
+    <span style="flex:1;font-size:13px">${esc(ser.name)}</span>
+    <span style="font-size:11px;color:var(--txt2)">${S.items.filter(i=>i.contentSeriesId===ser.id).length} pieces</span>
+    <button class="btn xs ghost danger" onclick="deleteSeries('${ser.id}')">×</button>
+  </div>`).join('')||'<div style="font-size:12px;color:var(--txt3);padding:8px">No series yet</div>'}</div>
+  <div style="display:flex;gap:6px">
+    <input id="new-series-name" placeholder="Series name..." style="flex:1;padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
+    <button class="btn primary sm" onclick="addSeries()">+ Add</button>
+  </div></div>`;
+  document.getElementById('dash-panel').innerHTML=html;
+}
+function addSeries(){
+  const name=(document.getElementById('new-series-name')?.value||'').trim();if(!name)return;
+  if(!S.contentSeries)S.contentSeries=[];
+  const colors=['#7C3AED','#0FA3A3','#F63E73','#F59E0B','#3B82F6','#10B981'];
+  S.contentSeries.push({id:uid(),name,color:colors[S.contentSeries.length%colors.length],status:'active',created:Date.now()});
+  save();openSeriesManager();
+}
+function deleteSeries(id){
+  if(!confirm('Delete this series?'))return;
+  S.contentSeries=(S.contentSeries||[]).filter(s=>s.id!==id);
+  S.items.forEach(i=>{if(i.contentSeriesId===id)i.contentSeriesId='';});
+  save();openSeriesManager();
+}
 function addDays(dateStr,days){const d=new Date(dateStr+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
 function subDays(dateStr,days){return addDays(dateStr,-days);}
 function onDateChg(){
   const d=document.getElementById('m-date')?.value;
   const s=document.getElementById('m-status');
-  if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
+  const t=document.getElementById('m-type')?.value;
+  if(d&&s&&t!=='content'){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
   const durEl=document.getElementById('m-duration');
   const startEl=document.getElementById('m-start');
   if(d&&durEl&&durEl.value!==''&&!startEl?.value){
@@ -2843,7 +3123,8 @@ function onDateChg(){
 function onStartChg(){
   const d=document.getElementById('m-start')?.value;
   const s=document.getElementById('m-status');
-  if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
+  const t=document.getElementById('m-type')?.value;
+  if(d&&s&&t!=='content'&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
   const star=document.getElementById('m-mins-req-star');
   if(star)star.style.display=d?'inline':'none';
   const durEl=document.getElementById('m-duration');
@@ -2892,7 +3173,7 @@ function buildLF(linkType,linkedIds){
 }
 function showLDD(type,q){
   const dd=document.getElementById('ldd-'+type);if(!dd)return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[])];
   const existing=type==='any'?allLinked:(ML[keyMap[type]]||[]);
   const results=S.items.filter(i=>
@@ -2907,18 +3188,18 @@ function showLDD(type,q){
 }
 function hideLDD(type){const dd=document.getElementById('ldd-'+type);if(dd)dd.style.display='none';}
 function addLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   if(!ML[keyMap[type]].includes(id))ML[keyMap[type]].push(id);
   const inp=document.getElementById('lfs-'+type);if(inp)inp.value='';
   hideLDD(type);refreshChips(type);
 }
 function removeLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   ML[keyMap[type]]=ML[keyMap[type]].filter(x=>x!==id);refreshChips(type);
 }
 function refreshChips(type){
   if(type==='any')return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   const cont=document.getElementById('lfc-'+type);if(!cont)return;
   cont.innerHTML=ML[keyMap[type]].map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${type}','${id}')">&#x00D7;</button></span>`;}).join('');
   const lbl=cont.closest('.field')?.querySelector('label span');if(lbl)lbl.textContent=`${ML[keyMap[type]].length} linked`;
@@ -3053,6 +3334,23 @@ function saveItem(){
     pinnedSticky:document.getElementById('m-pinned-sticky')?.checked||false,
     estimatedMins:parseInt(document.getElementById('m-est-mins')?.value||0)||0,
     duration:(()=>{const v=document.getElementById('m-duration')?.value;return v!==''&&v!=null?parseInt(v):null;})(),
+    contentType:document.getElementById('m-content-type')?.value||'',
+    contentStage:document.getElementById('m-content-stage')?.value||'idea',
+    contentPlatforms:(()=>{try{return JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{return [];}})(),
+    contentHook:document.getElementById('m-content-hook')?.value||'',
+    contentCta:document.getElementById('m-content-cta')?.value||'',
+    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
+    contentSeriesId:document.getElementById('m-content-series')?.value||'',
+    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
+    contentChecklist:(()=>{try{return JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');}catch{return [];}})(),
+    statViews:document.getElementById('m-stat-views')?.value||'',
+    statLikes:document.getElementById('m-stat-likes')?.value||'',
+    statComments:document.getElementById('m-stat-comments')?.value||'',
+    statShares:document.getElementById('m-stat-shares')?.value||'',
+    statSaves:document.getElementById('m-stat-saves')?.value||'',
+    statFollows:document.getElementById('m-stat-follows')?.value||'',
+    statClicks:document.getElementById('m-stat-clicks')?.value||'',
+    statsUpdated:document.getElementById('m-stats-updated')?.value||'',
     created:S.editId?(getItem(S.editId)||{}).created||Date.now():Date.now()
   });
   doSave(obj);
@@ -3432,6 +3730,7 @@ function applyFilter(items,f){
     if(f==='patch')return i.type==='patch';
     if(f==='project')return i.type==='project';
     if(f==='task')return i.type==='task';
+    if(f==='content')return i.type==='content';
     if(f==='notstarted')return i.status==='notstarted';
     if(f==='inprogress')return i.status==='inprogress';
     if(f==='planned')return i.status==='planned';
@@ -3833,7 +4132,7 @@ function openListDetail(listId){
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
   const cnt=f=>applyFilter(li,f).length;
   const isNos=listId==='nos';
-  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['patch','Patches'],
+  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['patch','Patches'],
     ['notstarted','Not Started'],['inprogress','In Progress'],['planned','Planned'],['behind','Behind'],['done','Done'],['attention','Needs Attention']];
   const nosFilters=[['all','All'],['ask','All Asks'],['inprogress','In Progress'],['done','Done'],
     ...[['pending','⏳ Pending Response'],['yes','✅ Yes'],['no','❌ No']].map(([v,l])=>[v+'-resp',l])];
@@ -3932,7 +4231,7 @@ function renderListDetail(){
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:160px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['content','Content'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Ask —'],['ask','Ask'],['application','Application'],['boundary','Boundary'],['invite','Invite'],['pitch','Pitch'],['publish','Publish']],i.askType||'',`inlineField('${i.id}','askType',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${inp(i.askWho||'',`inlineField('${i.id}','askWho',this.value)`,'Who...')}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Channel —'],['email','📧 Email'],['dm','💬 DM'],['inperson','🤝 In-Person'],['text','📱 Text'],['call','📞 Call'],['form','📋 Form']],i.askChannel||'',`inlineField('${i.id}','askChannel',this.value)`)}</td>
@@ -3980,7 +4279,7 @@ function renderListDetail(){
     return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()" style="width:48px">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:260px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['content','Content'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)'],['mythic','⚡ Mythic (30pts)'],['elite','💎 Elite (40pts)'],['master','🛡️ Master (50pts)'],['titan','🐉 Titan (60pts)'],['cosmic','🌌 Cosmic (70pts)'],['immortal','👑 Immortal (80pts)'],['ascended','🚀 Ascended (90pts)'],['transcendent','🏆 Transcendent (100pts)']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.startDate,`inlineField('${i.id}','startDate',this.value)`)}</td>
@@ -4324,12 +4623,12 @@ function goToList(id){
 
 // NAV
 function showPage(page,btn){
-  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
+  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints','content'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   if(page==='wiab')renderWIABPage();
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner'};
+  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='lists')renderLists();
@@ -4344,6 +4643,7 @@ function showPage(page,btn){
   if(page==='finance')renderFinance();
   if(page==='countdowns')renderCountdowns();
   if(page==='sprints')renderSprints();
+  if(page==='content'){showContentView('dashboard');}
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
@@ -6352,6 +6652,242 @@ function showSprintView(view){
 }
 
 function renderSprints(){showSprintView(spActiveView);}
+
+// ══════════════════════════════════════════════════════════════════
+// CONTENT PLANNER
+// ══════════════════════════════════════════════════════════════════
+let cvActiveView='dashboard';
+function showContentView(view){
+  cvActiveView=view;
+  ['dashboard','pipeline','table','series'].forEach(v=>{
+    const el=document.getElementById('cv-view-'+v);if(el)el.style.display=v===view?'block':'none';
+  });
+  document.querySelectorAll('[id^="cv-tab-"]').forEach(b=>{
+    b.style.background=b.id==='cv-tab-'+view.slice(0,4)?'rgba(255,255,255,.2)':'transparent';
+    b.style.borderColor=b.id==='cv-tab-'+view.slice(0,4)?'rgba(255,255,255,.6)':'rgba(255,255,255,.3)';
+    b.style.fontWeight=b.id==='cv-tab-'+view.slice(0,4)?'600':'400';
+  });
+  if(view==='dashboard')renderContentDashboard();
+  if(view==='pipeline')renderContentPipeline();
+  if(view==='table')renderContentTable();
+  if(view==='series')renderContentSeries();
+}
+
+function getContentItems(){return S.items.filter(i=>i.type==='content');}
+
+function renderContentDashboard(){
+  const el=document.getElementById('cv-view-dashboard');if(!el)return;
+  const all=getContentItems();
+  const published=all.filter(i=>i.contentStage==='published');
+  const inPipeline=all.filter(i=>i.contentStage!=='published');
+  const thisMonth=published.filter(i=>{const d=i.contentPublishDate||i.completedDate||'';return d.startsWith(today().slice(0,7));});
+  const STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
+  const stageCounts=STAGES.map(([k,l])=>({key:k,label:l,count:all.filter(i=>i.contentStage===k).length}));
+  // By type
+  const byType={};all.forEach(i=>{if(i.contentType){byType[i.contentType]=(byType[i.contentType]||0)+1;}});
+  // By platform
+  const byPlat={};all.forEach(i=>(i.contentPlatforms||[]).forEach(p=>{byPlat[p]=(byPlat[p]||0)+1;}));
+  // Engagement totals
+  const totViews=published.reduce((s,i)=>s+parseInt(i.statViews||0),0);
+  const totLikes=published.reduce((s,i)=>s+parseInt(i.statLikes||0),0);
+  const totSaves=published.reduce((s,i)=>s+parseInt(i.statSaves||0),0);
+  const totShares=published.reduce((s,i)=>s+parseInt(i.statShares||0),0);
+  // Top performer
+  const top=published.sort((a,b)=>(parseInt(b.statViews||0)+parseInt(b.statLikes||0))-(parseInt(a.statViews||0)+parseInt(a.statLikes||0)))[0];
+  // Readiness — items close to ready
+  const nearReady=inPipeline.filter(i=>{
+    const cl=i.contentChecklist||[];
+    const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+    const total=CLENS[i.contentType]||0;
+    return total>0&&cl.length/total>=0.6;
+  }).slice(0,5);
+  el.innerHTML=`
+  <div class="g3" style="margin-bottom:16px">
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Total Pieces</div>
+      <div style="font-size:28px;font-weight:700;color:#7C3AED">${all.length}</div>
+      <div style="font-size:11px;color:var(--txt2)">${published.length} published · ${inPipeline.length} in pipeline</div>
+    </div>
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Published This Month</div>
+      <div style="font-size:28px;font-weight:700;color:#059669">${thisMonth.length}</div>
+      <div style="font-size:11px;color:var(--txt2)">${published.length} total published</div>
+    </div>
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Total Views</div>
+      <div style="font-size:28px;font-weight:700;color:var(--teal)">${totViews.toLocaleString()}</div>
+      <div style="font-size:11px;color:var(--txt2)">${totLikes.toLocaleString()} likes · ${totSaves.toLocaleString()} saves</div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">📊 Pipeline by Stage</div>
+      ${stageCounts.map(({label,count})=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <span style="font-size:12px;flex:1">${label}</span>
+        <div style="flex:2;height:6px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${all.length?Math.round(count/all.length*100):0}%;background:#7C3AED;border-radius:3px"></div></div>
+        <span style="font-size:11px;color:var(--txt2);width:16px;text-align:right">${count}</span>
+      </div>`).join('')}
+    </div>
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">🎬 By Content Type</div>
+      ${Object.entries(byType).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([t,c])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <span style="font-size:12px;flex:1">${t}</span>
+        <div style="flex:2;height:6px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${all.length?Math.round(c/all.length*100):0}%;background:var(--teal);border-radius:3px"></div></div>
+        <span style="font-size:11px;color:var(--txt2);width:16px;text-align:right">${c}</span>
+      </div>`).join('')||'<div style="font-size:12px;color:var(--txt3);font-style:italic">No content yet</div>'}
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">🏆 Top Performer</div>
+      ${top?`<div onclick="openModal(null,null,null,'${top.id}')" style="cursor:pointer">
+        <div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:4px">${esc(top.name)}</div>
+        <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${top.contentType||''} ${top.contentPlatforms?.length?'· '+top.contentPlatforms.join(', '):''}</div>
+        <div class="g3"><div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#7C3AED">${parseInt(top.statViews||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Views</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--pink)">${parseInt(top.statLikes||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Likes</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--teal)">${parseInt(top.statSaves||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Saves</div></div></div>
+      </div>`:'<div style="font-size:12px;color:var(--txt3);font-style:italic">Publish content to see top performer</div>'}
+    </div>
+    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
+      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">✅ Near Ready (60%+ checklist)</div>
+      ${nearReady.length?nearReady.map(i=>{
+        const cl=i.contentChecklist||[];
+        const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+        const total=CLENS[i.contentType]||1;
+        const pct=Math.round(cl.length/total*100);
+        return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+          <div style="flex:1"><div style="font-size:12px;font-weight:500">${esc(i.name)}</div><div style="font-size:10px;color:var(--txt2)">${i.contentType||''}</div></div>
+          <span style="font-size:12px;font-weight:700;color:${pct===100?'#059669':'#7C3AED'}">${pct}%</span>
+        </div>`;
+      }).join(''):'<div style="font-size:12px;color:var(--txt3);font-style:italic">No items near ready yet</div>'}
+    </div>
+  </div>`;
+}
+
+let cpDragId=null;
+function renderContentPipeline(){
+  const el=document.getElementById('cv-view-pipeline');if(!el)return;
+  const all=getContentItems();
+  const STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
+  const seriesList=S.contentSeries||[];
+  // Series filter
+  const seriesFilter=el.dataset.seriesFilter||'';
+  const filtered=seriesFilter?all.filter(i=>i.contentSeriesId===seriesFilter):all;
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+    <span style="font-size:12px;color:var(--txt2)">Filter by series:</span>
+    <button onclick="setContentSeriesFilter('')" class="btn xs${!seriesFilter?' primary':''}" style="${!seriesFilter?'':''}">All</button>
+    ${seriesList.map(s=>`<button onclick="setContentSeriesFilter('${s.id}')" class="btn xs${seriesFilter===s.id?' primary':''}" style="border-color:${s.color};${seriesFilter===s.id?'background:'+s.color+';color:#fff':''}">${esc(s.name)}</button>`).join('')}
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(6,minmax(160px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px">
+    ${STAGES.map(([stage,label])=>{
+      const items=filtered.filter(i=>(i.contentStage||'idea')===stage);
+      return`<div style="background:var(--soft);border-radius:var(--r);padding:10px;min-height:200px"
+        ondragover="event.preventDefault()" ondrop="dropContentCard('${stage}',event)">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--txt2);margin-bottom:8px;display:flex;justify-content:space-between">
+          <span>${label}</span><span style="background:rgba(124,58,237,.1);color:#7C3AED;border-radius:10px;padding:1px 7px">${items.length}</span>
+        </div>
+        ${items.map(i=>{
+          const ser=seriesList.find(s=>s.id===i.contentSeriesId);
+          const cl=i.contentChecklist||[];
+          const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+          const total=CLENS[i.contentType]||0;
+          const pct=total>0?Math.round(cl.length/total*100):0;
+          return`<div draggable="true" ondragstart="cpDragId='${i.id}'"
+            onclick="openModal(null,null,null,'${i.id}')"
+            style="background:var(--card);border-radius:var(--r);padding:9px 10px;margin-bottom:7px;cursor:pointer;border:1px solid var(--bdr);box-shadow:var(--sh);transition:box-shadow .15s"
+            onmouseenter="this.style.boxShadow='0 4px 16px rgba(124,58,237,.15)'" onmouseleave="this.style.boxShadow='var(--sh)'">
+            <div style="font-size:12px;font-weight:500;color:var(--navy);margin-bottom:4px;line-height:1.3">${esc(i.name)}</div>
+            ${i.contentType?`<div style="font-size:10px;color:#7C3AED;font-weight:600;margin-bottom:4px">${i.contentType}</div>`:''}
+            ${i.contentPlatforms?.length?`<div style="font-size:10px;color:var(--txt2);margin-bottom:4px">${i.contentPlatforms.join(' · ')}</div>`:''}
+            ${ser?`<div style="display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;background:${ser.color}22;color:${ser.color};font-weight:600;margin-bottom:4px">${esc(ser.name)}</div>`:''}
+            ${i.contentPublishDate?`<div style="font-size:10px;color:var(--txt2)">📅 ${i.contentPublishDate}</div>`:''}
+            ${total>0?`<div style="margin-top:6px"><div style="height:3px;background:var(--bdr);border-radius:2px"><div style="height:100%;width:${pct}%;background:#7C3AED;border-radius:2px"></div></div><div style="font-size:9px;color:var(--txt3);text-align:right;margin-top:1px">${pct}% ready</div></div>`:''}
+          </div>`;
+        }).join('')}
+        <button onclick="openModal(null,null,null)" style="width:100%;padding:6px;font-size:11px;color:var(--txt3);background:transparent;border:1px dashed var(--bdr2);border-radius:var(--r);cursor:pointer;margin-top:4px">+ Add</button>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function setContentSeriesFilter(id){
+  const el=document.getElementById('cv-view-pipeline');if(el)el.dataset.seriesFilter=id;
+  renderContentPipeline();
+}
+function dropContentCard(stage,e){
+  e.preventDefault();
+  if(!cpDragId)return;
+  const item=getItem(cpDragId);if(!item)return;
+  item.contentStage=stage;
+  const stageStatusMap={idea:'notstarted',scripted:'inprogress',filmed:'inprogress',edited:'inprogress',scheduled:'planned',published:'done'};
+  item.status=stageStatusMap[stage]||item.status;
+  if(stage==='published'&&!item.completedDate)item.completedDate=today();
+  save();renderContentPipeline();toast('Moved to '+stage);cpDragId=null;
+}
+
+function renderContentTable(){
+  const el=document.getElementById('cv-view-table');if(!el)return;
+  const all=getContentItems();
+  const seriesList=S.contentSeries||[];
+  const STAGE_LABELS={idea:'💡 Idea',scripted:'✍️ Scripted',filmed:'🎬 Filmed/Written',edited:'✂️ Edited',scheduled:'📅 Scheduled',published:'🚀 Published'};
+  el.innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr style="border-bottom:2px solid var(--bdr)">
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Title</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Type</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Platform</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Stage</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Ready %</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Publish Date</th>
+      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Series</th>
+    </tr></thead>
+    <tbody>${all.map((i,idx)=>{
+      const ser=seriesList.find(s=>s.id===i.contentSeriesId);
+      const cl=i.contentChecklist||[];
+      const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
+      const total=CLENS[i.contentType]||0;
+      const pct=total>0?Math.round(cl.length/total*100):0;
+      return`<tr onclick="openModal(null,null,null,'${i.id}')" style="border-bottom:1px solid var(--bdr);cursor:pointer;background:${idx%2?'var(--soft)':'var(--card)'}" onmouseenter="this.style.background='rgba(124,58,237,.05)'" onmouseleave="this.style.background='${idx%2?'var(--soft)':'var(--card)'}'">
+        <td style="padding:8px 10px;font-weight:500;color:var(--navy)">${esc(i.name)}</td>
+        <td style="padding:8px 10px;color:#7C3AED;font-weight:600">${i.contentType||'—'}</td>
+        <td style="padding:8px 10px;color:var(--txt2)">${(i.contentPlatforms||[]).join(', ')||'—'}</td>
+        <td style="padding:8px 10px">${STAGE_LABELS[i.contentStage||'idea']||'—'}</td>
+        <td style="padding:8px 10px"><span style="font-weight:700;color:${pct===100?'#059669':'#7C3AED'}">${total>0?pct+'%':'—'}</span></td>
+        <td style="padding:8px 10px;color:var(--txt2)">${i.contentPublishDate||'—'}</td>
+        <td style="padding:8px 10px">${ser?`<span style="padding:2px 8px;border-radius:10px;font-size:11px;background:${ser.color}22;color:${ser.color};font-weight:600">${esc(ser.name)}</span>`:'—'}</td>
+      </tr>`;
+    }).join('')||`<tr><td colspan="7" style="padding:20px;text-align:center;color:var(--txt3);font-style:italic">No content items yet — click + New Content to start</td></tr>`}</tbody>
+  </table></div>`;
+}
+
+function renderContentSeries(){
+  const el=document.getElementById('cv-view-series');if(!el)return;
+  const seriesList=S.contentSeries||[];
+  el.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div style="font-size:13px;font-weight:500;color:var(--navy)">${seriesList.length} series</div>
+    <div style="display:flex;gap:6px">
+      <input id="new-series-name-inline" placeholder="New series name..." style="padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;width:200px">
+      <button class="btn primary sm" onclick="addSeriesInline()">+ Add Series</button>
+    </div>
+  </div>
+  ${seriesList.length?`<div class="lgrid">${seriesList.map(s=>{
+    const items=getContentItems().filter(i=>i.contentSeriesId===s.id);
+    const published=items.filter(i=>i.contentStage==='published');
+    const last=published.sort((a,b)=>(b.contentPublishDate||'').localeCompare(a.contentPublishDate||''))[0];
+    return`<div style="background:var(--card);border-radius:var(--rl);padding:16px;border:1px solid var(--bdr);cursor:pointer" onclick="setContentSeriesFilter('${s.id}');showContentView('pipeline')">
+      <div style="height:3px;border-radius:2px;background:${s.color};margin-bottom:12px"></div>
+      <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">${esc(s.name)}</div>
+      <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${items.length} pieces · ${published.length} published</div>
+      ${last?`<div style="font-size:11px;color:var(--txt3)">Last: ${last.contentPublishDate||'—'}</div>`:''}
+      <button onclick="event.stopPropagation();deleteSeries('${s.id}')" style="margin-top:10px;font-size:10px;color:var(--pink);background:none;border:none;cursor:pointer;padding:0">Delete series</button>
+    </div>`;
+  }).join('')}</div>`:'<div style="text-align:center;padding:40px;color:var(--txt3);font-style:italic">No series yet — add one above</div>'}`;
+}
+function addSeriesInline(){
+  const name=(document.getElementById('new-series-name-inline')?.value||'').trim();if(!name)return;
+  if(!S.contentSeries)S.contentSeries=[];
+  const colors=['#7C3AED','#0FA3A3','#F63E73','#F59E0B','#3B82F6','#10B981'];
+  S.contentSeries.push({id:uid(),name,color:colors[S.contentSeries.length%colors.length],status:'active',created:Date.now()});
+  save();renderContentSeries();toast('Series created!');
+}
 
 // ── VIEW A: NEXT SPRINT DETAIL ────────────────────────────────────────────
 function renderSprintNext(){
