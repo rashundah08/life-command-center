@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Life Command Center v51 — Rashunda</title>
+<title>Life Command Center v52 — Rashunda</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
@@ -106,6 +106,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .tb-ask{background:#FFF0F4;color:#C2185B}
 .tb-badge{background:#FDF0F5;color:#8b1a4a}
 .tb-course{background:#EEF2FF;color:#3730A3}
+.tb-content{background:#FDF4FF;color:#7C2D8E}
 /* DAYS/STATUS */
 .db{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500}
 .db-over{background:#FCEBEB;color:#8B1A1A}
@@ -378,6 +379,10 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 
     <button class="nb" id="nav-countdowns" onclick="showPage('countdowns',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="9" r="6"/><path d="M8 6v3l2 1.5M6 1h4"/></svg>Countdowns
+    </button>
+
+    <button class="nb" id="nav-content" onclick="showPage('content',this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="3" rx="1"/><path d="M2 7h7M2 11h5"/><circle cx="12" cy="11" r="2.5"/><path d="M12 9.5V11l1 1"/></svg>Content Planner
     </button>
 
     <button class="nb" id="nav-wiab" onclick="showPage('wiab',this)">
@@ -1237,6 +1242,28 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="cd-content"></div>
     </div>
 
+    <!-- CONTENT PLANNER PAGE -->
+    <div id="pg-content" style="display:none">
+      <div style="background:linear-gradient(135deg,#5B21B6,#7C2D8E);border-radius:var(--rxl);padding:24px 28px 20px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div style="position:relative">
+          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">Content Strategy</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Content Planner</div>
+          <div style="font-size:12px;opacity:.75;font-style:italic">Pipeline · Performance · Series</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <button onclick="showContentView('dashboard')" id="cp-tab-dashboard" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📊 Dashboard</button>
+            <button onclick="showContentView('pipeline')" id="cp-tab-pipeline" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">🎬 Pipeline</button>
+            <button onclick="showContentView('table')" id="cp-tab-table" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📋 Table</button>
+            <button onclick="showContentView('series')" id="cp-tab-series" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📺 Series</button>
+          </div>
+        </div>
+      </div>
+      <div id="cp-view-dashboard"></div>
+      <div id="cp-view-pipeline" style="display:none"></div>
+      <div id="cp-view-table" style="display:none"></div>
+      <div id="cp-view-series" style="display:none"></div>
+    </div>
+
 
 </div>
 </div>
@@ -1479,7 +1506,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <div id="btab-add-body">
       <div style="font-size:12px;color:var(--txt2);margin-bottom:14px;padding:8px 12px;background:var(--soft);border-radius:var(--r)">Set fields below. Paste item names one per line. All checked fields apply to every item added.</div>
       <div class="g3" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="ba-type"><option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="content">Content</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="ba-status"><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort Level</label><select id="ba-effort"><option value="">-- None --</option><option value="easy">🟢 Easy (1pt)</option><option value="medium">🟠 Medium (3pts)</option><option value="hard">🔴 Hard (5pts)</option><option value="epic">⭐ Epic (10pts)</option><option value="legendary">👑 Legendary (15pts)</option><option value="ultimate">🔥 Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
@@ -1622,7 +1649,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <select id="bu-items" multiple style="height:160px;width:100%;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);padding:4px;outline:none;font-family:'DM Sans',sans-serif"></select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
+        <div class="field" style="margin:0"><label>Type</label><select id="bu-type"><option value="">-- Keep --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="content">Content</option><option value="course">Course</option><option value="patch">Patch</option></select></div>
         <div class="field" style="margin:0"><label>Status</label><select id="bu-status"><option value="">-- Keep --</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="done">Done</option><option value="placeholder">📌 Placeholder</option></select></div>
         <div class="field" style="margin:0"><label>Effort</label><select id="bu-effort"><option value="">-- Keep --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcendent (100pts)</option></select></div>
       </div>
@@ -1990,13 +2017,13 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   recalc();
   renderAll();
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
   localStorage.setItem(SK,payload);
 }
 
 async function driveSaveNow(){
   if(!gdriveToken||!gdriveFileId)return;
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
   try{
     await fetch(
       'https://www.googleapis.com/upload/drive/v3/files/'+gdriveFileId+'?uploadType=media',
@@ -2011,7 +2038,7 @@ async function driveSaveNow(){
 function driveSaveDebounced(){
   // Always save to localStorage immediately with timestamp
   try{
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
     localStorage.setItem(SK,payload);
   }catch(e){}
   if(!gdriveReady||!gdriveToken)return;
@@ -2022,7 +2049,7 @@ function driveSaveDebounced(){
 
 // Manual backup - downloads data as JSON file
 function backupToFile(){
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()},null,2);
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()},null,2);
   const blob=new Blob([payload],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -2057,7 +2084,7 @@ function restoreFromFile(){
 // Auto-backup every 2 minutes if data exists, also force Drive save
 setInterval(()=>{
   if(S.items&&S.items.length>0){
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
     localStorage.setItem(SK+'_autobak',payload);
     localStorage.setItem(SK+'_autobak_time',Date.now());
     if(gdriveReady&&gdriveToken)driveSaveNow();
@@ -2080,6 +2107,7 @@ function load(){
       if(p.rewards)S.rewards=p.rewards;
       if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
       if(p.hubDisplayWeek)S.hubDisplayWeek=p.hubDisplayWeek;
+      if(p.contentSeries)S.contentSeries=p.contentSeries;
       recalc();
       if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
     }
@@ -2098,7 +2126,7 @@ function load(){
 }
 function exportItemsExcel(){
   const items=S.items.filter(i=>i.status!=='placeholder');
-  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL'];
+  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Stage','Platforms','Publish Date','Series','Views','Likes','Comments','Shares'];
   const rows=items.map(i=>[
     i.seqNum||'',i.name||'',i.type||'',i.status||'',i.effort||'',
     (i.listIds||[]).map(lid=>lName(lid)).join('; '),
@@ -2110,7 +2138,11 @@ function exportItemsExcel(){
     (i.linkedTasks||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
     (i.notes||'').replace(/\n/g,' '),
     i.askType||'',i.askWho||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',
-    (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||''
+    (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||'',
+    i.contentType||'',i.contentStage||'',(i.contentPlatforms||[]).join('; '),
+    i.contentPublishDate||'',
+    i.contentSeriesId?(S.contentSeries||[]).find(s=>s.id===i.contentSeriesId)?.name||'':'',
+    i.contentViews||0,i.contentLikes||0,i.contentComments||0,i.contentShares||0
   ]);
   const csv=[headers,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const bom='﻿';
@@ -2147,7 +2179,7 @@ function daysTag(d,status){
 function pColor(p){return p>=80?'#63C76C':p>=50?'#0FA3A3':p>=25?'#EF9F27':'#D0D0DC'}
 function sCls(s){return{notstarted:'s-notstarted',planned:'s-planned',someday:'s-planned',inprogress:'s-inprogress',behind:'s-behind',done:'s-done'}[s]||'s-notstarted'}
 function sBadge(s){const m={notstarted:['sb-ns','Not Started'],planned:['sb-plan','Planned'],someday:['sb-ns','Someday'],inprogress:['sb-prog','In Progress'],behind:['sb-beh','Behind'],done:['sb-done','Done']};const[c,l]=m[s]||m.notstarted;return`<span class="sb2 ${c}">${l}</span>`;}
-function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch'],course:['tb-course','Course']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
+function tBadge(t){const m={goal:['tb-goal','Goal'],project:['tb-project','Project'],task:['tb-task','Task'],ask:['tb-ask','Ask'],patch:['tb-badge','Patch'],course:['tb-course','Course'],content:['tb-content','Content']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
 function lName(id){return(S.lists.find(l=>l.id===id)||{name:'?'}).name}
 function lColor(id){return(S.lists.find(l=>l.id===id)||{color:'#888'}).color}
 function getItem(id){return S.items.find(x=>x.id===id)}
@@ -2377,6 +2409,7 @@ function openModal(clId,text,type,itemId){
     linkedTasks:(item?.linkedTasks||[]).slice(),
     linkedAsks:(item?.linkedAsks||[]).slice(),
     linkedPatches:((item?.linkedPatches||item?.linkedBadges)||[]).slice(),
+    linkedContent:(item?.linkedContent||[]).slice(),
     listIds:(item?.listIds||[]).slice(),
     categories:(item?.categories||[]).slice()
   };
@@ -2386,7 +2419,7 @@ function openModal(clId,text,type,itemId){
   document.getElementById('item-modal').style.display='flex';
   setTimeout(()=>document.getElementById('m-name')?.focus(),50);
 }
-function closeModal(){document.getElementById('item-modal').style.display='none';S.editId=null;S.pendingClId=null;ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],listIds:[],categories:[]};}
+function closeModal(){document.getElementById('item-modal').style.display='none';S.editId=null;S.pendingClId=null;ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],linkedContent:[],listIds:[],categories:[]};}
 
 // ═══════════════════════════════════════════════════════════════
 // DATE SERIES TASK GENERATOR
@@ -2591,7 +2624,7 @@ function generateDateSeriesTasks(){
 }
 
 function renderModalBody(type,item,prefill){
-  const typeOpts=[['ask','Ask'],['course','Course'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
+  const typeOpts=[['ask','Ask'],['content','Content'],['course','Course'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
   const statOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']].map(([v,l])=>`<option value="${v}"${item&&item.status===v?' selected':''}>${l}</option>`).join('');
   const effortOpts=(sel)=>[['','-- Select --'],['easy','&#128994; Easy (1 pt)'],['medium','&#128992; Medium (3 pts)'],['hard','&#128308; Hard (5 pts)'],['epic','&#11088; Epic (10 pts)'],['legendary','&#128081; Legendary (15 pts)'],['ultimate','&#128293; Ultimate (20 pts)'],['mythic','&#9889; Mythic (30 pts)'],['elite','&#128142; Elite (40 pts)'],['master','&#128737;&#65039; Master (50 pts)'],['titan','&#128009; Titan (60 pts)'],['cosmic','&#127756; Cosmic (70 pts)'],['immortal','&#128081; Immortal (80 pts)'],['ascended','&#128640; Ascended (90 pts)'],['transcendent','&#127942; Transcendent (100 pts)']].map(([v,l])=>`<option value="${v}"${sel===v?' selected':''} >${l}</option>`).join('');
   const listChecks=`<div>
@@ -2846,21 +2879,118 @@ function renderModalBody(type,item,prefill){
 
   if(type!=='patch'){html+=`<input type="hidden" id="m-challenge" value="${esc(item?.challengeDetails||'')}"><input type="hidden" id="m-badge-url" value="${esc(item?.badgeUrl||'')}">`;}
   if(type!=='course'){html+=`<input type="hidden" id="m-course-num" value="${esc(item?.courseNum||'')}"><input type="hidden" id="m-course-hrs" value="${esc(item?.courseHours||'')}"><input type="hidden" id="m-course-sem" value="${esc(item?.courseSemester||'')}"><input type="hidden" id="m-course-year" value="${esc(item?.courseYear||'')}"><input type="hidden" id="m-course-inst" value="${esc(item?.courseInstitution||'')}"><input type="hidden" id="m-course-grade" value="${esc(item?.courseGrade||'')}"><input type="hidden" id="m-course-proctored" value="${esc(item?.courseProctored||'')}"><input type="hidden" id="m-course-status" value="${esc(item?.courseStatus||'')}"><input type="hidden" id="m-course-desc" value="${esc(item?.courseDesc||'')}"><input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(item?.courseCategory||[]))}"><input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(item?.courseDepartment||[]))}"><input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(item?.courseTransfer||[]))}">`;}  // WIAB hidden fallbacks
+
+  // ── CONTENT DETAILS WIDGET ───────────────────────────────────────────────────
+  if(type==='content'){
+    const CONTENT_DURATIONS={story:2,reel:3,tiktok:3,short:3,carousel:4,static:2,newsletter:5,blogpost:7,podcast:7,youtube:21,webinar:14,course:30};
+    const contentTypeOpts=[['','— Content Type —'],['story','📸 Story (2d)'],['reel','🎬 Reel (3d)'],['tiktok','🎵 TikTok (3d)'],['short','▶️ YouTube Short (3d)'],['carousel','📱 Carousel (4d)'],['static','🖼️ Static Post (2d)'],['newsletter','📧 Newsletter (5d)'],['blogpost','✍️ Blog Post (7d)'],['podcast','🎙️ Podcast (7d)'],['youtube','📺 YouTube Video (21d)'],['webinar','🖥️ Webinar (14d)'],['course','🎓 Mini-Course (30d)']].map(([v,l])=>`<option value="${v}"${item?.contentType===v?' selected':''}>${l}</option>`).join('');
+    const contentStageOpts=[['idea','💡 Idea'],['scripting','✍️ Scripting'],['recording','🎙️ Recording'],['editing','✂️ Editing'],['review','👁️ Review'],['scheduled','📅 Scheduled'],['published','🚀 Published']].map(([v,l])=>`<option value="${v}"${(item?.contentStage||'idea')===v?' selected':''}>${l}</option>`).join('');
+    const allPlatforms=['Instagram','TikTok','YouTube','YouTube Shorts','LinkedIn','Facebook','Twitter/X','Pinterest','Newsletter','Website/Blog','Podcast','Kajabi','Other'];
+    const selPlatforms=item?.contentPlatforms||[];
+    const platformChips=selPlatforms.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#7C2D8E;color:#fff;border:1px solid #7C2D8E">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+    const isPublished=item?.contentStage==='published';
+    const CONTENT_CHECKLIST={default:['Outline complete','Hook written','CTA written','Visual/thumbnail planned','Caption drafted','Hashtags/keywords researched','Internal review done'],youtube:['Outline complete','Script complete','Thumbnail designed','Filming done','Editing done','Description SEO optimized','End screen/cards added'],podcast:['Topic/outline ready','Guest confirmed (if applicable)','Recording done','Editing done','Show notes written','Published to host'],newsletter:['Topic decided','Draft written','Images/links added','Subject line written','Reviewed','Scheduled in platform']};
+    const clType=item?.contentType||'default';
+    const clItems=CONTENT_CHECKLIST[clType]||CONTENT_CHECKLIST.default;
+    const clData=item?.contentChecklist||{};
+    const showChecklist=item?.contentStage&&item.contentStage!=='idea';
+    const clPct=showChecklist&&clItems.length?Math.round(Object.values(clData).filter(Boolean).length/clItems.length*100):0;
+    const seriesList=S.contentSeries||[];
+    const seriesOpts='<option value="">— No Series —</option>'+seriesList.map(s=>`<option value="${s.id}"${item?.contentSeriesId===s.id?' selected':''}>${esc(s.name)}</option>`).join('');
+    const docUrl=item?.contentDocUrl||'';
+    html+=`<div class="type-widget" style="background:linear-gradient(135deg,#FAF5FF,#F3E8FF);border:1px solid #D8B4FE;margin-top:10px;margin-bottom:4px;border-radius:var(--rl);padding:14px 16px">
+      <div class="type-widget-head"><span class="type-widget-ttl" style="color:#7C2D8E">🎬 Content Details</span></div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Content Type <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(auto-fills Duration)</span></label>
+          <select id="m-content-type" onchange="onContentTypeChg()" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${contentTypeOpts}</select>
+        </div>
+        <div class="field" style="margin:0"><label>Content Stage <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(drives Status)</span></label>
+          <select id="m-content-stage" onchange="onContentStageChg()" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${contentStageOpts}</select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Platform(s)</label>
+        <select onchange="addContentPlatform(this.value);this.value=''" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+          <option value="">— Add Platform —</option>
+          ${allPlatforms.map(p=>`<option value="${p}">${p}</option>`).join('')}
+        </select>
+        <div id="content-platform-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${platformChips}</div>
+        <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(selPlatforms))}">
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Hook / Headline</label><input id="m-content-hook" placeholder="Opening hook or headline..." value="${esc(item?.contentHook||'')}"></div>
+        <div class="field" style="margin:0"><label>CTA</label><input id="m-content-cta" placeholder="Call to action..." value="${esc(item?.contentCTA||'')}"></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Publish Date</label><input id="m-content-publish" type="date" value="${item?.contentPublishDate||''}"></div>
+        <div class="field" style="margin:0"><label>Series</label>
+          <select id="m-content-series" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label>Google Doc Link</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input id="m-content-doc" type="url" placeholder="https://docs.google.com/..." value="${esc(docUrl)}" style="flex:1">
+          ${docUrl?`<a href="${esc(docUrl)}" target="_blank" class="btn sm" style="flex-shrink:0;text-decoration:none">Open Doc ↗</a>`:''}
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:${showChecklist||isPublished?'10px':'0'}"><label>Repurpose From <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">link source content</span></label>
+        <div class="lf-wrap">
+          <input class="lf-inp" type="text" id="lfs-content" placeholder="Search content to repurpose from..." oninput="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)">
+          <div class="lf-dd" id="ldd-content"></div>
+        </div>
+        <div class="lf-chips" id="lfc-content">${(ML.linkedContent||[]).map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('content','${id}')">&#x00D7;</button></span>`;}).join('')}</div>
+      </div>
+      ${showChecklist?`<div style="background:rgba(124,45,142,.06);border:1px solid #D8B4FE;border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7C2D8E">✅ Content Readiness</div>
+          <span id="cl-pct-display" style="font-size:11px;font-weight:700;color:#7C2D8E">${clPct}%</span>
+        </div>
+        <div style="height:4px;background:rgba(124,45,142,.15);border-radius:2px;overflow:hidden;margin-bottom:8px"><div id="cl-pct-bar" style="height:100%;background:#7C2D8E;border-radius:2px;width:${clPct}%"></div></div>
+        ${clItems.map((itm,ci)=>`<label style="display:flex;align-items:center;gap:7px;font-size:11px;padding:3px 0;cursor:pointer"><input type="checkbox" id="m-cl-${ci}" ${clData[ci]?'checked':''} onchange="updateContentChecklistCount(${clItems.length})" style="accent-color:#7C2D8E;flex-shrink:0"> ${itm}</label>`).join('')}
+        <input type="hidden" id="m-content-checklist-data" value="${esc(JSON.stringify(clData))}">
+      </div>`:'<input type="hidden" id="m-content-checklist-data" value="{}">'}
+      ${isPublished?`<div style="background:rgba(124,45,142,.06);border:1px solid #D8B4FE;border-radius:var(--r);padding:10px 12px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7C2D8E;margin-bottom:8px">📈 Post Stats</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          ${[['Views','m-contentViews',item?.contentViews],['Likes','m-contentLikes',item?.contentLikes],['Comments','m-contentComments',item?.contentComments],['Shares','m-contentShares',item?.contentShares],['Saves','m-contentSaves',item?.contentSaves],['Follows','m-contentFollows',item?.contentFollows],['Link Clicks','m-contentLinkClicks',item?.contentLinkClicks]].map(([l,iid,v])=>`<div class="field" style="margin:0"><label style="font-size:9px">${l}</label><input id="${iid}" type="number" min="0" value="${v||''}" placeholder="0" style="padding:5px 7px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);width:100%;font-family:'DM Sans',sans-serif;outline:none"></div>`).join('')}
+        </div>
+      </div>`:''}
+    </div>`;
+  } else {
+    // Hidden fallbacks for content fields when not shown
+    html+=`<input type="hidden" id="m-content-type" value="${esc(item?.contentType||'')}">
+    <input type="hidden" id="m-content-stage" value="${esc(item?.contentStage||'')}">
+    <input type="hidden" id="m-content-hook" value="${esc(item?.contentHook||'')}">
+    <input type="hidden" id="m-content-cta" value="${esc(item?.contentCTA||'')}">
+    <input type="hidden" id="m-content-publish" value="${esc(item?.contentPublishDate||'')}">
+    <input type="hidden" id="m-content-series" value="${esc(item?.contentSeriesId||'')}">
+    <input type="hidden" id="m-content-doc" value="${esc(item?.contentDocUrl||'')}">
+    <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(item?.contentPlatforms||[]))}">
+    <input type="hidden" id="m-content-checklist-data" value="{}">
+    <input type="hidden" id="m-contentViews" value="${item?.contentViews||''}">
+    <input type="hidden" id="m-contentLikes" value="${item?.contentLikes||''}">
+    <input type="hidden" id="m-contentComments" value="${item?.contentComments||''}">
+    <input type="hidden" id="m-contentShares" value="${item?.contentShares||''}">
+    <input type="hidden" id="m-contentSaves" value="${item?.contentSaves||''}">
+    <input type="hidden" id="m-contentFollows" value="${item?.contentFollows||''}">
+    <input type="hidden" id="m-contentLinkClicks" value="${item?.contentLinkClicks||''}">`;
+  }
+
   if(!_wiabOpen){html+=`<input type="hidden" id="m-theme-month" value="${esc(item?.themeMonth||'')}"><input type="hidden" id="m-theme-name" value="${esc(item?.themeName||'')}"><input type="hidden" id="m-wiab"><input type="hidden" id="m-is-selfcare"><input type="hidden" id="m-is-weeklyfocus"><input type="hidden" id="m-is-datenight"><input type="hidden" id="m-date-with" value="${esc(item?.dateWith||'')}">`;}
 
   // LINKED ITEMS (collapsible)
-  const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length;
+  const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length+(ML.linkedContent||[]).length;
   const linkedOpen=totalLinked>0;
   let linkedHtml=`<div class="field" style="margin:0"><label>Link Any Item <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">search across all types</span></label>${buildLF('any',[])}</div>`;
-  if(type==='goal'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
-  if(type==='project'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Goals <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedGoals.length} linked</span></label>${buildLF('goal',ML.linkedGoals)}</div>`;}
-  if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'){
+  if(type==='goal'||type==='task'||type==='ask'||type==='patch'||type==='course'||type==='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
+  if(type==='project'||type==='task'||type==='ask'||type==='patch'||type==='course'||type==='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Goals <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedGoals.length} linked</span></label>${buildLF('goal',ML.linkedGoals)}</div>`;}
+  if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'||type==='content'){
     const itemId=S.editId||'';
     const bulkBtn=(type==='goal'||type==='project')?`<button type="button" onclick="closeBulkAndOpen('${itemId}','${type}')" style="margin-left:8px;padding:2px 9px;border-radius:var(--r);border:1px solid #93C5FD;background:#EFF6FF;color:#1D4ED8;font-size:10px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">⚡ Bulk Add Tasks</button>`:'';
     linkedHtml+=`<div class="field" style="margin:0"><label style="display:flex;align-items:center">Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3);margin-left:4px">${ML.linkedTasks.length} linked</span>${bulkBtn}</label>${buildLF('task',ML.linkedTasks)}</div>`;
   }
-  if(type==='goal'||type==='project'||type==='task'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
-  if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
+  if(type==='goal'||type==='project'||type==='task'||type==='patch'||type==='course'||type==='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
+  if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'||type==='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
+  if(type!=='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Content <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedContent||[]).length} linked</span></label>${buildLF('content',ML.linkedContent||[])}</div>`;}
   html+=`<div class="linked-section" style="margin-bottom:13px">
     <button class="linked-toggle" type="button" onclick="toggleLinkedSection(this)">
       <span class="linked-toggle-lbl">🔗 Linked Items</span>
@@ -3043,7 +3173,8 @@ function subDays(dateStr,days){return addDays(dateStr,-days);}
 function onDateChg(){
   const d=document.getElementById('m-date')?.value;
   const s=document.getElementById('m-status');
-  if(d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
+  const t=document.getElementById('m-type')?.value;
+  if(t!=='content'&&d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
   const durEl=document.getElementById('m-duration');
   const startEl=document.getElementById('m-start');
   if(d&&durEl&&durEl.value!==''&&!startEl?.value){
@@ -3056,7 +3187,8 @@ function onDateChg(){
 function onStartChg(){
   const d=document.getElementById('m-start')?.value;
   const s=document.getElementById('m-status');
-  if(d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
+  const t=document.getElementById('m-type')?.value;
+  if(t!=='content'&&d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
   const star=document.getElementById('m-mins-req-star');
   if(star)star.style.display=d?'inline':'none';
   const durEl=document.getElementById('m-duration');
@@ -3105,8 +3237,8 @@ function buildLF(linkType,linkedIds){
 }
 function showLDD(type,q){
   const dd=document.getElementById('ldd-'+type);if(!dd)return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
-  const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[])];
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
+  const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[]),...(ML.linkedContent||[])];
   const existing=type==='any'?allLinked:(ML[keyMap[type]]||[]);
   const results=S.items.filter(i=>
     (type==='any'||i.type===type)&&
@@ -3120,18 +3252,18 @@ function showLDD(type,q){
 }
 function hideLDD(type){const dd=document.getElementById('ldd-'+type);if(dd)dd.style.display='none';}
 function addLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   if(!ML[keyMap[type]].includes(id))ML[keyMap[type]].push(id);
   const inp=document.getElementById('lfs-'+type);if(inp)inp.value='';
   hideLDD(type);refreshChips(type);
 }
 function removeLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   ML[keyMap[type]]=ML[keyMap[type]].filter(x=>x!==id);refreshChips(type);
 }
 function refreshChips(type){
   if(type==='any')return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
   const cont=document.getElementById('lfc-'+type);if(!cont)return;
   cont.innerHTML=ML[keyMap[type]].map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${type}','${id}')">&#x00D7;</button></span>`;}).join('');
   const lbl=cont.closest('.field')?.querySelector('label span');if(lbl)lbl.textContent=`${ML[keyMap[type]].length} linked`;
@@ -3166,10 +3298,15 @@ function saveItem(){
   }
   // SMART fields validated only when marking done (below)
   if(errors.length)return alert('Required: '+errors.join(', '));
+  // Auto-apply Content & Digital category for content type
+  if(type==='content'&&!ML.categories.includes('Content & Digital'))ML.categories.push('Content & Digital');
   const tcd=document.getElementById('m-date')?.value||'';
   let status=document.getElementById('m-status')?.value||'notstarted';
-  if(tcd&&status==='notstarted')status='planned';
-  if(tcd&&daysUntil(tcd)<0&&status!=='done')status='behind';
+  // Content: stage drives status — don't auto-flip from date
+  if(type!=='content'){
+    if(tcd&&status==='notstarted')status='planned';
+    if(tcd&&daysUntil(tcd)<0&&status!=='done')status='behind';
+  }
   let autoCompletedDate=document.getElementById('m-completed')?.value||'';
   if(status==='done'&&!autoCompletedDate)autoCompletedDate=today();
   if(status==='done'){
@@ -3229,7 +3366,7 @@ function saveItem(){
     smart_m:document.getElementById('m-m')?.value||'',
     smart_a:document.getElementById('m-a')?.value||'',
     smart_r:document.getElementById('m-r')?.value||'',
-    linkedGoals:ML.linkedGoals,linkedProjects:ML.linkedProjects,linkedTasks:ML.linkedTasks,linkedAsks:ML.linkedAsks||[],linkedPatches:ML.linkedPatches,
+    linkedGoals:ML.linkedGoals,linkedProjects:ML.linkedProjects,linkedTasks:ML.linkedTasks,linkedAsks:ML.linkedAsks||[],linkedPatches:ML.linkedPatches,linkedContent:ML.linkedContent||[],
     priority:document.getElementById('m-priority')?.value||'',
     checkinDate:document.getElementById('m-checkin')?.value||'',
     budget:document.getElementById('m-budget')?.value||'',
@@ -3254,6 +3391,22 @@ function saveItem(){
     courseCategory:(()=>{try{return JSON.parse(document.getElementById('m-course-cat-data')?.value||'[]');}catch{return [];}})(),
     courseDepartment:(()=>{try{return JSON.parse(document.getElementById('m-course-dept-data')?.value||'[]');}catch{return [];}})(),
     courseTransfer:(()=>{try{return JSON.parse(document.getElementById('m-course-transfer-data')?.value||'[]');}catch{return [];}})(),
+    contentType:document.getElementById('m-content-type')?.value||'',
+    contentStage:document.getElementById('m-content-stage')?.value||'idea',
+    contentHook:document.getElementById('m-content-hook')?.value||'',
+    contentCTA:document.getElementById('m-content-cta')?.value||'',
+    contentPublishDate:document.getElementById('m-content-publish')?.value||'',
+    contentSeriesId:document.getElementById('m-content-series')?.value||'',
+    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
+    contentPlatforms:(()=>{try{return JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{return[];}})(),
+    contentChecklist:(()=>{const clInps=document.querySelectorAll('[id^="m-cl-"]');if(clInps.length){const d={};clInps.forEach((inp,ci)=>{d[ci]=inp.checked;});return d;}try{return JSON.parse(document.getElementById('m-content-checklist-data')?.value||'{}');}catch{return{};}})(),
+    contentViews:parseInt(document.getElementById('m-contentViews')?.value||0)||0,
+    contentLikes:parseInt(document.getElementById('m-contentLikes')?.value||0)||0,
+    contentComments:parseInt(document.getElementById('m-contentComments')?.value||0)||0,
+    contentShares:parseInt(document.getElementById('m-contentShares')?.value||0)||0,
+    contentSaves:parseInt(document.getElementById('m-contentSaves')?.value||0)||0,
+    contentFollows:parseInt(document.getElementById('m-contentFollows')?.value||0)||0,
+    contentLinkClicks:parseInt(document.getElementById('m-contentLinkClicks')?.value||0)||0,
     timedNotes:(()=>{const existing=(S.editId?getItem(S.editId):null)?.timedNotes||[];const newNote=(document.getElementById('m-new-note')?.value||'').trim();if(newNote){existing.push({ts:new Date().toISOString(),text:newNote});}return existing;})(),
     themeMonth:document.getElementById('m-theme-month')?.value||'',
     themeName:document.getElementById('m-theme-name')?.value||'',
@@ -3665,6 +3818,7 @@ function applyFilter(items,f){
     if(f==='patch')return i.type==='patch';
     if(f==='project')return i.type==='project';
     if(f==='task')return i.type==='task';
+    if(f==='content')return i.type==='content';
     if(f==='notstarted')return i.status==='notstarted';
     if(f==='inprogress')return i.status==='inprogress';
     if(f==='planned')return i.status==='planned';
@@ -3705,7 +3859,7 @@ function applyCatFilter(items,cats){
 function buildFbar(items,containerId,filterFn,activeF){
   const cnt=f=>applyFilter(items,f).length;
   const filters=[
-    ['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['patch','Patches'],
+    ['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['patch','Patches'],
     ['inprogress','In Progress'],['planned','Planned'],['someday','Someday'],['behind','Behind'],['done','Done'],
     ['attention','Needs Attention'],['nocat','No Category'],
     ['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],
@@ -3818,7 +3972,7 @@ let MF={types:[],statuses:[],missing:[],due:[],cats:[],lists:[]};
 
 function buildMultiFilters(){
   updateFilterActiveCount();
-  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['course','Courses'],['patch','Patches']];
+  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['course','Courses'],['patch','Patches']];
   const sf=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']];
   const mf=[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort Level'],['nostartdate','No Start Date'],['nodeadline','No Deadline'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects']];
   const df=[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']];
@@ -4066,7 +4220,7 @@ function openListDetail(listId){
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
   const cnt=f=>applyFilter(li,f).length;
   const isNos=listId==='nos';
-  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['patch','Patches'],
+  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['patch','Patches'],
     ['notstarted','Not Started'],['inprogress','In Progress'],['planned','Planned'],['behind','Behind'],['done','Done'],['attention','Needs Attention']];
   const nosFilters=[['all','All'],['ask','All Asks'],['inprogress','In Progress'],['done','Done'],
     ...[['pending','⏳ Pending Response'],['yes','✅ Yes'],['no','❌ No']].map(([v,l])=>[v+'-resp',l])];
@@ -4165,7 +4319,7 @@ function renderListDetail(){
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:160px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['content','Content'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Ask —'],['ask','Ask'],['application','Application'],['boundary','Boundary'],['invite','Invite'],['pitch','Pitch'],['publish','Publish']],i.askType||'',`inlineField('${i.id}','askType',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${inp(i.askWho||'',`inlineField('${i.id}','askWho',this.value)`,'Who...')}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Channel —'],['email','📧 Email'],['dm','💬 DM'],['inperson','🤝 In-Person'],['text','📱 Text'],['call','📞 Call'],['form','📋 Form']],i.askChannel||'',`inlineField('${i.id}','askChannel',this.value)`)}</td>
@@ -4213,7 +4367,7 @@ function renderListDetail(){
     return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()" style="width:48px">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:260px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['content','Content'],['goal','Goal'],['patch','Patch'],['project','Project'],['task','Task']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)'],['mythic','⚡ Mythic (30pts)'],['elite','💎 Elite (40pts)'],['master','🛡️ Master (50pts)'],['titan','🐉 Titan (60pts)'],['cosmic','🌌 Cosmic (70pts)'],['immortal','👑 Immortal (80pts)'],['ascended','🚀 Ascended (90pts)'],['transcendent','🏆 Transcendent (100pts)']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${dateinp(i.startDate,`inlineField('${i.id}','startDate',this.value)`)}</td>
@@ -4492,7 +4646,7 @@ function renderDash(){
   const behItems=sortByDate(all.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done'))).slice(0,8);
   document.getElementById('dash-beh').innerHTML=behItems.length?behItems.map(i=>{const d=daysUntil(i.date);return`<div class="d-item" onclick="openModal(null,null,null,'${i.id}')"><div class="d-dot" style="background:var(--pink)"></div><div class="d-txt">${esc((i.name||'').slice(0,50))}</div>${d!==null&&d<0?`<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">${Math.abs(d)}d over</span>`:'<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">Behind</span>'}</div>`;}).join(''):`<div style="color:var(--txt3);font-size:12px;padding:12px 0;text-align:center">Nothing behind!</div>`;
   // Breakdown
-  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','patch','course'].map(t=>{
+  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','content','patch','course'].map(t=>{
     const ti=all.filter(i=>i.type===t);
     const tns=ti.filter(i=>i.status==='notstarted').length;
     const tpl=ti.filter(i=>i.status==='planned').length;
@@ -4557,12 +4711,12 @@ function goToList(id){
 
 // NAV
 function showPage(page,btn){
-  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
+  ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints','content'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   if(page==='wiab')renderWIABPage();
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner'};
+  const tt={dash:'Dashboard',items:'All Action Items',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',inventory:'Home Inventory',habits:'Habits & Routines',finance:'Finance Tracker',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='lists')renderLists();
@@ -4577,6 +4731,7 @@ function showPage(page,btn){
   if(page==='finance')renderFinance();
   if(page==='countdowns')renderCountdowns();
   if(page==='sprints')renderSprints();
+  if(page==='content')renderContentPlanner();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
@@ -10454,6 +10609,276 @@ function pushWIABToMonth(monthKey,field){
   else if(field==='ask'){item.responseStatus='pending';}
   S.items.push(item);recalc();save();renderSOTWIABEditor();renderWIAB();
   toast('Added \''+name.trim()+'\' to '+monthKey);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONTENT PLANNER ENGINE
+// ═══════════════════════════════════════════════════════════════
+if(!S.contentSeries)S.contentSeries=[];
+
+const CONTENT_STAGE_ORDER=['idea','scripting','recording','editing','review','scheduled','published'];
+const CONTENT_STAGE_LABELS={idea:'💡 Idea',scripting:'✍️ Scripting',recording:'🎙️ Recording',editing:'✂️ Editing',review:'👁️ Review',scheduled:'📅 Scheduled',published:'🚀 Published'};
+const CONTENT_STAGE_COLORS={idea:'#6B7280',scripting:'#7C3AED',recording:'#DC2626',editing:'#D97706',review:'#0891B2',scheduled:'#059669',published:'#7C2D8E'};
+const CONTENT_STAGE_STATUS={idea:'notstarted',scripting:'inprogress',recording:'inprogress',editing:'inprogress',review:'inprogress',scheduled:'planned',published:'done'};
+const CONTENT_DURATION_MAP={story:2,reel:3,tiktok:3,short:3,carousel:4,static:2,newsletter:5,blogpost:7,podcast:7,youtube:21,webinar:14,course:30};
+
+let cpActiveView='dashboard';
+
+function showContentView(view){
+  cpActiveView=view;
+  ['dashboard','pipeline','table','series'].forEach(v=>{
+    const el=document.getElementById('cp-view-'+v);
+    if(el)el.style.display=v===view?'block':'none';
+    const tab=document.getElementById('cp-tab-'+v);
+    if(tab){
+      tab.style.background=v===view?'rgba(255,255,255,.2)':'transparent';
+      tab.style.border=v===view?'1.5px solid rgba(255,255,255,.6)':'1.5px solid rgba(255,255,255,.3)';
+      tab.style.fontWeight=v===view?'600':'400';
+      tab.style.color=v===view?'#fff':'rgba(255,255,255,.8)';
+    }
+  });
+  if(view==='dashboard')renderCPDashboard();
+  else if(view==='pipeline')renderCPPipeline();
+  else if(view==='table')renderCPTable();
+  else if(view==='series')renderCPSeries();
+}
+
+function renderContentPlanner(){if(!S.contentSeries)S.contentSeries=[];showContentView(cpActiveView);}
+function getContentItems(){return S.items.filter(i=>i.type==='content');}
+
+// CONTENT MODAL HELPERS
+function onContentTypeChg(){
+  const ct=document.getElementById('m-content-type')?.value;
+  if(!ct)return;
+  const dur=CONTENT_DURATION_MAP[ct];
+  if(dur!=null){const d=document.getElementById('m-duration');if(d&&!d.value){d.value=dur;onDurationChg();}}
+}
+function onContentStageChg(){
+  const stage=document.getElementById('m-content-stage')?.value;
+  if(!stage)return;
+  const mapped=CONTENT_STAGE_STATUS[stage];
+  if(mapped){const s=document.getElementById('m-status');if(s)s.value=mapped;}
+}
+function addContentPlatform(val){
+  if(!val)return;
+  let arr=[];try{arr=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{}
+  if(arr.includes(val))return;
+  arr.push(val);
+  const hidden=document.getElementById('m-content-platforms');if(hidden)hidden.value=JSON.stringify(arr);
+  const chips=document.getElementById('content-platform-chips');
+  if(chips){
+    const sp=document.createElement('span');
+    sp.style.cssText='display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#7C2D8E;color:#fff;border:1px solid #7C2D8E';
+    sp.innerHTML=esc(val)+'<button type="button" onclick="removeContentPlatform(\''+val.replace(/'/g,"\\'")+'\')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button>';
+    chips.appendChild(sp);
+  }
+}
+function removeContentPlatform(val){
+  let arr=[];try{arr=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{}
+  arr=arr.filter(x=>x!==val);
+  const hidden=document.getElementById('m-content-platforms');if(hidden)hidden.value=JSON.stringify(arr);
+  const chips=document.getElementById('content-platform-chips');
+  if(chips)[...chips.children].forEach(c=>{if(c.textContent.replace('×','').trim()===val)c.remove();});
+}
+function updateContentChecklistCount(total){
+  const items=[];for(let i=0;i<total;i++){const el=document.getElementById('m-cl-'+i);if(el)items.push(el);}
+  const data={};items.forEach((inp,ci)=>{data[ci]=inp.checked;});
+  const hidden=document.getElementById('m-content-checklist-data');if(hidden)hidden.value=JSON.stringify(data);
+  const done=Object.values(data).filter(Boolean).length;
+  const pct=total?Math.round(done/total*100):0;
+  const pctEl=document.getElementById('cl-pct-display');if(pctEl)pctEl.textContent=pct+'%';
+  const bar=document.getElementById('cl-pct-bar');if(bar)bar.style.width=pct+'%';
+}
+
+// ── DASHBOARD VIEW ──────────────────────────────────────────────────────────
+function renderCPDashboard(){
+  const el=document.getElementById('cp-view-dashboard');if(!el)return;
+  const all=getContentItems();
+  const stageCounts={};
+  CONTENT_STAGE_ORDER.forEach(s=>{stageCounts[s]=all.filter(i=>(i.contentStage||'idea')===s).length;});
+  const published=all.filter(i=>i.contentStage==='published');
+  const nearReady=all.filter(i=>['review','scheduled'].includes(i.contentStage||''));
+  const topPub=published.slice().sort((a,b)=>(b.contentViews||0)-(a.contentViews||0))[0];
+  const byType={};all.forEach(i=>{const ct=i.contentType||'(none)';byType[ct]=(byType[ct]||0)+1;});
+  el.innerHTML=`
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:18px">
+    ${CONTENT_STAGE_ORDER.map(s=>`<div class="mc" onclick="showContentView('pipeline')" style="border-top:3px solid ${CONTENT_STAGE_COLORS[s]};cursor:pointer">
+      <div class="mc-lbl">${CONTENT_STAGE_LABELS[s].replace(/^\S+\s/,'')}</div>
+      <div class="mc-val" style="color:${CONTENT_STAGE_COLORS[s]}">${stageCounts[s]||0}</div>
+    </div>`).join('')}
+    <div class="mc" style="border-top:3px solid var(--navy)">
+      <div class="mc-lbl">Total</div>
+      <div class="mc-val" style="color:var(--navy)">${all.length}</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7C2D8E;margin-bottom:12px">📊 By Content Type</div>
+      ${Object.entries(byType).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <div style="font-size:12px;flex:1;color:var(--navy);text-transform:capitalize">${esc(t)}</div>
+        <div style="font-size:11px;font-weight:700;color:#7C2D8E">${c}</div>
+        <div style="height:6px;width:80px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${all.length?Math.round(c/all.length*100):0}%;background:#7C2D8E;border-radius:3px"></div></div>
+      </div>`).join('')}
+      ${!Object.keys(byType).length?'<div style="color:var(--txt3);font-size:12px;font-style:italic">No content yet</div>':''}
+    </div>
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#059669;margin-bottom:12px">⚡ Near Ready (${nearReady.length})</div>
+      ${nearReady.slice(0,6).map(i=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+        <span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${CONTENT_STAGE_COLORS[i.contentStage||'idea']}22;color:${CONTENT_STAGE_COLORS[i.contentStage||'idea']};font-weight:600;flex-shrink:0">${(i.contentStage||'idea').slice(0,4).toUpperCase()}</span>
+        <span style="flex:1;font-size:11px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.name)}</span>
+      </div>`).join('')}
+      ${!nearReady.length?'<div style="color:var(--txt3);font-size:12px;font-style:italic">None in review or scheduled</div>':''}
+    </div>
+  </div>
+  ${topPub?`<div style="background:linear-gradient(135deg,#FAF5FF,#F3E8FF);border:1px solid #D8B4FE;border-radius:var(--rl);padding:16px;margin-bottom:18px;box-shadow:var(--sh)">
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7C2D8E;margin-bottom:8px">🏆 Top Performer</div>
+    <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:10px;cursor:pointer" onclick="openModal(null,null,null,'${topPub.id}')">${esc(topPub.name)}</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      ${[['Views',topPub.contentViews],['Likes',topPub.contentLikes],['Comments',topPub.contentComments],['Shares',topPub.contentShares]].map(([l,v])=>`<div style="text-align:center;background:rgba(124,45,142,.08);border-radius:var(--r);padding:8px"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#7C2D8E">${(v||0).toLocaleString()}</div><div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">${l}</div></div>`).join('')}
+    </div>
+  </div>`:''}
+  <div style="display:flex;justify-content:flex-end"><button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button></div>`;
+}
+
+// ── PIPELINE VIEW ───────────────────────────────────────────────────────────
+function renderCPPipeline(){
+  const el=document.getElementById('cp-view-pipeline');if(!el)return;
+  const seriesList=S.contentSeries||[];
+  // Preserve series filter across renders via a data attribute
+  const prevFilter=el.dataset.seriesFilter||'';
+  el.innerHTML='';
+  const hdr=document.createElement('div');
+  hdr.style.cssText='margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px';
+  const seriesOpts='<option value="">All Series</option>'+seriesList.map(s=>`<option value="${s.id}"${prevFilter===s.id?' selected':''}>${esc(s.name)}</option>`).join('');
+  hdr.innerHTML=`<div style="display:flex;gap:8px;align-items:center"><label style="font-size:11px;color:var(--txt2)">Filter by Series:</label>
+    <select id="cp-series-filter" onchange="document.getElementById('cp-view-pipeline').dataset.seriesFilter=this.value;renderCPPipeline()" style="padding:5px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select></div>
+    <button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button>`;
+  el.appendChild(hdr);
+  const seriesFilterId=prevFilter;
+  let all=getContentItems();
+  if(seriesFilterId)all=all.filter(i=>i.contentSeriesId===seriesFilterId);
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px';
+  grid.innerHTML=CONTENT_STAGE_ORDER.map(stage=>{
+    const stageItems=all.filter(i=>(i.contentStage||'idea')===stage);
+    const col=CONTENT_STAGE_COLORS[stage];
+    return`<div style="background:var(--soft);border-radius:var(--rl);padding:10px;border-top:3px solid ${col}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:${col}">${CONTENT_STAGE_LABELS[stage].replace(/^\S+\s/,'')}</span>
+        <span style="background:${col};color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px">${stageItems.length}</span>
+      </div>
+      ${stageItems.map(i=>`<div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:8px 10px;margin-bottom:6px;cursor:pointer" onclick="openModal(null,null,null,'${i.id}')" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-size:12px;font-weight:500;color:var(--navy);margin-bottom:4px;line-height:1.3">${esc((i.name||'').slice(0,45))}</div>
+        ${i.contentType?`<span style="font-size:9px;padding:1px 6px;background:#F3E8FF;color:#7C2D8E;border-radius:7px;text-transform:capitalize">${esc(i.contentType)}</span>`:''}
+        ${i.contentPublishDate?`<span style="font-size:9px;color:var(--txt3);margin-left:4px">📅 ${i.contentPublishDate.slice(5)}</span>`:''}
+        ${i.contentPlatforms&&i.contentPlatforms.length?`<div style="font-size:9px;color:var(--txt2);margin-top:3px">${i.contentPlatforms.slice(0,2).map(esc).join(', ')}${i.contentPlatforms.length>2?' +'+(i.contentPlatforms.length-2):''}</div>`:''}
+      </div>`).join('')}
+      <button onclick="openModal(null,null,'content')" style="width:100%;padding:5px;border:1px dashed ${col};background:transparent;color:${col};border-radius:var(--r);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:2px">+ Add</button>
+    </div>`;
+  }).join('');
+  el.appendChild(grid);
+}
+
+// ── TABLE VIEW ──────────────────────────────────────────────────────────────
+function renderCPTable(){
+  const el=document.getElementById('cp-view-table');if(!el)return;
+  const all=getContentItems().slice().sort((a,b)=>(a.contentPublishDate||'9999').localeCompare(b.contentPublishDate||'9999'));
+  const seriesList=S.contentSeries||[];
+  if(!all.length){
+    el.innerHTML='<div class="empty"><p>No content items yet</p><small>Add your first content item to start planning</small></div><div style="text-align:center;margin-top:12px"><button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,\'content\')">+ New Content</button></div>';
+    return;
+  }
+  el.innerHTML=`<div style="margin-bottom:10px;text-align:right"><button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button></div>
+  <div style="overflow-x:auto;border-radius:var(--rl);border:1px solid var(--bdr);box-shadow:var(--sh)">
+  <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
+    <thead><tr style="background:var(--navy);color:#fff">
+      ${['Name','Type','Stage','Platforms','Publish Date','Series','Hook','Views','Likes'].map(h=>`<th style="padding:9px 10px;text-align:left;font-size:10px;letter-spacing:1px;font-weight:600;white-space:nowrap">${h}</th>`).join('')}
+      <th style="width:36px"></th>
+    </tr></thead>
+    <tbody>${all.map((i,idx)=>{
+      const bg=idx%2===0?'var(--card)':'var(--soft)';
+      const ser=seriesList.find(s=>s.id===i.contentSeriesId);
+      const stc=CONTENT_STAGE_COLORS[i.contentStage||'idea'];
+      return`<tr style="background:${bg};border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+        <td style="padding:8px 10px;font-weight:500;color:var(--navy);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.name)}</td>
+        <td style="padding:8px 10px"><span style="font-size:10px;padding:2px 7px;border-radius:8px;background:#F3E8FF;color:#7C2D8E;text-transform:capitalize">${esc(i.contentType||'—')}</span></td>
+        <td style="padding:8px 10px"><span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${stc}22;color:${stc};font-weight:600">${CONTENT_STAGE_LABELS[i.contentStage||'idea']}</span></td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${(i.contentPlatforms||[]).slice(0,2).map(esc).join(', ')||'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${i.contentPublishDate||'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${ser?esc(ser.name):'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.contentHook||'—')}</td>
+        <td style="padding:8px 10px;font-size:11px;font-weight:600;color:var(--navy)">${(i.contentViews||0).toLocaleString()}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--navy)">${(i.contentLikes||0).toLocaleString()}</td>
+        <td style="padding:8px 10px" onclick="event.stopPropagation()"><button class="btn xs ghost" onclick="openModal(null,null,null,'${i.id}')">✏️</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+}
+
+// ── SERIES VIEW ─────────────────────────────────────────────────────────────
+function renderCPSeries(){
+  const el=document.getElementById('cp-view-series');if(!el)return;
+  if(!S.contentSeries)S.contentSeries=[];
+  const all=getContentItems();
+  el.innerHTML=`<div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--navy)">Content Series</div>
+    <button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openSeriesModal()">+ New Series</button>
+  </div>
+  ${S.contentSeries.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">
+    ${S.contentSeries.map(s=>{
+      const si=all.filter(i=>i.contentSeriesId===s.id);
+      const pub=si.filter(i=>i.contentStage==='published').length;
+      return`<div style="background:var(--card);border:1px solid var(--bdr);border-left:4px solid #7C2D8E;border-radius:var(--rl);padding:14px 16px;box-shadow:var(--sh)">
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px">
+          <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--navy)">${esc(s.name)}</div>${s.desc?`<div style="font-size:11px;color:var(--txt2);margin-top:2px">${esc(s.desc)}</div>`:''}</div>
+          <button class="btn xs ghost" onclick="openSeriesModal('${s.id}')">✏️</button>
+          <button class="btn xs danger" onclick="deleteSeries('${s.id}')">✕</button>
+        </div>
+        <div style="display:flex;gap:16px;margin-bottom:12px">
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#7C2D8E">${si.length}</div><div style="font-size:9px;color:var(--txt2)">total</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#059669">${pub}</div><div style="font-size:9px;color:var(--txt2)">published</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)">${si.length-pub}</div><div style="font-size:9px;color:var(--txt2)">in pipeline</div></div>
+        </div>
+        <button onclick="document.getElementById('cp-view-pipeline').dataset.seriesFilter='${s.id}';showContentView('pipeline')" style="width:100%;padding:6px;border:1px solid #7C2D8E;background:transparent;color:#7C2D8E;border-radius:var(--r);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">View Pipeline →</button>
+      </div>`;
+    }).join('')}
+  </div>`:`<div class="empty"><p>No series yet</p><small>Create a series to group related content together</small></div>`}`;
+}
+
+function openSeriesModal(id){
+  const s=id?(S.contentSeries||[]).find(x=>x.id===id):null;
+  const wrap=document.createElement('div');wrap.className='overlay';wrap.style.display='flex';
+  wrap.innerHTML=`<div class="modal" style="max-width:460px">
+    <div class="modal-head"><h2>${s?'Edit Series':'New Series'}</h2><button class="xbtn" onclick="this.closest('.overlay').remove()">&#x00D7;</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Series Name <span class="req">*</span></label><input id="_ser-name" value="${esc(s?.name||'')}" placeholder="e.g. Behind the Business, Morning Routine..."></div>
+      <div class="field"><label>Description</label><textarea id="_ser-desc" rows="2" placeholder="What is this series about?">${esc(s?.desc||'')}</textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" onclick="this.closest('.overlay').remove()">Cancel</button>
+      <button class="btn primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="saveSeries('${id||''}')">Save Series</button>
+    </div>
+  </div>`;
+  document.body.appendChild(wrap);
+  wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove();});
+  setTimeout(()=>document.getElementById('_ser-name')?.focus(),50);
+}
+function saveSeries(id){
+  const name=(document.getElementById('_ser-name')?.value||'').trim();
+  if(!name){alert('Series name is required.');return;}
+  if(!S.contentSeries)S.contentSeries=[];
+  const desc=(document.getElementById('_ser-desc')?.value||'').trim();
+  if(id){const s=S.contentSeries.find(x=>x.id===id);if(s){s.name=name;s.desc=desc;}}
+  else S.contentSeries.push({id:uid(),name,desc});
+  save();
+  document.querySelector('.overlay[style*="flex"]')?.remove();
+  renderCPSeries();toast('Series saved!');
+}
+function deleteSeries(id){
+  if(!confirm('Delete this series? Content items will not be deleted.'))return;
+  S.contentSeries=(S.contentSeries||[]).filter(s=>s.id!==id);
+  S.items.forEach(i=>{if(i.contentSeriesId===id)delete i.contentSeriesId;});
+  save();renderCPSeries();toast('Series deleted');
 }
 
 </script>
