@@ -1361,7 +1361,15 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <div class="fp-title" id="fp-title">Focus View</div>
     <button class="btn sm" onclick="openModal(null,null,null,window._fpItemId)" title="Open full edit modal">&#9998; Edit</button>
     <button class="btn sm primary" id="fp-save-btn" onclick="saveFocusAnchor()" style="display:none">Save Changes</button>
-    <button class="btn sm" onclick="openLinkSearchModal()" title="Link another item to this one" style="background:#E6F1FB;border-color:#93C5FD;color:#0E4A85">+ Link Item</button>
+    <button class="btn sm" onclick="fpShowLinkSearch()" title="Link another item to this one" style="background:#E6F1FB;border-color:#93C5FD;color:#0E4A85">+ Link Item</button>
+  </div>
+  <!-- Quick link search bar (shown on demand) -->
+  <div id="fp-link-bar" style="display:none;padding:8px 20px;background:#EFF6FF;border-bottom:1px solid #93C5FD;flex-shrink:0;display:none">
+    <div style="display:flex;gap:8px;align-items:center;max-width:600px">
+      <input id="fp-link-inp" type="text" placeholder="Search any item to link..." style="flex:1;padding:6px 10px;border:1px solid #93C5FD;border-radius:var(--r);font-size:12px;background:#fff;color:var(--txt);font-family:'DM Sans',sans-serif;outline:none" oninput="fpSearchLink(this.value)" onblur="setTimeout(()=>{const d=document.getElementById('fp-link-dd');if(d)d.style.display='none'},200)">
+      <button class="btn sm ghost" onclick="document.getElementById('fp-link-bar').style.display='none'">✕</button>
+    </div>
+    <div id="fp-link-dd" style="display:none;background:#fff;border:1px solid #93C5FD;border-radius:var(--r);margin-top:4px;max-height:200px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.1);max-width:600px"></div>
   </div>
   <div class="fp-body">
     <!-- LEFT: anchor item quick-edit -->
@@ -3063,7 +3071,7 @@ function renderModalBody(type,item,prefill){
       </div>
       <div class="field" style="margin-bottom:${showChecklist||isPublished?'10px':'0'}"><label>Repurpose From <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">link source content</span></label>
         <div class="lf-wrap">
-          <input class="lf-inp" type="text" id="lfs-content" placeholder="Search content to repurpose from..." oninput="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)">
+          <input class="lf-inp" type="text" id="lfs-content" placeholder="Search content to repurpose from..." oninput="showLDD('content',this.value)" onfocus="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)">
           <div class="lf-dd" id="ldd-content"></div>
         </div>
         <div class="lf-chips" id="lfc-content">${(ML.linkedContent||[]).map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('content','${id}')">&#x00D7;</button></span>`;}).join('')}</div>
@@ -3359,7 +3367,7 @@ function onStatusChg(){const s=document.getElementById('m-status')?.value;if(s==
 function buildLF(linkType,linkedIds){
   const chips=linkedIds.map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${linkType}','${id}')">&#x00D7;</button></span>`;}).join('');
   return`<div class="lf-wrap">
-    <input class="lf-inp" type="text" id="lfs-${linkType}" placeholder="Search ${linkType}s to link..." oninput="showLDD('${linkType}',this.value)" onblur="setTimeout(()=>hideLDD('${linkType}'),200)">
+    <input class="lf-inp" type="text" id="lfs-${linkType}" placeholder="Search ${linkType}s to link..." oninput="showLDD('${linkType}',this.value)" onfocus="showLDD('${linkType}',this.value)" onblur="setTimeout(()=>hideLDD('${linkType}'),200)">
     <div class="lf-dd" id="ldd-${linkType}"></div>
   </div>
   <div class="lf-chips" id="lfc-${linkType}">${chips}</div>`;
@@ -3373,11 +3381,12 @@ function showLDD(type,q){
     (type==='any'||i.type===type)&&
     !existing.includes(i.id)&&
     i.status!=='placeholder'&&
-    (i.name||'').toLowerCase().includes(q.toLowerCase())
-  ).slice(0,10);
+    (!q||(i.name||'').toLowerCase().includes(q.toLowerCase()))
+  ).slice(0,12);
   const rows=results.map(i=>`<div class="lf-opt" onmousedown="addLink('${type==='any'?i.type:type}','${i.id}')">${esc((i.name||'').slice(0,55))}${tBadge(i.type)}</div>`).join('');
-  const newRow=(q.trim()&&type!=='any')?`<div class="lf-opt lf-opt-new" onmousedown="createAndLink('${type}','${q.trim().replace(/'/g,'&#39;')}')">+ Create "${q.trim()}" as new ${type}</div>`:'';
-  dd.innerHTML=rows+newRow;dd.style.display=(rows||newRow)?'block':'none';
+  const newRow=(q&&q.trim()&&type!=='any')?`<div class="lf-opt lf-opt-new" onmousedown="createAndLink('${type}','${q.trim().replace(/'/g,'&#39;')}')">+ Create "${q.trim()}" as new ${type}</div>`:'';
+  dd.innerHTML=rows||newRow?rows+newRow:'<div style="padding:8px 12px;font-size:11px;color:var(--txt3)">No items found</div>';
+  dd.style.display='block';
 }
 function hideLDD(type){const dd=document.getElementById('ldd-'+type);if(dd)dd.style.display='none';}
 function addLink(type,id){
@@ -4413,6 +4422,9 @@ function renderTimeline(){
 // LIST DETAIL
 let ldFilter='all';let ldCats=[];
 function openListDetail(listId){
+  // Force hide first to clear any stale content
+  const ldEl=document.getElementById('list-detail');
+  if(ldEl)ldEl.style.display='none';
   S.activeList=listId;ldFilter='all';ldCats=[];
   // Default sort: patches sort by name, others by seq
   const _ld=S.lists.find(l=>l.id===listId);
@@ -4467,11 +4479,20 @@ let ldTableSort={col:'seq',dir:'asc'};
 
 function renderListDetail(){
   if(!S.activeList)return;
+  // Safety check: confirm the list-detail panel is actually open for this list
+  const ldEl=document.getElementById('list-detail');
+  if(!ldEl||ldEl.style.display==='none')return;
   let li=S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(S.activeList));
+  // Special case for NOs: also include type=ask items missing from listIds (backward compat)
+  if(S.activeList==='nos'){
+    const inNos=new Set(li.map(x=>x.id));
+    S.items.filter(i=>i.type==='ask'&&!inNos.has(i.id)&&i.status!=='placeholder').forEach(i=>li.push(i));
+  }
   li=applyCatFilter(applyFilter(li,ldFilter),ldCats);
   const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
   if(hideDone)li=li.filter(i=>i.status!=='done');
-  const search=((document.getElementById('ld-search')||{value:''}).value||(document.getElementById('gsearch')||{value:''}).value).toLowerCase();
+  // Only use list-specific search (not global gsearch) to avoid cross-contamination
+  const search=((document.getElementById('ld-search')||{value:''}).value).toLowerCase();
   li=li.filter(i=>!search||(((i.name||'')+(i.patchCategory||'')+(i.challengeDetails||'')+(i.notes||'')).toLowerCase().includes(search)));
   li=li.slice().sort((a,b)=>{
     const col=ldTableSort.col,dir=ldTableSort.dir==='asc'?1:-1;
@@ -4923,6 +4944,47 @@ function goToList(id){
 window._fpItemId=null;
 let _fpFilter='all';
 let _fpDirty=false; // track unsaved anchor edits
+
+function fpShowLinkSearch(){
+  const bar=document.getElementById('fp-link-bar');
+  if(!bar)return;
+  bar.style.display='block';
+  const inp=document.getElementById('fp-link-inp');
+  if(inp){inp.value='';inp.focus();}
+}
+function fpSearchLink(q){
+  const dd=document.getElementById('fp-link-dd');if(!dd)return;
+  const anchor=getItem(window._fpItemId);if(!anchor)return;
+  const allLinkedIds=[
+    ...(anchor.linkedGoals||[]),...(anchor.linkedProjects||[]),
+    ...(anchor.linkedTasks||[]),...(anchor.linkedAsks||[]),
+    ...(anchor.linkedPatches||[]),...(anchor.linkedContent||[])
+  ];
+  const results=S.items.filter(i=>
+    i.id!==window._fpItemId&&
+    !allLinkedIds.includes(i.id)&&
+    i.status!=='placeholder'&&
+    (!q||(i.name||'').toLowerCase().includes(q.toLowerCase()))
+  ).slice(0,12);
+  if(!results.length){dd.innerHTML='<div style="padding:10px;font-size:12px;color:var(--txt3)">No items found</div>';dd.style.display='block';return;}
+  dd.innerHTML=results.map(i=>`<div style="padding:8px 12px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bdr)" onmousedown="fpLinkExisting('${i.type}','${i.id}')" onmouseover="this.style.background='var(--soft)'" onmouseout="this.style.background=''">${tBadge(i.type)}<span>${esc((i.name||'').slice(0,60))}</span></div>`).join('');
+  dd.style.display='block';
+}
+function fpLinkExisting(type,id){
+  const anchor=getItem(window._fpItemId);if(!anchor)return;
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
+  const k=keyMap[type];if(!k)return;
+  if(!anchor[k])anchor[k]=[];
+  if(!anchor[k].includes(id))anchor[k].push(id);
+  // Reverse link
+  const linked=getItem(id);
+  if(linked){const ak=keyMap[anchor.type];if(ak){if(!linked[ak])linked[ak]=[];if(!linked[ak].includes(window._fpItemId))linked[ak].push(window._fpItemId);}}
+  save();
+  document.getElementById('fp-link-bar').style.display='none';
+  const inp=document.getElementById('fp-link-inp');if(inp)inp.value='';
+  const dd=document.getElementById('fp-link-dd');if(dd)dd.style.display='none';
+  renderFocusPanel();toast('Item linked ✓');
+}
 
 function openFocusPanel(itemId){
   const item=getItem(itemId);if(!item)return;
