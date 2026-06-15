@@ -330,6 +330,41 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 }
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:3px}
+/* FOCUS / PROJECT PLANNER PANEL */
+#focus-panel{position:fixed;inset:0;background:var(--bg);z-index:900;display:none;flex-direction:column;overflow:hidden}
+.fp-topbar{background:var(--card);border-bottom:1px solid var(--bdr);padding:0 20px;height:52px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.fp-back{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--r);border:1px solid var(--bdr2);font-size:12px;cursor:pointer;background:var(--card);color:var(--txt);font-family:'DM Sans',sans-serif;white-space:nowrap}
+.fp-back:hover{background:var(--soft)}
+.fp-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--navy);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-body{flex:1;overflow-y:auto;display:flex;gap:0;min-height:0}
+.fp-anchor{width:340px;min-width:280px;max-width:400px;border-right:1px solid var(--bdr);padding:20px;overflow-y:auto;background:var(--card);flex-shrink:0}
+.fp-linked{flex:1;overflow-y:auto;padding:20px;min-width:0}
+.fp-anchor-head{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;font-weight:600}
+.fp-section{margin-bottom:22px}
+.fp-sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--bdr)}
+.fp-sec-lbl{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--txt2);display:flex;align-items:center;gap:5px}
+.fp-sec-cnt{font-size:10px;background:var(--soft);padding:1px 7px;border-radius:10px;color:var(--txt3)}
+.fp-item{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:11px 14px;margin-bottom:7px;cursor:pointer;transition:border-color .15s;position:relative}
+.fp-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.fp-item.s-notstarted::before,.fp-item.s-planned::before{background:var(--bdr2)}
+.fp-item.s-inprogress::before{background:#EF9F27}
+.fp-item.s-done::before{background:#63C76C}
+.fp-item.s-behind::before{background:var(--pink)}
+.fp-item:hover{border-color:var(--teal)}
+.fp-item-name{font-size:13px;font-weight:500;color:var(--navy);margin-bottom:4px;line-height:1.4}
+.fp-item-name.done{text-decoration:line-through;color:var(--txt3)}
+.fp-item-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fp-add-btn{width:100%;padding:7px;border-radius:var(--r);border:1px dashed var(--bdr2);font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:var(--txt2);font-family:'DM Sans',sans-serif;transition:all .15s;text-align:left}
+.fp-add-btn:hover{border-color:var(--teal);color:var(--teal);background:#F0FAFA}
+.fp-anchor-field{margin-bottom:12px}
+.fp-anchor-field label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--txt3);display:block;margin-bottom:4px}
+.fp-anchor-field input,.fp-anchor-field select,.fp-anchor-field textarea{width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.fp-anchor-field input:focus,.fp-anchor-field select:focus,.fp-anchor-field textarea:focus{border-color:var(--teal);background:#fff}
+.fp-anchor-field textarea{resize:vertical;min-height:60px}
+.fp-save-bar{padding:10px 20px;border-top:1px solid var(--bdr);background:var(--card);display:flex;gap:8px;align-items:center;flex-shrink:0}
+.fp-filter-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fp-empty{text-align:center;padding:30px;color:var(--txt3);font-size:13px}
+@media(max-width:700px){.fp-body{flex-direction:column}.fp-anchor{width:100%;max-width:100%;border-right:none;border-bottom:1px solid var(--bdr);max-height:50vh}}
 </style>
 </head>
 <body>
@@ -1319,6 +1354,29 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 </div>
 </div>
 
+<!-- FOCUS / PROJECT PLANNER PANEL -->
+<div id="focus-panel">
+  <div class="fp-topbar">
+    <button class="fp-back" onclick="closeFocusPanel()">&#8592; Back</button>
+    <div class="fp-title" id="fp-title">Focus View</div>
+    <button class="btn sm" onclick="openModal(null,null,null,window._fpItemId)" title="Open full edit modal">&#9998; Edit</button>
+    <button class="btn sm primary" id="fp-save-btn" onclick="saveFocusAnchor()" style="display:none">Save Changes</button>
+    <button class="btn sm" onclick="openLinkSearchModal()" title="Link another item to this one" style="background:#E6F1FB;border-color:#93C5FD;color:#0E4A85">+ Link Item</button>
+  </div>
+  <div class="fp-body">
+    <!-- LEFT: anchor item quick-edit -->
+    <div class="fp-anchor" id="fp-anchor-pane">
+      <div class="fp-anchor-head">Anchor Item</div>
+      <div id="fp-anchor-content"></div>
+    </div>
+    <!-- RIGHT: linked items -->
+    <div class="fp-linked" id="fp-linked-pane">
+      <div class="fp-filter-row" id="fp-filter-row"></div>
+      <div id="fp-linked-content"></div>
+    </div>
+  </div>
+</div>
+
 <!-- INVENTORY ITEM MODAL -->
 <div class="overlay" id="inv-modal" style="display:none" onclick="if(event.target===this)closeInvModal()">
 <div class="modal" style="max-width:620px">
@@ -1533,6 +1591,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="modal-body" id="modal-body"></div>
   <div class="modal-foot">
     <button class="btn danger xs" id="m-del" style="margin-right:auto;display:none" onclick="deleteItem()">Delete</button>
+    <button class="btn xs" id="m-focus" style="display:none;background:#E6F1FB;border-color:#93C5FD;color:#0E4A85" onclick="openFocusFromModal()">🎯 Focus View</button>
     <button class="btn ghost" onclick="closeModal()">Cancel</button>
     <button class="btn primary" onclick="saveItem()">Save</button>
   </div>
@@ -2465,6 +2524,7 @@ function openModal(clId,text,type,itemId){
   };
   document.getElementById('m-title').textContent=item?'Edit Action Item':'Add Action Item';
   document.getElementById('m-del').style.display=item?'inline-flex':'none';
+  const mFocus=document.getElementById('m-focus');if(mFocus)mFocus.style.display=item?'inline-flex':'none';
   renderModalBody(t,item,text);
   document.getElementById('item-modal').style.display='flex';
   setTimeout(()=>document.getElementById('m-name')?.focus(),50);
@@ -3513,7 +3573,23 @@ function doSave(obj){
   if(!S.editId)detectNumberAndGenerate(obj);
   recalc();
   if(S.pendingClId)document.getElementById('cl-'+S.pendingClId)?.remove();
+  // If saving from inside a Focus Panel context, link back to anchor
+  if(window._fpPendingLinkBack&&!S.editId){
+    const {anchorId,type}=window._fpPendingLinkBack;
+    const anchor=getItem(anchorId);
+    const keyMap2={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
+    const ak=keyMap2[type];
+    if(anchor&&ak){if(!anchor[ak])anchor[ak]=[];if(!anchor[ak].includes(obj.id))anchor[ak].push(obj.id);}
+    // Also link anchor into the new item
+    const anchorKey=keyMap2[anchor?.type];
+    if(obj&&anchorKey){if(!obj[anchorKey])obj[anchorKey]=[];if(!obj[anchorKey].includes(anchorId))obj[anchorKey].push(anchorId);}
+    window._fpPendingLinkBack=null;
+  }
   save();closeModal();renderAll();toast(S.editId?'Updated!':'Saved!');
+  // Refresh focus panel if open
+  if(document.getElementById('focus-panel').style.display==='flex'&&window._fpItemId){
+    setTimeout(()=>renderFocusPanel(),50);
+  }
 }
 
 function deleteItem(){
@@ -3884,6 +3960,7 @@ function applyFilter(items,f){
     if(f==='all')return i.status!=='placeholder';
     if(f==='goal')return i.type==='goal';
     if(f==='ask')return i.type==='ask';
+    if(f==='nos-ask')return i.type==='ask'||i.type==='task';
     if(f==='patch')return i.type==='patch';
     if(f==='project')return i.type==='project';
     if(f==='task')return i.type==='task';
@@ -4305,6 +4382,7 @@ function renderCardsSorted(list,containerId){
       ${i.startDate||i.date||i.completedDate||i.rotationWeek?`<div style="font-size:10px;color:var(--txt3);margin-top:3px;display:flex;gap:10px">${i.rotationWeek?`<span style="color:#0FA3A3;font-weight:500">Week ${i.rotationWeek} of 13</span>`:''}${i.startDate?`<span>Start: ${i.startDate}</span>`:''}${i.date?`<span>Due: ${i.date}</span>`:''}${i.completedDate?`<span>Done: ${i.completedDate}</span>`:''}</div>`:''}
       <div class="ai-acts" onclick="event.stopPropagation()">
         <button class="btn xs" onclick="event.stopPropagation();openModal(null,null,null,'${i.id}')">Edit</button>
+        <button class="btn xs" onclick="event.stopPropagation();openFocusPanel('${i.id}')" style="background:#E6F1FB;border-color:#93C5FD;color:#0E4A85" title="Open Focus/Planner view">🎯</button>
         ${i.type==='task'?`<button class="btn xs" onclick="event.stopPropagation();toggleDone('${i.id}')">${i.status==='done'?'Mark Undone':'Mark Done'}</button>`:`<button class="btn xs" onclick="event.stopPropagation();quickProg('${i.id}')">Log %</button>`}
       </div>
     </div>`;
@@ -4348,7 +4426,7 @@ function openListDetail(listId){
   const isNos=listId==='nos';
   const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['patch','Patches'],
     ['notstarted','Not Started'],['inprogress','In Progress'],['planned','Planned'],['behind','Behind'],['done','Done'],['attention','Needs Attention']];
-  const nosFilters=[['all','All'],['ask','All Asks'],['inprogress','In Progress'],['done','Done'],
+  const nosFilters=[['all','All'],['nos-ask','All Asks & Tasks'],['inprogress','In Progress'],['done','Done'],
     ...[['pending','⏳ Pending Response'],['yes','✅ Yes'],['no','❌ No']].map(([v,l])=>[v+'-resp',l])];
   const filters=isNos?nosFilters:baseFilters;
   document.getElementById('ld-fbar').innerHTML=filters.map(([k,lbl])=>
@@ -4822,10 +4900,14 @@ function renderSb(){
   }).join('');
 }
 function goToList(id){
+  // Set activeList immediately so renderListDetail never reads stale state
+  S.activeList=id;ldFilter='all';ldCats=[];
   showPage('lists',document.getElementById('nav-lists'));
   // Close any open list detail first to prevent stacking
   const ld=document.getElementById('list-detail');
   if(ld)ld.style.display='none';
+  // Clear any lingering search that would filter the wrong items
+  const srch=document.getElementById('ld-search');if(srch)srch.value='';
   setTimeout(()=>{
     openListDetail(id);
     setTimeout(()=>{
@@ -4835,6 +4917,256 @@ function goToList(id){
   },80);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// FOCUS / PROJECT PLANNER PANEL
+// ═══════════════════════════════════════════════════════════════
+window._fpItemId=null;
+let _fpFilter='all';
+let _fpDirty=false; // track unsaved anchor edits
+
+function openFocusPanel(itemId){
+  const item=getItem(itemId);if(!item)return;
+  window._fpItemId=itemId;_fpFilter='all';_fpDirty=false;
+  // Close any open modals
+  closeModal();
+  document.getElementById('focus-panel').style.display='flex';
+  renderFocusPanel();
+}
+function openFocusFromModal(){
+  // Save modal first, then open focus
+  const id=S.editId;
+  if(!id)return;
+  saveItem();
+  setTimeout(()=>openFocusPanel(id),200);
+}
+function closeFocusPanel(){
+  if(_fpDirty&&!confirm('You have unsaved changes to the anchor item. Discard them?'))return;
+  document.getElementById('focus-panel').style.display='none';
+  window._fpItemId=null;_fpDirty=false;
+}
+function renderFocusPanel(){
+  const item=getItem(window._fpItemId);if(!item)return;
+  // Update title
+  document.getElementById('fp-title').textContent=item.name||'(Unnamed)';
+  renderFocusAnchor(item);
+  renderFocusLinked(item);
+}
+function renderFocusAnchor(item){
+  const statusOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done']];
+  const effortOpts=[['','— Effort —'],['easy','🟢 Easy'],['medium','🟠 Medium'],['hard','🔴 Hard'],['epic','⭐ Epic'],['legendary','👑 Legendary'],['ultimate','🔥 Ultimate'],['mythic','⚡ Mythic'],['elite','💎 Elite'],['master','🛡️ Master']];
+  const prog=calcProg(item);
+  const pColor2=p=>p>=100?'#63C76C':p>=60?'#0FA3A3':p>=30?'#EF9F27':'#E0E0E0';
+  document.getElementById('fp-anchor-content').innerHTML=`
+    <div class="fp-anchor-field">
+      <label>Name</label>
+      <input id="fpa-name" value="${esc(item.name||'')}" oninput="fpMarkDirty()" onblur="fpAutoSave()">
+    </div>
+    <div class="fp-anchor-field">
+      <label>Status</label>
+      <select id="fpa-status" onchange="fpMarkDirty();fpAutoSave()">
+        ${statusOpts.map(([v,l])=>`<option value="${v}"${item.status===v?' selected':''}>${l}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fp-anchor-field">
+      <label>Progress — <span style="color:var(--teal);font-weight:700">${prog}%</span></label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="range" id="fpa-prog" min="0" max="100" value="${item.progress||0}" style="flex:1;accent-color:var(--teal)" oninput="document.getElementById('fpa-prog-v').textContent=this.value+'%'" onchange="fpMarkDirty();fpAutoSave()">
+        <span id="fpa-prog-v" style="font-size:11px;color:var(--txt2);min-width:32px">${item.progress||0}%</span>
+      </div>
+      <div style="height:4px;border-radius:2px;background:var(--soft);margin-top:4px;overflow:hidden"><div style="height:100%;width:${prog}%;background:${pColor2(prog)};border-radius:2px;transition:width .3s"></div></div>
+    </div>
+    <div class="fp-anchor-field">
+      <label>Effort</label>
+      <select id="fpa-effort" onchange="fpMarkDirty();fpAutoSave()">
+        ${effortOpts.map(([v,l])=>`<option value="${v}"${(item.effort||'')===v?' selected':''}>${l}</option>`).join('')}
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="fp-anchor-field" style="margin:0">
+        <label>Start Date</label>
+        <input type="date" id="fpa-start" value="${item.startDate||''}" onchange="fpMarkDirty();fpAutoSave()">
+      </div>
+      <div class="fp-anchor-field" style="margin:0">
+        <label>Target Date</label>
+        <input type="date" id="fpa-date" value="${item.date||''}" onchange="fpMarkDirty();fpAutoSave()">
+      </div>
+    </div>
+    <div class="fp-anchor-field" style="margin-top:12px">
+      <label>Notes</label>
+      <textarea id="fpa-notes" oninput="fpMarkDirty()" onblur="fpAutoSave()">${esc(item.notes||'')}</textarea>
+    </div>
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);display:flex;gap:6px;flex-wrap:wrap">
+      ${tBadge(item.type)}
+      ${(item.categories||[]).map(c=>`<span style="font-size:10px;padding:1px 6px;background:var(--soft);border-radius:8px;color:var(--txt2)">${esc(c)}</span>`).join('')}
+      ${(item.listIds||[]).map(lid=>`<span style="font-size:10px;padding:1px 6px;background:var(--soft);border-radius:8px;color:var(--txt2)">${esc(lName(lid))}</span>`).join('')}
+    </div>
+    <div style="margin-top:10px">
+      <button class="btn sm" onclick="openModal(null,null,null,'${item.id}')" style="width:100%;justify-content:center">
+        ✏️ Open Full Edit Modal
+      </button>
+    </div>
+  `;
+}
+function fpMarkDirty(){
+  _fpDirty=true;
+  const btn=document.getElementById('fp-save-btn');if(btn)btn.style.display='inline-flex';
+}
+function fpAutoSave(){
+  // Auto-save anchor changes silently
+  saveFocusAnchor(true);
+}
+function saveFocusAnchor(silent){
+  const item=getItem(window._fpItemId);if(!item)return;
+  const name=(document.getElementById('fpa-name')||{}).value;
+  const status=(document.getElementById('fpa-status')||{}).value;
+  const prog=parseInt((document.getElementById('fpa-prog')||{}).value)||0;
+  const effort=(document.getElementById('fpa-effort')||{}).value;
+  const startDate=(document.getElementById('fpa-start')||{}).value;
+  const date=(document.getElementById('fpa-date')||{}).value;
+  const notes=(document.getElementById('fpa-notes')||{}).value;
+  if(name!==undefined)item.name=name;
+  if(status)item.status=status;
+  item.progress=prog;
+  item.effort=effort||item.effort;
+  if(startDate!==undefined)item.startDate=startDate;
+  if(date!==undefined)item.date=date;
+  if(notes!==undefined)item.notes=notes;
+  recalc();save();
+  _fpDirty=false;
+  const btn=document.getElementById('fp-save-btn');if(btn)btn.style.display='none';
+  document.getElementById('fp-title').textContent=item.name||'(Unnamed)';
+  if(!silent)toast('Saved ✓');
+}
+function renderFocusLinked(item){
+  // Gather all linked items
+  const sections=[
+    {key:'linkedGoals',type:'goal',label:'Goals',icon:'🎯'},
+    {key:'linkedProjects',type:'project',label:'Projects',icon:'📁'},
+    {key:'linkedTasks',type:'task',label:'Tasks',icon:'✅'},
+    {key:'linkedAsks',type:'ask',label:'Asks',icon:'📬'},
+    {key:'linkedContent',type:'content',label:'Content',icon:'🎬'},
+    {key:'linkedPatches',type:'patch',label:'Patches',icon:'🏅'},
+  ];
+  // Build filter chips
+  const allLinkedIds=[...new Set(sections.flatMap(s=>item[s.key]||[]))];
+  const allLinked=allLinkedIds.map(id=>getItem(id)).filter(Boolean);
+  const filters=[
+    ['all','All',allLinked.length],
+    ['notstarted','Not Started',allLinked.filter(i=>i.status==='notstarted').length],
+    ['inprogress','In Progress',allLinked.filter(i=>i.status==='inprogress').length],
+    ['done','Done',allLinked.filter(i=>i.status==='done').length],
+    ['attention','Needs Attention',allLinked.filter(i=>needsAttn(i)).length],
+  ].filter(([,, c])=>c>0||_['all']=== 'all');
+  document.getElementById('fp-filter-row').innerHTML=
+    `<span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--txt3);margin-right:4px">Filter:</span>`+
+    [['all','All',allLinked.length],['notstarted','Not Started'],['inprogress','In Progress'],['done','Done'],['behind','Behind'],['attention','⚠ Attention']].map(([k,l,c])=>{
+      const cnt=c!==undefined?c:allLinked.filter(i=>applyFilter([i],k).length>0).length;
+      if(k!=='all'&&cnt===0)return'';
+      return`<button class="fc${_fpFilter===k?' active':''}" onclick="setFpFilter('${k}')">${l}<span class="fn">${cnt}</span></button>`;
+    }).join('');
+  // Render sections
+  const cont=document.getElementById('fp-linked-content');
+  if(!allLinked.length){
+    cont.innerHTML=`<div class="fp-empty">
+      <div style="font-size:36px;margin-bottom:10px">🔗</div>
+      <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:6px">No linked items yet</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:16px">Link goals, tasks, projects, asks, and more to build your plan.</div>
+      ${sections.map(s=>`<button class="fp-add-btn" style="margin-bottom:5px" onclick="fpAddLinked('${s.type}')">+ Link a ${s.label.slice(0,-1).toLowerCase()} to this item</button>`).join('')}
+    </div>`;
+    return;
+  }
+  cont.innerHTML=sections.map(s=>{
+    const ids=item[s.key]||[];
+    if(!ids.length)return`<div class="fp-section">
+      <div class="fp-sec-head"><span class="fp-sec-lbl">${s.icon} ${s.label}</span><span class="fp-sec-cnt">0</span></div>
+      <button class="fp-add-btn" onclick="fpAddLinked('${s.type}')">+ Link a ${s.label.slice(0,-1).toLowerCase()}</button>
+    </div>`;
+    let linked=ids.map(id=>getItem(id)).filter(Boolean);
+    // Apply filter
+    if(_fpFilter!=='all')linked=linked.filter(i=>applyFilter([i],_fpFilter).length>0);
+    return`<div class="fp-section">
+      <div class="fp-sec-head">
+        <span class="fp-sec-lbl">${s.icon} ${s.label} <span class="fp-sec-cnt">${ids.length}</span></span>
+        <button class="btn xs" onclick="fpAddLinked('${s.type}')" style="font-size:10px">+ Link</button>
+      </div>
+      ${linked.length?linked.map(li=>{
+        const prog2=calcProg(li);
+        const d=daysUntil(li.date);
+        return`<div class="fp-item ${sCls(li.status)}" onclick="openModal(null,null,null,'${li.id}')">
+          <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:4px">
+            <div class="fp-item-name${li.status==='done'?' done':''}" style="flex:1">${esc(li.name||'(Unnamed)')}</div>
+            <button class="btn xs" onclick="event.stopPropagation();fpUnlink('${s.type}','${li.id}')" title="Remove link" style="color:var(--txt3);border-color:transparent;background:transparent;padding:1px 5px;opacity:.5">✕</button>
+            <button class="btn xs" onclick="event.stopPropagation();openFocusPanel('${li.id}')" style="background:#E6F1FB;border-color:#93C5FD;color:#0E4A85;padding:1px 5px" title="Focus on this item">🎯</button>
+          </div>
+          <div class="fp-item-meta">
+            <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--soft);color:var(--txt2)">${{notstarted:'Not Started',planned:'Planned',inprogress:'In Progress',behind:'Behind',done:'Done'}[li.status]||li.status}</span>
+            ${d!==null&&li.status!=='done'?`<span style="font-size:10px;color:${d<0?'var(--pink)':d===0?'#EF9F27':'var(--txt3)'}">${d<0?'⚠ '+Math.abs(d)+'d overdue':d===0?'Due today':'Due '+d+'d'}</span>`:''}
+            ${li.progress!=null&&li.type!=='task'?`<span style="font-size:10px;color:var(--txt3)">${prog2}%</span>`:''}
+            ${li.effort?`<span style="font-size:10px;color:var(--txt3)">${{easy:'🟢',medium:'🟠',hard:'🔴',epic:'⭐',legendary:'👑'}[li.effort]||''} ${li.effort}</span>`:''}
+          </div>
+          ${li.type!=='task'&&prog2>0?`<div style="height:3px;border-radius:2px;background:var(--soft);margin-top:5px;overflow:hidden"><div style="height:100%;width:${prog2}%;background:${pColor(prog2)};border-radius:2px"></div></div>`:''}
+          <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+            ${(li.categories||[]).map(c=>`<span style="font-size:9px;padding:1px 5px;background:var(--soft);border-radius:6px;color:var(--txt2)">${esc(c)}</span>`).join('')}
+            ${(li.listIds||[]).map(lid=>`<span style="font-size:9px;padding:1px 5px;border-radius:6px;border:1px solid var(--bdr);color:var(--txt3)">${esc(lName(lid))}</span>`).join('')}
+          </div>
+          <div style="margin-top:6px;display:flex;gap:4px">
+            <button class="btn xs" onclick="event.stopPropagation();fpQuickStatus('${li.id}','inprogress')" style="font-size:9px;padding:2px 6px${li.status==='inprogress'?';background:var(--teal);color:#fff;border-color:var(--teal)':''}">In Progress</button>
+            <button class="btn xs" onclick="event.stopPropagation();fpQuickStatus('${li.id}','done')" style="font-size:9px;padding:2px 6px${li.status==='done'?';background:#63C76C;color:#fff;border-color:#63C76C':''}">✓ Done</button>
+            <button class="btn xs" onclick="event.stopPropagation();openModal(null,null,null,'${li.id}')" style="font-size:9px;padding:2px 6px;margin-left:auto">Edit ↗</button>
+          </div>
+        </div>`;
+      }).join(''):`<div style="font-size:11px;color:var(--txt3);padding:6px 0;font-style:italic">No items match this filter</div>`}
+    </div>`;
+  }).join('');
+}
+function setFpFilter(k){
+  _fpFilter=k;
+  const item=getItem(window._fpItemId);if(!item)return;
+  renderFocusLinked(item);
+}
+function fpAddLinked(type){
+  // Open the full modal for adding a new item and link it back
+  // First save anchor if dirty
+  if(_fpDirty)saveFocusAnchor(true);
+  const anchor=getItem(window._fpItemId);if(!anchor)return;
+  // Open modal for new item of the requested type, then auto-link on save
+  openModal(null,null,type);
+  // Set a pending link back
+  window._fpPendingLinkBack={anchorId:window._fpItemId,type};
+  setTimeout(()=>{
+    // Pre-link the anchor into the new item's ML
+    const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
+    const anchorType=anchor.type;
+    if(keyMap[anchorType]&&ML[keyMap[anchorType]]){
+      if(!ML[keyMap[anchorType]].includes(window._fpItemId))ML[keyMap[anchorType]].push(window._fpItemId);
+      refreshChips(anchorType);
+    }
+  },150);
+}
+function fpUnlink(type,linkedId){
+  if(!confirm('Remove this link?'))return;
+  const anchor=getItem(window._fpItemId);if(!anchor)return;
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
+  const k=keyMap[type];if(!k)return;
+  anchor[k]=(anchor[k]||[]).filter(id=>id!==linkedId);
+  // Also remove reverse link from the linked item
+  const linked=getItem(linkedId);
+  if(linked){const ak=keyMap[anchor.type];if(ak)linked[ak]=(linked[ak]||[]).filter(id=>id!==window._fpItemId);}
+  save();renderFocusPanel();toast('Link removed');
+}
+function fpQuickStatus(itemId,status){
+  const item=getItem(itemId);if(!item)return;
+  if(status==='done'){
+    const v=canComplete(item);if(!v.ok){alert(v.msg);return;}
+    item.completedDate=today();
+  }
+  item.status=status;
+  if(status==='done')item.progress=100;
+  recalc();save();
+  renderFocusPanel();toast('Status updated');
+}
+
+// ═══════════════════════════════════════════════════════════════
 // NAV
 function showPage(page,btn){
   ['dash','items','lists','dump','rewards','hub','sot','meal','inventory','habits','finance','countdowns','wiab','sprints','content'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
