@@ -106,7 +106,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .tb-ask{background:#FFF0F4;color:#C2185B}
 .tb-badge{background:#FDF0F5;color:#8b1a4a}
 .tb-course{background:#EEF2FF;color:#3730A3}
-.tb-content{background:#F5F3FF;color:#7C3AED}
+.tb-content{background:#FDF4FF;color:#7C2D8E}
 /* DAYS/STATUS */
 .db{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500}
 .db-over{background:#FCEBEB;color:#8B1A1A}
@@ -381,14 +381,15 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="9" r="6"/><path d="M8 6v3l2 1.5M6 1h4"/></svg>Countdowns
     </button>
 
+    <button class="nb" id="nav-content" onclick="showPage('content',this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="3" rx="1"/><path d="M2 7h7M2 11h5"/><circle cx="12" cy="11" r="2.5"/><path d="M12 9.5V11l1 1"/></svg>Content Planner
+    </button>
+
     <button class="nb" id="nav-wiab" onclick="showPage('wiab',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"/><path d="M8 8v4M6 6c1-1 2-1 4 0"/></svg>Who I Am Becoming
     </button>
     <button class="nb" id="nav-sprints" onclick="showPage('sprints',this)">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V1M11 3V1M2 7h12"/><path d="M5.5 10l1.5 1.5L10 9"/></svg>Sprints
-    </button>
-    <button class="nb" id="nav-content" onclick="showPage('content',this)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h4"/><circle cx="12" cy="12" r="3" fill="var(--teal)" stroke="none"/><path d="M11 12h2M12 11v2" stroke="#fff" stroke-width="1.2"/></svg>Content Planner
     </button>
   </div>
   <div class="sb-sec">
@@ -826,6 +827,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
             <option value="">All Types</option>
             <option value="task">Task</option>
             <option value="ask">Ask</option>
+            <option value="content">Content</option>
             <option value="goal">Goal</option>
             <option value="project">Project</option>
           </select>
@@ -1224,27 +1226,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div id="sp-view-timeline" style="display:none"></div>
     </div>
 
-    <!-- CONTENT PLANNER PAGE -->
-    <div id="pg-content" style="display:none">
-      <div style="background:linear-gradient(135deg,#5B21B6,#7C3AED);border-radius:var(--rxl);padding:24px 28px 20px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.1) 0%,transparent 60%);pointer-events:none"></div>
-        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">LLC Content Studio</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Content Planner</div>
-        <div style="font-size:12px;opacity:.75;font-style:italic">Pipeline · Series · Stats · Readiness</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-          <button onclick="showContentView('dashboard')" id="cv-tab-dash" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📊 Dashboard</button>
-          <button onclick="showContentView('pipeline')" id="cv-tab-pipe" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">🎬 Pipeline</button>
-          <button onclick="showContentView('table')" id="cv-tab-table" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📋 Table</button>
-          <button onclick="showContentView('series')" id="cv-tab-series" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📺 Series</button>
-          <button onclick="openModal(null,null,'content')" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;margin-left:auto">+ New Content</button>
-        </div>
-      </div>
-      <div id="cv-view-dashboard"></div>
-      <div id="cv-view-pipeline" style="display:none"></div>
-      <div id="cv-view-table" style="display:none"></div>
-      <div id="cv-view-series" style="display:none"></div>
-    </div>
-
     <!-- COUNTDOWNS PAGE -->
     <div id="pg-countdowns" style="display:none">
       <div style="background:linear-gradient(135deg,#1F2A44,#374163);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
@@ -1259,6 +1240,28 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         </div>
       </div>
       <div id="cd-content"></div>
+    </div>
+
+    <!-- CONTENT PLANNER PAGE -->
+    <div id="pg-content" style="display:none">
+      <div style="background:linear-gradient(135deg,#5B21B6,#7C2D8E);border-radius:var(--rxl);padding:24px 28px 20px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div style="position:relative">
+          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">Content Strategy</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Content Planner</div>
+          <div style="font-size:12px;opacity:.75;font-style:italic">Pipeline · Performance · Series</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <button onclick="showContentView('dashboard')" id="cp-tab-dashboard" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📊 Dashboard</button>
+            <button onclick="showContentView('pipeline')" id="cp-tab-pipeline" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">🎬 Pipeline</button>
+            <button onclick="showContentView('table')" id="cp-tab-table" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📋 Table</button>
+            <button onclick="showContentView('series')" id="cp-tab-series" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📺 Series</button>
+          </div>
+        </div>
+      </div>
+      <div id="cp-view-dashboard"></div>
+      <div id="cp-view-pipeline" style="display:none"></div>
+      <div id="cp-view-table" style="display:none"></div>
+      <div id="cp-view-series" style="display:none"></div>
     </div>
 
 
@@ -2014,13 +2017,13 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   recalc();
   renderAll();
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
   localStorage.setItem(SK,payload);
 }
 
 async function driveSaveNow(){
   if(!gdriveToken||!gdriveFileId)return;
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
   try{
     await fetch(
       'https://www.googleapis.com/upload/drive/v3/files/'+gdriveFileId+'?uploadType=media',
@@ -2035,7 +2038,7 @@ async function driveSaveNow(){
 function driveSaveDebounced(){
   // Always save to localStorage immediately with timestamp
   try{
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
     localStorage.setItem(SK,payload);
   }catch(e){}
   if(!gdriveReady||!gdriveToken)return;
@@ -2046,7 +2049,7 @@ function driveSaveDebounced(){
 
 // Manual backup - downloads data as JSON file
 function backupToFile(){
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,lastSaved:Date.now()},null,2);
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()},null,2);
   const blob=new Blob([payload],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -2081,7 +2084,7 @@ function restoreFromFile(){
 // Auto-backup every 2 minutes if data exists, also force Drive save
 setInterval(()=>{
   if(S.items&&S.items.length>0){
-    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries||[],lastSaved:Date.now()});
+    const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,lastSaved:Date.now()});
     localStorage.setItem(SK+'_autobak',payload);
     localStorage.setItem(SK+'_autobak_time',Date.now());
     if(gdriveReady&&gdriveToken)driveSaveNow();
@@ -2123,31 +2126,23 @@ function load(){
 }
 function exportItemsExcel(){
   const items=S.items.filter(i=>i.status!=='placeholder');
-  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Stage','Platform(s)','Publish Date','Hook','CTA','Series','Doc Link','Readiness%','Views','Likes','Comments','Shares','Saves','Follows','Link Clicks'];
-  const rows=items.map(i=>{
-    const serName=(S.contentSeries||[]).find(s=>s.id===i.contentSeriesId)?.name||'';
-    const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-    const clTotal=CLENS[i.contentType]||0;
-    const clDone=(i.contentChecklist||[]).length;
-    const readyPct=clTotal>0?Math.round(clDone/clTotal*100):0;
-    return[
-      i.seqNum||'',i.name||'',i.type||'',i.status||'',i.effort||'',
-      (i.listIds||[]).map(lid=>lName(lid)).join('; '),
-      (i.categories||[]).join('; '),
-      i.startDate||'',i.date||'',i.completedDate||'',
-      i.progress||0,
-      (i.linkedGoals||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-      (i.linkedProjects||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-      (i.linkedTasks||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
-      (i.notes||'').replace(/\n/g,' '),
-      i.askType||'',i.askWho||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',
-      (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||'',
-      i.contentType||'',i.contentStage||'',(i.contentPlatforms||[]).join('; '),
-      i.contentPublishDate||'',i.contentHook||'',i.contentCta||'',serName,i.contentDocUrl||'',
-      i.type==='content'?readyPct+'%':'',
-      i.statViews||'',i.statLikes||'',i.statComments||'',i.statShares||'',i.statSaves||'',i.statFollows||'',i.statClicks||''
-    ];
-  });
+  const headers=['Seq#','Name','Type','Status','Effort','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Linked Goals','Linked Projects','Linked Tasks','Notes','Ask Type','Who','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Stage','Platforms','Publish Date','Series','Views','Likes','Comments','Shares'];
+  const rows=items.map(i=>[
+    i.seqNum||'',i.name||'',i.type||'',i.status||'',i.effort||'',
+    (i.listIds||[]).map(lid=>lName(lid)).join('; '),
+    (i.categories||[]).join('; '),
+    i.startDate||'',i.date||'',i.completedDate||'',
+    i.progress||0,
+    (i.linkedGoals||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+    (i.linkedProjects||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+    (i.linkedTasks||[]).map(id=>(getItem(id)||{}).name||id).join('; '),
+    (i.notes||'').replace(/\n/g,' '),
+    i.askType||'',i.askWho||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',
+    (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||'',
+    i.contentType||'',i.contentStage||'',(i.contentPlatforms||[]).join('; '),i.contentPublishDate||'',
+    i.contentSeriesId?(S.contentSeries||[]).find(s=>s.id===i.contentSeriesId)?.name||i.contentSeriesId:'',
+    i.contentViews||0,i.contentLikes||0,i.contentComments||0,i.contentShares||0
+  ]);
   const csv=[headers,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const bom='﻿';
   const b=new Blob([bom+csv],{type:'text/csv;charset=utf-8'});
@@ -2417,8 +2412,6 @@ function openModal(clId,text,type,itemId){
     listIds:(item?.listIds||[]).slice(),
     categories:(item?.categories||[]).slice()
   };
-  // Auto-default Content & Digital category for new content items
-  if(t==='content'&&!item&&!ML.categories.includes('Content & Digital')){ML.categories.push('Content & Digital');}
   document.getElementById('m-title').textContent=item?'Edit Action Item':'Add Action Item';
   document.getElementById('m-del').style.display=item?'inline-flex':'none';
   renderModalBody(t,item,text);
@@ -2673,120 +2666,120 @@ function renderModalBody(type,item,prefill){
       </div>
       ${listNumFields?`<div class="field" style="margin-bottom:0"><label>List Sequence #s</label>${listNumFields}</div>`:''}
     </div>`;
-  } else if(type==='content'){
-    const CONTENT_TYPES=['Blog Post','Carousel','Live','Newsletter','Podcast','Reel','Short Video','Story','Thread','TikTok','YouTube Video'];
-    const PLATFORMS=['Email List','Facebook','Instagram','LinkedIn','Pinterest','Podcast Host','TikTok','Website','X/Twitter','YouTube'];
-    const CONTENT_STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
-    const CONTENT_DURATIONS={Blog_Post:14,Carousel:10,Live:5,Newsletter:10,Podcast:14,Reel:7,Short_Video:7,Story:2,Thread:4,TikTok:7,YouTube_Video:21};
-    const CONTENT_CHECKLISTS={
-      'Reel':['Hook written','Script finalized','Filmed (multiple takes)','B-roll gathered','Edited','Captions added','Cover image selected','Audio/music cleared','Caption + hashtags written','Scheduled in app'],
-      'TikTok':['Hook written','Script/outline done','Filmed','Edited','Text overlays added','Sound selected','Caption + hashtags written','Duet/Stitch settings checked','Scheduled'],
-      'Story':['Concept decided','Text/graphics laid out','Designed in Canva or native','CTA or link added','Scheduled'],
-      'Carousel':['Topic & angle decided','Outline created (per slide)','Copy written per slide','Slides designed','CTA slide added','Cover slide optimized','Proofread','Exported','Caption + hashtags written','Scheduled'],
-      'Thread':['Hook post written','All posts drafted','Flow reviewed','Images/media added','CTA final post written','Proofread','Scheduled'],
-      'Blog Post':['Topic & keyword researched','Outline approved','First draft written','SEO title & meta written','Internal links added','Images sourced','Proofread','Formatted in CMS','Published','Repurpose plan noted'],
-      'Newsletter':['Subject line written','Preview text written','Body drafted','Links checked','Images added','Proofread','Audience segmented','Test send reviewed','Scheduled','Sent'],
-      'YouTube Video':['Topic & thumbnail concept decided','Script written','Filmed','Edited','Thumbnail designed','Title & description written','Tags added','End screen set','Scheduled','Published'],
-      'Podcast':['Topic & guest confirmed','Outline/questions prepared','Recorded','Edited','Show notes written','Transcript created','Cover art ready','Uploaded to host','Distributed','Promoted on socials'],
-      'Live':['Topic & format decided','Outline & talking points ready','Tech setup tested','Promoted ahead of time','Live delivered','Replay saved/posted'],
-      'Short Video':['Hook written','Script finalized','Filmed','Edited','Captions added','Cover image selected','Caption + hashtags written','Scheduled']
-    };
-    const curType=item?.contentType||'';
-    const curStage=item?.contentStage||'idea';
-    const curPlatforms=item?.contentPlatforms||[];
-    const curChecklist=item?.contentChecklist||[];
-    const isPublished=curStage==='published';
-    const stageIdx=CONTENT_STAGES.findIndex(s=>s[0]===curStage);
-    const showChecklist=stageIdx>0; // show after Idea
-    const checklistItems=curType&&CONTENT_CHECKLISTS[curType]?CONTENT_CHECKLISTS[curType]:[];
-    const checklistHtml=showChecklist&&checklistItems.length?checklistItems.map((ci,idx)=>{
-      const checked=(curChecklist||[]).includes(idx);
-      const doneCount=(curChecklist||[]).length;
-      return`<label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txt);cursor:pointer;padding:3px 0"><input type="checkbox" ${checked?'checked':''} onchange="toggleContentCheck(${idx})" style="accent-color:var(--teal);cursor:pointer"><span style="${checked?'text-decoration:line-through;color:var(--txt3)':''}">${ci}</span></label>`;
-    }).join(''):'';
-    const doneCount=curChecklist.length;
-    const totalCount=checklistItems.length;
-    const readyPct=totalCount>0?Math.round(doneCount/totalCount*100):0;
-    const platformChips=curPlatforms.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
-    const seriesList=S.contentSeries||[];
-    const seriesOpts=[`<option value="">— No Series —`,...seriesList.map(s=>`<option value="${s.id}"${item?.contentSeriesId===s.id?' selected':''}>${esc(s.name)}</option>`)].join('');
-    html+=`<div class="type-widget" style="border-color:#7C3AED;background:rgba(124,58,237,.04)">
-      <div class="type-widget-head"><span class="type-widget-ttl" style="color:#7C3AED">🎬 Content Details</span></div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Content Type <span class="req">*</span></label>
-          <select id="m-content-type" onchange="onContentTypeChg(this.value)" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-            <option value="">— Select Type —</option>
-            ${CONTENT_TYPES.map(t=>`<option value="${t}"${curType===t?' selected':''}>${t}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field" style="margin:0"><label>Content Stage</label>
-          <select id="m-content-stage" onchange="onContentStageChg(this.value)" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-            ${CONTENT_STAGES.map(([v,l])=>`<option value="${v}"${curStage===v?' selected':''}>${l}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:10px"><label>Platform(s)</label>
-        <select onchange="addContentPlatform(this.value);this.value=''" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:6px">
-          <option value="">— Add Platform —</option>
-          ${PLATFORMS.map(p=>`<option value="${p}">${p}</option>`).join('')}
-        </select>
-        <div id="content-platform-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${platformChips}</div>
-        <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(curPlatforms))}">
-      </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Hook / Headline</label><input id="m-content-hook" value="${esc(item?.contentHook||'')}" placeholder="What's the core hook?"></div>
-        <div class="field" style="margin:0"><label>CTA</label><input id="m-content-cta" value="${esc(item?.contentCta||'')}" placeholder="Desired audience action..."></div>
-      </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Publish Date</label><input id="m-content-publish-date" type="date" value="${esc(item?.contentPublishDate||'')}"></div>
-        <div class="field" style="margin:0"><label>Series</label><select id="m-content-series" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select></div>
-      </div>
-      <div class="field" style="margin-bottom:10px"><label>Google Doc Link</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input id="m-content-doc" type="url" value="${esc(item?.contentDocUrl||'')}" placeholder="https://docs.google.com/..." style="flex:1">
-          ${item?.contentDocUrl?`<a href="${esc(item.contentDocUrl)}" target="_blank" class="btn xs primary" style="text-decoration:none">Open Doc ↗</a>`:''}
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:10px"><label>Repurpose From <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional — link source content)</span></label>
-        <div class="lf-wrap"><input class="lf-inp" type="text" id="lfs-content" placeholder="Search content items..." oninput="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)"><div class="lf-dd" id="ldd-content"></div></div>
-        <div class="lf-chips" id="lfc-content">${(ML.linkedContent||[]).map(id=>{const it=getItem(id);return it?`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="ML.linkedContent=ML.linkedContent.filter(x=>x!=='${id}');document.getElementById('lfc-content').innerHTML='';renderLinkedContentChips()">×</button></span>`:''}).join('')}</div>
-      </div>
-      ${showChecklist&&checklistItems.length?`
-      <div style="background:var(--soft);border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#7C3AED">📋 Content Readiness</span>
-          <span style="font-size:12px;font-weight:700;color:${readyPct===100?'#059669':'#7C3AED'}">${readyPct}%</span>
-        </div>
-        <div style="height:4px;background:var(--bdr);border-radius:2px;margin-bottom:10px"><div style="height:100%;width:${readyPct}%;background:#7C3AED;border-radius:2px;transition:width .3s"></div></div>
-        <div id="content-checklist-items">${checklistHtml}</div>
-        <input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(curChecklist))}">
-      </div>`:'<input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(curChecklist))}">'}
-      ${isPublished?`
-      <div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(15,163,163,.06));border:1px solid rgba(124,58,237,.2);border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#7C3AED;margin-bottom:10px">📊 Post Stats <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">— updated ${esc(item?.statsUpdated||'never')}</span></div>
-        <div class="g3" style="margin-bottom:8px">
-          <div class="field" style="margin:0"><label>👁️ Views/Plays</label><input id="m-stat-views" type="number" min="0" value="${esc(item?.statViews||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-          <div class="field" style="margin:0"><label>❤️ Likes</label><input id="m-stat-likes" type="number" min="0" value="${esc(item?.statLikes||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-          <div class="field" style="margin:0"><label>💬 Comments</label><input id="m-stat-comments" type="number" min="0" value="${esc(item?.statComments||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-        </div>
-        <div class="g3">
-          <div class="field" style="margin:0"><label>🔁 Shares</label><input id="m-stat-shares" type="number" min="0" value="${esc(item?.statShares||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-          <div class="field" style="margin:0"><label>🔖 Saves</label><input id="m-stat-saves" type="number" min="0" value="${esc(item?.statSaves||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-          <div class="field" style="margin:0"><label>👥 Follows</label><input id="m-stat-follows" type="number" min="0" value="${esc(item?.statFollows||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-        </div>
-        <div class="field" style="margin-top:8px;margin-bottom:0"><label>🔗 Link Clicks / CTA</label><input id="m-stat-clicks" type="number" min="0" value="${esc(item?.statClicks||'')}" placeholder="0" oninput="updateStatsTs()"></div>
-        <input type="hidden" id="m-stats-updated" value="${esc(item?.statsUpdated||'')}">
-      </div>`:'<input type="hidden" id="m-stat-views" value=""><input type="hidden" id="m-stat-likes" value=""><input type="hidden" id="m-stat-comments" value=""><input type="hidden" id="m-stat-shares" value=""><input type="hidden" id="m-stat-saves" value=""><input type="hidden" id="m-stat-follows" value=""><input type="hidden" id="m-stat-clicks" value=""><input type="hidden" id="m-stats-updated" value="">'}
-    </div>`;
   }
 
   if(type!=='patch'){html+=`<input type="hidden" id="m-challenge" value="${esc(item?.challengeDetails||'')}"><input type="hidden" id="m-badge-url" value="${esc(item?.badgeUrl||'')}">`;}
-  if(type!=='course'){html+=`<input type="hidden" id="m-course-num" value="${esc(item?.courseNum||'')}"><input type="hidden" id="m-course-hrs" value="${esc(item?.courseHours||'')}"><input type="hidden" id="m-course-sem" value="${esc(item?.courseSemester||'')}"><input type="hidden" id="m-course-year" value="${esc(item?.courseYear||'')}"><input type="hidden" id="m-course-inst" value="${esc(item?.courseInstitution||'')}"><input type="hidden" id="m-course-grade" value="${esc(item?.courseGrade||'')}"><input type="hidden" id="m-course-proctored" value="${esc(item?.courseProctored||'')}"><input type="hidden" id="m-course-status" value="${esc(item?.courseStatus||'')}"><input type="hidden" id="m-course-desc" value="${esc(item?.courseDesc||'')}"><input type="hidden" id="m-course-cat-data" value="${esc(JSON.stringify(item?.courseCategory||[]))}"><input type="hidden" id="m-course-dept-data" value="${esc(JSON.stringify(item?.courseDepartment||[]))}"><input type="hidden" id="m-course-transfer-data" value="${esc(JSON.stringify(item?.courseTransfer||[]))}">`;}
-  if(type!=='content'){html+=`<input type="hidden" id="m-content-type" value="${esc(item?.contentType||'')}"><input type="hidden" id="m-content-stage" value="${esc(item?.contentStage||'idea')}"><input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(item?.contentPlatforms||[]))}"><input type="hidden" id="m-content-hook" value="${esc(item?.contentHook||'')}"><input type="hidden" id="m-content-cta" value="${esc(item?.contentCta||'')}"><input type="hidden" id="m-content-publish-date" value="${esc(item?.contentPublishDate||'')}"><input type="hidden" id="m-content-series" value="${esc(item?.contentSeriesId||'')}"><input type="hidden" id="m-content-doc" value="${esc(item?.contentDocUrl||'')}"><input type="hidden" id="m-content-checklist" value="${esc(JSON.stringify(item?.contentChecklist||[]))}"><input type="hidden" id="m-stat-views" value="${esc(item?.statViews||'')}"><input type="hidden" id="m-stat-likes" value="${esc(item?.statLikes||'')}"><input type="hidden" id="m-stat-comments" value="${esc(item?.statComments||'')}"><input type="hidden" id="m-stat-shares" value="${esc(item?.statShares||'')}"><input type="hidden" id="m-stat-saves" value="${esc(item?.statSaves||'')}"><input type="hidden" id="m-stat-follows" value="${esc(item?.statFollows||'')}"><input type="hidden" id="m-stat-clicks" value="${esc(item?.statClicks||'')}"><input type="hidden" id="m-stats-updated" value="${esc(item?.statsUpdated||'')}">`;}
+  if(type==='content'){
+    // Content type duration defaults
+    const CONTENT_DURATIONS={story:2,reel:3,tiktok:3,short:3,carousel:4,static:2,newsletter:5,blogpost:7,podcast:7,youtube:21,webinar:14,course:30};
+    const contentTypeOpts=[['','— Content Type —'],['story','📸 Story (2d)'],['reel','🎬 Reel (3d)'],['tiktok','🎵 TikTok (3d)'],['short','▶️ YouTube Short (3d)'],['carousel','📱 Carousel (4d)'],['static','🖼️ Static Post (2d)'],['newsletter','📧 Newsletter (5d)'],['blogpost','✍️ Blog Post (7d)'],['podcast','🎙️ Podcast (7d)'],['youtube','📺 YouTube Video (21d)'],['webinar','🖥️ Webinar (14d)'],['course','🎓 Mini-Course (30d)']].map(([v,l])=>`<option value="${v}"${item&&item.contentType===v?' selected':''}>${l}</option>`).join('');
+    const contentStageOpts=[['idea','💡 Idea'],['scripting','✍️ Scripting'],['recording','🎙️ Recording'],['editing','✂️ Editing'],['review','👁️ Review'],['scheduled','📅 Scheduled'],['published','🚀 Published']].map(([v,l])=>`<option value="${v}"${(item?.contentStage||'idea')===v?' selected':''}>${l}</option>`).join('');
+    const allPlatforms=['Instagram','TikTok','YouTube','YouTube Shorts','LinkedIn','Facebook','Twitter/X','Pinterest','Newsletter','Website/Blog','Podcast','Kajabi','Other'];
+    const selPlatforms=item?.contentPlatforms||[];
+    const platformChips=selPlatforms.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#7C2D8E;color:#fff;border:1px solid #7C2D8E">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
+    const isPublished=item?.contentStage==='published';
+    const stageDrivenStatus={idea:'notstarted',scripting:'inprogress',recording:'inprogress',editing:'inprogress',review:'inprogress',scheduled:'planned',published:'done'};
+    // Build checklist items (type-specific)
+    const CONTENT_CHECKLIST={
+      default:['Outline complete','Hook written','CTA written','Visual/thumbnail planned','Caption drafted','Hashtags/keywords researched','Internal review done'],
+      youtube:['Outline complete','Script complete','Thumbnail designed','Filming done','Editing done','Description SEO optimized','End screen/cards added'],
+      podcast:['Topic/outline ready','Guest confirmed (if applicable)','Recording done','Editing done','Show notes written','Published to host'],
+      newsletter:['Topic decided','Draft written','Images/links added','Subject line A/B tested','Reviewed','Scheduled in platform']
+    };
+    const clType=item?.contentType||'default';
+    const clItems=(CONTENT_CHECKLIST[clType]||CONTENT_CHECKLIST.default);
+    const clData=item?.contentChecklist||{};
+    const showChecklist=item?.contentStage&&item.contentStage!=='idea';
+    const clPct=showChecklist&&clItems.length?Math.round(Object.values(clData).filter(Boolean).length/clItems.length*100):0;
+    // Series options
+    const seriesList=(S.contentSeries||[]);
+    const seriesOpts=['<option value="">— No Series —</option>',...seriesList.map(s=>`<option value="${s.id}"${item?.contentSeriesId===s.id?' selected':''}>${esc(s.name)}</option>`)].join('');
+    html+=`<div class="type-widget" style="background:linear-gradient(135deg,#FAF5FF,#F3E8FF);border:1px solid #D8B4FE;margin-top:10px;margin-bottom:4px;border-radius:var(--rl);padding:14px 16px">
+      <div class="type-widget-head"><span class="type-widget-ttl" style="color:#7C2D8E">🎬 Content Details</span></div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Content Type</label>
+          <select id="m-content-type" onchange="onContentTypeChg()" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${contentTypeOpts}</select>
+        </div>
+        <div class="field" style="margin:0"><label>Content Stage <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(drives Status)</span></label>
+          <select id="m-content-stage" onchange="onContentStageChg()" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${contentStageOpts}</select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px">
+        <label>Platform(s)</label>
+        <select onchange="addContentPlatform(this.value);this.value=''" style="width:100%;padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:5px">
+          <option value="">— Add Platform —</option>
+          ${allPlatforms.map(p=>`<option value="${p}">${p}</option>`).join('')}
+        </select>
+        <div id="content-platform-chips" style="display:flex;flex-wrap:wrap;gap:4px;min-height:22px">${platformChips}</div>
+        <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(selPlatforms))}">
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Hook / Headline</label><input id="m-content-hook" placeholder="Opening hook or headline..." value="${esc(item?.contentHook||'')}"></div>
+        <div class="field" style="margin:0"><label>CTA</label><input id="m-content-cta" placeholder="Call to action..." value="${esc(item?.contentCTA||'')}"></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin:0"><label>Publish Date</label><input id="m-content-publish" type="date" value="${item?.contentPublishDate||''}"></div>
+        <div class="field" style="margin:0"><label>Series</label>
+          <select id="m-content-series" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px">
+        <label>Google Doc Link</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input id="m-content-doc" type="url" placeholder="https://docs.google.com/..." value="${esc(item?.contentDocUrl||'')}" style="flex:1">
+          ${item?.contentDocUrl?`<a href="${esc(item.contentDocUrl)}" target="_blank" class="btn sm" style="flex-shrink:0;text-decoration:none">Open Doc ↗</a>`:''}
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:${showChecklist||isPublished?'10px':'0'}">
+        <label>Repurpose From <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">link source content</span></label>
+        <div class="lf-wrap">
+          <input class="lf-inp" type="text" id="lfs-content" placeholder="Search content to repurpose from..." oninput="showLDD('content',this.value)" onblur="setTimeout(()=>hideLDD('content'),200)">
+          <div class="lf-dd" id="ldd-content"></div>
+        </div>
+        <div class="lf-chips" id="lfc-content">${(item?.linkedContent||[]).map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeContentLink('${id}')">&#x00D7;</button></span>`;}).join('')}</div>
+      </div>
+      ${showChecklist?`<div style="background:rgba(124,45,142,.06);border:1px solid #D8B4FE;border-radius:var(--r);padding:10px 12px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7C2D8E">✅ Content Readiness</div>
+          <span style="font-size:11px;font-weight:700;color:#7C2D8E">${clPct}%</span>
+        </div>
+        <div style="height:4px;background:rgba(124,45,142,.15);border-radius:2px;overflow:hidden;margin-bottom:8px"><div style="height:100%;background:#7C2D8E;border-radius:2px;width:${clPct}%"></div></div>
+        ${clItems.map((item2,ci)=>`<label style="display:flex;align-items:center;gap:7px;font-size:11px;padding:3px 0;cursor:pointer">
+          <input type="checkbox" id="m-cl-${ci}" ${clData[ci]?'checked':''} onchange="updateContentChecklistCount()" style="accent-color:#7C2D8E;flex-shrink:0"> ${item2}
+        </label>`).join('')}
+        <input type="hidden" id="m-content-checklist-data" value="${esc(JSON.stringify(clData))}">
+      </div>`:''}
+      ${isPublished?`<div style="background:rgba(124,45,142,.06);border:1px solid #D8B4FE;border-radius:var(--r);padding:10px 12px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7C2D8E;margin-bottom:8px">📈 Post Stats</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          ${[['Views','contentViews'],['Likes','contentLikes'],['Comments','contentComments'],['Shares','contentShares'],['Saves','contentSaves'],['Follows','contentFollows'],['Link Clicks','contentLinkClicks']].map(([l,k])=>`<div class="field" style="margin:0"><label style="font-size:9px">${l}</label><input id="m-${k}" type="number" min="0" value="${item?item[k]||'':''}" placeholder="0" style="padding:5px 7px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);width:100%;font-family:'DM Sans',sans-serif;outline:none"></div>`).join('')}
+        </div>
+      </div>`:''}
+    </div>`;
+    // Hidden fallbacks for content fields when not shown
+  } else {
+    html+=`<input type="hidden" id="m-content-type" value="${esc(item?.contentType||'')}">
+    <input type="hidden" id="m-content-stage" value="${esc(item?.contentStage||'')}">
+    <input type="hidden" id="m-content-hook" value="${esc(item?.contentHook||'')}">
+    <input type="hidden" id="m-content-cta" value="${esc(item?.contentCTA||'')}">
+    <input type="hidden" id="m-content-publish" value="${esc(item?.contentPublishDate||'')}">
+    <input type="hidden" id="m-content-series" value="${esc(item?.contentSeriesId||'')}">
+    <input type="hidden" id="m-content-doc" value="${esc(item?.contentDocUrl||'')}">
+    <input type="hidden" id="m-content-platforms" value="${esc(JSON.stringify(item?.contentPlatforms||[]))}">
+    <input type="hidden" id="m-content-checklist-data" value="${esc(JSON.stringify(item?.contentChecklist||{}))}">
+    <input type="hidden" id="m-contentViews" value="${item?.contentViews||''}">
+    <input type="hidden" id="m-contentLikes" value="${item?.contentLikes||''}">
+    <input type="hidden" id="m-contentComments" value="${item?.contentComments||''}">
+    <input type="hidden" id="m-contentShares" value="${item?.contentShares||''}">
+    <input type="hidden" id="m-contentSaves" value="${item?.contentSaves||''}">
+    <input type="hidden" id="m-contentFollows" value="${item?.contentFollows||''}">
+    <input type="hidden" id="m-contentLinkClicks" value="${item?.contentLinkClicks||''}">
+    <input type="hidden" id="lfc-content" value="">`;
+  }
   if(!_wiabOpen){html+=`<input type="hidden" id="m-theme-month" value="${esc(item?.themeMonth||'')}"><input type="hidden" id="m-theme-name" value="${esc(item?.themeName||'')}"><input type="hidden" id="m-wiab"><input type="hidden" id="m-is-selfcare"><input type="hidden" id="m-is-weeklyfocus"><input type="hidden" id="m-is-datenight"><input type="hidden" id="m-date-with" value="${esc(item?.dateWith||'')}">`;}
 
   // LINKED ITEMS (collapsible)
-  const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length;
+  const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length+(ML.linkedContent||[]).length;
   const linkedOpen=totalLinked>0;
   let linkedHtml=`<div class="field" style="margin:0"><label>Link Any Item <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">search across all types</span></label>${buildLF('any',[])}</div>`;
   if(type==='goal'||type==='task'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Projects <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedProjects.length} linked</span></label>${buildLF('project',ML.linkedProjects)}</div>`;}
@@ -2794,8 +2787,7 @@ function renderModalBody(type,item,prefill){
   if(type==='goal'||type==='project'||type==='ask'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Tasks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedTasks.length} linked</span></label>${buildLF('task',ML.linkedTasks)}</div>`;}
   if(type==='goal'||type==='project'||type==='task'||type==='patch'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Asks <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedAsks||[]).length} linked</span></label>${buildLF('ask',ML.linkedAsks||[])}</div>`;}
   if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Patches <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${ML.linkedPatches.length} linked</span></label>${buildLF('patch',ML.linkedPatches)}</div>`;}
-  if(type==='goal'||type==='project'||type==='task'||type==='ask'||type==='course'||type==='patch'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Content <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedContent||[]).length} linked</span></label>${buildLF('content',ML.linkedContent||[])}</div>`;}
-  if(type==='content'){ML.linkedContent=ML.linkedContent||[];}
+  if(type!=='content'){linkedHtml+=`<div class="field" style="margin:0"><label>Linked Content <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">${(ML.linkedContent||[]).length} linked</span></label>${buildLF('content',ML.linkedContent||[])}</div>`;}
   html+=`<div class="linked-section" style="margin-bottom:13px">
     <button class="linked-toggle" type="button" onclick="toggleLinkedSection(this)">
       <span class="linked-toggle-lbl">🔗 Linked Items</span>
@@ -2972,145 +2964,14 @@ function addCustomCategory(){
   refreshCatTags();
   updatePatchFieldsVisibility();
 }
-function switchType(){
-  const t=document.getElementById('m-type')?.value;if(!t)return;
-  const item=S.editId?getItem(S.editId):null;
-  renderModalBody(t,item,document.getElementById('m-name')?.value);
-  // Auto-set category to Content & Digital and default duration when type=content
-  if(t==='content'){
-    if(!ML.categories.includes('Content & Digital')){ML.categories.push('Content & Digital');refreshCatTags();}
-  }
-}
-const CONTENT_DURATIONS_MAP={'Blog Post':14,'Carousel':10,'Live':5,'Newsletter':10,'Podcast':14,'Reel':7,'Short Video':7,'Story':2,'Thread':4,'TikTok':7,'YouTube Video':21};
-const CONTENT_DEFAULT_PLATFORMS={'Reel':['Instagram'],'TikTok':['TikTok'],'Story':['Instagram'],'Carousel':['Instagram','LinkedIn'],'Thread':['X/Twitter'],'Blog Post':['Website'],'Newsletter':['Email List'],'YouTube Video':['YouTube'],'Podcast':['Podcast Host'],'Live':['Instagram','YouTube'],'Short Video':['Instagram','TikTok']};
-function onContentTypeChg(val){
-  // Auto-populate platforms if none selected yet
-  const platEl=document.getElementById('m-content-platforms');
-  if(platEl){
-    let cur=JSON.parse(platEl.value||'[]');
-    const defaults=CONTENT_DEFAULT_PLATFORMS[val]||[];
-    if(cur.length===0&&defaults.length){
-      cur=defaults;
-      platEl.value=JSON.stringify(cur);
-      const chips=document.getElementById('content-platform-chips');
-      if(chips)chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
-    }
-  }
-  // Set default duration
-  const dur=CONTENT_DURATIONS_MAP[val];
-  if(dur){
-    const durEl=document.getElementById('m-duration');
-    if(durEl&&!durEl.value)durEl.value=dur;
-    // If start date set, cascade to TCD
-    const startEl=document.getElementById('m-start');
-    const tcdEl=document.getElementById('m-date');
-    if(startEl?.value&&!tcdEl?.value&&tcdEl){tcdEl.value=addDays(startEl.value,dur);updateDurationPreview();}
-  }
-  // Re-render modal to update checklist
-  const item=S.editId?getItem(S.editId):null;
-  const name=document.getElementById('m-name')?.value||'';
-  const stage=document.getElementById('m-content-stage')?.value||'idea';
-  const platforms=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');
-  const checklist=JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');
-  // patch item temporarily for re-render
-  const tempItem={...(item||{}),contentType:val,contentStage:stage,contentPlatforms:platforms,contentChecklist:checklist,
-    contentHook:document.getElementById('m-content-hook')?.value||'',
-    contentCta:document.getElementById('m-content-cta')?.value||'',
-    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
-    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
-    contentSeriesId:document.getElementById('m-content-series')?.value||''};
-  renderModalBody('content',tempItem,name);
-}
-function onContentStageChg(stage){
-  // Auto-map stage to status
-  const s=document.getElementById('m-status');
-  if(s){
-    const map={idea:'notstarted',scripted:'inprogress',filmed:'inprogress',edited:'inprogress',scheduled:'planned',published:'done'};
-    s.value=map[stage]||'notstarted';
-  }
-  // Re-render to show/hide checklist and stats
-  const item=S.editId?getItem(S.editId):null;
-  const name=document.getElementById('m-name')?.value||'';
-  const ct=document.getElementById('m-content-type')?.value||'';
-  const platforms=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');
-  const checklist=JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');
-  const tempItem={...(item||{}),contentType:ct,contentStage:stage,contentPlatforms:platforms,contentChecklist:checklist,
-    contentHook:document.getElementById('m-content-hook')?.value||'',
-    contentCta:document.getElementById('m-content-cta')?.value||'',
-    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
-    contentDocUrl:document.getElementById('m-content-doc')?.value||'',
-    contentSeriesId:document.getElementById('m-content-series')?.value||''};
-  renderModalBody('content',tempItem,name);
-}
-function toggleContentCheck(idx){
-  const el=document.getElementById('m-content-checklist');if(!el)return;
-  let cur=JSON.parse(el.value||'[]');
-  if(cur.includes(idx))cur=cur.filter(x=>x!==idx);else cur.push(idx);
-  el.value=JSON.stringify(cur);
-  // Update readiness % live
-  const ct=document.getElementById('m-content-type')?.value||'';
-  const CONTENT_CHECKLISTS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-  const total=CONTENT_CHECKLISTS[ct]||0;
-  const pct=total>0?Math.round(cur.length/total*100):0;
-  document.querySelectorAll('.type-widget [style*="7C3AED"][style*="font-weight:700"]').forEach(el=>el.textContent=pct+'%');
-  // Update bar
-  document.querySelectorAll('.type-widget [style*="width:"][style*="background:#7C3AED"]').forEach(el=>el.style.width=pct+'%');
-  // Update strikethrough on label
-  const labels=document.querySelectorAll('#content-checklist-items label');
-  labels.forEach((lbl,i)=>{const span=lbl.querySelector('span');if(span)span.style.textDecoration=cur.includes(i)?'line-through':'';if(span)span.style.color=cur.includes(i)?'var(--txt3)':'';});
-}
-function addContentPlatform(val){
-  if(!val)return;
-  const el=document.getElementById('m-content-platforms');if(!el)return;
-  let cur=JSON.parse(el.value||'[]');
-  if(!cur.includes(val)){cur.push(val);el.value=JSON.stringify(cur);}
-  const chips=document.getElementById('content-platform-chips');if(!chips)return;
-  chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
-}
-function removeContentPlatform(val){
-  const el=document.getElementById('m-content-platforms');if(!el)return;
-  let cur=JSON.parse(el.value||'[]');
-  cur=cur.filter(x=>x!==val);el.value=JSON.stringify(cur);
-  const chips=document.getElementById('content-platform-chips');if(!chips)return;
-  chips.innerHTML=cur.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:var(--teal);color:#fff">${esc(p)}<button type="button" onclick="removeContentPlatform('${esc(p)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
-}
-function updateStatsTs(){document.getElementById('m-stats-updated').value=today();}
-// Content Series Management
-function openSeriesManager(){
-  const s=S.contentSeries||[];
-  const html=`<div style="padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:12px">📺 Content Series</div>
-  <div style="margin-bottom:10px">${s.map(ser=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--soft);border-radius:var(--r);margin-bottom:5px">
-    <span style="width:8px;height:8px;border-radius:50%;background:${ser.color};flex-shrink:0"></span>
-    <span style="flex:1;font-size:13px">${esc(ser.name)}</span>
-    <span style="font-size:11px;color:var(--txt2)">${S.items.filter(i=>i.contentSeriesId===ser.id).length} pieces</span>
-    <button class="btn xs ghost danger" onclick="deleteSeries('${ser.id}')">×</button>
-  </div>`).join('')||'<div style="font-size:12px;color:var(--txt3);padding:8px">No series yet</div>'}</div>
-  <div style="display:flex;gap:6px">
-    <input id="new-series-name" placeholder="Series name..." style="flex:1;padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-    <button class="btn primary sm" onclick="addSeries()">+ Add</button>
-  </div></div>`;
-  document.getElementById('dash-panel').innerHTML=html;
-}
-function addSeries(){
-  const name=(document.getElementById('new-series-name')?.value||'').trim();if(!name)return;
-  if(!S.contentSeries)S.contentSeries=[];
-  const colors=['#7C3AED','#0FA3A3','#F63E73','#F59E0B','#3B82F6','#10B981'];
-  S.contentSeries.push({id:uid(),name,color:colors[S.contentSeries.length%colors.length],status:'active',created:Date.now()});
-  save();openSeriesManager();
-}
-function deleteSeries(id){
-  if(!confirm('Delete this series?'))return;
-  S.contentSeries=(S.contentSeries||[]).filter(s=>s.id!==id);
-  S.items.forEach(i=>{if(i.contentSeriesId===id)i.contentSeriesId='';});
-  save();openSeriesManager();
-}
+function switchType(){const t=document.getElementById('m-type')?.value;if(!t)return;const item=S.editId?getItem(S.editId):null;renderModalBody(t,item,document.getElementById('m-name')?.value);}
 function addDays(dateStr,days){const d=new Date(dateStr+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
 function subDays(dateStr,days){return addDays(dateStr,-days);}
 function onDateChg(){
   const d=document.getElementById('m-date')?.value;
   const s=document.getElementById('m-status');
   const t=document.getElementById('m-type')?.value;
-  if(d&&s&&t!=='content'){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
+  if(t!=='content'&&d&&s){if(daysUntil(d)<0)s.value='behind';else if(s.value==='notstarted')s.value='planned';}
   const durEl=document.getElementById('m-duration');
   const startEl=document.getElementById('m-start');
   if(d&&durEl&&durEl.value!==''&&!startEl?.value){
@@ -3124,7 +2985,7 @@ function onStartChg(){
   const d=document.getElementById('m-start')?.value;
   const s=document.getElementById('m-status');
   const t=document.getElementById('m-type')?.value;
-  if(d&&s&&t!=='content'&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
+  if(t!=='content'&&d&&s&&daysUntil(d)>0&&s.value==='notstarted')s.value='planned';
   const star=document.getElementById('m-mins-req-star');
   if(star)star.style.display=d?'inline':'none';
   const durEl=document.getElementById('m-duration');
@@ -3162,6 +3023,52 @@ function updateDurationPreview(){
 function onEstMinsChg(){const v=parseInt(document.getElementById('m-est-mins')?.value)||0;const disp=document.getElementById('m-est-hrs-display');if(disp)disp.textContent=v>0?Math.round(v/60*10)/10+' hrs':'—';}
 function onStatusChg(){const s=document.getElementById('m-status')?.value;if(s==='done'){const p=document.getElementById('m-prog');if(p)p.value=100;const pv=document.getElementById('prog-v');if(pv)pv.textContent='100%';}}
 
+// CONTENT HELPERS
+const CONTENT_DURATION_MAP={story:2,reel:3,tiktok:3,short:3,carousel:4,static:2,newsletter:5,blogpost:7,podcast:7,youtube:21,webinar:14,course:30};
+const CONTENT_STAGE_STATUS={idea:'notstarted',scripting:'inprogress',recording:'inprogress',editing:'inprogress',review:'inprogress',scheduled:'planned',published:'done'};
+function onContentTypeChg(){
+  const ct=document.getElementById('m-content-type')?.value;
+  if(!ct)return;
+  const dur=CONTENT_DURATION_MAP[ct];
+  if(dur!=null){const d=document.getElementById('m-duration');if(d&&!d.value)d.value=dur;onDurationChg();}
+}
+function onContentStageChg(){
+  const stage=document.getElementById('m-content-stage')?.value;
+  if(!stage)return;
+  const mapped=CONTENT_STAGE_STATUS[stage];
+  if(mapped){const s=document.getElementById('m-status');if(s)s.value=mapped;}
+}
+function addContentPlatform(val){
+  if(!val)return;
+  let arr=[];try{arr=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{}
+  if(arr.includes(val))return;
+  arr.push(val);
+  document.getElementById('m-content-platforms').value=JSON.stringify(arr);
+  const chips=document.getElementById('content-platform-chips');
+  if(chips){const sp=document.createElement('span');sp.style.cssText='display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#7C2D8E;color:#fff;border:1px solid #7C2D8E';sp.innerHTML=`${val}<button type="button" onclick="removeContentPlatform('${val}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button>`;chips.appendChild(sp);}
+}
+function removeContentPlatform(val){
+  let arr=[];try{arr=JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{}
+  arr=arr.filter(x=>x!==val);
+  document.getElementById('m-content-platforms').value=JSON.stringify(arr);
+  const chips=document.getElementById('content-platform-chips');
+  if(chips)[...chips.children].forEach(c=>{if(c.textContent.replace('×','').trim()===val)c.remove();});
+}
+function removeContentLink(id){
+  if(!ML.linkedContent)ML.linkedContent=[];
+  ML.linkedContent=ML.linkedContent.filter(x=>x!==id);
+  const cont=document.getElementById('lfc-content');
+  if(cont)cont.innerHTML=ML.linkedContent.map(lid=>{const it=getItem(lid);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${lid}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeContentLink('${lid}')">&#x00D7;</button></span>`;}).join('');
+}
+function updateContentChecklistCount(){
+  const items=document.querySelectorAll('[id^="m-cl-"]');
+  const data={};items.forEach((inp,ci)=>{data[ci]=inp.checked;});
+  const hidden=document.getElementById('m-content-checklist-data');
+  if(hidden)hidden.value=JSON.stringify(data);
+  const pct=items.length?Math.round(Object.values(data).filter(Boolean).length/items.length*100):0;
+  document.querySelectorAll('[id^="m-cl-"]').forEach(()=>{});
+}
+
 // LINK FIELDS
 function buildLF(linkType,linkedIds){
   const chips=linkedIds.map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${linkType}','${id}')">&#x00D7;</button></span>`;}).join('');
@@ -3174,7 +3081,7 @@ function buildLF(linkType,linkedIds){
 function showLDD(type,q){
   const dd=document.getElementById('ldd-'+type);if(!dd)return;
   const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',content:'linkedContent'};
-  const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[])];
+  const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[]),...(ML.linkedContent||[])];
   const existing=type==='any'?allLinked:(ML[keyMap[type]]||[]);
   const results=S.items.filter(i=>
     (type==='any'||i.type===type)&&
@@ -3234,10 +3141,15 @@ function saveItem(){
   }
   // SMART fields validated only when marking done (below)
   if(errors.length)return alert('Required: '+errors.join(', '));
+  // Auto-apply Content & Digital category for content type
+  if(type==='content'&&!ML.categories.includes('Content & Digital')){ML.categories.push('Content & Digital');}
   const tcd=document.getElementById('m-date')?.value||'';
   let status=document.getElementById('m-status')?.value||'notstarted';
-  if(tcd&&status==='notstarted')status='planned';
-  if(tcd&&daysUntil(tcd)<0&&status!=='done')status='behind';
+  // For content: stage drives status, don't auto-flip from date
+  if(type!=='content'){
+    if(tcd&&status==='notstarted')status='planned';
+    if(tcd&&daysUntil(tcd)<0&&status!=='done')status='behind';
+  }
   let autoCompletedDate=document.getElementById('m-completed')?.value||'';
   if(status==='done'&&!autoCompletedDate)autoCompletedDate=today();
   if(status==='done'){
@@ -3297,7 +3209,7 @@ function saveItem(){
     smart_m:document.getElementById('m-m')?.value||'',
     smart_a:document.getElementById('m-a')?.value||'',
     smart_r:document.getElementById('m-r')?.value||'',
-    linkedGoals:ML.linkedGoals,linkedProjects:ML.linkedProjects,linkedTasks:ML.linkedTasks,linkedAsks:ML.linkedAsks||[],linkedPatches:ML.linkedPatches,
+    linkedGoals:ML.linkedGoals,linkedProjects:ML.linkedProjects,linkedTasks:ML.linkedTasks,linkedAsks:ML.linkedAsks||[],linkedPatches:ML.linkedPatches,linkedContent:ML.linkedContent||[],
     priority:document.getElementById('m-priority')?.value||'',
     checkinDate:document.getElementById('m-checkin')?.value||'',
     budget:document.getElementById('m-budget')?.value||'',
@@ -3335,22 +3247,21 @@ function saveItem(){
     estimatedMins:parseInt(document.getElementById('m-est-mins')?.value||0)||0,
     duration:(()=>{const v=document.getElementById('m-duration')?.value;return v!==''&&v!=null?parseInt(v):null;})(),
     contentType:document.getElementById('m-content-type')?.value||'',
-    contentStage:document.getElementById('m-content-stage')?.value||'idea',
-    contentPlatforms:(()=>{try{return JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{return [];}})(),
+    contentStage:document.getElementById('m-content-stage')?.value||'',
     contentHook:document.getElementById('m-content-hook')?.value||'',
-    contentCta:document.getElementById('m-content-cta')?.value||'',
-    contentPublishDate:document.getElementById('m-content-publish-date')?.value||'',
+    contentCTA:document.getElementById('m-content-cta')?.value||'',
+    contentPublishDate:document.getElementById('m-content-publish')?.value||'',
     contentSeriesId:document.getElementById('m-content-series')?.value||'',
     contentDocUrl:document.getElementById('m-content-doc')?.value||'',
-    contentChecklist:(()=>{try{return JSON.parse(document.getElementById('m-content-checklist')?.value||'[]');}catch{return [];}})(),
-    statViews:document.getElementById('m-stat-views')?.value||'',
-    statLikes:document.getElementById('m-stat-likes')?.value||'',
-    statComments:document.getElementById('m-stat-comments')?.value||'',
-    statShares:document.getElementById('m-stat-shares')?.value||'',
-    statSaves:document.getElementById('m-stat-saves')?.value||'',
-    statFollows:document.getElementById('m-stat-follows')?.value||'',
-    statClicks:document.getElementById('m-stat-clicks')?.value||'',
-    statsUpdated:document.getElementById('m-stats-updated')?.value||'',
+    contentPlatforms:(()=>{try{return JSON.parse(document.getElementById('m-content-platforms')?.value||'[]');}catch{return[];}})(),
+    contentChecklist:(()=>{const clInps=document.querySelectorAll('[id^="m-cl-"]');const data={};clInps.forEach((inp,ci)=>{data[ci]=inp.checked;});return data;})(),
+    contentViews:parseInt(document.getElementById('m-contentViews')?.value||0)||0,
+    contentLikes:parseInt(document.getElementById('m-contentLikes')?.value||0)||0,
+    contentComments:parseInt(document.getElementById('m-contentComments')?.value||0)||0,
+    contentShares:parseInt(document.getElementById('m-contentShares')?.value||0)||0,
+    contentSaves:parseInt(document.getElementById('m-contentSaves')?.value||0)||0,
+    contentFollows:parseInt(document.getElementById('m-contentFollows')?.value||0)||0,
+    contentLinkClicks:parseInt(document.getElementById('m-contentLinkClicks')?.value||0)||0,
     created:S.editId?(getItem(S.editId)||{}).created||Date.now():Date.now()
   });
   doSave(obj);
@@ -3771,7 +3682,7 @@ function applyCatFilter(items,cats){
 function buildFbar(items,containerId,filterFn,activeF){
   const cnt=f=>applyFilter(items,f).length;
   const filters=[
-    ['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['patch','Patches'],
+    ['all','All'],['placeholder','📌 Placeholders'],['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['patch','Patches'],
     ['inprogress','In Progress'],['planned','Planned'],['someday','Someday'],['behind','Behind'],['done','Done'],
     ['attention','Needs Attention'],['nocat','No Category'],
     ['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],
@@ -3884,7 +3795,7 @@ let MF={types:[],statuses:[],missing:[],due:[],cats:[],lists:[]};
 
 function buildMultiFilters(){
   updateFilterActiveCount();
-  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['course','Courses'],['patch','Patches']];
+  const tf=[['goal','Goals'],['project','Projects'],['task','Tasks'],['ask','Asks'],['content','Content'],['course','Courses'],['patch','Patches']];
   const sf=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['done','Done'],['placeholder','📌 Placeholder']];
   const mf=[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort Level'],['nostartdate','No Start Date'],['nodeadline','No Deadline'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects']];
   const df=[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']];
@@ -4558,7 +4469,7 @@ function renderDash(){
   const behItems=sortByDate(all.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done'))).slice(0,8);
   document.getElementById('dash-beh').innerHTML=behItems.length?behItems.map(i=>{const d=daysUntil(i.date);return`<div class="d-item" onclick="openModal(null,null,null,'${i.id}')"><div class="d-dot" style="background:var(--pink)"></div><div class="d-txt">${esc((i.name||'').slice(0,50))}</div>${d!==null&&d<0?`<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">${Math.abs(d)}d over</span>`:'<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">Behind</span>'}</div>`;}).join(''):`<div style="color:var(--txt3);font-size:12px;padding:12px 0;text-align:center">Nothing behind!</div>`;
   // Breakdown
-  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','patch','course'].map(t=>{
+  document.getElementById('dash-breakdown').innerHTML=['goal','project','task','content','patch','course'].map(t=>{
     const ti=all.filter(i=>i.type===t);
     const tns=ti.filter(i=>i.status==='notstarted').length;
     const tpl=ti.filter(i=>i.status==='planned').length;
@@ -4643,7 +4554,7 @@ function showPage(page,btn){
   if(page==='finance')renderFinance();
   if(page==='countdowns')renderCountdowns();
   if(page==='sprints')renderSprints();
-  if(page==='content'){showContentView('dashboard');}
+  if(page==='content')renderContentPlanner();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
@@ -6652,242 +6563,6 @@ function showSprintView(view){
 }
 
 function renderSprints(){showSprintView(spActiveView);}
-
-// ══════════════════════════════════════════════════════════════════
-// CONTENT PLANNER
-// ══════════════════════════════════════════════════════════════════
-let cvActiveView='dashboard';
-function showContentView(view){
-  cvActiveView=view;
-  ['dashboard','pipeline','table','series'].forEach(v=>{
-    const el=document.getElementById('cv-view-'+v);if(el)el.style.display=v===view?'block':'none';
-  });
-  document.querySelectorAll('[id^="cv-tab-"]').forEach(b=>{
-    b.style.background=b.id==='cv-tab-'+view.slice(0,4)?'rgba(255,255,255,.2)':'transparent';
-    b.style.borderColor=b.id==='cv-tab-'+view.slice(0,4)?'rgba(255,255,255,.6)':'rgba(255,255,255,.3)';
-    b.style.fontWeight=b.id==='cv-tab-'+view.slice(0,4)?'600':'400';
-  });
-  if(view==='dashboard')renderContentDashboard();
-  if(view==='pipeline')renderContentPipeline();
-  if(view==='table')renderContentTable();
-  if(view==='series')renderContentSeries();
-}
-
-function getContentItems(){return S.items.filter(i=>i.type==='content');}
-
-function renderContentDashboard(){
-  const el=document.getElementById('cv-view-dashboard');if(!el)return;
-  const all=getContentItems();
-  const published=all.filter(i=>i.contentStage==='published');
-  const inPipeline=all.filter(i=>i.contentStage!=='published');
-  const thisMonth=published.filter(i=>{const d=i.contentPublishDate||i.completedDate||'';return d.startsWith(today().slice(0,7));});
-  const STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
-  const stageCounts=STAGES.map(([k,l])=>({key:k,label:l,count:all.filter(i=>i.contentStage===k).length}));
-  // By type
-  const byType={};all.forEach(i=>{if(i.contentType){byType[i.contentType]=(byType[i.contentType]||0)+1;}});
-  // By platform
-  const byPlat={};all.forEach(i=>(i.contentPlatforms||[]).forEach(p=>{byPlat[p]=(byPlat[p]||0)+1;}));
-  // Engagement totals
-  const totViews=published.reduce((s,i)=>s+parseInt(i.statViews||0),0);
-  const totLikes=published.reduce((s,i)=>s+parseInt(i.statLikes||0),0);
-  const totSaves=published.reduce((s,i)=>s+parseInt(i.statSaves||0),0);
-  const totShares=published.reduce((s,i)=>s+parseInt(i.statShares||0),0);
-  // Top performer
-  const top=published.sort((a,b)=>(parseInt(b.statViews||0)+parseInt(b.statLikes||0))-(parseInt(a.statViews||0)+parseInt(a.statLikes||0)))[0];
-  // Readiness — items close to ready
-  const nearReady=inPipeline.filter(i=>{
-    const cl=i.contentChecklist||[];
-    const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-    const total=CLENS[i.contentType]||0;
-    return total>0&&cl.length/total>=0.6;
-  }).slice(0,5);
-  el.innerHTML=`
-  <div class="g3" style="margin-bottom:16px">
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Total Pieces</div>
-      <div style="font-size:28px;font-weight:700;color:#7C3AED">${all.length}</div>
-      <div style="font-size:11px;color:var(--txt2)">${published.length} published · ${inPipeline.length} in pipeline</div>
-    </div>
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Published This Month</div>
-      <div style="font-size:28px;font-weight:700;color:#059669">${thisMonth.length}</div>
-      <div style="font-size:11px;color:var(--txt2)">${published.length} total published</div>
-    </div>
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);margin-bottom:4px">Total Views</div>
-      <div style="font-size:28px;font-weight:700;color:var(--teal)">${totViews.toLocaleString()}</div>
-      <div style="font-size:11px;color:var(--txt2)">${totLikes.toLocaleString()} likes · ${totSaves.toLocaleString()} saves</div>
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:16px">
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">📊 Pipeline by Stage</div>
-      ${stageCounts.map(({label,count})=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-        <span style="font-size:12px;flex:1">${label}</span>
-        <div style="flex:2;height:6px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${all.length?Math.round(count/all.length*100):0}%;background:#7C3AED;border-radius:3px"></div></div>
-        <span style="font-size:11px;color:var(--txt2);width:16px;text-align:right">${count}</span>
-      </div>`).join('')}
-    </div>
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">🎬 By Content Type</div>
-      ${Object.entries(byType).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([t,c])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-        <span style="font-size:12px;flex:1">${t}</span>
-        <div style="flex:2;height:6px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${all.length?Math.round(c/all.length*100):0}%;background:var(--teal);border-radius:3px"></div></div>
-        <span style="font-size:11px;color:var(--txt2);width:16px;text-align:right">${c}</span>
-      </div>`).join('')||'<div style="font-size:12px;color:var(--txt3);font-style:italic">No content yet</div>'}
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:16px">
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">🏆 Top Performer</div>
-      ${top?`<div onclick="openModal(null,null,null,'${top.id}')" style="cursor:pointer">
-        <div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:4px">${esc(top.name)}</div>
-        <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${top.contentType||''} ${top.contentPlatforms?.length?'· '+top.contentPlatforms.join(', '):''}</div>
-        <div class="g3"><div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#7C3AED">${parseInt(top.statViews||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Views</div></div>
-        <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--pink)">${parseInt(top.statLikes||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Likes</div></div>
-        <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--teal)">${parseInt(top.statSaves||0).toLocaleString()}</div><div style="font-size:10px;color:var(--txt3)">Saves</div></div></div>
-      </div>`:'<div style="font-size:12px;color:var(--txt3);font-style:italic">Publish content to see top performer</div>'}
-    </div>
-    <div style="background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr)">
-      <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:10px">✅ Near Ready (60%+ checklist)</div>
-      ${nearReady.length?nearReady.map(i=>{
-        const cl=i.contentChecklist||[];
-        const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-        const total=CLENS[i.contentType]||1;
-        const pct=Math.round(cl.length/total*100);
-        return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
-          <div style="flex:1"><div style="font-size:12px;font-weight:500">${esc(i.name)}</div><div style="font-size:10px;color:var(--txt2)">${i.contentType||''}</div></div>
-          <span style="font-size:12px;font-weight:700;color:${pct===100?'#059669':'#7C3AED'}">${pct}%</span>
-        </div>`;
-      }).join(''):'<div style="font-size:12px;color:var(--txt3);font-style:italic">No items near ready yet</div>'}
-    </div>
-  </div>`;
-}
-
-let cpDragId=null;
-function renderContentPipeline(){
-  const el=document.getElementById('cv-view-pipeline');if(!el)return;
-  const all=getContentItems();
-  const STAGES=[['idea','💡 Idea'],['scripted','✍️ Scripted'],['filmed','🎬 Filmed/Written'],['edited','✂️ Edited'],['scheduled','📅 Scheduled'],['published','🚀 Published']];
-  const seriesList=S.contentSeries||[];
-  // Series filter
-  const seriesFilter=el.dataset.seriesFilter||'';
-  const filtered=seriesFilter?all.filter(i=>i.contentSeriesId===seriesFilter):all;
-  el.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-    <span style="font-size:12px;color:var(--txt2)">Filter by series:</span>
-    <button onclick="setContentSeriesFilter('')" class="btn xs${!seriesFilter?' primary':''}" style="${!seriesFilter?'':''}">All</button>
-    ${seriesList.map(s=>`<button onclick="setContentSeriesFilter('${s.id}')" class="btn xs${seriesFilter===s.id?' primary':''}" style="border-color:${s.color};${seriesFilter===s.id?'background:'+s.color+';color:#fff':''}">${esc(s.name)}</button>`).join('')}
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(6,minmax(160px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px">
-    ${STAGES.map(([stage,label])=>{
-      const items=filtered.filter(i=>(i.contentStage||'idea')===stage);
-      return`<div style="background:var(--soft);border-radius:var(--r);padding:10px;min-height:200px"
-        ondragover="event.preventDefault()" ondrop="dropContentCard('${stage}',event)">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--txt2);margin-bottom:8px;display:flex;justify-content:space-between">
-          <span>${label}</span><span style="background:rgba(124,58,237,.1);color:#7C3AED;border-radius:10px;padding:1px 7px">${items.length}</span>
-        </div>
-        ${items.map(i=>{
-          const ser=seriesList.find(s=>s.id===i.contentSeriesId);
-          const cl=i.contentChecklist||[];
-          const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-          const total=CLENS[i.contentType]||0;
-          const pct=total>0?Math.round(cl.length/total*100):0;
-          return`<div draggable="true" ondragstart="cpDragId='${i.id}'"
-            onclick="openModal(null,null,null,'${i.id}')"
-            style="background:var(--card);border-radius:var(--r);padding:9px 10px;margin-bottom:7px;cursor:pointer;border:1px solid var(--bdr);box-shadow:var(--sh);transition:box-shadow .15s"
-            onmouseenter="this.style.boxShadow='0 4px 16px rgba(124,58,237,.15)'" onmouseleave="this.style.boxShadow='var(--sh)'">
-            <div style="font-size:12px;font-weight:500;color:var(--navy);margin-bottom:4px;line-height:1.3">${esc(i.name)}</div>
-            ${i.contentType?`<div style="font-size:10px;color:#7C3AED;font-weight:600;margin-bottom:4px">${i.contentType}</div>`:''}
-            ${i.contentPlatforms?.length?`<div style="font-size:10px;color:var(--txt2);margin-bottom:4px">${i.contentPlatforms.join(' · ')}</div>`:''}
-            ${ser?`<div style="display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;background:${ser.color}22;color:${ser.color};font-weight:600;margin-bottom:4px">${esc(ser.name)}</div>`:''}
-            ${i.contentPublishDate?`<div style="font-size:10px;color:var(--txt2)">📅 ${i.contentPublishDate}</div>`:''}
-            ${total>0?`<div style="margin-top:6px"><div style="height:3px;background:var(--bdr);border-radius:2px"><div style="height:100%;width:${pct}%;background:#7C3AED;border-radius:2px"></div></div><div style="font-size:9px;color:var(--txt3);text-align:right;margin-top:1px">${pct}% ready</div></div>`:''}
-          </div>`;
-        }).join('')}
-        <button onclick="openModal(null,null,null)" style="width:100%;padding:6px;font-size:11px;color:var(--txt3);background:transparent;border:1px dashed var(--bdr2);border-radius:var(--r);cursor:pointer;margin-top:4px">+ Add</button>
-      </div>`;
-    }).join('')}
-  </div>`;
-}
-function setContentSeriesFilter(id){
-  const el=document.getElementById('cv-view-pipeline');if(el)el.dataset.seriesFilter=id;
-  renderContentPipeline();
-}
-function dropContentCard(stage,e){
-  e.preventDefault();
-  if(!cpDragId)return;
-  const item=getItem(cpDragId);if(!item)return;
-  item.contentStage=stage;
-  const stageStatusMap={idea:'notstarted',scripted:'inprogress',filmed:'inprogress',edited:'inprogress',scheduled:'planned',published:'done'};
-  item.status=stageStatusMap[stage]||item.status;
-  if(stage==='published'&&!item.completedDate)item.completedDate=today();
-  save();renderContentPipeline();toast('Moved to '+stage);cpDragId=null;
-}
-
-function renderContentTable(){
-  const el=document.getElementById('cv-view-table');if(!el)return;
-  const all=getContentItems();
-  const seriesList=S.contentSeries||[];
-  const STAGE_LABELS={idea:'💡 Idea',scripted:'✍️ Scripted',filmed:'🎬 Filmed/Written',edited:'✂️ Edited',scheduled:'📅 Scheduled',published:'🚀 Published'};
-  el.innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
-    <thead><tr style="border-bottom:2px solid var(--bdr)">
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Title</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Type</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Platform</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Stage</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Ready %</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Publish Date</th>
-      <th style="text-align:left;padding:8px 10px;color:var(--txt2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px">Series</th>
-    </tr></thead>
-    <tbody>${all.map((i,idx)=>{
-      const ser=seriesList.find(s=>s.id===i.contentSeriesId);
-      const cl=i.contentChecklist||[];
-      const CLENS={'Reel':10,'TikTok':9,'Story':5,'Carousel':10,'Thread':7,'Blog Post':10,'Newsletter':10,'YouTube Video':10,'Podcast':10,'Live':6,'Short Video':8};
-      const total=CLENS[i.contentType]||0;
-      const pct=total>0?Math.round(cl.length/total*100):0;
-      return`<tr onclick="openModal(null,null,null,'${i.id}')" style="border-bottom:1px solid var(--bdr);cursor:pointer;background:${idx%2?'var(--soft)':'var(--card)'}" onmouseenter="this.style.background='rgba(124,58,237,.05)'" onmouseleave="this.style.background='${idx%2?'var(--soft)':'var(--card)'}'">
-        <td style="padding:8px 10px;font-weight:500;color:var(--navy)">${esc(i.name)}</td>
-        <td style="padding:8px 10px;color:#7C3AED;font-weight:600">${i.contentType||'—'}</td>
-        <td style="padding:8px 10px;color:var(--txt2)">${(i.contentPlatforms||[]).join(', ')||'—'}</td>
-        <td style="padding:8px 10px">${STAGE_LABELS[i.contentStage||'idea']||'—'}</td>
-        <td style="padding:8px 10px"><span style="font-weight:700;color:${pct===100?'#059669':'#7C3AED'}">${total>0?pct+'%':'—'}</span></td>
-        <td style="padding:8px 10px;color:var(--txt2)">${i.contentPublishDate||'—'}</td>
-        <td style="padding:8px 10px">${ser?`<span style="padding:2px 8px;border-radius:10px;font-size:11px;background:${ser.color}22;color:${ser.color};font-weight:600">${esc(ser.name)}</span>`:'—'}</td>
-      </tr>`;
-    }).join('')||`<tr><td colspan="7" style="padding:20px;text-align:center;color:var(--txt3);font-style:italic">No content items yet — click + New Content to start</td></tr>`}</tbody>
-  </table></div>`;
-}
-
-function renderContentSeries(){
-  const el=document.getElementById('cv-view-series');if(!el)return;
-  const seriesList=S.contentSeries||[];
-  el.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-    <div style="font-size:13px;font-weight:500;color:var(--navy)">${seriesList.length} series</div>
-    <div style="display:flex;gap:6px">
-      <input id="new-series-name-inline" placeholder="New series name..." style="padding:6px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;width:200px">
-      <button class="btn primary sm" onclick="addSeriesInline()">+ Add Series</button>
-    </div>
-  </div>
-  ${seriesList.length?`<div class="lgrid">${seriesList.map(s=>{
-    const items=getContentItems().filter(i=>i.contentSeriesId===s.id);
-    const published=items.filter(i=>i.contentStage==='published');
-    const last=published.sort((a,b)=>(b.contentPublishDate||'').localeCompare(a.contentPublishDate||''))[0];
-    return`<div style="background:var(--card);border-radius:var(--rl);padding:16px;border:1px solid var(--bdr);cursor:pointer" onclick="setContentSeriesFilter('${s.id}');showContentView('pipeline')">
-      <div style="height:3px;border-radius:2px;background:${s.color};margin-bottom:12px"></div>
-      <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">${esc(s.name)}</div>
-      <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${items.length} pieces · ${published.length} published</div>
-      ${last?`<div style="font-size:11px;color:var(--txt3)">Last: ${last.contentPublishDate||'—'}</div>`:''}
-      <button onclick="event.stopPropagation();deleteSeries('${s.id}')" style="margin-top:10px;font-size:10px;color:var(--pink);background:none;border:none;cursor:pointer;padding:0">Delete series</button>
-    </div>`;
-  }).join('')}</div>`:'<div style="text-align:center;padding:40px;color:var(--txt3);font-style:italic">No series yet — add one above</div>'}`;
-}
-function addSeriesInline(){
-  const name=(document.getElementById('new-series-name-inline')?.value||'').trim();if(!name)return;
-  if(!S.contentSeries)S.contentSeries=[];
-  const colors=['#7C3AED','#0FA3A3','#F63E73','#F59E0B','#3B82F6','#10B981'];
-  S.contentSeries.push({id:uid(),name,color:colors[S.contentSeries.length%colors.length],status:'active',created:Date.now()});
-  save();renderContentSeries();toast('Series created!');
-}
 
 // ── VIEW A: NEXT SPRINT DETAIL ────────────────────────────────────────────
 function renderSprintNext(){
@@ -10757,6 +10432,230 @@ function pushWIABToMonth(monthKey,field){
   else if(field==='ask'){item.responseStatus='pending';}
   S.items.push(item);recalc();save();renderSOTWIABEditor();renderWIAB();
   toast('Added \''+name.trim()+'\' to '+monthKey);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONTENT PLANNER ENGINE
+// ═══════════════════════════════════════════════════════════════
+if(!S.contentSeries)S.contentSeries=[];
+
+const CONTENT_STAGE_ORDER=['idea','scripting','recording','editing','review','scheduled','published'];
+const CONTENT_STAGE_LABELS={idea:'💡 Idea',scripting:'✍️ Scripting',recording:'🎙️ Recording',editing:'✂️ Editing',review:'👁️ Review',scheduled:'📅 Scheduled',published:'🚀 Published'};
+const CONTENT_STAGE_COLORS={idea:'#6B7280',scripting:'#7C3AED',recording:'#DC2626',editing:'#D97706',review:'#0891B2',scheduled:'#059669',published:'#7C2D8E'};
+
+let cpActiveView='dashboard';
+
+function showContentView(view){
+  cpActiveView=view;
+  ['dashboard','pipeline','table','series'].forEach(v=>{
+    const el=document.getElementById('cp-view-'+v);
+    if(el)el.style.display=v===view?'block':'none';
+    const tab=document.getElementById('cp-tab-'+v);
+    if(tab){
+      tab.style.background=v===view?'rgba(255,255,255,.2)':'transparent';
+      tab.style.border=v===view?'1.5px solid rgba(255,255,255,.6)':'1.5px solid rgba(255,255,255,.3)';
+      tab.style.fontWeight=v===view?'600':'400';
+      tab.style.color=v===view?'#fff':'rgba(255,255,255,.8)';
+    }
+  });
+  if(view==='dashboard')renderCPDashboard();
+  else if(view==='pipeline')renderCPPipeline();
+  else if(view==='table')renderCPTable();
+  else if(view==='series')renderCPSeries();
+}
+
+function renderContentPlanner(){if(!S.contentSeries)S.contentSeries=[];showContentView(cpActiveView);}
+
+function getContentItems(){return S.items.filter(i=>i.type==='content');}
+
+function renderCPDashboard(){
+  const el=document.getElementById('cp-view-dashboard');if(!el)return;
+  const all=getContentItems();
+  const stageCounts={};
+  CONTENT_STAGE_ORDER.forEach(s=>{stageCounts[s]=all.filter(i=>i.contentStage===s).length;});
+  const published=all.filter(i=>i.contentStage==='published');
+  const nearReady=all.filter(i=>['review','scheduled'].includes(i.contentStage));
+  // Top performer (highest views)
+  const topPub=published.slice().sort((a,b)=>(b.contentViews||0)-(a.contentViews||0))[0];
+  // By content type breakdown
+  const byType={};
+  all.forEach(i=>{const ct=i.contentType||'other';byType[ct]=(byType[ct]||0)+1;});
+  el.innerHTML=`
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:18px">
+    ${CONTENT_STAGE_ORDER.map(s=>`<div class="mc" onclick="cpFilterByStage('${s}')" style="border-top:3px solid ${CONTENT_STAGE_COLORS[s]}">
+      <div class="mc-lbl">${CONTENT_STAGE_LABELS[s].split(' ').slice(1).join(' ')}</div>
+      <div class="mc-val" style="color:${CONTENT_STAGE_COLORS[s]}">${stageCounts[s]||0}</div>
+    </div>`).join('')}
+    <div class="mc" style="border-top:3px solid var(--navy)">
+      <div class="mc-lbl">Total</div>
+      <div class="mc-val" style="color:var(--navy)">${all.length}</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7C2D8E;margin-bottom:12px">📊 By Content Type</div>
+      ${Object.entries(byType).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <div style="font-size:12px;flex:1;color:var(--navy);text-transform:capitalize">${t}</div>
+        <div style="font-size:11px;font-weight:700;color:#7C2D8E">${c}</div>
+        <div style="height:6px;width:80px;background:var(--soft);border-radius:3px;overflow:hidden"><div style="height:100%;width:${Math.round(c/all.length*100)}%;background:#7C2D8E;border-radius:3px"></div></div>
+      </div>`).join('')}
+      ${!Object.keys(byType).length?'<div style="color:var(--txt3);font-size:12px;font-style:italic">No content yet</div>':''}
+    </div>
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;box-shadow:var(--sh)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#059669;margin-bottom:12px">⚡ Near Ready (${nearReady.length})</div>
+      ${nearReady.slice(0,6).map(i=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+        <span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${CONTENT_STAGE_COLORS[i.contentStage||'idea']}22;color:${CONTENT_STAGE_COLORS[i.contentStage||'idea']};font-weight:600">${(i.contentStage||'idea').slice(0,4)}</span>
+        <span style="flex:1;font-size:11px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.name)}</span>
+      </div>`).join('')}
+      ${!nearReady.length?'<div style="color:var(--txt3);font-size:12px;font-style:italic">None in review or scheduled</div>':''}
+    </div>
+  </div>
+  ${topPub?`<div style="background:linear-gradient(135deg,#FAF5FF,#F3E8FF);border:1px solid #D8B4FE;border-radius:var(--rl);padding:16px;margin-bottom:18px;box-shadow:var(--sh)">
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7C2D8E;margin-bottom:10px">🏆 Top Performer</div>
+    <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;cursor:pointer" onclick="openModal(null,null,null,'${topPub.id}')">${esc(topPub.name)}</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      ${[['Views',topPub.contentViews],['Likes',topPub.contentLikes],['Comments',topPub.contentComments],['Shares',topPub.contentShares]].map(([l,v])=>`<div style="text-align:center;background:rgba(124,45,142,.08);border-radius:var(--r);padding:8px"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#7C2D8E">${(v||0).toLocaleString()}</div><div style="font-size:9px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px">${l}</div></div>`).join('')}
+    </div>
+  </div>`:''}
+  <div style="display:flex;justify-content:flex-end;margin-top:8px">
+    <button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button>
+  </div>`;
+}
+
+let cpSeriesFilter='all';
+function cpFilterByStage(stage){
+  cpSeriesFilter=stage;
+  showContentView('pipeline');
+}
+
+function renderCPPipeline(){
+  const el=document.getElementById('cp-view-pipeline');if(!el)return;
+  let all=getContentItems();
+  const seriesList=S.contentSeries||[];
+  const seriesFilterId=document.getElementById('cp-series-filter')?.value||'';
+  if(seriesFilterId)all=all.filter(i=>i.contentSeriesId===seriesFilterId);
+  const seriesOpts='<option value="">All Series</option>'+seriesList.map(s=>`<option value="${s.id}"${seriesFilterId===s.id?' selected':''}>${esc(s.name)}</option>`).join('');
+  el.innerHTML=`<div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;gap:8px;align-items:center">
+      <label style="font-size:11px;color:var(--txt2)">Filter by Series:</label>
+      <select id="cp-series-filter" onchange="renderCPPipeline()" style="padding:5px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">${seriesOpts}</select>
+    </div>
+    <button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+    ${CONTENT_STAGE_ORDER.map(stage=>{
+      const stageItems=all.filter(i=>(i.contentStage||'idea')===stage);
+      return`<div style="background:var(--soft);border-radius:var(--rl);padding:10px;border-top:3px solid ${CONTENT_STAGE_COLORS[stage]}">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${CONTENT_STAGE_COLORS[stage]}">${CONTENT_STAGE_LABELS[stage]}</span>
+          <span style="background:${CONTENT_STAGE_COLORS[stage]};color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px;margin-left:auto">${stageItems.length}</span>
+        </div>
+        ${stageItems.map(i=>`<div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:8px 10px;margin-bottom:6px;cursor:pointer;transition:box-shadow .15s" onclick="openModal(null,null,null,'${i.id}')" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow='none'">
+          <div style="font-size:12px;font-weight:500;color:var(--navy);margin-bottom:4px;line-height:1.3">${esc((i.name||'').slice(0,45))}</div>
+          ${i.contentType?`<span style="font-size:9px;padding:1px 6px;background:#F3E8FF;color:#7C2D8E;border-radius:7px;text-transform:capitalize">${i.contentType}</span>`:''}
+          ${i.contentPublishDate?`<span style="font-size:9px;color:var(--txt3);margin-left:4px">📅 ${i.contentPublishDate.slice(5)}</span>`:''}
+          ${i.contentPlatforms&&i.contentPlatforms.length?`<div style="font-size:9px;color:var(--txt2);margin-top:3px">${i.contentPlatforms.slice(0,2).join(', ')}${i.contentPlatforms.length>2?' +'+( i.contentPlatforms.length-2):''}</div>`:''}
+        </div>`).join('')}
+        <button onclick="openModal(null,null,'content')" style="width:100%;padding:5px;border:1px dashed ${CONTENT_STAGE_COLORS[stage]};background:transparent;color:${CONTENT_STAGE_COLORS[stage]};border-radius:var(--r);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:2px">+ Add</button>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderCPTable(){
+  const el=document.getElementById('cp-view-table');if(!el)return;
+  const all=getContentItems().slice().sort((a,b)=>(a.contentPublishDate||'9999').localeCompare(b.contentPublishDate||'9999'));
+  const seriesList=S.contentSeries||[];
+  if(!all.length){el.innerHTML=`<div class="empty"><p>No content items yet</p><small>Add your first content item using the button above</small></div><div style="text-align:center;margin-top:12px"><button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button></div>`;return;}
+  el.innerHTML=`<div style="margin-bottom:10px;text-align:right"><button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openModal(null,null,'content')">+ New Content</button></div>
+  <div style="overflow-x:auto;border-radius:var(--rl);border:1px solid var(--bdr);box-shadow:var(--sh)">
+  <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
+    <thead><tr style="background:var(--navy);color:#fff">
+      ${['Name','Type','Stage','Platforms','Publish Date','Series','Hook','Views','Likes'].map(h=>`<th style="padding:9px 10px;text-align:left;font-size:10px;letter-spacing:1px;font-weight:600;white-space:nowrap">${h}</th>`).join('')}
+      <th style="width:36px"></th>
+    </tr></thead>
+    <tbody>${all.map((i,idx)=>{
+      const bg=idx%2===0?'var(--card)':'var(--soft)';
+      const ser=seriesList.find(s=>s.id===i.contentSeriesId);
+      const stageColor=CONTENT_STAGE_COLORS[i.contentStage||'idea'];
+      return`<tr style="background:${bg};border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${i.id}')">
+        <td style="padding:8px 10px;font-weight:500;color:var(--navy);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.name)}</td>
+        <td style="padding:8px 10px"><span style="font-size:10px;padding:2px 7px;border-radius:8px;background:#F3E8FF;color:#7C2D8E;text-transform:capitalize">${i.contentType||'—'}</span></td>
+        <td style="padding:8px 10px"><span style="font-size:10px;padding:2px 7px;border-radius:8px;background:${stageColor}22;color:${stageColor};font-weight:600">${CONTENT_STAGE_LABELS[i.contentStage||'idea']}</span></td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${(i.contentPlatforms||[]).slice(0,2).join(', ')||'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${i.contentPublishDate||'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2)">${ser?esc(ser.name):'—'}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--txt2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.contentHook||'—')}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--navy);font-weight:600">${(i.contentViews||0).toLocaleString()}</td>
+        <td style="padding:8px 10px;font-size:11px;color:var(--navy)">${(i.contentLikes||0).toLocaleString()}</td>
+        <td style="padding:8px 10px"><button class="btn xs ghost" onclick="event.stopPropagation();openModal(null,null,null,'${i.id}')">✏️</button></td>
+      </tr>`;
+    }).join('')}
+    </tbody>
+  </table></div>`;
+}
+
+function renderCPSeries(){
+  const el=document.getElementById('cp-view-series');if(!el)return;
+  if(!S.contentSeries)S.contentSeries=[];
+  const all=getContentItems();
+  el.innerHTML=`<div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--navy)">Content Series</div>
+    <button class="btn sm primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="openSeriesModal()">+ New Series</button>
+  </div>
+  ${S.contentSeries.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">
+    ${S.contentSeries.map(s=>{
+      const serItems=all.filter(i=>i.contentSeriesId===s.id);
+      const pub=serItems.filter(i=>i.contentStage==='published').length;
+      return`<div style="background:var(--card);border:1px solid var(--bdr);border-left:4px solid #7C2D8E;border-radius:var(--rl);padding:14px 16px;box-shadow:var(--sh)">
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
+          <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--navy)">${esc(s.name)}</div>${s.desc?`<div style="font-size:11px;color:var(--txt2);margin-top:2px">${esc(s.desc)}</div>`:''}</div>
+          <button class="btn xs ghost" onclick="openSeriesModal('${s.id}')">✏️</button>
+          <button class="btn xs danger" onclick="deleteSeries('${s.id}')">✕</button>
+        </div>
+        <div style="display:flex;gap:12px;margin-bottom:12px">
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#7C2D8E">${serItems.length}</div><div style="font-size:9px;color:var(--txt2)">total</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#059669">${pub}</div><div style="font-size:9px;color:var(--txt2)">published</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)">${serItems.length-pub}</div><div style="font-size:9px;color:var(--txt2)">in pipeline</div></div>
+        </div>
+        <button onclick="cpSeriesFilter=\'${s.id}\';showContentView('pipeline')" style="width:100%;padding:6px;border:1px solid #7C2D8E;background:transparent;color:#7C2D8E;border-radius:var(--r);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">View Pipeline →</button>
+      </div>`;
+    }).join('')}
+  </div>`:`<div class="empty"><p>No series yet</p><small>Create a series to group related content together</small></div>`}`;
+}
+
+function openSeriesModal(id){
+  const s=id?(S.contentSeries||[]).find(x=>x.id===id):null;
+  const div=document.createElement('div');div.className='overlay';div.style.display='flex';
+  div.innerHTML=`<div class="modal" style="max-width:460px">
+    <div class="modal-head"><h2>${s?'Edit Series':'New Series'}</h2><button class="xbtn" onclick="this.closest('.overlay').remove()">&#x00D7;</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Series Name <span class="req">*</span></label><input id="_ser-name" value="${esc(s?.name||'')}" placeholder="e.g. Behind the Business, Morning Routine..."></div>
+      <div class="field"><label>Description</label><textarea id="_ser-desc" rows="2" placeholder="What is this series about?">${esc(s?.desc||'')}</textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" onclick="this.closest('.overlay').remove()">Cancel</button>
+      <button class="btn primary" style="background:#7C2D8E;border-color:#7C2D8E" onclick="saveSeries('${id||''}')">Save Series</button>
+    </div>
+  </div>`;
+  document.body.appendChild(div);
+  div.addEventListener('click',e=>{if(e.target===div)div.remove();});
+  setTimeout(()=>div.querySelector('#_ser-name')?.focus(),50);
+}
+function saveSeries(id){
+  const name=(document.getElementById('_ser-name')?.value||'').trim();
+  if(!name){alert('Series name is required.');return;}
+  if(!S.contentSeries)S.contentSeries=[];
+  const desc=document.getElementById('_ser-desc')?.value.trim()||'';
+  if(id){const s=S.contentSeries.find(x=>x.id===id);if(s){s.name=name;s.desc=desc;}}
+  else S.contentSeries.push({id:uid(),name,desc});
+  save();document.querySelector('.overlay[style*="flex"]')?.remove();renderCPSeries();toast('Series saved!');
+}
+function deleteSeries(id){
+  if(!confirm('Delete this series? Content items will not be deleted.'))return;
+  S.contentSeries=(S.contentSeries||[]).filter(s=>s.id!==id);
+  S.items.forEach(i=>{if(i.contentSeriesId===id)i.contentSeriesId='';});
+  save();renderCPSeries();toast('Series deleted');
 }
 
 </script>
