@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v344</title>
+<title>LCC v346</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1490,7 +1490,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v344</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v346</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4699,7 +4699,7 @@ function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.
   return [...new Set(m)];}
 function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='project'){req(obj.desiredOutcome,'Desired Outcome');req(obj.successCriteria,'Success Criteria');}if(t==='goal')req(obj.primaryMeasure||obj.smart_m,'Primary Measure');if(t==='phase'){req(obj.phaseOutcome,'Phase Outcome');req(obj.startDate,'Start Date');}if(t==='clientbuild'){req(obj.cbScopeDeliverables,'Scope / Deliverables');req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
 function schema2ExecutionMissing(obj){const m=[],req=(ok,l)=>{if(!ok)m.push(l)};if(obj.type==='task'&&obj.sprint){req(Number(obj.estimatedMins)>0,'Estimated Minutes');req(obj.effort,'Effort');}if(obj.type==='clientbuild')req(obj.cbAssetsStatus==='Received'||obj.assetsReceived,'Required Assets Received');return m;}
-function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=obj.status==='done'||obj.releaseStatus==='released'||obj.releaseStatus==='shipped'||obj.changeStatus==='complete'||obj.ipProfileStatus==='Complete'||obj.autoLifecycleStatus==='Retired'||obj.wfLifecycleStatus==='Retired';if(!terminal)return m;
+function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=t==='release'?['shipped','verified','closed'].includes(obj.releaseStatus):t==='change'?['released','verified','closed'].includes(obj.changeStatus):t==='industryprofile'?obj.ipProfileStatus==='Complete':t==='automation'?obj.autoLifecycleStatus==='Retired':t==='workflow'?obj.wfLifecycleStatus==='Retired':obj.status==='done';if(!terminal)return m;
   if(t==='project'){req(obj.desiredOutcome,'Desired Outcome');req(obj.successCriteria,'Success Criteria');req(obj.projectResult,'Project Result');}
   else if(t==='goal'){req(obj.primaryMeasure||obj.smart_m,'Primary Measure');req(obj.goalResult,'Goal Result');}
   else if(t==='phase'){req(obj.phaseOutcome,'Phase Outcome');req(obj.phaseResult,'Phase Result');}
@@ -4709,7 +4709,7 @@ function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.pu
   else if(t==='patch')req(obj.completedDate,'Completion Date');
   else if(t==='product'){req(obj.productPrice!==''&&obj.productPrice!=null,'Price');req(obj.productAudience,'Target Audience');req(obj.productPromise,'Core Promise');req(obj.productSalesPage||obj.productCheckoutLink,'Sales / Checkout URL');}
   else if(t==='clientbuild'){req(obj.cbQaStatus==='Passed'||obj.qaComplete,'QA Complete / Passed');req(obj.cbHandoffDate||obj.finalDeliveryComplete,'Handoff Complete');req(obj.cbScopeDeliverables,'Scope / Deliverables');}
-  else if(t==='release'){req(obj.releaseTestingStatus==='Passed','Testing Passed');req(['Created','Verified','Not Required'].includes(obj.releaseBackupStatus),'Backup Created / Not Required');req(obj.releaseChangelogComplete==='Yes','Changelog Complete');req(obj.releaseUserGuideComplete==='Yes','User Guide Updated');}
+  else if(t==='release'){req(['pass','not_required'].includes(obj.testResult),'Test Result = Passed / Not Required');req((obj.releaseChangelog||'').trim(),'Changelog');req((obj.releaseNotes||'').trim(),'Release Notes');}
   else if(t==='change'){req(obj.changeImplementationNotes,'Implementation Notes');req(['Passed','Not Required'].includes(obj.changeTestingResult),'Testing Result');}
   else if(t==='automation'&&obj.autoLifecycleStatus==='Live'){req(obj.autoPlatform,'Platform');req(obj.autoTestResult==='Passed','Test Result = Passed');}
   else if(t==='workflow'&&obj.wfLifecycleStatus==='Live'){req(obj.wfTestResult==='Passed','Test Result = Passed');req(obj.wfPurposeOutcome,'Purpose / Outcome');}
@@ -4762,98 +4762,32 @@ function inventoryContainerChildCountV323(id){
 }
 function baseMissingFields(item){
   const m=[];
-  // v315 — Cancelled and On Hold bypass all other completeness checks.
-  // Only the state-specific reason remains required.
-  if(item.status==='cancelled'){if(!item.cancellationReason)m.push('Cancellation Reason');return m;}
-  if(item.status==='onhold'){if(!item.onHoldReason)m.push('On Hold Reason');return m;}
-  if(item.status!=='placeholder'){schema2CaptureMissing(item).forEach(x=>{if(!m.includes(x))m.push(x);});}
-  if(item.type==='inventory'){ if(item.status==='placeholder')return m; if(!item.name||!item.name.trim())m.push('Name'); if(item.isContainer){ /* v323: indexed container-content lookup */ if(!inventoryContainerChildCountV323(item.id))m.push('Contents'); if(!item.roomId&&!(item.location||'').trim())m.push('Storage'); } return m; }
-  if(item.type==='room'){ if(item.status==='placeholder')return m; if(!item.name||!item.name.trim())m.push('Name'); return m; } // v249 Rooms Stage A — reference record, Name only
-  if(item.type==='automation'){ if(item.status==='placeholder')return m; if(!item.name||!item.name.trim())m.push('Name'); if(!(item.autoTrigger||'').trim())m.push('Trigger'); if(!(item.autoAction||'').trim())m.push('Action'); return m; } // v257 Stage E
-  if(item.type==='product'){
-    if(item.status==='placeholder')return m;
-    if(!item.name||!item.name.trim())m.push('Name');
-    if(!item.productStatus)m.push('Product Status');
-    if(!item.productBrand)m.push('Brand');
-    if(!item.productCategory)m.push('Product Category');
-    return m; // products validate only on their own required fields
+  const add=x=>{if(x&&!m.includes(x))m.push(x)};
+  if(!item)return m;
+  // v346 — one validation path for every action-item type. Current Schema 2.0
+  // capture/planning/close gates are the source of truth; retired legacy field
+  // checks are intentionally not duplicated here.
+  if(item.status==='cancelled'){if(!item.cancellationReason)add('Cancellation Reason');return m;}
+  if(item.status==='onhold'){if(!item.onHoldReason)add('On Hold Reason');return m;}
+  if(item.status!=='placeholder')schema2CaptureMissing(item).forEach(add);
+  if(item.status!=='placeholder')schema2PlanningMissing(item).forEach(add);
+  schema2ExecutionMissing(item).forEach(add);
+  schema2CloseMissing(item).forEach(add);
+
+  // Current universal work controls that are rendered outside Schema 2.0.
+  if(item.status!=='placeholder'&&schema2IsWorkType(item.type)){
+    if(!item.level&&item.type!=='clientbuild'&&item.type!=='event')add('Level');
+    if(!item.startDate&&item.status!=='done'&&item.type!=='event')add('Start Date');
   }
-  if(item.type==='workflow'){
-    // v186 — a Workflow documents a GHL automation. It validates on its own
-    // identity + flow fields, not the generic scheduling fields.
-    if(item.status==='placeholder')return m;
-    if(!item.name||!item.name.trim())m.push('Name');
-    if(!item.wfDescriptor)m.push('Descriptor');
-    if(!item.wfOwner)m.push('Owner (Internal/Client)');
-    if(item.wfOwner==='Client'&&!(item.linkedClientBuilds||[]).length)m.push('Linked Client Build');
-    if(!item.wfTrigger)m.push('Trigger');
-    if(!(item.wfSteps||[]).length)m.push('Flow Steps');
-    return m;
+  // Explicit task controls currently shown in the Action Item form.
+  if(item.type==='task'&&item.status!=='done'&&item.status!=='placeholder'){
+    if(item.planningStage==='ready'&&!(Number(item.estimatedMins)>0))add('Estimated Minutes');
+    if(!item.screenTimeRequired)add('Screen Time');
   }
-  if(item.type==='habit'){
-    // 0180 (v205) — masters validate their schedule; occurrences are generated
-    // and inherit everything, so they only ever need a date.
-    if(item.status==='placeholder')return m;
-    if(!item.name||!item.name.trim())m.push('Name');
-    if(item.habitMasterId){if(!item.date)m.push('Date');return m;}
-    if(!item.habitFreq)m.push('Frequency');
-    if(!item.habitTime)m.push('Time of Day');
-    if(!(item.categories||[]).length)m.push('Category');
-    if(!item.startDate)m.push('Start Date');
-    // Effort drives the per-occurrence reward, so it is only required on the
-    // open-ended model. Bounded runs pay a flat percentage award instead.
-    if(!item.date&&!item.effort)m.push('Effort Level');
-    return m;
-  }
-  if(item.type==='industryprofile'){
-    if(item.status==='placeholder')return m;
-    if(!item.name||!item.name.trim())m.push('Name');
-    if(!item.ipBrand)m.push('Brand');
-    if(!item.industry)m.push('Industry');
-    return m;
-  }
-  if(item.type==='content'){
-    // v191 — content validates on its own planning fields. Platforms are only
-    // required where the content is actually published somewhere public.
-    if(item.status==='placeholder')return m;
-    if(!item.name||!item.name.trim())m.push('Name');
-    if(!item.contentType)m.push('Content Type');
-     if((item.contentType==='sop'||item.contentType==='policy')&&!(item.contentBrand||'').trim())m.push('Brand'); // 0181 (v228)
-    if(!item.contentPurpose)m.push('Content Purpose');
-    if(!item.contentPillar)m.push('Content Pillar');
-    const _f=CONTENT_TYPE_FAMILY[item.contentType]||'';
-    if(_f&&_f!=='email'&&_f!=='doc'&&!(item.contentPlatforms||[]).length)m.push('Platform(s)');
-    if(item.status==='onhold'&&!item.onHoldReason)m.push('On Hold Reason');
-    if(!item.listIds||!item.listIds.length||item.listIds.every(lid=>lid==='uncat'))m.push('List');
-    if(!item.categories||!item.categories.length)m.push('Category');
-    return m;
-  }
-  if(!item.name||!item.name.trim())m.push('Name');
-  if(!item.type)m.push('Type');
-  // 0142 — an On Hold item must record a structured On Hold Reason (replaces old Notes-based requirement)
-  if(item.status==='onhold'&&!item.onHoldReason)m.push('On Hold Reason');
-  if(!item.listIds||!item.listIds.length||item.listIds.every(lid=>lid==='uncat'))m.push('List');
-  if(!item.categories||!item.categories.length)m.push('Category');
-  if(!item.level&&item.status!=='placeholder'&&item.type!=='clientbuild'&&item.type!=='event')m.push('Level');
-  if(!item.effort&&item.status!=='done'&&item.status!=='placeholder'&&item.type!=='event'&&item.type!=='clientbuild')m.push('Effort Level');
-  if(!item.startDate&&item.status!=='done'&&item.status!=='placeholder')m.push('Start Date');
-  // 0183 (v208) — Due Date is now a hard required field, same guards as Start Date.
-  // It is NOT a Parking Lot gate (see PARKING_SCHEDULING_FIELDS): a missing Due Date
-  // routes the item to the Planning Queue's Needs Scheduling section, which is the only
-  // bucket that exists to fix dates. Done/Cancelled/Placeholder stay exempt.
-  if(!item.date&&item.status!=='done'&&item.status!=='placeholder')m.push('Due Date');
-  if(item.startDate&&!item.date&&item.duration==null&&item.status!=='done'&&item.status!=='placeholder')m.push('Duration');
-  if(item.type==='task'&&item.planningStage==='ready'&&item.startDate&&!item.estimatedMins&&item.status!=='done'&&item.status!=='placeholder')m.push('Est. Minutes');
-  // 0172 (v203) — Screen Time is an explicit Yes/No on every open task. Done and
-  // placeholder tasks are skipped so historical items don't flood the Planning Queue.
-  if(item.type==='task'&&!item.screenTimeRequired&&item.status!=='done'&&item.status!=='placeholder')m.push('Screen Time');
-  if(item.type==='release'&&!item.releaseVersion&&item.status!=='placeholder')m.push('Version');
-  if(item.type==='release'&&!item.releaseStatus&&item.status!=='placeholder')m.push('Release Status');
-  if(item.type==='change'&&!item.changeType&&item.status!=='placeholder')m.push('Change Type');
-  if(item.type==='change'&&!item.changeStatus&&item.status!=='placeholder')m.push('Change Status');
-  if(item.type==='clientbuild'&&!item.industry&&item.status!=='placeholder')m.push('Industry');
-  if(item.type==='clientbuild'&&!item.slotStatus&&item.status!=='placeholder')m.push('Slot Status');
-  if(item.type==='phase'&&!(item.linkedGoals||[]).length&&!(item.linkedProjects||[]).length)m.push('Linked Goal/Project (Phases can\'t stand alone)');
+  // Habit reward effort remains required only for open-ended masters.
+  if(item.type==='habit'&&!item.habitMasterId&&item.status!=='placeholder'&&!item.date&&!item.effort)add('Effort Level');
+  // Inventory containers must identify contents in addition to their capture fields.
+  if(item.type==='inventory'&&item.isContainer&&item.status!=='placeholder'&&!inventoryContainerChildCountV323(item.id))add('Contents');
   return m;
 }
 // v326 — consistency guardrails. These are behavioral attention signals, not schema requirements.
@@ -7293,7 +7227,8 @@ function ipPrint(id){
     '<h2>9. Industry-Specific FAQs</h2>'+(faqsT||'<p class="dim">—</p>')+
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
-    '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div></body></html>';
+    '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>'+
+    '</body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
@@ -13630,7 +13565,11 @@ function inlineField(id,field,val){
     i.status=(i.date&&daysUntil(i.date)<0)?'behind':'planned';
   }
   recalc();save();
-  if(['type','status','effort','askType','askChannel','rejectionType','responseStatus','date','startDate','duration','durationUnit'].includes(field))renderListDetail();
+  // v346 — All Action Items and Master Plan Sprint are two views of the same records.
+  // Refresh sprint-derived surfaces after inline edits so no stale view survives navigation/render timing.
+  if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();
+  if(typeof renderHubPeriodLens==='function')renderHubPeriodLens();
+  if(['type','status','effort','askType','askChannel','rejectionType','responseStatus','date','startDate','duration','durationUnit','planningStage','estimatedMins'].includes(field))renderListDetail();
 }
 function inlineModulesField(id,field,val){
   const i=getItem(id);if(!i)return;
@@ -13652,7 +13591,7 @@ function inlineStatusChg(id,val){
   let _msg='Status updated';                    // 0192 (v219)
   const _p=habitStatusSideEffects(i,_oldSt);
   if(_p)_msg=(i.status==='cancelled'?'Habit cancelled':'Habit paused')+' \u2014 cleared '+_p+' upcoming occurrence(s)';
-  recalc();save();renderListDetail();toast(_msg);
+  recalc();save();renderListDetail();if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();if(typeof renderHubPeriodLens==='function')renderHubPeriodLens();toast(_msg);
 }
 function inlineCatChg(id,cat,checked){
   const i=getItem(id);if(!i)return;
@@ -16327,7 +16266,7 @@ function renderHubSprintWidget(){
   const sprint=ALL_SPRINTS[getCurrentSprintIdx()];
   if(!sprint){el.innerHTML='<div style="font-size:12px;color:var(--txt3);font-style:italic">No active sprint found.</div>';return;}
   const cap=calcSprintCapacity(sprint),meta=getSprintMeta(sprint.num);
-  const tasks=(S.items||[]).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sprint.num&&!['done','cancelled','placeholder'].includes(i.status));
+  const tasks=getSprintTasks(sprint); // v346 — same canonical task source as Sprint Planner
   const committed=tasks.filter(i=>i.planningStage==='ready'&&i.status!=='onhold');
   const committedMins=committed.reduce((sum,i)=>sum+(Number(i.estimatedMins)||0),0),capacityMins=Math.round(cap.hrsPerSprint*60);
   const barPct=capacityMins?Math.min(100,Math.round(committedMins/capacityMins*100)):0;
@@ -28440,7 +28379,7 @@ function cpAddCampaign(){
  // Extend schema gates without removing v296 rules.
  const oldPlan=schema2PlanningMissing;schema2PlanningMissing=function(o){const m=oldPlan(o),req=(ok,l)=>{if(!ok&&!m.includes(l))m.push(l)};if(o.type==='change'){req(o.changeReason,'Reason for Change');req((o.changeModule||[]).length||o.changeAffectedArea,'Affected Module');req(o.changeDesiredBehavior,'Desired Behavior');req(o.changeAcceptanceCriteria,'Acceptance Criteria');req(o.changeImpactLevel,'Impact Level');req(o.changeRiskLevel,'Risk Level');if(o.changeType==='bugfix')req(o.changeCurrentBehavior,'Current Behavior / Bug Symptoms');}if(o.type==='release'){req(o.releaseTargetShipDate||o.date,'Target Ship Date');req((o.linkedChanges||[]).length,'Included Changes');}return m};
  const oldExec=schema2ExecutionMissing;schema2ExecutionMissing=function(o){const m=oldExec(o),req=(ok,l)=>{if(!ok&&!m.includes(l))m.push(l)};if(o.type==='change'&&['building','testing','ready'].includes(o.changeStatus)){req(o.changeImplementationNotes,'Implementation Notes');if(o.changeMigrationRequired==='Yes'){req(o.changeMigrationTested==='Yes','Migration Tested');req(o.changeRollbackPlan,'Rollback Plan');}if(o.changeBackupRequired==='Yes')req(o.changeRollbackPlan,'Rollback Plan');}return m};
- const oldClose=schema2CloseMissing;schema2CloseMissing=function(o){const m=oldClose(o),req=(ok,l)=>{if(!ok&&!m.includes(l))m.push(l)};if(o.type==='change'&&['released','verified','closed'].includes(o.changeStatus)){req(['Passed','Not Required'].includes(o.changeTestingResult),'Testing Passed / Not Required');req((o.linkedReleases||[]).length,'Target Release');if(o.changeChangelogRequired==='Yes')req(o.changeChangelogSummary,'Change Log Summary');}if(o.type==='release'&&['shipped','verified','closed'].includes(o.releaseStatus)){const q=readiness(o);if(o.releaseReadinessOverride!=='Yes'){req(q.build,'Build Gate');req(q.test,'Test Gate');req(q.docs,'Documentation Gate');req(q.backup&&q.migration,'Data Safety Gate');req(q.ship,'Ship Gate');}else req(o.releaseOverrideReason,'Override Reason');if(['verified','closed'].includes(o.releaseStatus))req(o.releaseVerificationStatus==='Passed','Post-Release Verification Passed');}return m};
+ const oldClose=schema2CloseMissing;schema2CloseMissing=function(o){const m=oldClose(o),req=(ok,l)=>{if(!ok&&!m.includes(l))m.push(l)};if(o.type==='change'&&['released','verified','closed'].includes(o.changeStatus)){req(['Passed','Not Required'].includes(o.changeTestingResult),'Testing Passed / Not Required');req((o.linkedReleases||[]).length,'Target Release');if(o.changeChangelogRequired==='Yes')req(o.changeChangelogSummary,'Change Log Summary');}return m};
  // Backfill defaults for existing records without overwriting user data.
  changes().forEach(c=>{if(c.changeIncludeChangelog==null)c.changeIncludeChangelog='Yes';if(c.changeTestingRequired==null)c.changeTestingRequired='Yes';});save();
 })();
@@ -28878,5 +28817,55 @@ function ensureReleaseV344(){
 setTimeout(()=>{ensureReleaseV344();try{save();}catch(e){}},1600);
 </script>
 <!-- USER GUIDE: v344 — v343 Script Placement Repair. Corrected an internal script-placement error that caused raw code/template text to render on screen. The Master Plan Active Now hierarchy restoration from v343 remains in place. -->
+
+<script>
+/* v345 — Required-field validation alignment. */
+function ensureReleaseV345(){
+  try{
+    if(!window.S||!Array.isArray(S.items))return;
+    const n='345',now=new Date().toISOString();
+    let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);
+    const vals={
+      name:'Required-Field Validation Alignment',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',
+      listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',
+      releaseVersion:n,releaseType:'patch',releaseStatus:'ready',testResult:'testing',
+      releaseModules:['All Action Items','Release Management','Core Action Item Module'],
+      releaseChangelog:'Aligned close validation with the fields that currently exist on each action-item type. Release records no longer request retired Testing Passed, Backup Created, Changelog Complete, User Guide Updated, Build Gate, Documentation Gate, Data Safety Gate, or Ship Gate fields. Type-specific close state now controls when close requirements apply.',
+      releaseNotes:'Required-field and attention flags now use the current action-item schema. A Release with core Status Done but Release Status not yet Shipped/Verified/Closed is not incorrectly treated as a closed Release.',
+      releaseSummary:'Required-Field Validation Alignment',
+      releaseTechnicalNotes:'schema2CloseMissing now determines terminal state by action-item type. Release close requirements use the current Test Result, Changelog, and Release Notes controls; obsolete release-only gate fields were removed from save validation.',updatedAt:now
+    };
+    if(i)Object.assign(i,vals);else{const rec=makeItem?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec);}
+    const rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);if(rel&&typeof syncDurationDatesV337==='function')syncDurationDatesV337(rel);
+  }catch(e){console.warn('v345 release seed',e);}
+}
+setTimeout(()=>{ensureReleaseV345();try{save();}catch(e){}},1650);
+</script>
+<!-- USER GUIDE: v345 — Required-Field Validation Alignment. Required-for-close and attention validation now follows each action-item type's current fields and lifecycle status. Release records use the current Test Result, Changelog, and Release Notes fields and no longer request retired release gate fields. -->
+
+<script>
+/* v346 — All-type validation reconciliation + Sprint source alignment. */
+function ensureReleaseV346(){
+  try{
+    if(!window.S||!Array.isArray(S.items))return;
+    const n='346',now=new Date().toISOString();
+    let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);
+    const vals={
+      name:'Validation & Sprint View Alignment',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',
+      listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',
+      releaseVersion:n,releaseType:'patch',releaseStatus:'ready',testResult:'testing',
+      releaseModules:['All Action Items','Master Plan','Sprint Planner','Core Action Item Module'],
+      releaseChangelog:'Reconciled Needs Attention validation across all action-item types to the current Schema 2.0 capture, planning, execution, and close gates instead of legacy duplicate field checks. Aligned the Master Plan Sprint view with Sprint Planner by using the same canonical getSprintTasks source. Inline All Action Items edits now refresh Master Plan sprint-derived surfaces immediately.',
+      releaseNotes:'All Action Items and Master Plan Sprint now read the same sprint task set, and attention flags no longer depend on a second legacy validation matrix.',
+      releaseSummary:'Validation & Sprint View Alignment',
+      releaseTechnicalNotes:'baseMissingFields now composes current schema gates plus only current universal controls. renderHubSprintWidget uses getSprintTasks(sprint), matching Sprint Planner. inlineField and inlineStatusChg refresh Master Plan sprint surfaces after edits.',updatedAt:now
+    };
+    if(i)Object.assign(i,vals);else{const rec=makeItem?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec);}
+    const rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);if(rel&&typeof syncDurationDatesV337==='function')syncDurationDatesV337(rel);
+  }catch(e){console.warn('v346 release seed',e);}
+}
+setTimeout(()=>{ensureReleaseV346();try{save();}catch(e){}},1700);
+</script>
+<!-- USER GUIDE: v346 — Validation & Sprint View Alignment. Needs Attention now uses the current validation gates for every action-item type instead of legacy duplicate requirements. Master Plan Sprint and Sprint Planner use the same canonical sprint task source, and inline edits made in All Action Items refresh sprint views immediately. -->
 </body>
 </html>
