@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v343</title>
+<title>LCC v344</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1490,7 +1490,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v343</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v344</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -7293,32 +7293,7 @@ function ipPrint(id){
     '<h2>9. Industry-Specific FAQs</h2>'+(faqsT||'<p class="dim">—</p>')+
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
-    '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>
-<script>
-/* v343 — Master Plan Active Now canonical hierarchy restoration. */
-function ensureReleaseV343(){
-  try{
-    if(!window.S||!Array.isArray(S.items))return;
-    const n='343',now=new Date().toISOString();
-    let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);
-    const vals={
-      name:'Master Plan Active Now Hierarchy Restoration',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',
-      listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',
-      releaseVersion:n,releaseType:'patch',releaseStatus:'ready',testResult:'testing',
-      releaseModules:['Master Plan','Hierarchy'],
-      releaseChangelog:'Restored Active Now nesting from the same canonical parent-child relationships used by the Hierarchy tab. Active descendants now bring their Project/Phase ancestor containers into view for context.',
-      releaseNotes:'Master Plan Active Now now displays structures such as SF MVP Launch → Website Updates → linked tasks instead of flattening each task into a separate top-level card.',
-      releaseSummary:'Master Plan Active Now Hierarchy Restoration',
-      releaseTechnicalNotes:'Active Now seeds the tree with qualifying active records, walks _hierChildIds relationships upward to include ancestor context, then renders the resulting canonical hierarchy recursively.',updatedAt:now
-    };
-    if(i)Object.assign(i,vals);else{const rec=makeItem?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec);}
-    const rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);if(rel&&typeof syncDurationDatesV337==='function')syncDurationDatesV337(rel);
-  }catch(e){console.warn('v343 release seed',e);}
-}
-setTimeout(()=>{ensureReleaseV343();try{save();}catch(e){}},1600);
-</script>
-<!-- USER GUIDE: v343 — Master Plan Active Now Hierarchy Restoration. Active Now now mirrors the Hierarchy tab's canonical parent-child structure. Qualifying active work automatically brings its Goal/Project/Phase ancestors into view so linked work renders nested beneath the correct parent instead of as separate top-level cards. -->
-</body></html>';
+    '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div></body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
@@ -28878,5 +28853,30 @@ function ensureReleaseV342(){
 setTimeout(()=>{ensureReleaseV342();try{save();}catch(e){}},1550);
 </script>
 <!-- USER GUIDE: v342 — Date Synchronization Invalid-Time Fix. Shared Start Date / Duration / Target Completion Date calculations now safely accept ISO and MM/DD/YYYY date values. Same-day Duration 0 records save normally instead of failing with “Invalid time value.” -->
+
+<script>
+/* v344 — Repair v343 script placement; preserve Active Now canonical hierarchy restoration. */
+function ensureReleaseV344(){
+  try{
+    if(!window.S||!Array.isArray(S.items))return;
+    const n='344',now=new Date().toISOString();
+    let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);
+    const vals={
+      name:'v343 Script Placement Repair',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',
+      listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',
+      releaseVersion:n,releaseType:'patch',releaseStatus:'ready',testResult:'testing',
+      releaseModules:['Master Plan','Hierarchy','Industry Profiles'],
+      releaseChangelog:'Repaired the v343 release script placement that was accidentally inserted inside the Industry Profile print-template string, causing raw JavaScript and HTML template text to render in the browser. The v343 Active Now hierarchy logic remains intact.',
+      releaseNotes:'Restores normal page rendering while retaining Master Plan Active Now canonical hierarchy nesting.',
+      releaseSummary:'v343 Script Placement Repair',
+      releaseTechnicalNotes:'Removed the v343 release-seed script and user-guide comment from the ipPrint HTML string and placed release metadata at the actual document level. No Active Now hierarchy logic was reverted.',updatedAt:now
+    };
+    if(i)Object.assign(i,vals);else{const rec=makeItem?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec);}
+    const rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);if(rel&&typeof syncDurationDatesV337==='function')syncDurationDatesV337(rel);
+  }catch(e){console.warn('v344 release seed',e);}
+}
+setTimeout(()=>{ensureReleaseV344();try{save();}catch(e){}},1600);
+</script>
+<!-- USER GUIDE: v344 — v343 Script Placement Repair. Corrected an internal script-placement error that caused raw code/template text to render on screen. The Master Plan Active Now hierarchy restoration from v343 remains in place. -->
 </body>
 </html>
