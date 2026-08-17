@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v341</title>
+<title>LCC v342</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1490,7 +1490,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v341</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v342</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4483,7 +4483,7 @@ function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileRe
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(msg,dur=2600){const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .25s';setTimeout(()=>el.remove(),300)},dur);}
-function addDays(base,n){const d=new Date(base+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function addDays(base,n){const m=String(base||'').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/)||String(base||'').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(!m)return '';const iso=String(base).includes('-'),y=+(iso?m[1]:m[3]),mo=+(iso?m[2]:m[1]),da=+(iso?m[3]:m[2]);const d=new Date(y,mo-1,da,12);if(Number.isNaN(d.getTime())||d.getFullYear()!==y||d.getMonth()!==mo-1||d.getDate()!==da)return '';d.setDate(d.getDate()+(Number(n)||0));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function addReleaseModule(val){if(!val)return;const inp=document.getElementById('m-release-modules-data');let arr=[];try{arr=JSON.parse(inp?.value||'[]');}catch{}if(!arr.includes(val)){arr.push(val);if(inp)inp.value=JSON.stringify(arr);}const chips=document.getElementById('m-release-modules-chips');if(chips){chips.innerHTML=arr.map(m=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#166534;color:#fff">${esc(m)}<button type="button" onclick="removeReleaseModule('${esc(m)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');}}
 function removeReleaseModule(val){const inp=document.getElementById('m-release-modules-data');let arr=[];try{arr=JSON.parse(inp?.value||'[]');}catch{}arr=arr.filter(x=>x!==val);if(inp)inp.value=JSON.stringify(arr);addReleaseModule('');}
 function addChangeModule(val){if(!val)return;const inp=document.getElementById('m-change-module-data');let arr=[];try{arr=JSON.parse(inp?.value||'[]');}catch{}if(!arr.includes(val)){arr.push(val);if(inp)inp.value=JSON.stringify(arr);}const chips=document.getElementById('m-change-module-chips');if(chips){chips.innerHTML=arr.map(m=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#92400E;color:#fff">${esc(m)}<button type="button" onclick="removeChangeModule('${esc(m)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');}}
@@ -8897,7 +8897,7 @@ function addCustomCategory(){
   updatePatchFieldsVisibility();
 }
 function switchType(){const t=document.getElementById('m-type')?.value;if(!t)return;if(t==='inventory'){const nm=document.getElementById('m-name')?.value||'';const eid=S.editId||null;if(eid){const idx=S.items.findIndex(x=>x.id===eid);if(idx>-1){S.items[idx].type='inventory';S.items[idx]=invNormalize(S.items[idx]);invalidateItemIndex&&invalidateItemIndex();save();}}closeModal();openInvModal(eid);if(!eid&&nm){const el=document.getElementById('inv-name');if(el)el.value=nm;}return;}if(t==='room'){const nm=document.getElementById('m-name')?.value||'';const eid=S.editId||null;if(eid){const idx=S.items.findIndex(x=>x.id===eid);if(idx>-1){S.items[idx].type='room';S.items[idx]=roomNormalize(S.items[idx]);invalidateItemIndex&&invalidateItemIndex();save();}}closeModal();openRoomModal(eid);if(!eid&&nm){const el=document.getElementById('room-name');if(el)el.value=nm;}return;}const item=S.editId?getItem(S.editId):null;renderModalBody(t,item,document.getElementById('m-name')?.value);if(!item)applyTypeDefaults(t);}
-function addDays(dateStr,days){const d=new Date(dateStr+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
+function addDays(dateStr,days){const m=String(dateStr||'').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/)||String(dateStr||'').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(!m)return '';const iso=String(dateStr).includes('-'),y=+(iso?m[1]:m[3]),mo=+(iso?m[2]:m[1]),da=+(iso?m[3]:m[2]);const d=new Date(y,mo-1,da,12);if(Number.isNaN(d.getTime())||d.getFullYear()!==y||d.getMonth()!==mo-1||d.getDate()!==da)return '';d.setDate(d.getDate()+(Number(days)||0));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function durationUnitMult(){const u=document.getElementById('m-duration-unit')?.value||'days';return u==='weeks'?7:u==='months'?30:u==='years'?365:1;}
 function subDays(dateStr,days){return addDays(dateStr,-days);}
 function onDateChg(){
@@ -28826,5 +28826,30 @@ function ensureReleaseV341(){
 setTimeout(()=>{ensureReleaseV341();try{save();}catch(e){}},1500);
 </script>
 <!-- USER GUIDE: v341 — My Arc Start-Date Boundary Fix. My Arc now uses the browser's local calendar date for program day calculations and does not show Today’s Check-In activities before the program Start Date. -->
+
+<script>
+/* v342 — Date synchronization invalid-time guard. */
+function ensureReleaseV342(){
+  try{
+    if(!window.S||!Array.isArray(S.items))return;
+    const n='342',now=new Date().toISOString();
+    let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);
+    const vals={
+      name:'Date Synchronization Invalid-Time Fix',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',
+      listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',
+      releaseVersion:n,releaseType:'patch',releaseStatus:'ready',testResult:'testing',
+      releaseModules:['Action Items','Bulk Add','Bulk Update','Imports','Release Management'],
+      releaseChangelog:'Hardened shared date arithmetic so Start Date, Duration, and Target Completion Date synchronization accepts ISO and displayed MM/DD/YYYY dates without throwing RangeError: Invalid time value.',
+      releaseNotes:'Saving a same-day item with Duration 0 no longer fails when a date reaches the shared duration synchronizer in display-date format.',
+      releaseSummary:'Date Synchronization Invalid-Time Fix',
+      releaseTechnicalNotes:'Both global addDays implementations now validate and parse YYYY-MM-DD or M/D/YYYY explicitly, reject invalid calendar dates safely, and format results from local date components without calling toISOString on an invalid Date.',updatedAt:now
+    };
+    if(i)Object.assign(i,vals);else{const rec=makeItem?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec);}
+    const rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);if(rel&&typeof syncDurationDatesV337==='function')syncDurationDatesV337(rel);
+  }catch(e){console.warn('v342 release seed',e);}
+}
+setTimeout(()=>{ensureReleaseV342();try{save();}catch(e){}},1550);
+</script>
+<!-- USER GUIDE: v342 — Date Synchronization Invalid-Time Fix. Shared Start Date / Duration / Target Completion Date calculations now safely accept ISO and MM/DD/YYYY date values. Same-day Duration 0 records save normally instead of failing with “Invalid time value.” -->
 </body>
 </html>
