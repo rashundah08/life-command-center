@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v348</title>
+<title>LCC v349</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -980,6 +980,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <button class="nb" id="nav-changemgmt" onclick="goToList('lccop-change')">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7a5 5 0 0 0-8.5-3.5L2 6M3 9a5 5 0 0 0 8.5 3.5L14 10M2 4v2h2M14 12v-2h-2"/></svg>Change Management
     </button>
+    <button class="nb" id="nav-implementation" onclick="showPage('implementation',this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>Implementation Scorecard
+    </button>
     <button class="nb" id="nav-projtasks" onclick="goToList('projtasks')">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5.5l1.5 1.5L9 4.5M5 10.5l1.5 1.5L9 9.5"/></svg>Project Tasks
     </button>
@@ -1108,6 +1111,11 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div style="margin-bottom:22px"><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:10px">Breakdown by Type</div><div id="dash-breakdown"></div></div>
       <div><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:10px">Progress by List</div><div id="dash-lists"></div></div>
     </div>
+    <!-- v349 — LCC Implementation Scorecard -->
+    <div id="pg-implementation" style="display:none">
+      <div id="implementation-body"></div>
+    </div>
+
     <!-- ALL ITEMS -->
     <div id="pg-items" style="display:none">
       <!-- Top controls row -->
@@ -15016,12 +15024,12 @@ function renderHeadquarters(){
 }
 function showPage(page,btn){
   if(page==='fieldcatalog')page='catalog'; // v237 — merged into Field Option Catalog
-  ['dash','initiative','headquarters','items','planning','nos','nos2','lists','dump','rewards','hub','sot','meal','health','homeops','inventory','catalog','taglibrary','workflows','fieldcatalog','productcatalog','industryprofile','habits','myarc','finance','sfscore','dreamfund','countdowns','wiab','sprints','content','parking','patches','hierarchy','rooms','automations','itemtags'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
+  ['dash','initiative','headquarters','implementation','items','planning','nos','nos2','lists','dump','rewards','hub','sot','meal','health','homeops','inventory','catalog','taglibrary','workflows','fieldcatalog','productcatalog','industryprofile','habits','myarc','finance','sfscore','dreamfund','countdowns','wiab','sprints','content','parking','patches','hierarchy','rooms','automations','itemtags'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   if(page==='wiab')renderWIABPage();
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={initiative:'Initiative Dashboard',headquarters:'Inside Headquarters',taglibrary:'Tag Library',industryprofile:'Industry Profiles',dash:'Dashboard',items:'All Action Items',planning:'Planning Queue',nos:'1,000 NOs Challenge',nos2:'1,000 NOs 2.0',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',health:'Health & Wellness',homeops:'Home Operations',inventory:'Home Inventory',catalog:'Catalog Settings',productcatalog:'Product Catalog',habits:'Habits & Routines',myarc:'My Arc',finance:'Finance Tracker',sfscore:'SF Scorecard',dreamfund:'Dream Life Fund',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner',parking:'Parking Lot',patches:'Patch Challenges',hierarchy:'Hierarchy',rooms:'Rooms',automations:'Automations',itemtags:'Tags'};
+  const tt={initiative:'Initiative Dashboard',headquarters:'Inside Headquarters',implementation:'Implementation Scorecard',taglibrary:'Tag Library',industryprofile:'Industry Profiles',dash:'Dashboard',items:'All Action Items',planning:'Planning Queue',nos:'1,000 NOs Challenge',nos2:'1,000 NOs 2.0',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',health:'Health & Wellness',homeops:'Home Operations',inventory:'Home Inventory',catalog:'Catalog Settings',productcatalog:'Product Catalog',habits:'Habits & Routines',myarc:'My Arc',finance:'Finance Tracker',sfscore:'SF Scorecard',dreamfund:'Dream Life Fund',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner',parking:'Parking Lot',patches:'Patch Challenges',hierarchy:'Hierarchy',rooms:'Rooms',automations:'Automations',itemtags:'Tags'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='planning'){clearSelection();renderPlanningQueue();}
@@ -15032,6 +15040,7 @@ function showPage(page,btn){
   if(page==='dash'){renderDash();document.getElementById('dash-panel').innerHTML='';}
   if(page==='initiative'&&typeof renderInitiativeDashboardV298==='function')renderInitiativeDashboardV298();
   if(page==='headquarters')renderHeadquarters();
+  if(page==='implementation')renderImplementationScorecardV349();
   if(page==='rewards'){initRewards();renderRewards();}
   if(page==='hub'){renderHub();setTimeout(()=>{if(typeof renderWIAB==='function')renderWIAB();},100);}
   if(page==='sot')renderSot();
@@ -15065,6 +15074,7 @@ function renderAll(){
   renderSb();
   if(document.getElementById('pg-dash').style.display!=='none')renderDash();
   if(document.getElementById('pg-headquarters')?.style.display!=='none')renderHeadquarters();
+  if(document.getElementById('pg-implementation')?.style.display!=='none')renderImplementationScorecardV349();
   if(document.getElementById('pg-items').style.display!=='none')renderItems();
   if(document.getElementById('pg-planning')?.style.display!=='none')renderPlanningQueue();
   if(document.getElementById('pg-nos').style.display!=='none')renderNos();
@@ -28883,5 +28893,56 @@ setTimeout(()=>{ensureReleaseV346();try{save();}catch(e){}},1700);
   try{save();}catch(e){}
 })();
 </script>
+<style>
+/* v349 — Implementation Scorecard */
+.imp349-hero{background:linear-gradient(135deg,var(--navy),#334155);color:white;border-radius:18px;padding:22px;margin-bottom:16px}.imp349-kicker{font-size:10px;letter-spacing:2.4px;text-transform:uppercase;opacity:.68}.imp349-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;margin:3px 0}.imp349-sub{font-size:12px;line-height:1.6;opacity:.8;max-width:780px}.imp349-metrics{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:10px;margin-top:18px}.imp349-metric{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.imp349-metric b{display:block;font-size:21px}.imp349-metric span{font-size:10px;opacity:.7}.imp349-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}.imp349-toolbar select,.imp349-toolbar input{font:inherit;font-size:11px;border:1px solid var(--bdr2);background:var(--card);color:var(--txt);border-radius:8px;padding:7px 9px}.imp349-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden}.imp349-parent{display:grid;grid-template-columns:minmax(210px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;align-items:center;padding:11px 12px}.imp349-parent:hover{background:var(--soft)}.imp349-name{font-size:12px;font-weight:700}.imp349-kind{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}.imp349-score{border:1px solid var(--bdr2);border-radius:8px;padding:6px 4px;text-align:center;font-size:10px;cursor:pointer;background:var(--soft);color:var(--txt);min-width:0}.imp349-score.s0{opacity:.55}.imp349-score.s1{background:#fee2e2;color:#991b1b}.imp349-score.s2{background:#fef3c7;color:#92400e}.imp349-score.s3{background:#dcfce7;color:#166534}.imp349-pct{font-size:12px;font-weight:800;text-align:center}.imp349-review{font-size:9px;color:var(--txt3);text-align:center;line-height:1.35}.imp349-children{border-top:1px solid var(--bdr);padding:8px 12px 10px 28px;background:var(--soft)}.imp349-child{display:grid;grid-template-columns:minmax(190px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;align-items:center;padding:5px 0}.imp349-child .imp349-name{font-weight:600;font-size:11px}.imp349-head{display:grid;grid-template-columns:minmax(210px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;padding:0 12px 6px;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;text-align:center}.imp349-head div:first-child{text-align:left}.imp349-queue{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;margin-top:8px}.imp349-q{border:1px solid var(--bdr);background:var(--card);border-radius:10px;padding:10px}.imp349-q b{font-size:11px}.imp349-q div{font-size:10px;color:var(--txt2);margin-top:4px}.imp349-cr{font-size:10px;text-align:center;cursor:pointer;text-decoration:underline;text-decoration-style:dotted}@media(max-width:1100px){.imp349-metrics{grid-template-columns:repeat(2,1fr)}.imp349-head{display:none}.imp349-parent,.imp349-child{grid-template-columns:minmax(180px,1.4fr) repeat(4,70px) 70px}.imp349-parent>*:nth-child(n+6):nth-child(-n+9),.imp349-child>*:nth-child(n+6):nth-child(-n+9),.imp349-review{display:none}}
+</style>
+<script>
+/* v349 — visual implementation-governance workspace. No new action-item type or action-item field. */
+const IMP349_KEY='rlcc_implementation_scorecard_v349';
+const IMP349_DIMS=['purpose','configuration','data','views','logic','testing','documentation','adoption'];
+const IMP349_LABELS={purpose:'Purpose',configuration:'Configuration',data:'Data',views:'Views',logic:'Automation / Logic',testing:'Testing',documentation:'Documentation',adoption:'Adoption'};
+const IMP349_SEED=[
+ {id:'master-plan',kind:'Module',name:'Master Plan',children:['Active Now','Sprint','Hierarchy','Focus Panel']},
+ {id:'inside-hq',kind:'Module',name:'Inside Headquarters',children:['Console Signals','Your Islands','Core Memories']},
+ {id:'dashboard',kind:'Module',name:'Dashboard',children:['Needs Attention','Behind Schedule','Breakdown by Type','Progress by List']},
+ {id:'planning-queue',kind:'Module',name:'Planning Queue',children:[]},
+ {id:'sprint-planner',kind:'Module',name:'Sprint Planner',children:['Sprint Control','Capacity / Load','Sprint Items']},
+ {id:'all-action-items',kind:'Module',name:'All Action Items',children:['Table View','Filters & Sort','Inline Editing','Bulk Actions']},
+ {id:'hierarchy',kind:'Module',name:'Hierarchy',children:['Goal → Project → Phase → Task Nesting']},
+ {id:'my-lists',kind:'Workspace',name:'My Lists',children:['List Dashboard','List Workspace','List Detail']},
+ {id:'release-management',kind:'List',name:'Release Management',children:['Dashboard','Workspace','Changelog']},
+ {id:'change-management',kind:'List',name:'Change Management',children:['Dashboard','Workspace']},
+ {id:'quality-assurance',kind:'List',name:'Quality Assurance',children:[]},
+ {id:'documentation',kind:'List',name:'Documentation',children:[]},
+ {id:'data-management',kind:'List',name:'Data Management',children:[]},
+ {id:'catalog-settings',kind:'Module',name:'Catalog Settings',children:['Field Options','Tag Library']},
+ {id:'my-arc',kind:'Module',name:'My Arc',children:['Program Hero','Today’s Check-In','Program Progress']},
+ {id:'habits',kind:'Module',name:'Habits & Routines',children:[]},
+ {id:'finance',kind:'Module',name:'Finance Tracker',children:[]},
+ {id:'home-ops',kind:'Module',name:'Home Operations',children:[]},
+ {id:'content',kind:'Module',name:'Content Planner',children:[]},
+ {id:'sot',kind:'Module',name:'13-Week SOT',children:[]}
+];
+function imp349Load(){let d={};try{d=JSON.parse(localStorage.getItem(IMP349_KEY)||'{}')||{}}catch(e){};IMP349_SEED.forEach(p=>{if(!d[p.id])d[p.id]={scores:{},children:{},reviewed:'',version:''};IMP349_DIMS.forEach(k=>{if(d[p.id].scores[k]==null)d[p.id].scores[k]=0});p.children.forEach((n,j)=>{const id='c'+j;if(!d[p.id].children[id])d[p.id].children[id]={name:n,scores:{}};IMP349_DIMS.forEach(k=>{if(d[p.id].children[id].scores[k]==null)d[p.id].children[id].scores[k]=0})})});return d}
+function imp349Save(d){localStorage.setItem(IMP349_KEY,JSON.stringify(d))}
+function imp349Pct(scores){const vals=IMP349_DIMS.map(k=>scores[k]).filter(v=>v!=='na'&&v!==null);if(!vals.length)return 0;return Math.round(vals.reduce((a,v)=>a+(Number(v)||0),0)/(vals.length*3)*100)}
+function imp349Cycle(id,child,dim){const d=imp349Load(),o=child?d[id].children[child]:d[id],v=o.scores[dim],seq=[0,1,2,3,'na'];o.scores[dim]=seq[(seq.indexOf(v)+1)%seq.length];if(!child){o.reviewed=new Date().toLocaleDateString();o.version='v349'}imp349Save(d);renderImplementationScorecardV349()}
+function imp349Score(id,child,dim,v){const label=v==='na'?'N/A':String(v);const title=v===0?'Not Reviewed':v===1?'Needs Setup':v===2?'Partially Complete':v===3?'Complete / Passed':'Not Applicable';return `<button class="imp349-score s${v}" title="${IMP349_LABELS[dim]} — ${title}. Click to advance." onclick="imp349Cycle('${id}','${child||''}','${dim}')">${label}</button>`}
+function imp349ChangeCounts(name){const changeList=(S.lists||[]).find(l=>l.id==='lccop-change'||String(l.name||'').toLowerCase()==='change management');const rows=(S.items||[]).filter(i=>changeList&&(i.listIds||i.lists||[]).includes(changeList.id)&&!['done','cancelled'].includes(i.status));const key=String(name||'').toLowerCase();const matched=rows.filter(i=>{const hay=[i.name,i.notes,i.changeModule,i.changeArea,i.releaseModules].flat().filter(Boolean).join(' ').toLowerCase();return hay.includes(key)});return matched.length}
+function imp349OpenChanges(){goToList('lccop-change')}
+function imp349Reset(){if(!confirm('Reset all Implementation Scorecard ratings to Not Reviewed?'))return;localStorage.removeItem(IMP349_KEY);renderImplementationScorecardV349()}
+function renderImplementationScorecardV349(){const el=document.getElementById('implementation-body');if(!el)return;const d=imp349Load();const filter=document.getElementById('imp349-filter')?.value||'all',q=(document.getElementById('imp349-search')?.value||'').toLowerCase();let parents=IMP349_SEED.filter(p=>(filter==='all'||p.kind.toLowerCase()===filter)&&(!q||p.name.toLowerCase().includes(q)||p.children.some(x=>x.toLowerCase().includes(q))));const all=IMP349_SEED.map(p=>({p,o:d[p.id],pct:imp349Pct(d[p.id].scores)}));const overall=Math.round(all.reduce((a,x)=>a+x.pct,0)/(all.length||1)),complete=all.filter(x=>x.pct===100).length,needs=all.filter(x=>IMP349_DIMS.some(k=>[0,1,2].includes(x.o.scores[k]))).length,untested=all.filter(x=>Number(x.o.scores.testing)<3).length,undoc=all.filter(x=>Number(x.o.scores.documentation)<3).length;
+ const head=`<div class="imp349-hero"><div class="imp349-kicker">System Governance · v349</div><div class="imp349-title">LCC Implementation Health — ${overall}%</div><div class="imp349-sub">Track whether each module, workspace, list, and major view is actually defined, configured, populated, working, tested, documented, and adopted. Click any score to move it through 0 Not Reviewed → 1 Needs Setup → 2 Partial → 3 Complete → N/A.</div><div class="imp349-metrics"><div class="imp349-metric"><b>${overall}%</b><span>Overall implementation</span></div><div class="imp349-metric"><b>${complete} / ${all.length}</b><span>Fully implemented</span></div><div class="imp349-metric"><b>${needs}</b><span>Need review / work</span></div><div class="imp349-metric"><b>${untested}</b><span>Not fully tested</span></div><div class="imp349-metric"><b>${undoc}</b><span>Need documentation</span></div></div></div>`;
+ const toolbar=`<div class="imp349-toolbar"><select id="imp349-filter" onchange="renderImplementationScorecardV349()"><option value="all" ${filter==='all'?'selected':''}>All areas</option><option value="module" ${filter==='module'?'selected':''}>Modules</option><option value="workspace" ${filter==='workspace'?'selected':''}>Workspaces</option><option value="list" ${filter==='list'?'selected':''}>Lists</option></select><input id="imp349-search" value="${esc(q)}" placeholder="Search module or view…" oninput="renderImplementationScorecardV349()"><button class="btn sm" onclick="imp349OpenChanges()">Open Change Management</button><button class="btn sm" onclick="imp349Reset()">Reset Ratings</button></div>`;
+ const cols=`<div class="imp349-head"><div>Module / Workspace / List</div>${IMP349_DIMS.map(k=>`<div>${IMP349_LABELS[k]}</div>`).join('')}<div>Overall</div><div>Reviewed</div></div>`;
+ const cards=parents.map(p=>{const o=d[p.id],pct=imp349Pct(o.scores),cr=imp349ChangeCounts(p.name);const parent=`<div class="imp349-parent"><div><div class="imp349-name">${esc(p.name)}</div><div class="imp349-kind">${p.kind}${cr?` · <span class="imp349-cr" onclick="event.stopPropagation();imp349OpenChanges()">${cr} open change${cr===1?'':'s'}</span>`:''}</div></div>${IMP349_DIMS.map(k=>imp349Score(p.id,'',k,o.scores[k])).join('')}<div class="imp349-pct">${pct}%</div><div class="imp349-review">${o.reviewed?esc(o.reviewed)+'<br>'+esc(o.version||''):'Not reviewed'}</div></div>`;const children=p.children.length?`<div class="imp349-children">${p.children.map((n,j)=>{const cid='c'+j,c=o.children[cid],cp=imp349Pct(c.scores);return `<div class="imp349-child"><div><div class="imp349-name">↳ ${esc(n)}</div><div class="imp349-kind">Major view / component</div></div>${IMP349_DIMS.map(k=>imp349Score(p.id,cid,k,c.scores[k])).join('')}<div class="imp349-pct">${cp}%</div><div class="imp349-review">inherits parent review</div></div>`}).join('')}</div>`:'';return `<div class="imp349-card">${parent}${children}</div>`}).join('');
+ const queue=[];all.forEach(x=>IMP349_DIMS.forEach(k=>{const v=x.o.scores[k];if(v===1||v===2)queue.push({name:x.p.name,dim:IMP349_LABELS[k],v})}));const qhtml=`<div style="margin-top:18px"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700">Implementation Queue</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Only scored gaps appear here. Not Reviewed items stay in the scorecard until you assess them.</div><div class="imp349-queue">${queue.length?queue.slice(0,18).map(x=>`<div class="imp349-q"><b>${esc(x.name)}</b><div>${esc(x.dim)} · ${x.v===1?'Needs Setup':'Partially Complete'}</div></div>`).join(''):'<div class="imp349-q"><b>No assessed gaps yet</b><div>Score a dimension 1 or 2 and it will appear here.</div></div>'}</div></div>`;
+ el.innerHTML=head+toolbar+cols+cards+qhtml;
+}
+function ensureReleaseV349(){try{if(!window.S||!Array.isArray(S.items))return;const n='349',now=new Date().toISOString();let i=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===n);const vals={name:'Implementation Scorecard Workspace',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-17',duration:14,durationUnit:'days',releaseVersion:n,releaseType:'minor',releaseStatus:'ready',testResult:'testing',releaseModules:['Implementation Scorecard','System Governance','Change Management'],releaseChangelog:'Added a visual System → Implementation Scorecard workspace that tracks modules, workspaces, lists, and their major views across Purpose, Configuration, Data, Views, Automation/Logic, Testing, Documentation, and Adoption. Added overall health metrics, nested view scoring, reviewed date/version, an implementation queue, and Change Management visibility.',releaseNotes:'Score each dimension 0 Not Reviewed, 1 Needs Setup, 2 Partially Complete, 3 Complete/Passed, or N/A. Major views are nested under their parent module. Ratings are stored locally and do not create action items.',releaseSummary:'Implementation Scorecard Workspace',releaseTechnicalNotes:'Dedicated governance data is stored under rlcc_implementation_scorecard_v349; no new action-item type or action-item field was introduced, so Bulk Add/Update type selectors, baseFilters, inline type selector, linked-item keyMaps, tBadge, missingFields, recalc/calcProg, applyFilter, and exportItemsExcel require no schema additions.',updatedAt:now};if(i)Object.assign(i,vals);else{const rec=typeof makeItem==='function'?makeItem(vals):{id:'rel_'+uid(),createdAt:now,...vals};S.items.push(rec)}try{save()}catch(e){}}catch(e){console.warn('v349 release seed',e)}}
+setTimeout(ensureReleaseV349,1750);
+</script>
+<!-- USER GUIDE: v349 — Implementation Scorecard. Open System → Implementation Scorecard to review each LCC module, workspace, list, and major view. Score Purpose, Configuration, Data, Views, Automation/Logic, Testing, Documentation, and Adoption from 0 Not Reviewed through 3 Complete/Passed (or N/A). Parent areas show overall implementation health; major views are nested beneath them; scored gaps appear in the Implementation Queue. Last Reviewed and Reviewed Version update when a parent score changes. Change Management remains the source of truth for bugs, enhancements, updates, and removals. -->
 </body>
 </html>
