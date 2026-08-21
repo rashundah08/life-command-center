@@ -29297,9 +29297,81 @@ USER GUIDE: v350 — Implementation Control Center. Open System → Implementati
   const oldDash=window.renderDash;window.renderDash=function(){const r=oldDash&&oldDash.apply(this,arguments);renderDashV360Sections();return r};
   // #0277/#0278/#0329/#0328/#0342/#0352/#0353/#0354/#0355 and widget descriptions.
   window.hubPeriodItems=function(period,includeDone=true){if(period==='sprint'){try{const sp=ALL_SPRINTS[getCurrentSprintIdx()];return sp?getSprintTasks(sp):[]}catch(e){return[]}}const [a,b]=hubPeriodBounds(period);return(S.items||[]).filter(i=>{if(i.status==='placeholder'||i.status==='cancelled')return false;if(!includeDone&&i.status==='done')return false;if(['transaction','recurringexpense','room','automation'].includes(i.type))return false;if((period==='week'||period==='month'||period==='quarter')&&i.type==='habit')return false;if(period==='month'&&i.type==='goal')return false;if(period==='quarter'&&i.type==='goal'){const d=workDate(i);return(d&&d>=a&&d<=b)||(i.startDate&&i.startDate<=b&&(!i.date||i.date>=a))}const d=workDate(i);return d&&d>=a&&d<=b})};
-  window.renderHubPeriodLens=function(){const metrics=document.getElementById('mp-lens-metrics'),view=document.getElementById('mp-period-view');if(!metrics||!view)return;const td=today(),p=hubPeriod;let cards=hubPeriodItems(p,p==='today'||p==='week'),desc='',m=[];if(p==='today'){const due=cards.filter(i=>activeBase(i,{inventory:true})&&workDate(i)===td),over=(S.items||[]).filter(i=>activeBase(i,{inventory:true})&&workDate(i)&&workDate(i)<td);m=[['Due Today',due.length],['Completed Today',cards.filter(i=>i.status==='done').length],['Overdue',over.length],['Remaining',due.length]];cards=[...over,...due];desc='Due Today = open non-habit items with target date today. Overdue = open items with a target date before today.'}else if(p==='week'){cards=cards.filter(i=>i.type!=='habit');const open=cards.filter(i=>activeBase(i,{inventory:true}));m=[['Due This Week',open.length],['Completed',cards.filter(i=>i.status==='done').length],['Behind',open.filter(i=>i.status==='behind'||workDate(i)<td).length],['Remaining',open.length]];desc='This Week = items dated Monday–Sunday; Habits are excluded. Items are grouped by due date.'}else if(p==='sprint'){const sp=ALL_SPRINTS[getCurrentSprintIdx()],all=sp?getSprintTasks(sp):[];const open=all.filter(i=>!terminal(i));m=[['Sprint Items',open.length],['Completed',all.filter(i=>i.status==='done').length],['Ready',open.filter(i=>i.planningStage==='ready').length],['Needs Planning',open.filter(i=>!i.planningStage||i.planningStage==='needsplanning').length]];cards=open;desc='Sprint mirrors the current Sprint Planner task source and updates from each task’s current Planning Stage.'}else if(p==='month'){cards=cards.filter(i=>activeBase(i,{goals:false,habits:false,inventory:true}));m=[['Active This Month',cards.length],['In Progress',cards.filter(i=>i.status==='inprogress').length],['Behind',cards.filter(i=>i.status==='behind').length],['Ready',cards.filter(i=>i.planningStage==='ready').length]];desc='Month = active dated items in the current calendar month. Goals, Habits, Done and Cancelled are excluded.'}else{cards=cards.filter(i=>activeBase(i,{goals:true,habits:false,inventory:true}));m=[['Active This Quarter',cards.length],['Goals',cards.filter(i=>i.type==='goal').length],['In Progress',cards.filter(i=>i.status==='inprogress').length],['Behind',cards.filter(i=>i.status==='behind').length]];desc='Quarter = active dated items in the current quarter, including Goals. Habits, Done and Cancelled are excluded.'}metrics.innerHTML=m.map(x=>`<div class="mp-lens-metric" title="${esc360(desc)}"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('')+`<div style="grid-column:1/-1;font-size:10px;color:var(--txt3);padding:2px 4px">ℹ ${esc360(desc)}</div>`;const todaySec=document.getElementById('mp-today-focus-section'),habitSec=document.getElementById('mp-today-habits-section'),activeSec=document.getElementById('mp-active-now-section'),sprintSec=document.getElementById('mp-sprint-section');[todaySec,habitSec,activeSec].forEach(x=>{if(x)x.style.display=p==='today'?'block':'none'});if(sprintSec)sprintSec.style.display=p==='sprint'?'block':'none';if(p==='today'||p==='sprint'){view.style.display='none';view.innerHTML='';renderHubMonthly();return}view.style.display='block';const sorted=cards.slice().sort((a,b)=>(workDate(a)||'9999').localeCompare(workDate(b)||'9999'));if(p==='week'){const groups={};sorted.forEach(i=>(groups[workDate(i)||'No date']=groups[workDate(i)||'No date']||[]).push(i));view.innerHTML=Object.keys(groups).sort().map(d=>`<div style="border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px"><div onclick="var e=this.nextElementSibling;e.style.display=e.style.display==='none'?'grid':'none'" style="padding:8px 10px;background:var(--soft);cursor:pointer;font-weight:600">${d} · ${groups[d].length} ▼</div><div class="mp-lens-grid" style="padding:8px">${groups[d].map(hubPeriodCard).join('')}</div></div>`).join('')}else view.innerHTML=sorted.length?`<div class="mp-lens-grid">${sorted.map(hubPeriodCard).join('')}</div>`:'<div class="mp-lens-empty">Nothing is scheduled in this view yet.</div>';renderHubMonthly()};
-  // #0356 move Active Now to Planning Queue. #0247 includes all active work except Goals.
-  window.renderPlanningActiveV360=function(){const host=document.getElementById('v360-planning-active');if(!host)return;const td=today();const arr=(S.items||[]).filter(i=>{if(!activeBase(i,{goals:false,habits:false,inventory:true}))return false;if(i.type==='goal')return false;const started=i.startDate&&i.startDate<=td;return started||i.status==='inprogress'}).sort((a,b)=>(workDate(a)||'9999').localeCompare(workDate(b)||'9999'));host.innerHTML=`<div style="margin-bottom:16px;border:1px solid var(--bdr);border-radius:var(--rl);background:var(--card)"><div style="padding:10px 12px;font-weight:600;color:var(--navy)">⚡ Active Now · ${arr.length} <span style="font-size:10px;font-weight:400;color:var(--txt3)">Goals excluded</span></div><div style="padding:0 12px 10px">${arr.slice(0,250).map(i=>`<div onclick="openModal(null,null,null,'${i.id}')" style="padding:6px 0;border-top:1px solid var(--soft);cursor:pointer;display:flex;gap:7px"><span style="flex:1">${esc360(i.name||'(unnamed)')}</span>${tBadge(i.type,i)}</div>`).join('')||'<div style="padding:8px;color:var(--txt3)">No active items.</div>'}</div></div>`};
+  // v360 completion — Week / Month / Quarter now use the same card treatment and active-work rules as Active Now,
+  // scoped to the selected calendar period. Active Now itself lives in Planning Queue, not Master Plan.
+  function v360ActiveBaseItem(i){
+    if(!i)return false;
+    if(['goal','inventory','room','automation','habit'].includes(i.type))return false;
+    if(['done','cancelled','placeholder','onhold'].includes(i.status))return false;
+    if((i.type==='project'||i.type==='phase')&&i.showInActiveNow===false)return false;
+    return true;
+  }
+  function v360PeriodActiveItems(period){
+    const b=hubPeriodBounds(period),a=b[0],z=b[1];
+    return (S.items||[]).filter(i=>{
+      if(!v360ActiveBaseItem(i))return false;
+      const st=i.startDate||'';
+      const due=i.date||i.targetDate||'';
+      // Same concept as Active Now, projected into the selected period: the item's working
+      // window must overlap the period. In Progress items with no start date remain visible
+      // when their target date has not already passed before the period begins.
+      if(st)return st<=z&&(!due||due>=a);
+      if(i.status==='inprogress')return !due||due>=a;
+      return false;
+    }).sort((x,y)=>((x.date||x.targetDate||'9999').localeCompare(y.date||y.targetDate||'9999'))||((x.name||'').localeCompare(y.name||'')));
+  }
+  function v360ActiveNowItems(){
+    const td=today();
+    return (S.items||[]).filter(i=>{
+      if(!v360ActiveBaseItem(i))return false;
+      const due=i.date||i.targetDate||'';
+      if(due&&due<=td)return false; // Today's Focus owns due-today and overdue work.
+      return !!(i.startDate&&i.startDate<=td)||i.status==='inprogress';
+    }).sort((x,y)=>((x.date||x.targetDate||'9999').localeCompare(y.date||y.targetDate||'9999'))||((x.name||'').localeCompare(y.name||'')));
+  }
+  function v360ActiveCard(i){
+    const due=i.date||i.targetDate||'',d=due?daysUntil(due):null,prog=calcProg(i),attn=needsAttn(i);
+    const sLbl={notstarted:'Not Started',planned:'Planned',inprogress:'In Progress',behind:'Behind',onhold:'On Hold',done:'Done',cancelled:'Cancelled'};
+    const effortIcon={easy:'🟢',medium:'🟠',hard:'🔴',epic:'⭐',legendary:'🏆',ultimate:'💎',mythic:'🌟'};
+    return `<div class="hub-focus-card active" onclick="openModal(null,null,null,'${i.id}')">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
+        <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:3px">${esc(i.name||'(Unnamed)')}</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">${tBadge(i.type)}${d!==null?`<span style="font-size:10px;padding:1px 7px;border-radius:8px;background:#EAF2FE;color:#185FA5;font-weight:600">${d}d left</span>`:''}${i.effort?`<span style="font-size:10px">${effortIcon[i.effort]||''} ${esc(i.effort)}</span>`:''}${attn?`<span class="db db-attn" title="Missing: ${esc(missingFields(i).join(', '))}">⚠️ Missing: ${esc(missingFields(i).join(', '))}</span>`:''}${tagChips(i)}</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-shrink:0"><button class="btn xs primary" onclick="event.stopPropagation();hubMarkDone('${i.id}')" style="padding:4px 10px;font-size:11px">✓ Done</button><button class="btn xs danger" onclick="event.stopPropagation();hubCancelItem('${i.id}')" style="padding:4px 8px;font-size:10px">Cancel</button></div>
+      </div>
+      ${i.type!=='task'&&i.type!=='ask'?`<div style="height:3px;border-radius:2px;background:var(--soft);overflow:hidden;margin-bottom:5px"><div style="height:100%;width:${prog}%;background:${pColor(prog)};border-radius:2px"></div></div>`:''}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="font-size:11px;color:var(--txt2)">📅 ${fmtMDY(i.startDate)} → ${fmtMDY(due)}</span><span style="font-size:11px;color:var(--txt2)">${sLbl[i.status]||esc(i.status||'')}</span>${i.type!=='task'&&i.type!=='ask'?`<span style="font-size:11px;color:var(--txt3)">${prog}%</span>`:''}${progCounterHtml(i)}${(i.categories||[]).map(c=>`<span style="font-size:10px;padding:1px 6px;background:var(--soft);border-radius:7px;color:var(--txt2)">${esc(c)}</span>`).join('')}</div>
+    </div>`;
+  }
+  function v360ActiveSectionHtml(title,items,note){
+    return `<div style="margin-bottom:24px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap"><div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">🔥 ${title}</div><div style="font-size:11px;color:var(--txt2)">${items.length} active</div></div>${note?`<div style="font-size:10px;color:var(--txt3);margin:-4px 0 10px">${esc(note)}</div>`:''}<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${items.length?items.slice(0,250).map(v360ActiveCard).join(''):`<div style="grid-column:1/-1;color:var(--txt3);font-size:12px;font-style:italic;padding:12px">Nothing is active in this period.</div>`}</div></div>`;
+  }
+  window.renderHubPeriodLens=function(){
+    const metrics=document.getElementById('mp-lens-metrics'),view=document.getElementById('mp-period-view');if(!metrics||!view)return;
+    const p=hubPeriod,td=today();
+    const todaySec=document.getElementById('mp-today-focus-section'),habitSec=document.getElementById('mp-today-habits-section'),activeSec=document.getElementById('mp-active-now-section'),sprintSec=document.getElementById('mp-sprint-section');
+    // #0356 — Active Now has moved to Planning Queue. It no longer renders on Master Plan.
+    if(activeSec)activeSec.style.display='none';
+    if(todaySec)todaySec.style.display=p==='today'?'block':'none';
+    if(habitSec)habitSec.style.display=p==='today'?'block':'none';
+    if(sprintSec)sprintSec.style.display=p==='sprint'?'block':'none';
+    let m=[];
+    if(p==='today'){
+      const cards=hubPeriodItems('today',true),due=cards.filter(i=>i.status!=='done'&&i.status!=='cancelled'),done=cards.filter(i=>i.status==='done'),over=(S.items||[]).filter(i=>v360ActiveBaseItem(i)&&(i.date||i.targetDate||'')&&((i.date||i.targetDate)<td));
+      m=[['Due Today',due.length],['Completed Today',done.length],['Overdue',over.length],['Remaining',due.length]];view.style.display='none';view.innerHTML='';
+    }else if(p==='sprint'){
+      const sp=ALL_SPRINTS[getCurrentSprintIdx()],all=sp?getSprintTasks(sp):[],open=all.filter(i=>!terminal(i));m=[['Sprint Items',open.length],['Completed',all.filter(i=>i.status==='done').length],['Ready',open.filter(i=>i.planningStage==='ready').length],['Needs Planning',open.filter(i=>!i.planningStage||i.planningStage==='needsplanning').length]];view.style.display='none';view.innerHTML='';
+    }else{
+      const items=v360PeriodActiveItems(p),label=p==='week'?'This Week':p==='month'?'This Month':'This Quarter';
+      m=[['Active',items.length],['In Progress',items.filter(i=>i.status==='inprogress').length],['Behind',items.filter(i=>i.status==='behind').length],['Ready',items.filter(i=>i.planningStage==='ready').length]];
+      const b=hubPeriodBounds(p);view.style.display='block';view.innerHTML=v360ActiveSectionHtml(label,items,`${label} uses the same Active Now rules, limited to work whose start/target window overlaps ${b[0]} through ${b[1]}. Goals, Habits, reference records, Done, Cancelled and On Hold are excluded.`);
+    }
+    metrics.innerHTML=m.map(x=>`<div class="mp-lens-metric"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+    renderHubMonthly();
+  };
+  // #0356/#0247 — Active Now is now a full Active Now-style section in Planning Queue.
+  window.renderPlanningActiveV360=function(){const host=document.getElementById('v360-planning-active');if(!host)return;const arr=v360ActiveNowItems();host.innerHTML=v360ActiveSectionHtml('Active Now',arr,'Current active work only. Goals and Habits are excluded; due-today and overdue work stays in Today’s Focus.');};
   const oldPQ=window.renderPlanningQueue;window.renderPlanningQueue=function(){const r=oldPQ&&oldPQ.apply(this,arguments);renderPlanningActiveV360();return r};
   // #0668 Inventory appears in focus views: Today's Focus should not exclude inventory; dedicated inventory focus panel remains available.
   // #0640/#0757/#0031/#0704/#0756 lifecycle invariants, #0758 release progress = calcProg.
