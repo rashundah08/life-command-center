@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v372</title>
+<title>LCC v373</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1505,7 +1505,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v372</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v373</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -29918,10 +29918,10 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 /* v372 — Business migration export + rendered-code hotfix */
 (function(){
  const BUSINESS_LIST_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
- const BCC_TYPES=new Set(['ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
+ const BCC_TYPES=new Set(['goal','ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
  function listNameById(id){const x=(S.lists||[]).find(l=>String(l.id)===String(id));return String(x?.name||'').trim().toLowerCase()}
  function isBusiness(i){
-   if(!i||i.status==='placeholder'||!BCC_TYPES.has(String(i.type||'').toLowerCase()))return false;
+   if(!i||!BCC_TYPES.has(String(i.type||'').toLowerCase()))return false;
    const ids=[...(i.listIds||[]),...(i.lists||[])];
    if(ids.some(x=>BUSINESS_LIST_NAMES.has(String(x||'').trim().toLowerCase())||BUSINESS_LIST_NAMES.has(listNameById(x))))return true;
    const brand=String(i.productBrand||i.ipBrand||i.brand||'').toLowerCase();
@@ -29939,7 +29939,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
      const items=[...chosen.values()];
      const usedIds=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
      const lists=(S.lists||[]).filter(l=>usedIds.has(String(l.id))||BUSINESS_LIST_NAMES.has(String(l.name||'').trim().toLowerCase()));
-     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v372',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v373',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' business Action Items for BCC');
    }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
  };
@@ -29950,6 +29950,15 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v372 — Use 💼 Export BCC to create a one-time migration file of business Action Items. This does not sync or delete LCC data. -->
 <!-- CHANGE LOG: v372 — Fixed raw v367 code rendering and added dedicated LCC→BCC business Action Item export. -->
 <!-- RELEASE NOTES: v372 — Patch release. Adds one-way manual business migration export; no LCC/BCC data synchronization. -->
+<script>
+/* v373 — BCC migration safety: Goals + placeholders */
+(function(){
+ function seed(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x?.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='373'))return true;const x=makeItem({name:'v373 — BCC Migration Goals & Placeholders',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'373',releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['Export','Business Command Center'],releaseChangelog:'Expanded the LCC→BCC migration export to include Goal Action Items and business placeholders while retaining the approved business-association rules and hierarchy context.',releaseNotes:'Business migration packages now include Goal records and placeholder records when they meet the business association rules. No LCC records are deleted or synchronized.',releaseSummary:'Expanded BCC migration coverage for Goals and placeholders.',releaseUserGuide:'Use Export BCC to create the migration JSON. Goals and placeholders associated with Business, RLA, Savvy Foundations or Savvy Structure are now eligible for export.',releaseTechnicalNotes:'Added goal to BCC migration type allow-list and removed the prior placeholder exclusion. BCC remains a separate application and storage namespace.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=373;x.seqNum='373';S.items.push(x);try{save()}catch(e){}return true}let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v373 — Export BCC now includes eligible business Goals and placeholders. -->
+<!-- CHANGE LOG: v373 — Added Goal and placeholder coverage to LCC→BCC migration export. -->
+<!-- RELEASE NOTES: v373 — Migration coverage update only; no automatic LCC/BCC synchronization. -->
 </body>
 </html>
 
