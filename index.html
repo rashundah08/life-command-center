@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v373</title>
+<title>LCC v374</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1505,7 +1505,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v373</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v374</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -29959,6 +29959,41 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v373 — Export BCC now includes eligible business Goals and placeholders. -->
 <!-- CHANGE LOG: v373 — Added Goal and placeholder coverage to LCC→BCC migration export. -->
 <!-- RELEASE NOTES: v373 — Migration coverage update only; no automatic LCC/BCC synchronization. -->
+<script id="lcc-v374-strict-bcc-export">
+/* v374 — strict BCC business-scope export. Type eligibility never overrides business association. */
+(function(){
+ const BUSINESS_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
+ const BCC_TYPES=new Set(['goal','ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
+ function norm(v){return String(v||'').trim().toLowerCase()}
+ function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
+ function businessScoped(i){
+   if(!i||!BCC_TYPES.has(norm(i.type)))return false;
+   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[])];
+   if(refs.some(v=>BUSINESS_NAMES.has(norm(v))||BUSINESS_NAMES.has(listName(v))))return true;
+   const brand=norm(i.productBrand||i.ipBrand||i.brand);
+   return brand==='rla'||brand.includes('savvy foundations')||brand.includes('savvy structure');
+ }
+ function cleanLinks(copy,qualified){
+   ['linkedGoals','linkedProjects','linkedPhases','linkedTasks'].forEach(k=>{if(Array.isArray(copy[k]))copy[k]=copy[k].filter(id=>qualified.has(String(id)))});
+   return copy;
+ }
+ window.exportBusinessItemsForBCC=function(){
+   try{
+     const qualifiedItems=(S.items||[]).filter(businessScoped);
+     const qualified=new Set(qualifiedItems.map(i=>String(i.id)));
+     const items=qualifiedItems.map(i=>cleanLinks(JSON.parse(JSON.stringify(i)),qualified));
+     const used=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
+     const lists=(S.lists||[]).filter(l=>used.has(String(l.id))||BUSINESS_NAMES.has(norm(l.name)));
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v374',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' strictly business-scoped Action Items for BCC');
+   }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
+ };
+ function seed(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='374'))return true;const x=makeItem({name:'v374 — Strict BCC Migration Scope',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'374',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Export','Business Command Center'],releaseChangelog:'Corrected LCC→BCC export so every exported record, including Goals, placeholders and hierarchy-linked records, must independently meet the Business/RLA/Savvy Foundations/Savvy Structure association rule. Hierarchy can no longer pull unrelated LCC records into BCC.',releaseNotes:'The BCC migration export now applies business scope as a mandatory gate before type or hierarchy handling.',releaseSummary:'Strict business-only BCC migration export.',releaseUserGuide:'Create a new Export BCC file before re-dumping BCC. Only records individually associated with Business, RLA, Savvy Foundations or Savvy Structure are exported.',releaseTechnicalNotes:'Hierarchy links are retained only between records that independently qualify for business scope; dangling links to nonqualifying LCC records are removed from the migration copy.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=374;x.seqNum='374';S.items.push(x);try{save()}catch(_){}return true}let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v374 — Export BCC requires every record to independently meet the Business/RLA/Savvy Foundations/Savvy Structure association rule. -->
+<!-- CHANGE LOG: v374 — Fixed hierarchy expansion so unrelated LCC records cannot hitchhike into BCC exports. -->
+<!-- RELEASE NOTES: v374 — Migration-scope safety patch. -->
 </body>
 </html>
 
