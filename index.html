@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v374</title>
+<title>LCC v375</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1505,7 +1505,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v374</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v375</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -11140,8 +11140,8 @@ function saveBulk(){
     }:null;
     const baPhaseParent=document.getElementById('ba-phase-parent')?.value||'';
     const baPhaseMilestone=document.getElementById('ba-phase-milestone')?.checked||false;
-    // Phases can never be standalone — require a parent Goal/Project before creating any
-    if(type==='phase'&&!baPhaseParent)return alert('Phases must be linked to a parent Goal, Project, or Phase. Please select one under Phase Fields before adding.');
+    // v375 — Bulk Add is a capture path, not a completion gate. A Phase may be
+    // imported without its required parent and will surface in Needs Attention for cleanup.
     const listIds=bulkAddLists.length?[...bulkAddLists]:['uncat'];
     const categories=[...bulkAddCats];
     const allowNewOptions=false; // v313 — controlled vocabularies are locked
@@ -11416,7 +11416,11 @@ function saveBulk(){
       const baLinkAny=document.getElementById('ba-link-any')?.value||'';
       if(baLinkAny)applyLink(baLinkAny,item);
       schema2NormalizeRecord(item);
-      const _s2AddMiss=schema2CaptureMissing(item);if(_s2AddMiss.length){_schema2BulkAddErrors.push((item.name||'Item')+': '+_s2AddMiss.join(', '));return;}
+      // v375 — Do not reject Bulk Add / CSV rows for missing required fields. Bulk Add
+      // is intentionally permissive so a complete hierarchy can be captured in one pass.
+      // The same missingFields()/needsAttn() rules still flag incomplete records afterward.
+      const _s2AddMiss=schema2CaptureMissing(item);
+      if(_s2AddMiss.length)item.bulkAddMissingAtImport=[..._s2AddMiss];
       autoNumberItem(item);
       S.items.push(item);
       _schema2BulkAddedCount++;
@@ -29994,6 +29998,21 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v374 — Export BCC requires every record to independently meet the Business/RLA/Savvy Foundations/Savvy Structure association rule. -->
 <!-- CHANGE LOG: v374 — Fixed hierarchy expansion so unrelated LCC records cannot hitchhike into BCC exports. -->
 <!-- RELEASE NOTES: v374 — Migration-scope safety patch. -->
+<script id="lcc-v375-bulk-add-capture-gate">
+/* v375 — Bulk Add captures incomplete records instead of dropping them. */
+(function(){
+ function seed(){
+  if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+  if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='375'))return true;
+  const x=makeItem({name:'v375 — Bulk Add Permissive Capture',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'375',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Bulk Add','Import','Needs Attention'],releaseChangelog:'Changed Bulk Add and CSV/Excel import so missing required fields no longer cause rows to be rejected. Incomplete records are created and then surfaced through the existing Needs Attention/missing-fields validation. Removed the Bulk Add-only hard stop that prevented Phases without a parent from being captured.',releaseNotes:'Bulk Add is now a capture-first workflow. Required fields remain required for planning, execution, or close as defined by the field rules, but they do not prevent the initial bulk record from being created.',releaseSummary:'Prevents partial project imports when CSV rows are missing required fields.',releaseUserGuide:'Bulk Add or upload the complete file even when some fields are incomplete. All rows with valid controlled values and resolvable hierarchy references are created. After import, use Needs Attention to fill missing fields before planning/execution/close.',releaseTechnicalNotes:'schema2CaptureMissing() remains the source of truth for missing entry fields, but saveBulk() no longer returns/skips a row solely because that array is non-empty. Missing fields are retained on bulkAddMissingAtImport for audit context and continue to flow through missingFields()/needsAttn(). Controlled vocabulary errors and invalid/unresolvable Linked Item references remain blocking because silently changing those values would corrupt taxonomy or hierarchy.',updatedAt:Date.now()});
+  x.listNums=x.listNums||{};x.listNums.releases=375;x.seqNum='375';S.items.push(x);try{save()}catch(_){}return true;
+ }
+ let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v375 — Bulk Add is capture-first. Missing required fields do not block row creation; incomplete records appear in Needs Attention for completion. Controlled Lists/Categories/Planning Stage values and resolvable Linked Item hierarchy remain validated. -->
+<!-- CHANGE LOG: v375 — Removed required-field rejection from Bulk Add/CSV import and removed the Phase-parent capture hard stop so complete project files are not partially dropped. -->
+<!-- RELEASE NOTES: v375 — Bulk Add permissive-capture patch. -->
 </body>
 </html>
 
