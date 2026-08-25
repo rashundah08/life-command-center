@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v371</title>
+<title>LCC v372</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -1094,6 +1094,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <button class="btn sm" onclick="openQuickCapture()" title="Quick Capture to Parking Lot">&#9889;</button>
       <button class="btn sm" onclick="openBulk('add')">Bulk</button>
       <button class="btn sm" onclick="exportItemsExcel()" title="Export to Excel">📊 Excel</button>
+      <button class="btn sm" onclick="exportBusinessItemsForBCC()" title="Export business Action Items for Business Command Center">💼 Export BCC</button>
     </div>
   </div>
   <div class="content">
@@ -1504,7 +1505,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v371</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v372</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -29754,9 +29755,11 @@ function ensureRelease366(){try{if(!window.S||!Array.isArray(S.items))return;con
 setTimeout(ensureRelease366,220);
 })();
 </script>
+<script>
 /* v367 — Knowledge Hub Action Item-style tag picker */
 function ensureRelease367(){try{if(!window.S||!Array.isArray(S.items))return;const V='367';if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===V))return;const now=Date.now(),vals={name:'v367 — Knowledge Hub Tag Picker Alignment',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-24',releaseVersion:V,releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['Knowledge Hub','Tags'],releaseChangelog:'Replaced the Knowledge Hub multi-select tag box with the same pill-based search, select, remove, and create-tag interaction used by Action Items. Knowledge tags continue to use the shared Action Item tag catalog.',releaseNotes:'Knowledge Hub tags now behave visually and functionally like Action Item tags.',releaseSummary:'Aligned Knowledge Hub tag entry with Action Items.',releaseUserGuide:'In Add/Edit Knowledge, use Tags exactly like Action Items: type to search existing tags, click a tag to add it as a colored pill, click × to remove it, or type a new tag name and choose Create.',releaseTechnicalNotes:'Knowledge remains a separate dataset. The Knowledge tag picker reuses S.itemTags, itagAll(), itagColor(), itagByName(), and ensureItemTag(); no new Action Item type or field was added.',updatedAt:now};let rel=typeof makeItem==='function'?makeItem(vals):{id:'rel_'+(typeof uid==='function'?uid():now),...vals,createdAt:now};rel.listNums=rel.listNums||{};rel.listNums.releases=367;rel.seqNum='367';S.items.push(rel);try{save()}catch(e){}}catch(e){console.warn('v367 release',e)}}
 setTimeout(ensureRelease367,1100);
+</script>
 
 <!-- USER GUIDE: v367 — In Add/Edit Knowledge, Tags now use the same interaction as Action Items: search the shared tag catalog, add colored tag pills, remove with ×, or create a new shared tag directly from the picker. -->
 <!-- CHANGE LOG: v367 — Replaced the Knowledge Hub multi-select Tags control with the Action Item-style searchable/creatable pill picker while preserving the shared S.itemTags catalog and existing Knowledge tag values. -->
@@ -29911,7 +29914,43 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v370 — Business Command Center is now a separate file. Select Business Command Center from the LCC sidebar to open the business workspace. Recent Release records v366-v370 are automatically recovered if missing, without rebuilding or overwriting older Release history. -->
 <!-- CHANGE LOG: v370 — Replaced the in-app SF Scorecard sidebar route with Business Command Center routing to business-command-center.html; added reliable post-state-load Release seeding for v366, v367, v368, v369 and v370. -->
 <!-- RELEASE NOTES: v370 — Minor structural/release-management correction. Creates the separate Business Command Center entry point and repairs missing recent Release Action Item creation. -->
-<script>(function(){function f(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='371'))return true;const x=makeItem({name:'v371 — Business Command Center Structure',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'371',releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['Business Command Center','SF Scorecard','Bulk Add','Bulk Update','Add Module'],releaseChangelog:'Established the separate branded Business Command Center structure, made SF Scorecard its home page, added the approved BCC navigation, and restricted BCC Action Item selectors to the approved ten types.',releaseNotes:'Structural BCC release only; business content/data migration is deferred.',releaseSummary:'Business Command Center structure',releaseUserGuide:'Open business-command-center.html for the BCC. SF Scorecard is home; use the sidebar for business planning, lists, management and libraries.',releaseTechnicalNotes:'No business records moved in v371.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=371;x.seqNum='371';S.items.push(x);try{save()}catch(e){}return true}let n=0,t=setInterval(()=>{n++;if(f()||n>40)clearInterval(t)},250)})();</script><!-- USER GUIDE: v371 — BCC structure release; content migration deferred. --><!-- CHANGE LOG: v371 — Branded BCC structure, approved navigation and BCC Action Item selectors. --><!-- RELEASE NOTES: v371 — Structural release only. --></body>
+<script>(function(){function f(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='371'))return true;const x=makeItem({name:'v371 — Business Command Center Structure',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'371',releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['Business Command Center','SF Scorecard','Bulk Add','Bulk Update','Add Module'],releaseChangelog:'Established the separate branded Business Command Center structure, made SF Scorecard its home page, added the approved BCC navigation, and restricted BCC Action Item selectors to the approved ten types.',releaseNotes:'Structural BCC release only; business content/data migration is deferred.',releaseSummary:'Business Command Center structure',releaseUserGuide:'Open business-command-center.html for the BCC. SF Scorecard is home; use the sidebar for business planning, lists, management and libraries.',releaseTechnicalNotes:'No business records moved in v371.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=371;x.seqNum='371';S.items.push(x);try{save()}catch(e){}return true}let n=0,t=setInterval(()=>{n++;if(f()||n>40)clearInterval(t)},250)})();</script><!-- USER GUIDE: v371 — BCC structure release; content migration deferred. --><!-- CHANGE LOG: v371 — Branded BCC structure, approved navigation and BCC Action Item selectors. --><!-- RELEASE NOTES: v371 — Structural release only. --><script>
+/* v372 — Business migration export + rendered-code hotfix */
+(function(){
+ const BUSINESS_LIST_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
+ const BCC_TYPES=new Set(['ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
+ function listNameById(id){const x=(S.lists||[]).find(l=>String(l.id)===String(id));return String(x?.name||'').trim().toLowerCase()}
+ function isBusiness(i){
+   if(!i||i.status==='placeholder'||!BCC_TYPES.has(String(i.type||'').toLowerCase()))return false;
+   const ids=[...(i.listIds||[]),...(i.lists||[])];
+   if(ids.some(x=>BUSINESS_LIST_NAMES.has(String(x||'').trim().toLowerCase())||BUSINESS_LIST_NAMES.has(listNameById(x))))return true;
+   const brand=String(i.productBrand||i.ipBrand||i.brand||'').toLowerCase();
+   if(/savvy foundations|savvy structure|\brla\b/.test(brand))return true;
+   return false;
+ }
+ window.exportBusinessItemsForBCC=function(){
+   try{
+     const base=(S.items||[]).filter(isBusiness), chosen=new Map(base.map(i=>[i.id,i]));
+     // Preserve business hierarchy/link context, but only approved BCC Action Item types.
+     let changed=true;
+     while(changed){changed=false;[...chosen.values()].forEach(i=>{
+       ['linkedGoals','linkedProjects','linkedPhases','linkedTasks'].forEach(k=>(i[k]||[]).forEach(id=>{const x=(S.items||[]).find(z=>z.id===id);if(x&&BCC_TYPES.has(String(x.type||'').toLowerCase())&&!chosen.has(x.id)){chosen.set(x.id,x);changed=true}}));
+     })}
+     const items=[...chosen.values()];
+     const usedIds=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
+     const lists=(S.lists||[]).filter(l=>usedIds.has(String(l.id))||BUSINESS_LIST_NAMES.has(String(l.name||'').trim().toLowerCase()));
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v372',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' business Action Items for BCC');
+   }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
+ };
+ function seed(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x?.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='372'))return true;const x=makeItem({name:'v372 — BCC Migration Export & Render Hotfix',type:'release',status:'inprogress',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-25',releaseVersion:'372',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Export','Business Command Center','Release Management'],releaseChangelog:'Removed raw v367 JavaScript from rendered page content and added a dedicated business Action Item migration export for BCC.',releaseNotes:'LCC and BCC remain separate applications. Export BCC creates a portable JSON package of business Action Items, relevant business lists and shared tag definitions.',releaseSummary:'Business migration export and rendered-code hotfix.',releaseUserGuide:'Use 💼 Export BCC from the LCC top bar to download business Action Items for import into BCC. The export does not delete or modify LCC records.',releaseTechnicalNotes:'Business export includes approved BCC types associated with Business, RLA, Savvy Foundations or Savvy Structure lists plus hierarchy-linked approved BCC records. No automatic synchronization is created.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=372;x.seqNum='372';S.items.push(x);try{save()}catch(e){}return true}
+ let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v372 — Use 💼 Export BCC to create a one-time migration file of business Action Items. This does not sync or delete LCC data. -->
+<!-- CHANGE LOG: v372 — Fixed raw v367 code rendering and added dedicated LCC→BCC business Action Item export. -->
+<!-- RELEASE NOTES: v372 — Patch release. Adds one-way manual business migration export; no LCC/BCC data synchronization. -->
+</body>
 </html>
 
 <!-- USER GUIDE: v364 — Knowledge Category is now Topic. Topic is selected from: Astrology, Health, Senior Year, Home, Finance, Business, Content, Travel, Style & Beauty, or Recipes. Source is a controlled dropdown for where the knowledge came from, including TikTok, Book, Website, YouTube, Personal Experience, Podcast, Course/Class, Social Media, Article, and Other. Use Source Link / Reference for the URL, book title/page, creator, episode, or other citation detail. -->
