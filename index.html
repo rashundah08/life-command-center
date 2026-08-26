@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v376</title>
+<title>LCC v377</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -926,8 +926,14 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <div class="app">
 <div class="sidebar" id="sidebar">
   <div class="sb-logo">
-    <div class="sb-eye">Life Architect</div>
+    <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v377</div>
+    <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
+    <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
+    <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
+    <div id="sb-lcc-sprint" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Sprint --</div>
+    <div id="sb-lcc-time" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">-- CT</div>
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">Execute</div>
@@ -1505,7 +1511,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v376</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v377</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -16180,6 +16186,12 @@ function renderHub(){
   if(el('hub-rot'))el('hub-rot').textContent=rot;
   const _spIdx=getCurrentSprintIdx();const _sp=ALL_SPRINTS[_spIdx];
   if(el('hub-sprint'))el('hub-sprint').textContent=_sp?`${_sp.displayNum} of 26 · ${Math.max(0,daysUntil(_sp.end))}d left`:'--';
+  // v377 — mirror Master Plan date/time context in the persistent LCC sidebar header.
+  if(el('sb-lcc-date'))el('sb-lcc-date').textContent=dateStr;
+  if(el('sb-lcc-rot'))el('sb-lcc-rot').textContent=`Rotation Week ${rot} of 13`;
+  if(el('sb-lcc-calwk'))el('sb-lcc-calwk').textContent=`Calendar Week ${cw} of 53`;
+  if(el('sb-lcc-sprint'))el('sb-lcc-sprint').textContent=_sp?`Sprint ${_sp.displayNum} of 26 · ${Math.max(0,daysUntil(_sp.end))}d left`:'Sprint --';
+  if(el('sb-lcc-time'))el('sb-lcc-time').textContent=`${timeStr} CT`;
 
   // v311 — Bulk Add full core-field CSV/Excel importer.
   // v310 — Ravyn Senior Year is an Initiative tag, not a List.
@@ -30043,6 +30055,43 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v376 — Knowledge Type reveals specialized fields; Topic supports reusable + Create New Topic; Bulk Add accepts CSV upload or paste; one superset CSV supports all types. -->
 <!-- CHANGE LOG: v376 — Added expanded Knowledge Types, type-specific fields, extensible Topics, CSV file upload, and superset Knowledge import/export. -->
 <!-- RELEASE NOTES: v376 — Knowledge Hub schema/workflow expansion. Existing Knowledge records remain compatible. -->
+<script id="lcc-v377-master-plan-bcc-separation">
+/* v377 — Master Plan is personal-only. Business-scoped BCC records remain in LCC data but are excluded from Master Plan rendering only. */
+(function(){
+ const BUSINESS_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
+ const BCC_TYPES=new Set(['goal','ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
+ const norm=v=>String(v||'').trim().toLowerCase();
+ function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
+ function isBCCMasterPlanItem(i){
+   if(!i||!BCC_TYPES.has(norm(i.type)))return false;
+   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[])];
+   if(refs.some(v=>BUSINESS_NAMES.has(norm(v))||BUSINESS_NAMES.has(listName(v))))return true;
+   const brand=norm(i.productBrand||i.ipBrand||i.brand);
+   return brand==='rla'||brand.includes('savvy foundations')||brand.includes('savvy structure');
+ }
+ window.isBCCMasterPlanItem=isBCCMasterPlanItem;
+ function personalOnly(fn){
+   if(typeof fn!=='function'||fn.__v377PersonalOnly)return fn;
+   function wrapped(){
+     if(!window.S||!Array.isArray(S.items))return fn.apply(this,arguments);
+     const all=S.items; S.items=all.filter(i=>!isBCCMasterPlanItem(i));
+     try{return fn.apply(this,arguments)}finally{S.items=all}
+   }
+   wrapped.__v377PersonalOnly=true;return wrapped;
+ }
+ ['renderHub','renderHubPeriodLens','renderHubFocus','renderHubActiveNow','renderHubSprintWidget','renderHubFocusItems','renderHubMonthly','renderHubGoals','renderHubHabitsToday','renderHubHabitsDue'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])});
+ function seed(){
+   if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+   if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='377'))return true;
+   const x=makeItem({name:'v377 — Master Plan BCC Separation',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-26',date:'2026-08-26',estimatedMins:15,screenTimeRequired:'Yes',releaseVersion:'377',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Master Plan','Business Command Center'],releaseChangelog:'Removed BCC-owned business Action Items from Master Plan views only. Business-scoped Goal, Ask, Change, Client Build, Content, Industry Profile, Product, Phase, Release, Task and Workflow records associated with Business, RLA, Savvy Foundations or Savvy Structure no longer appear in Master Plan period lenses, Today’s Focus, Active Now, Sprint, Focus-period, Monthly, Goal or Habit render paths.',releaseNotes:'This is a view-only separation. No Action Items were deleted, moved, or changed, and non-Master-Plan LCC pages remain unchanged.',releaseSummary:'Keeps the LCC Master Plan personal while BCC-owned work stays out of its views.',releaseUserGuide:'Use the LCC Master Plan for personal/life planning. Business Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are intentionally hidden there and remain available to the Business Command Center and unchanged elsewhere in LCC.',releaseTechnicalNotes:'Adds a Master Plan-only business-scope gate using the same BCC scope rule established in v374. Master Plan render functions temporarily receive a personal-only S.items view and restore the full state immediately after rendering. No new type, field, module or linkable object was added.',updatedAt:Date.now()});
+   x.listNums=x.listNums||{};x.listNums.releases=377;x.seqNum='377';S.items.push(x);try{save()}catch(_){}return true;
+ }
+ let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v377 — The Master Plan is now personal-only. BCC-owned Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are hidden from Master Plan views without being deleted or removed from other LCC pages. -->
+<!-- CHANGE LOG: v377 — Added a Master Plan-only BCC scope filter across period lenses, Today’s Focus, Active Now, Sprint, focus-period, monthly, goal and habit rendering. Updated tab title and Master Plan hero to v377. -->
+<!-- RELEASE NOTES: v377 — View-separation patch. Business/BCC records remain intact in LCC data and other LCC views; only Master Plan presentation is filtered. -->
 </body>
 </html>
 
