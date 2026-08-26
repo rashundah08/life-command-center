@@ -16137,9 +16137,14 @@ function setHubPeriod(period,btn){
   document.querySelectorAll('#mp-lens-pills .mp-lens-pill').forEach(b=>b.classList.toggle('active',b.dataset.period===hubPeriod));
   renderHubPeriodLens();
 }
+function masterPlanItems(){
+  const all=(S&&Array.isArray(S.items))?S.items:[];
+  return typeof window.isBCCMasterPlanItem==='function'?all.filter(i=>!window.isBCCMasterPlanItem(i)):all;
+}
+
 function renderHubPeriodLens(){
   const metrics=document.getElementById('mp-lens-metrics'),view=document.getElementById('mp-period-view');if(!metrics||!view)return;
-  const td=today(),all=S.items||[],active=i=>i.status!=='placeholder'&&!['done','cancelled'].includes(i.status)&&!['transaction','recurringexpense','inventory'].includes(i.type);
+  const td=today(),all=masterPlanItems(),active=i=>i.status!=='placeholder'&&!['done','cancelled'].includes(i.status)&&!['transaction','recurringexpense','inventory'].includes(i.type);
   const overdue=all.filter(i=>active(i)&&hubPeriodItemDate(i)&&hubPeriodItemDate(i)<td).length;
   let cards=hubPeriodItems(hubPeriod,true),m=[];
   if(hubPeriod==='today'){
@@ -16151,11 +16156,11 @@ function renderHubPeriodLens(){
   }else if(hubPeriod==='sprint'){
     try{
       const sp=ALL_SPRINTS[getCurrentSprintIdx()],cap=sp?calcSprintCapacity(sp):null;
-      const active=sp?(S.items||[]).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sp.num&&!['done','cancelled','placeholder'].includes(i.status)):[];
+      const active=sp?(masterPlanItems()).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sp.num&&!['done','cancelled','placeholder'].includes(i.status)):[];
       const committed=active.filter(i=>i.planningStage==='ready');
       const committedMins=committed.reduce((x,i)=>x+(Number(i.estimatedMins)||0),0);
       const capacityMins=cap?Math.round(cap.hrsPerSprint*60):0;
-      const doneAll=sp?(S.items||[]).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sp.num&&i.status==='done'):[];
+      const doneAll=sp?(masterPlanItems()).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sp.num&&i.status==='done'):[];
       const doneCommittedMins=doneAll.filter(i=>i.planningStage==='ready').reduce((x,i)=>x+(Number(i.estimatedMins)||0),0);
       const pct=committedMins?Math.round(doneCommittedMins/committedMins*100):0;
       m=[['Sprint Items',active.length],['Completed',doneAll.length],['Committed',committedMins+'m / '+capacityMins+'m'],['% Complete',Math.min(100,pct)+'%']];cards=active;
@@ -16197,7 +16202,7 @@ function renderHub(){
   // v310 — Ravyn Senior Year is an Initiative tag, not a List.
   const ravynTarget='2027-05-31';
   const ravynDays=Math.max(0,daysUntilDate(ravynTarget));
-  const ravynItems=S.items.filter(i=>itemHasInitiativeTag(i,'ravyn')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const ravynItems=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'ravyn')&&i.status!=='placeholder'&&i.level!=='supporting');
   const ravynDone=ravynItems.filter(i=>i.status==='done').length;
   const ravynPct=ravynItems.length?Math.round(ravynDone/ravynItems.length*100):0;
   if(el('hub-ravyn-days'))el('hub-ravyn-days').textContent=ravynDays;
@@ -16218,7 +16223,7 @@ function renderHub(){
   if(el('hub-days-bar'))el('hub-days-bar').style.width=Math.min(100,Math.round(daysDone/10))+'%';
 
   // v310 — 101 in 1000 Days is tag-backed; Supporting sub-items do not count toward the 101.
-  const items101=S.items.filter(i=>itemHasInitiativeTag(i,'101g')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const items101=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'101g')&&i.status!=='placeholder'&&i.level!=='supporting');
   const done101=items101.filter(i=>i.status==='done').length;
   const total101=101;
   const pct101=Math.round(done101/total101*100);
@@ -16227,7 +16232,7 @@ function renderHub(){
   if(el('hub-101-bar'))el('hub-101-bar').style.width=pct101+'%';
 
   // v310 — 50 Before 50 is tag-backed; Supporting sub-items do not count toward the 50.
-  const items50=S.items.filter(i=>itemHasInitiativeTag(i,'50b50')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const items50=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'50b50')&&i.status!=='placeholder'&&i.level!=='supporting');
   const done50=items50.filter(i=>i.status==='done').length;
   const total50=50;
   const pct50=Math.round(done50/total50*100);
@@ -16236,7 +16241,7 @@ function renderHub(){
   if(el('hub-50-bar'))el('hub-50-bar').style.width=pct50+'%';
 
   // v310 — 1,000 NOs page is the Ask registry; no retired List dependency.
-  const askItems=S.items.filter(i=>i.type==='ask'&&i.status!=='placeholder');
+  const askItems=masterPlanItems().filter(i=>i.type==='ask'&&i.status!=='placeholder');
   const totalAsks=askItems.length;
   const yesAsks=askItems.filter(i=>i.responseStatus==='yes').length;
   const noAsks=askItems.filter(i=>i.responseStatus==='no').length;
@@ -16271,7 +16276,7 @@ function renderHub(){
     const badgeEl=el('hub-'+key+'-badge');
     const tasksEl=el('hub-'+key+'-tasks');
     if(weeksEl)weeksEl.innerHTML='';
-    const catTasks=S.items.filter(i=>
+    const catTasks=masterPlanItems().filter(i=>
       (i.categories||[]).includes(cat)&&
       (i.type==='task'||i.type==='ask')&&
       i.rotationWeek===displayRot
@@ -16314,7 +16319,7 @@ function renderHubSprintWidget(){
   const sprint=ALL_SPRINTS[getCurrentSprintIdx()];
   if(!sprint){el.innerHTML='<div style="font-size:12px;color:var(--txt3);font-style:italic">No active sprint found.</div>';return;}
   const cap=calcSprintCapacity(sprint),meta=getSprintMeta(sprint.num);
-  const tasks=getSprintTasks(sprint); // v346 — same canonical task source as Sprint Planner
+  const tasks=getSprintTasks(sprint).filter(i=>!window.isBCCMasterPlanItem||!window.isBCCMasterPlanItem(i)); // v377 — Master Plan-only personal view; Sprint Planner source remains unchanged
   const committed=tasks.filter(i=>i.planningStage==='ready'&&i.status!=='onhold');
   const committedMins=committed.reduce((sum,i)=>sum+(Number(i.estimatedMins)||0),0),capacityMins=Math.round(cap.hrsPerSprint*60);
   const barPct=capacityMins?Math.min(100,Math.round(committedMins/capacityMins*100)):0;
@@ -16341,7 +16346,7 @@ function setHubGoalFilter(f,btn){
 
 function renderHubFocus(el){
   const td=today();
-  const focusItems=S.items.filter(i=>{
+  const focusItems=masterPlanItems().filter(i=>{
     if(i.type==='habit')return false; // v236 — habits now live in their own "Habits — Today & Past Due" block, not Today's Focus
     if(i.status==='done')return false;
     if(i.status==='placeholder')return false;
@@ -16442,7 +16447,7 @@ function renderHubActiveNow(el){
   // Already excludes items due today or overdue (those belong in Today's Focus, not here) —
   // that exclusion was already correct; if you're still seeing overlap on the live site,
   // it's worth a hard refresh to rule out a stale cached copy of the page.
-  const allActiveItems=S.items.filter(i=>{
+  const allActiveItems=masterPlanItems().filter(i=>{
     if(i.type==='goal')return false; // 0208 (v223) — events now show in Active Now (calendar removed); goals still have their own section
     if(i.type==='inventory')return false; // v237 — inventory are reference records, not active work
     if(i.type==='room')return false; // v249 — rooms are reference records, not active work
@@ -16521,7 +16526,7 @@ function renderHubActiveNow(el){
   const activeRenderItems=activeItems.slice(0,80);
   const seedIds=new Set(activeRenderItems.map(i=>i.id));
   const parentIdsByChild={};
-  (S.items||[]).forEach(p=>{
+  (masterPlanItems()).forEach(p=>{
     if(!p||!p.id||typeof _hierChildIds!=='function')return;
     _hierChildIds(p).forEach(cid=>{
       if(!cid||cid===p.id)return;
@@ -16773,12 +16778,12 @@ function _keepCopyDated(items,header,label,emptyMsg){
 function copyKeepDueToday(){
   const td=today();
   const skip=['done','placeholder','cancelled','onhold','behind'];
-  const items=S.items.filter(i=>skip.indexOf(i.status)<0 && i.date===td)
+  const items=masterPlanItems().filter(i=>skip.indexOf(i.status)<0 && i.date===td)
     .sort((a,b)=>(a.name||'').localeCompare(b.name||''));
   _keepCopyDated(items,'DUE TODAY — '+_keepShortDate(new Date()),'Due Today','nothing due today');
 }
 function copyKeepPastDue(){
-  const items=S.items.filter(i=>i.status==='behind')
+  const items=masterPlanItems().filter(i=>i.status==='behind')
     .sort((a,b)=>(a.date||a.startDate||'').localeCompare(b.date||b.startDate||''));
   _keepCopyDated(items,'PAST DUE — as of '+_keepShortDate(new Date()),'Past Due','nothing past due — all caught up');
 }
@@ -16794,7 +16799,7 @@ function renderHubFocusItems(onlyPeriod=null){
   ];
   const shownPeriods=onlyPeriod==='__none__'?[]:(onlyPeriod?periods.filter(p=>p.key===onlyPeriod):periods);
   wrap.innerHTML=shownPeriods.map(per=>{
-    const items=S.items.filter(i=>i.status!=='placeholder'&&(i.focusPeriods||[]).includes(per.key));
+    const items=masterPlanItems().filter(i=>i.status!=='placeholder'&&(i.focusPeriods||[]).includes(per.key));
     const collapsed=hubFocusCollapsed[per.key];
     const periodBadge={Day:'#0FA3A3',Week:'#EF9F27',Month:'#185FA5',Quarter:'#7C2D8E',Year:'#0A5E47'};
     const body=!items.length
@@ -16896,7 +16901,7 @@ function clearHubMonthlyFilters(){
 function renderHubMonthly(){
   const wrap=document.getElementById('hub-monthly');if(!wrap)return;
   const types=['goal','project']; // 0157 — Phase removed; progress rolls up into project/goal instead
-  const items=S.items.filter(i=>{
+  const items=masterPlanItems().filter(i=>{
     if(!types.includes(i.type)||i.status==='placeholder')return false;
     if(!hubMonthlyFilters.types[i.type])return false;
     if(hubMonthlyFilters.startFrom&&(!i.startDate||i.startDate<hubMonthlyFilters.startFrom))return false;
@@ -16950,7 +16955,7 @@ function renderHubGoals(el){
   const goalsEl=(el||((id)=>document.getElementById(id)))('hub-goals');
   const countEl=(el||((id)=>document.getElementById(id)))('hub-goals-count');
   if(!goalsEl)return;
-  let goals=S.items.filter(i=>i.type==='goal'&&i.status!=='placeholder');
+  let goals=masterPlanItems().filter(i=>i.type==='goal'&&i.status!=='placeholder');
   if(hubGoalFilter!=='all'){
     if(hubGoalFilter==='behind'){
       goals=goals.filter(i=>i.status==='behind'||(i.date&&daysUntil(i.date)<0&&i.status!=='done'));
@@ -17160,13 +17165,13 @@ function printMasterPlan(){
     return out;
   }
 
-  const todayEvents=(S.items||[]).filter(i=>i.type==='event'&&i.status!=='placeholder'&&evDateOnly(i.date||i.startDate)===td)
+  const todayEvents=(masterPlanItems()).filter(i=>i.type==='event'&&i.status!=='placeholder'&&evDateOnly(i.date||i.startDate)===td)
     .sort((a,b)=>(a.date||a.startDate||'').localeCompare(b.date||b.startDate||''));
 
-  const focusItems=(S.items||[]).filter(i=>i.type!=='event'&&i.status!=='done'&&i.status!=='cancelled'&&i.status!=='placeholder'&&(i.date===td||i.status==='behind'))
+  const focusItems=(masterPlanItems()).filter(i=>i.type!=='event'&&i.status!=='done'&&i.status!=='cancelled'&&i.status!=='placeholder'&&(i.date===td||i.status==='behind'))
     .sort((a,b)=>(a.date||'').localeCompare(b.date||''));
 
-  const activeItems=(S.items||[]).filter(i=>{
+  const activeItems=(masterPlanItems()).filter(i=>{
     if(i.type==='goal'||i.type==='event')return false;
     if(i.type==='inventory')return false; // v237 — reference records excluded from Active Now
     if(i.type==='automation')return false; // v257 — automations excluded from Active Now
@@ -17205,7 +17210,7 @@ function printMasterPlan(){
   const sprintHtml=sprint?`<h2>⚡ ${sprintLabel} (${sprintTasks.length} items)</h2>${itemTable(sprintTasks)}`:`<h2>⚡ Current Sprint</h2><p style="color:#999;font-style:italic">No active sprint found.</p>`;
 
   const periodsHtml=periods.map(per=>{
-    const items=S.items.filter(i=>i.status!=='placeholder'&&i.status!=='done'&&i.status!=='cancelled'&&(i.focusPeriods||[]).includes(per.key));   // 0210 (v222/v223)
+    const items=masterPlanItems().filter(i=>i.status!=='placeholder'&&i.status!=='done'&&i.status!=='cancelled'&&(i.focusPeriods||[]).includes(per.key));   // 0210 (v222/v223)
     return `<h2>${per.label} (${items.length})</h2>${itemTable(items)}`;
   }).join('');
 
@@ -17258,14 +17263,14 @@ function printFutureDays(){
   const tLbl2={goal:'Goal',project:'Project',phase:'Phase',task:'Task',ask:'Ask',content:'Content',course:'Course',event:'Event',patch:'Patch',change:'Change',release:'Release',product:'Product',clientbuild:'Client Build',workflow:'Workflow',industryprofile:'Industry Profile',habit:'Habit',transaction:'Transaction',recurringexpense:'Recurring Expense'};
   const active=i=>!(i.status==='done'||i.status==='placeholder'||i.status==='cancelled'||i.status==='onhold');
   // Past due (behind) items — carried at the top so nothing overdue gets lost.
-  const overdue=S.items.filter(i=>active(i)&&i.status==='behind')
+  const overdue=masterPlanItems().filter(i=>active(i)&&i.status==='behind')
     .sort((a,b)=>(a.date||a.startDate||'').localeCompare(b.date||b.startDate||''));
   // One bucket per day, today .. today+(n-1). Behind items are excluded here (shown up top).
   const days=[];
   let total=overdue.length;
   for(let d=0;d<n;d++){
     const date=addDays(td,d);
-    const items=S.items.filter(i=>active(i)&&i.status!=='behind'&&i.date===date)
+    const items=masterPlanItems().filter(i=>active(i)&&i.status!=='behind'&&i.date===date)
       .sort((a,b)=>(a.name||'').localeCompare(b.name||''));
     total+=items.length;
     days.push({date,items});
@@ -17313,7 +17318,7 @@ function printTodaysFocus(){
   const effortIcon2={easy:'🟢',medium:'🟠',hard:'🔴',epic:'⭐',legendary:'👑',ultimate:'🔥',mythic:'⚡',elite:'💎',master:'🛡️',titan:'🐉',cosmic:'🌌',immortal:'👑',ascended:'🚀',transcendent:'🏆'};
   const tLbl2={goal:'Goal',project:'Project',phase:'Phase',task:'Task',ask:'Ask',content:'Content',course:'Course',event:'Event',patch:'Patch',change:'Change',release:'Release',product:'Product',clientbuild:'Client Build',workflow:'Workflow',industryprofile:'Industry Profile'};
   // Same filter + sort as renderHubFocus() so print === on-screen Today's Focus
-  const focusItems=S.items.filter(i=>{
+  const focusItems=masterPlanItems().filter(i=>{
     if(i.status==='done')return false;
     if(i.status==='placeholder')return false;
     if(i.status==='cancelled')return false;
@@ -17456,7 +17461,7 @@ function printFocusPanel(){
 }
 function logAsk(){
   ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],linkedChallenges:[],linkedPhases:[],listIds:['nos'],categories:[]};
-  const nextNum=S.items.filter(i=>(i.listIds||[]).includes('nos')&&i.type==='ask').length+1;
+  const nextNum=masterPlanItems().filter(i=>(i.listIds||[]).includes('nos')&&i.type==='ask').length+1;
   openModal(null,'Ask #'+nextNum,'ask');
 }
 function filterByCatHub(cat){
@@ -17679,7 +17684,7 @@ function sotGenerateHabits(){ // v276 (0009) — turn SOT Self-Care recurring ro
     const days=(r.days||[]).map(d=>dayMap[d]).filter(n=>n!=null);
     const rule=freqNorm((days.length&&days.length<7)?{freq:'weekdays',weekdays:days}:{freq:'daily'});
     const key='sot-sc-recurring:'+r.name.trim().toLowerCase();
-    let m=(S.items||[]).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
+    let m=(masterPlanItems()).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
     if(m){
       m.name=r.name.trim();m.habitRule=rule;m.habitFreq=freqSummaryText(rule);
       if(!Array.isArray(m.tags))m.tags=[];
@@ -17703,7 +17708,7 @@ function sotGenerateHabits(){ // v276 (0009) — turn SOT Self-Care recurring ro
       const nm=(''+task).trim();
       const rule=freqNorm({freq:'weekdays',weekdays:[wd]});
       const key='sot-theme:'+day+':'+ti;
-      let m=(S.items||[]).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
+      let m=(masterPlanItems()).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
       if(m){m.name=nm;m.habitRule=rule;m.habitFreq=freqSummaryText(rule);if(!Array.isArray(m.tags))m.tags=[];[themeTag,'Daily Theme'].forEach(tg=>{if(!m.tags.some(x=>(x||'').toLowerCase()===tg.toLowerCase()))m.tags.push(tg);});updated++;}
       else{m=makeItem({type:'habit',habitMaster:true,name:nm,habitRule:rule,habitFreq:freqSummaryText(rule),habitTime:'',habitRotWeek:'',tags:[themeTag,'Daily Theme'],listIds:['perop-health'],categories:['Personal Development'],startDate:todayStr(),sotSourceKey:key});S.items.push(m);created++;}
       if(typeof habitGenerateOccurrences==='function')habitGenerateOccurrences(m);
@@ -17715,7 +17720,7 @@ function sotGenerateHabits(){ // v276 (0009) — turn SOT Self-Care recurring ro
     const text=(scw[wk]||'').trim(); if(!text)return;
     const rule=freqNorm({freq:'weekly'});
     const key='sot-scweek:'+wk;
-    let m=(S.items||[]).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
+    let m=(masterPlanItems()).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
     if(m){m.name=text;m.habitRule=rule;m.habitFreq=freqSummaryText(rule);m.habitRotWeek=String(wk);if(!Array.isArray(m.tags))m.tags=[];if(!m.tags.some(x=>(x||'').toLowerCase()==='self care'))m.tags.push('Self Care');updated++;}
     else{m=makeItem({type:'habit',habitMaster:true,name:text,habitRule:rule,habitFreq:freqSummaryText(rule),habitTime:'',habitRotWeek:String(wk),tags:['Self Care'],listIds:['perop-health'],categories:['Health & Wellness'],startDate:todayStr(),sotSourceKey:key});S.items.push(m);created++;}
     if(typeof habitGenerateOccurrences==='function')habitGenerateOccurrences(m);
@@ -17725,7 +17730,7 @@ function sotGenerateHabits(){ // v276 (0009) — turn SOT Self-Care recurring ro
   const _syncHabit=(name,rule,tags,rotWeek,key,cat,list)=>{
     name=(name||'').trim(); if(!name)return;
     if(typeof ensureItemTag==='function')tags.forEach(tg=>ensureItemTag(tg,'#3B82C4'));
-    let m=(S.items||[]).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
+    let m=(masterPlanItems()).find(i=>i&&i.type==='habit'&&i.habitMaster&&i.sotSourceKey===key);
     if(m){m.name=name;m.habitRule=rule;m.habitFreq=freqSummaryText(rule);if(rotWeek)m.habitRotWeek=String(rotWeek);if(!Array.isArray(m.tags))m.tags=[];tags.forEach(tg=>{if(!m.tags.some(x=>(x||'').toLowerCase()===tg.toLowerCase()))m.tags.push(tg);});updated++;}
     else{m=makeItem({type:'habit',habitMaster:true,name,habitRule:rule,habitFreq:freqSummaryText(rule),habitTime:'',habitRotWeek:rotWeek?String(rotWeek):'',tags:tags.slice(),listIds:[list||'perop-home'],categories:[cat||'Home & Environment'],startDate:todayStr(),sotSourceKey:key});S.items.push(m);created++;}
     if(typeof habitGenerateOccurrences==='function')habitGenerateOccurrences(m);
@@ -17762,7 +17767,7 @@ function sotInput(val,onchange){
 
 function sotHabitsByTag(tag){
   const t=(tag||'').toLowerCase();
-  return (S.items||[]).filter(i=>i&&i.type==='habit'&&i.habitMaster&&Array.isArray(i.tags)&&i.tags.some(x=>(x||'').toLowerCase()===t))
+  return (masterPlanItems()).filter(i=>i&&i.type==='habit'&&i.habitMaster&&Array.isArray(i.tags)&&i.tags.some(x=>(x||'').toLowerCase()===t))
     .sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')));
 }
 function sotHabitRow(h){
@@ -18078,17 +18083,17 @@ function getNextReleaseVersion(){
     const next=getNextNum('releases');
     if(next!=null)return next;
   }
-  const used=(S.items||[]).filter(i=>i.type==='release'&&i.releaseVersion).map(i=>parseInt(i.releaseVersion,10)).filter(n=>!isNaN(n));
+  const used=(masterPlanItems()).filter(i=>i.type==='release'&&i.releaseVersion).map(i=>parseInt(i.releaseVersion,10)).filter(n=>!isNaN(n));
   let n=1;while(used.includes(n))n++;
   return n;
 }
 function nextChangeTicket(){
-  const used=new Set((S.items||[]).filter(i=>i.type==='change'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n)&&n>0));
+  const used=new Set((masterPlanItems()).filter(i=>i.type==='change'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n)&&n>0));
   let n=1;while(used.has(n))n++;
   return String(n).padStart(4,'0');
 }
 function nextContentCatalogNum(){
-  const used=(S.items||[]).filter(i=>i.type==='content'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n));
+  const used=(masterPlanItems()).filter(i=>i.type==='content'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n));
   const max=used.length?Math.max(...used):0;
   return String(max+1).padStart(4,'0');
 }
@@ -18105,11 +18110,11 @@ const ACTIVE_CHANGE_STATUSES=['idea','approved','planned','inprogress','testing'
 const COMMITTED_CHANGE_STATUSES=['idea','approved','planned','inprogress','testing','complete'];
 function countActiveChangesInSprint(sprintNum,changeType){
   // Total changes ever committed to this sprint/type (excludes cancelled/deferred) — does NOT zero out as items complete
-  return (S.items||[]).filter(i=>i.type==='change'&&i.status!=='placeholder'&&i.sprint===sprintNum&&i.changeType===changeType&&COMMITTED_CHANGE_STATUSES.includes(i.changeStatus)).length;
+  return (masterPlanItems()).filter(i=>i.type==='change'&&i.status!=='placeholder'&&i.sprint===sprintNum&&i.changeType===changeType&&COMMITTED_CHANGE_STATUSES.includes(i.changeStatus)).length;
 }
 function countOpenChangesInSprint(sprintNum,changeType){
   // Still-open changes only — used for remaining-capacity calc
-  return (S.items||[]).filter(i=>i.type==='change'&&i.status!=='placeholder'&&i.sprint===sprintNum&&i.changeType===changeType&&ACTIVE_CHANGE_STATUSES.includes(i.changeStatus)).length;
+  return (masterPlanItems()).filter(i=>i.type==='change'&&i.status!=='placeholder'&&i.sprint===sprintNum&&i.changeType===changeType&&ACTIVE_CHANGE_STATUSES.includes(i.changeStatus)).length;
 }
 function findNextAvailableSprintForChangeType(changeType){
   const caps=loadChangeCaps();
@@ -18161,9 +18166,9 @@ function autoNumberMissingListNums(){
 function runFinanceMigrationV283(){
   if(typeof migrateFinanceTransactionsV283==='function'){
     const wasDone=!!S.financeTxV283Migrated;
-    const before=(S.items||[]).length;
+    const before=(masterPlanItems()).length;
     migrateFinanceTransactionsV283();
-    const changed=!wasDone||((S.items||[]).length!==before);
+    const changed=!wasDone||((masterPlanItems()).length!==before);
     if(changed){
       try{recalc();save();if(typeof renderAll==='function')requestAnimationFrame(()=>renderAll());}catch(_e){}
     }
@@ -18395,7 +18400,7 @@ function seedFieldCatalogs(){
   const cat=S.catalogSettings.itemCategories||(S.catalogSettings.itemCategories=[]);
   const have=new Set(cat.map(e=>(e.name||'').toLowerCase()));
   let mx=cat.reduce((m,e)=>Math.max(m,e.sort??0),0);
-  (S.items||[]).forEach(it=>{(Array.isArray(it.categories)?it.categories:[]).forEach(c=>{const cn=(c||'').trim();if(cn&&!have.has(cn.toLowerCase())){have.add(cn.toLowerCase());cat.push({name:cn,code:'',sort:++mx,active:true,desc:''});}});});
+  (masterPlanItems()).forEach(it=>{(Array.isArray(it.categories)?it.categories:[]).forEach(c=>{const cn=(c||'').trim();if(cn&&!have.has(cn.toLowerCase())){have.add(cn.toLowerCase());cat.push({name:cn,code:'',sort:++mx,active:true,desc:''});}});});
   refreshItemCats();
 }
 function catalogList(key){return (S.catalogSettings&&Array.isArray(S.catalogSettings[key]))?S.catalogSettings[key]:[];}
@@ -18430,7 +18435,7 @@ function stampProductIdentity(item,siblings){
   }
   return item;
 }
-function backfillProductIdentity(){(S.items||[]).filter(i=>i&&i.type==='product').forEach(p=>stampProductIdentity(p,S.items));}
+function backfillProductIdentity(){(masterPlanItems()).filter(i=>i&&i.type==='product').forEach(p=>stampProductIdentity(p,S.items));}
 // ── Product Catalog dashboards (v152) ──────────────────────────
 var prodDashTab='catalog';
 const PROD_DASH_TABS=[['catalog','Catalog'],['development','Development'],['beta','Beta'],['ready','Ready to Launch'],['live','Live'],['bybrand','By Brand'],['bycategory','By Category'],['roadmap','Roadmap'],['revenue','Revenue']];
@@ -18454,7 +18459,7 @@ function renderProductCatalog(){
 function switchProdDashTab(t){
   prodDashTab=t;
   document.querySelectorAll('.pdt-btn').forEach(b=>{const on=b.dataset.tab===t;b.style.background=on?'var(--teal)':'var(--card)';b.style.color=on?'#fff':'var(--txt)';b.style.borderColor=on?'var(--teal)':'var(--bdr)';});
-  const prods=S.items.filter(i=>i&&i.type==='product');
+  const prods=masterPlanItems().filter(i=>i&&i.type==='product');
   const byStatus=s=>prods.filter(p=>(p.productStatus||'')===s);
   const byStatuses=a=>prods.filter(p=>a.includes(p.productStatus||''));
   let html='';
@@ -18738,7 +18743,7 @@ function fieldLibRemove(id){
   var nm=arr[i].name||'(unnamed)';
   // Warn if any workflow step or branch condition still points at this field.
   var used=0;
-  (S.items||[]).forEach(function(it){
+  (masterPlanItems()).forEach(function(it){
     if(!it||it.type!=='workflow')return;
     wfWalkSteps(it.wfSteps||[],function(st){
       if(st.fieldId===id)used++;
@@ -18906,7 +18911,7 @@ function ctBuildName(descriptor,prefix,scope,typeCode,func,num){
 }
 function ctMaxNum(excludeId){
   var mx=0;
-  (S.items||[]).forEach(function(i){
+  (masterPlanItems()).forEach(function(i){
     if(!i||i.type!=='content'||i.id===excludeId)return;
     var n=parseInt(i.ctNum,10);
     if(!isNaN(n)&&n>mx)mx=n;
@@ -19115,22 +19120,22 @@ const ITAG_PALETTE=['#0FA3A3','#1F2A44','#F63E73','#EF9F27','#16A085','#9B59B6',
 function itagAll(){if(!Array.isArray(S.itemTags))S.itemTags=[];return S.itemTags;}
 function itagByName(n){n=(n||'').trim().toLowerCase();if(!n)return null;return itagAll().find(t=>(t.name||'').toLowerCase()===n)||null;}
 function itagColor(n){const t=itagByName(n);return t?t.color:'#A8A8B8';}
-function itagUsage(n){n=(n||'').toLowerCase();let c=0;(S.items||[]).forEach(i=>{if((i.tags||[]).some(x=>(x||'').toLowerCase()===n))c++;});return c;}
+function itagUsage(n){n=(n||'').toLowerCase();let c=0;(masterPlanItems()).forEach(i=>{if((i.tags||[]).some(x=>(x||'').toLowerCase()===n))c++;});return c;}
 function itagNextColor(){const used=new Set(itagAll().map(t=>t.color));return ITAG_PALETTE.find(c=>!used.has(c))||ITAG_PALETTE[itagAll().length%ITAG_PALETTE.length];}
 function itagNewId(){return 'itag_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function ensureItemTag(name,color){name=(name||'').trim();if(!name)return null;let t=itagByName(name);if(t)return t;t={id:itagNewId(),name:name,color:color||itagNextColor()};itagAll().push(t);return t;}
 function addItemTag(name,color){const t=ensureItemTag(name,color);save();return t;}
-function renameItemTag(id,newName){newName=(newName||'').trim();if(!newName)return;const t=itagAll().find(x=>x.id===id);if(!t)return;const old=t.name;if(old===newName)return;const dup=itagByName(newName);(S.items||[]).forEach(i=>{if(Array.isArray(i.tags)){i.tags=i.tags.map(x=>((x||'').toLowerCase()===old.toLowerCase())?newName:x);const seen=new Set();i.tags=i.tags.filter(x=>{const k=(x||'').toLowerCase();if(seen.has(k))return false;seen.add(k);return true;});}});if(dup&&dup.id!==id){S.itemTags=itagAll().filter(x=>x.id!==id);}else{t.name=newName;}invalidateItemIndex();save();}
+function renameItemTag(id,newName){newName=(newName||'').trim();if(!newName)return;const t=itagAll().find(x=>x.id===id);if(!t)return;const old=t.name;if(old===newName)return;const dup=itagByName(newName);(masterPlanItems()).forEach(i=>{if(Array.isArray(i.tags)){i.tags=i.tags.map(x=>((x||'').toLowerCase()===old.toLowerCase())?newName:x);const seen=new Set();i.tags=i.tags.filter(x=>{const k=(x||'').toLowerCase();if(seen.has(k))return false;seen.add(k);return true;});}});if(dup&&dup.id!==id){S.itemTags=itagAll().filter(x=>x.id!==id);}else{t.name=newName;}invalidateItemIndex();save();}
 function recolorItemTag(id,color){const t=itagAll().find(x=>x.id===id);if(t){t.color=color;save();}}
-function deleteItemTag(id,strip){const t=itagAll().find(x=>x.id===id);if(!t)return;if(strip){(S.items||[]).forEach(i=>{if(Array.isArray(i.tags))i.tags=i.tags.filter(x=>(x||'').toLowerCase()!==t.name.toLowerCase());});invalidateItemIndex();}S.itemTags=itagAll().filter(x=>x.id!==id);save();}
-function mergeItemTag(fromId,toId){const a=itagAll().find(x=>x.id===fromId),b=itagAll().find(x=>x.id===toId);if(!a||!b||fromId===toId)return;(S.items||[]).forEach(i=>{if(Array.isArray(i.tags)){const has=i.tags.some(x=>(x||'').toLowerCase()===a.name.toLowerCase());if(has){i.tags=i.tags.filter(x=>(x||'').toLowerCase()!==a.name.toLowerCase());if(!i.tags.some(x=>(x||'').toLowerCase()===b.name.toLowerCase()))i.tags.push(b.name);}}});S.itemTags=itagAll().filter(x=>x.id!==fromId);invalidateItemIndex();save();}
+function deleteItemTag(id,strip){const t=itagAll().find(x=>x.id===id);if(!t)return;if(strip){(masterPlanItems()).forEach(i=>{if(Array.isArray(i.tags))i.tags=i.tags.filter(x=>(x||'').toLowerCase()!==t.name.toLowerCase());});invalidateItemIndex();}S.itemTags=itagAll().filter(x=>x.id!==id);save();}
+function mergeItemTag(fromId,toId){const a=itagAll().find(x=>x.id===fromId),b=itagAll().find(x=>x.id===toId);if(!a||!b||fromId===toId)return;(masterPlanItems()).forEach(i=>{if(Array.isArray(i.tags)){const has=i.tags.some(x=>(x||'').toLowerCase()===a.name.toLowerCase());if(has){i.tags=i.tags.filter(x=>(x||'').toLowerCase()!==a.name.toLowerCase());if(!i.tags.some(x=>(x||'').toLowerCase()===b.name.toLowerCase()))i.tags.push(b.name);}}});S.itemTags=itagAll().filter(x=>x.id!==fromId);invalidateItemIndex();save();}
 function migrateItemTagsV254(){
   if(window._itemTagsMigratedV254)return;
   itagAll();
   const brand=[['Savvy Foundations','#0FA3A3','itag_sf'],['Savvy Structure','#1F2A44','itag_ss'],['RLA','#F63E73','itag_rla']];
   brand.forEach(function(b){if(!itagByName(b[0]))S.itemTags.push({id:b[2],name:b[0],color:b[1]});});
   const seen=new Set(itagAll().map(t=>(t.name||'').toLowerCase()));
-  (S.items||[]).forEach(i=>{(i.tags||[]).forEach(nm=>{nm=(nm||'').trim();if(nm&&!seen.has(nm.toLowerCase())){seen.add(nm.toLowerCase());S.itemTags.push({id:itagNewId(),name:nm,color:itagNextColor()});}});});
+  (masterPlanItems()).forEach(i=>{(i.tags||[]).forEach(nm=>{nm=(nm||'').trim();if(nm&&!seen.has(nm.toLowerCase())){seen.add(nm.toLowerCase());S.itemTags.push({id:itagNewId(),name:nm,color:itagNextColor()});}});});
   window._itemTagsMigratedV254=true;
 }
 /* ---- Tags page ---- */
@@ -19801,7 +19806,7 @@ function wfPickOptions(src){
   }
   if(src==='email'||src==='notification'||src==='doc'){
     var pfx=wfCurrentPrefix();
-    return (S.items||[]).filter(function(i){
+    return (masterPlanItems()).filter(function(i){
         if(!i||i.type!=='content'||i.status==='placeholder')return false;
         if(!wfContentMatchesSrc(i,src))return false;
         return wfContentMatchesPrefix(i,pfx);
@@ -19814,7 +19819,7 @@ function wfPickOptions(src){
   // kept so a future record-linked step type works without another edit here.
   if(src==='content'||src==='task'||src==='product'){
     var t=src==='content'?'content':(src==='task'?'task':'product');
-    return (S.items||[]).filter(function(i){return i&&i.type===t&&i.status!=='placeholder';})
+    return (masterPlanItems()).filter(function(i){return i&&i.type===t&&i.status!=='placeholder';})
       .sort(function(a,b){return (a.name||'').localeCompare(b.name||'');})
       .map(function(i){return {id:i.id,label:i.name||'(unnamed)'};});
   }
@@ -20132,7 +20137,7 @@ function wfStatusChip(st){
 function renderWorkflows(){
   var body=document.getElementById('workflows-body');
   if(!body)return;
-  var all=(S.items||[]).filter(function(i){return i&&i.type==='workflow'&&i.status!=='placeholder';});
+  var all=(masterPlanItems()).filter(function(i){return i&&i.type==='workflow'&&i.status!=='placeholder';});
   var counts={all:all.length};
   WF_STATUSES.forEach(function(s){if(s)counts[s]=all.filter(function(i){return i.wfStatus===s;}).length;});
   var shown=WF_PAGE_STATUS==='all'?all
@@ -20245,7 +20250,7 @@ function migrateContentV191(){
       camps.push({name:nm,code:'',sort:camps.length,active:true,desc:s.desc||''});
     }
   });
-  (S.items||[]).forEach(i=>{
+  (masterPlanItems()).forEach(i=>{
     if(!i||i.type!=='content')return;
     if(i.contentSeriesId&&!i.contentCampaign){
       const nm=seriesNameById[i.contentSeriesId];
@@ -20637,7 +20642,7 @@ function migrateSelfCareTagsV273(){ // v273 (0709) — seed 3 tags + tag existin
   const map={'Self Care':'#7A9E87','Meal Planning':'#D4890A','Cleaning':'#185FA5'};
   Object.keys(map).forEach(nm=>{ if(typeof ensureItemTag==='function')ensureItemTag(nm,map[nm]); });
   const names=Object.keys(map);
-  (S.items||[]).forEach(i=>{
+  (masterPlanItems()).forEach(i=>{
     if(!i||!Array.isArray(i.categories))return;
     names.forEach(nm=>{
       if(i.categories.includes(nm)){
@@ -20669,10 +20674,10 @@ function runSchemaMigration(){
   }
   seedCatalogDefaults(); // v146: seed product lookup lists (idempotent, name-matched)
   try{seedFieldCatalogs();}catch(_e){console.warn('seedFieldCatalogs skipped:',_e);} // 0380/0106 (v226)
-  (S.items||[]).forEach(i=>{if(i&&i.type==='product'&&typeof i.productFormat==='string'){i.productFormat=i.productFormat?[i.productFormat]:[];}}); // v147: Product Format string -> array
+  (masterPlanItems()).forEach(i=>{if(i&&i.type==='product'&&typeof i.productFormat==='string'){i.productFormat=i.productFormat?[i.productFormat]:[];}}); // v147: Product Format string -> array
   backfillProductIdentity(); // v151: assign Product IDs (and SKUs where Brand+Category set) to products missing them
   ipBackfillReview(); // v155: number done profiles in completion order + flip stale (>6mo) to Needs Review
-  (S.items||[]).forEach(i=>{if(i&&i.type==='product'&&i.ghlLink&&!i.productCheckoutLink){i.productCheckoutLink=i.ghlLink;}}); // v152: map legacy GHL Link -> Checkout Link (copy, keeps original)
+  (masterPlanItems()).forEach(i=>{if(i&&i.type==='product'&&i.ghlLink&&!i.productCheckoutLink){i.productCheckoutLink=i.ghlLink;}}); // v152: map legacy GHL Link -> Checkout Link (copy, keeps original)
   ensureParkingList(); // v131: Parking Lot inbox — find by name first, create only if missing
   migrateListRemoval_2026_14(); // 0080/0007: remove Patch List & WIAB list (migrate items to Parking Lot), make Ravyn's Senior List custom
   if(!Array.isArray(S.deletedLists))S.deletedLists=[]; // v261 (0694) list-deletion tombstone store
@@ -20745,9 +20750,9 @@ function runSchemaMigration(){
     i.sprint=sprintNumForDate(i.startDate||'');
   });
   // Backfill Ticket # for existing Change items that don't have one yet, in creation order
-  const unNumbered=S.items.filter(i=>i.type==='change'&&!i.seqNum).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)||(a.id<b.id?-1:1));
+  const unNumbered=masterPlanItems().filter(i=>i.type==='change'&&!i.seqNum).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)||(a.id<b.id?-1:1));
   if(unNumbered.length){
-    let nextNum=(()=>{const used=S.items.filter(i=>i.type==='change'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n));return used.length?Math.max(...used)+1:1;})();
+    let nextNum=(()=>{const used=masterPlanItems().filter(i=>i.type==='change'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n));return used.length?Math.max(...used)+1:1;})();
     unNumbered.forEach(i=>{i.seqNum=String(nextNum).padStart(4,'0');nextNum++;});
   }
   // Queue the known list-view duration/target-date bug as a Change item, once
@@ -20799,7 +20804,7 @@ function ensureSprintGuardrails(){
   let g=loadSprintGuardrails();
   if(!g.activatedAt){
     const cur=ALL_SPRINTS[getCurrentSprintIdx()];
-    g={version:SPRINT_GUARDRAIL_VERSION,activatedAt:Date.now(),legacyTaskIds:(S.items||[]).filter(i=>i.type==='task'&&i.startDate).map(i=>i.id),currentSprintNum:cur?cur.num:null};
+    g={version:SPRINT_GUARDRAIL_VERSION,activatedAt:Date.now(),legacyTaskIds:(masterPlanItems()).filter(i=>i.type==='task'&&i.startDate).map(i=>i.id),currentSprintNum:cur?cur.num:null};
     saveSprintGuardrails(g);
   }
   return g;
@@ -20807,12 +20812,12 @@ function ensureSprintGuardrails(){
 function isLegacySprintTask(i){return (ensureSprintGuardrails().legacyTaskIds||[]).includes(i.id);}
 function sprintForStartDate(d){const n=sprintNumForDate(d||'');return n?ALL_SPRINTS.find(s=>s.num===n):null;}
 function sprintOpenTaskHours(sprint,excludeId){
-  return (S.items||[]).filter(i=>i.type==='task'&&i.id!==excludeId&&i.startDate&&sprintNumForDate(i.startDate)===sprint.num&&i.planningStage==='ready'&&!['done','cancelled','onhold','placeholder'].includes(i.status))
+  return (masterPlanItems()).filter(i=>i.type==='task'&&i.id!==excludeId&&i.startDate&&sprintNumForDate(i.startDate)===sprint.num&&i.planningStage==='ready'&&!['done','cancelled','onhold','placeholder'].includes(i.status))
     .reduce((sum,i)=>sum+(Number(i.estimatedMins)||0),0)/60;
 }
 function sprintControlStats(sprint){
   const cap=calcSprintCapacity(sprint),g=ensureSprintGuardrails();
-  const all=(S.items||[]).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sprint.num&&!['done','cancelled','placeholder'].includes(i.status));
+  const all=(masterPlanItems()).filter(i=>i.type==='task'&&i.startDate&&sprintNumForDate(i.startDate)===sprint.num&&!['done','cancelled','placeholder'].includes(i.status));
   const pct=cap.hrsPerSprint?Math.round(cap.plannedHrs/cap.hrsPerSprint*100):0;
   return{cap,all,pct,health:pct>100?'OVERLOADED':pct>80?'STRETCHED':'HEALTHY',notReady:all.filter(i=>!['ready','na'].includes(i.planningStage)),missingEstimate:all.filter(i=>!(Number(i.estimatedMins)>0)),legacy:all.filter(isLegacySprintTask),activatedAt:g.activatedAt};
 }
@@ -20850,7 +20855,7 @@ function calcSprintCapacity(sprint){
   const counted=tasks.filter(t=>t.planningStage==='ready'&&t.status!=='onhold'); // v329 — only Ready Tasks consume capacity
   const plannedMins=counted.reduce((s,t)=>s+(Number(t.estimatedMins)||0),0);
   const plannedHrs=Math.round(plannedMins/60*10)/10;
-  const completedMins=(S.items||[]).filter(t=>t.type==='task'&&t.startDate&&sprintNumForDate(t.startDate)===sprint.num&&t.planningStage==='ready'&&t.status==='done').reduce((s,t)=>s+(Number(t.estimatedMins)||0),0);
+  const completedMins=(masterPlanItems()).filter(t=>t.type==='task'&&t.startDate&&sprintNumForDate(t.startDate)===sprint.num&&t.planningStage==='ready'&&t.status==='done').reduce((s,t)=>s+(Number(t.estimatedMins)||0),0);
   const completedHrs=Math.round(completedMins/60*10)/10;
   const availCap=Math.round((hrsPerSprint-plannedHrs)*10)/10;
   let capStatus='On Track';
@@ -20898,7 +20903,7 @@ function getSprintTasks(sprint){
 
 function getSprintInFlightTasks(sprint){
   // Tasks that started before this sprint but end date overlaps (TCD >= sprint.start and < sprint.end, or still in progress)
-  return S.items.filter(i=>
+  return masterPlanItems().filter(i=>
     i.type==='task'&&
     i.status!=='placeholder'&&
     i.startDate&&
@@ -20910,7 +20915,7 @@ function getSprintInFlightTasks(sprint){
 
 // ── SPRINT RELEASES TABLE ────────────────────────────────────────────────
 function getSprintReleases(sprint){
-  return (S.items||[]).filter(i=>i.type==='release'&&i.status!=='placeholder'&&i.sprint===sprint.num);
+  return (masterPlanItems()).filter(i=>i.type==='release'&&i.status!=='placeholder'&&i.sprint===sprint.num);
 }
 function renderChangeCapsSettings(){
   const caps=loadChangeCaps();
@@ -21511,7 +21516,7 @@ function migrateInitiativeListsToTagsV297(){
     var l=(S.lists||[]).find(x=>x.id===c.legacyId||String(x.name||'').toLowerCase()===c.name.toLowerCase());
     if(l&&l.system){l.system=false;changed=true;}
   });
-  (S.items||[]).forEach(i=>{
+  (masterPlanItems()).forEach(i=>{
     var ids=(i.listIds||[i.listId]).filter(Boolean);
     if(applyInitiativeTagsV297(i))changed=true;
     Object.values(INITIATIVE_TAGS_V297).forEach(c=>{
@@ -21548,7 +21553,7 @@ window.initiativeSearchV308=window.initiativeSearchV308||'';
 window.initiativeSortV308=window.initiativeSortV308||'date';
 
 function initiativeItemsV308(c,includePlaceholders=true){
-  return (S.items||[]).filter(i=>itemHasInitiativeTag(i,c.legacyId)&&(includePlaceholders||i.status!=='placeholder'));
+  return (masterPlanItems()).filter(i=>itemHasInitiativeTag(i,c.legacyId)&&(includePlaceholders||i.status!=='placeholder'));
 }
 function initiativeTypeLabelV308(t){return ({clientbuild:'Client Build',content:'Content',product:'Product',project:'Project',goal:'Goal',task:'Task',event:'Event',habit:'Habit',course:'Course',patch:'Patch',challenge:'Challenge',ask:'Ask',phase:'Phase',automation:'Automation',release:'Release',change:'Change'}[t]||String(t||'Other'));}
 function initiativeDateV308(i){return i.date||i.targetDate||i.startDate||'';}
@@ -21894,7 +21899,7 @@ let ptExpanded=null;
 
 // Get all action items that are patch challenges (in patches list or Patch Challenge category)
 function getPatchItems(){
-  return S.items.filter(i=>i.type==='patch');
+  return masterPlanItems().filter(i=>i.type==='patch');
 }
 
 // Find an action item matching a PATCH_DATA entry by seqNum or name
@@ -30008,8 +30013,9 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
  function businessScoped(i){
    if(!i||!BCC_TYPES.has(norm(i.type)))return false;
-   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[])];
-   if(refs.some(v=>BUSINESS_NAMES.has(norm(v))||BUSINESS_NAMES.has(listName(v))))return true;
+   const rawRefs=[i.listId,i.list,i.listName,i.primaryList,i.primaryListId];
+   const refs=[...(Array.isArray(i.listIds)?i.listIds:[i.listIds]),...(Array.isArray(i.lists)?i.lists:[i.lists]),...rawRefs].filter(v=>v!=null&&v!=='');
+   if(refs.some(v=>{const id=(v&&typeof v==='object')?(v.id??v.value??v.name):v;const nm=(v&&typeof v==='object')?(v.name??v.label??v.value):v;return BUSINESS_NAMES.has(norm(id))||BUSINESS_NAMES.has(norm(nm))||BUSINESS_NAMES.has(listName(id))||BUSINESS_NAMES.has(listName(nm));}))return true;
    const brand=norm(i.productBrand||i.ipBrand||i.brand);
    return brand==='rla'||brand.includes('savvy foundations')||brand.includes('savvy structure');
  }
@@ -30083,14 +30089,14 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  function seed(){
    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='377'))return true;
-   const x=makeItem({name:'v377 — Master Plan BCC Separation',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-26',date:'2026-08-26',estimatedMins:15,screenTimeRequired:'Yes',releaseVersion:'377',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Master Plan','Business Command Center'],releaseChangelog:'Removed BCC-owned business Action Items from Master Plan views only. Business-scoped Goal, Ask, Change, Client Build, Content, Industry Profile, Product, Phase, Release, Task and Workflow records associated with Business, RLA, Savvy Foundations or Savvy Structure no longer appear in Master Plan period lenses, Today’s Focus, Active Now, Sprint, Focus-period, Monthly, Goal or Habit render paths.',releaseNotes:'This is a view-only separation. No Action Items were deleted, moved, or changed, and non-Master-Plan LCC pages remain unchanged.',releaseSummary:'Keeps the LCC Master Plan personal while BCC-owned work stays out of its views.',releaseUserGuide:'Use the LCC Master Plan for personal/life planning. Business Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are intentionally hidden there and remain available to the Business Command Center and unchanged elsewhere in LCC.',releaseTechnicalNotes:'Adds a Master Plan-only business-scope gate using the same BCC scope rule established in v374. Master Plan render functions temporarily receive a personal-only S.items view and restore the full state immediately after rendering. No new type, field, module or linkable object was added.',updatedAt:Date.now()});
+   const x=makeItem({name:'v377 — Master Plan BCC Separation',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-26',date:'2026-08-26',estimatedMins:15,screenTimeRequired:'Yes',releaseVersion:'377',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Master Plan','Business Command Center'],releaseChangelog:'Removed BCC-owned business Action Items from Master Plan views only and hardened the filter so all Master Plan data reads use a canonical personal-only source, including legacy/current List storage shapes and Sprint rendering. Business-scoped Goal, Ask, Change, Client Build, Content, Industry Profile, Product, Phase, Release, Task and Workflow records associated with Business, RLA, Savvy Foundations or Savvy Structure no longer appear in Master Plan period lenses, Today’s Focus, Active Now, Sprint, Focus-period, Monthly, Goal or Habit render paths.',releaseNotes:'This is a view-only separation. No Action Items were deleted, moved, or changed, and non-Master-Plan LCC pages remain unchanged.',releaseSummary:'Keeps the LCC Master Plan personal while BCC-owned work stays out of its views.',releaseUserGuide:'Use the LCC Master Plan for personal/life planning. Business Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are intentionally hidden there and remain available to the Business Command Center and unchanged elsewhere in LCC.',releaseTechnicalNotes:'Adds a Master Plan-only business-scope gate using the same BCC scope rule established in v374. Master Plan render functions temporarily receive a personal-only S.items view and restore the full state immediately after rendering. No new type, field, module or linkable object was added.',updatedAt:Date.now()});
    x.listNums=x.listNums||{};x.listNums.releases=377;x.seqNum='377';S.items.push(x);try{save()}catch(_){}return true;
  }
  let n=0,t=setInterval(()=>{if(seed()||++n>40)clearInterval(t)},250);
 })();
 </script>
 <!-- USER GUIDE: v377 — The Master Plan is now personal-only. BCC-owned Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are hidden from Master Plan views without being deleted or removed from other LCC pages. -->
-<!-- CHANGE LOG: v377 — Added a Master Plan-only BCC scope filter across period lenses, Today’s Focus, Active Now, Sprint, focus-period, monthly, goal and habit rendering. Updated tab title and Master Plan hero to v377. -->
+<!-- CHANGE LOG: v377 — Added and hardened a Master Plan-only BCC scope filter across period lenses, Today’s Focus, Active Now, Sprint, focus-period, monthly, goal and habit rendering. Master Plan now reads through a canonical personal-only item source and recognizes current/legacy List storage shapes. Updated tab title and Master Plan hero/sidebar to v377. -->
 <!-- RELEASE NOTES: v377 — View-separation patch. Business/BCC records remain intact in LCC data and other LCC views; only Master Plan presentation is filtered. -->
 </body>
 </html>
