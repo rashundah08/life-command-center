@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v386</title>
+<title>LCC v387</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v386</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v387</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1408,6 +1408,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
             <option value="deferred">⏸️ Deferred</option>
           </select>
         </div>
+
         <div id="ld-cb-filters" style="display:none;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap"></div>
         <div id="ld-items" style="margin-left:0;padding-left:0"></div>
         </div><!-- /ld-workspace -->
@@ -1509,7 +1510,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v386</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v387</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -13218,7 +13219,7 @@ let _ldLastFingerprint=null;
 function renderListDetail(){
   if(!S.activeList)return;
   const relFiltersEl=document.getElementById('ld-release-filters');
-  if(relFiltersEl)relFiltersEl.style.display=S.activeList==='releases'?'flex':'none';
+  if(relFiltersEl)relFiltersEl.style.display=S.activeList==='changes'?'flex':'none';
   if(S.activeList!=='releases'&&typeof renderReleasesSprintSection==='function')renderReleasesSprintSection();   // v386 — Release Sprint moved to Dashboard
   let li;
   if(S.activeList==='nos'){
@@ -13227,14 +13228,14 @@ function renderListDetail(){
     li=S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(S.activeList));
     li=applyTagFilter(applyCatFilter(applyFilter(li,ldFilter),ldCats),ldTags,ldTagMode); // v255
   }
-  const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
-  if(hideDone)li=li.filter(i=>i.status!=='done'&&i.status!=='cancelled');
-  if(S.activeList==='releases'){
+  if(S.activeList==='changes'){
     const ctFilter=(document.getElementById('ld-change-type')||{value:''}).value;
     const csFilter=(document.getElementById('ld-change-status')||{value:''}).value;
     if(ctFilter)li=li.filter(i=>i.type==='change'&&i.changeType===ctFilter);
     if(csFilter)li=li.filter(i=>i.type==='change'&&i.changeStatus===csFilter);
   }
+  const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
+  if(hideDone)li=li.filter(i=>i.status!=='done'&&i.status!=='cancelled');
   // Only use list-specific search (not global gsearch) to avoid cross-contamination
   const search=((document.getElementById('ld-search')||{value:''}).value).toLowerCase();
   li=li.filter(i=>!search||(((i.name||'')+(i.patchCategory||'')+(i.challengeDetails||'')+(i.notes||'')).toLowerCase().includes(search)));
@@ -13377,20 +13378,19 @@ function renderListDetail(){
       const startCell=dateinp(i.startDate||'',`inlineField('${rid}','startDate',this.value)`);
       const targetCell=dateinp(i.date||'',`inlineField('${rid}','date',this.value)`);
       const completeCell=dateinp(i.completedDate||'',`inlineField('${rid}','completedDate',this.value)`);
-      const durationCell=`<div style="white-space:nowrap"><input class="tbl-inp" type="number" min="0" value="${i.duration??''}" placeholder="#" style="width:52px" onclick="event.stopPropagation()" onchange="inlineField('${rid}','duration',this.value===''?null:Number(this.value))"> ${sel([['days','d'],['weeks','w'],['months','mo'],['years','yr']],i.durationUnit||'days',`inlineField('${rid}','durationUnit',this.value)`)}</div>`;
       const notesCell=inp(i.notes||i.releaseNotes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
       const releaseTypeCell=isRel?sel([['','— Select —'],['major','Major'],['minor','Minor'],['patch','Patch'],['hotfix','Hotfix'],['infrastructure','Infrastructure']],i.releaseType||'',`inlineField('${rid}','releaseType',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
       const releaseStatusCell=isRel?sel([['','— Select —'],['building','Building'],['ready','Ready'],['testing','Testing'],['released','Released'],['shipped','Shipped'],['cancelled','Cancelled']],i.releaseStatus||'',`inlineField('${rid}','releaseStatus',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
       const modulesCell=inp(modules.join(', '),`inlineModulesField('${rid}','${moduleField}',this.value)`,'Modules...');
       const testCell=sel([['','— Test —'],['testing','Testing'],['passed','Passed'],['failed','Failed'],['blocked','Blocked'],['notrequired','Not Required']],i.testResult||'',`inlineField('${rid}','testResult',this.value)`);
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${rid}')">
+        <td onclick="event.stopPropagation()" style="text-align:center"><input type="checkbox" class="rel-row-chk" data-id="${rid}" ${selectedIds.has(rid)?'checked':''} onclick="event.stopPropagation();toggleSelect('${rid}',this.checked)" style="accent-color:var(--teal);width:14px;height:14px;cursor:pointer"></td>
         <td onclick="event.stopPropagation()" style="min-width:70px">${verCell}</td>
         <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:220px" onclick="event.stopPropagation()">${nameCell}</td>
         <td onclick="event.stopPropagation()">${statusCell}</td>
         <td onclick="event.stopPropagation()">${startCell}</td>
         <td onclick="event.stopPropagation()">${targetCell}</td>
         <td onclick="event.stopPropagation()">${completeCell}</td>
-        <td onclick="event.stopPropagation()">${durationCell}</td>
         <td style="min-width:180px" onclick="event.stopPropagation()">${notesCell}</td>
         <td onclick="event.stopPropagation()">${releaseTypeCell}</td>
         <td onclick="event.stopPropagation()">${releaseStatusCell}</td>
@@ -13434,13 +13434,13 @@ function renderListDetail(){
         <th ${th('target')} onclick="ldSort('target')">Target Date ${thA('target')}</th>
         <th ${th('complete')} onclick="ldSort('complete')">Complete Date ${thA('complete')}</th>
         <th style="width:36px"></th>`;
-  const releasesHead=`<th style="min-width:70px">Version</th>
+  const releasesHead=`<th style="width:34px;text-align:center"><input type="checkbox" title="Select all visible releases" onclick="event.stopPropagation();toggleReleaseVisible(this.checked)" style="accent-color:var(--teal);width:14px;height:14px;cursor:pointer"></th>
+        <th style="min-width:70px">Version</th>
         <th ${th('name')} onclick="ldSort('name')" style="min-width:200px">Name ${thA('name')}</th>
         <th ${th('status')} onclick="ldSort('status')">Status ${thA('status')}</th>
         <th ${th('start')} onclick="ldSort('start')">Start ${thA('start')}</th>
         <th ${th('target')} onclick="ldSort('target')">Target ${thA('target')}</th>
         <th ${th('complete')} onclick="ldSort('complete')">Completed ${thA('complete')}</th>
-        <th>Duration</th>
         <th style="min-width:180px">Notes</th>
         <th>Release Type</th>
         <th>Release Status</th>
@@ -13448,12 +13448,20 @@ function renderListDetail(){
         <th>Test Results</th>
         <th style="width:50px">Linked</th>
         <th style="width:36px"></th>`
-  cont.innerHTML=`<div class="ld-table-wrap">
+  const releaseBulkBar=S.activeList==='releases'?`<div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap"><button class="btn xs" onclick="openBulkFromSelection()">⚡ Update Selected</button><button class="btn xs ghost" onclick="clearReleaseSelection()">Clear Selection</button><span style="font-size:10px;color:var(--txt3)">Select release rows with the checkboxes, then update them together.</span></div>`:'';
+  cont.innerHTML=`${releaseBulkBar}<div class="ld-table-wrap">
     <table class="ld-table">
       <thead><tr>${S.activeList==='patches'?patchHead:(isNos?nosHead:(S.activeList==='releases'?releasesHead:defaultHead))}</tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>${_ldTotal>_ldShown?`<div style="text-align:center;padding:12px"><button class="btn sm" onclick="loadMoreListDetail()">Load ${Math.min(_LD_PAGE,_ldTotal-_ldShown)} more (${_ldTotal-_ldShown} remaining)</button></div>`:(_ldTotal>_LD_PAGE?`<div style="text-align:center;padding:8px;font-size:11px;color:var(--txt3)">Showing all ${_ldTotal}</div>`:'')}`;
+}
+function toggleReleaseVisible(checked){
+  document.querySelectorAll('#ld-items .rel-row-chk').forEach(chk=>{chk.checked=checked;toggleSelect(chk.dataset.id,checked);});
+}
+function clearReleaseSelection(){
+  document.querySelectorAll('#ld-items .rel-row-chk').forEach(chk=>{chk.checked=false;selectedIds.delete(chk.dataset.id);});
+  updateBulkBar();
 }
 function loadMoreListDetail(){
   _ldShown+=_LD_PAGE;
@@ -30643,6 +30651,22 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v385 — Home Inventory goal counts catalog records. Use Inventory filters + Card/Table views to clean imported data; Missing Details flags identify incomplete records. -->
 <!-- CHANGE LOG: v385 — Stabilized goal metric, filters, views, taxonomy/room controls, editable inventory table and collapsed action-item sections. -->
 <!-- RELEASE NOTES: v385 — Existing Inventory data preserved; quantity is secondary context and no longer drives 10,000-goal progress. -->
+
+<!-- USER GUIDE: v387 — Release Workspace no longer shows Duration or Change Type/Change Status filters. Select one or more Release rows with the new checkboxes, then choose Update Selected to open Bulk Update with only those Release records pre-selected. Linked indicators and the requested editable Release fields remain available. -->
+<!-- CHANGE LOG: v387 — Removed Duration from Release Workspace, removed Change Type and Change Status filters from the Release view, and added row/header multi-select controls with Update Selected and Clear Selection actions. Existing Release data and v386 persistence protections are unchanged. -->
+<!-- RELEASE NOTES: v387 — Release Workspace usability update. No new Action Item type, field, module, or linkable object was added; existing Bulk Add/Bulk Update, type filters, inline type selector, linked-item maps, tBadge, validation, progress, applyFilter, and export remain schema-compatible. -->
+<script id="lcc-v387-release-workspace-multiselect">
+(function(){
+ const V='387';
+ function ensure387(){
+  if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+  if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===V))return false;
+  const x=makeItem({name:'v387 — Release Workspace Multi-Select Cleanup',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:15,screenTimeRequired:'Yes',releaseVersion:V,releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management','Bulk Update'],releaseChangelog:'Removed Duration from the Release Workspace, removed Change Type/Change Status filters from the Release view, and added checkbox multi-select with Update Selected and Clear Selection actions.',releaseNotes:'Release records can now be selected directly in the Workspace and sent together to Bulk Update. Duration is no longer displayed in the Release table, and Change filters no longer appear in Release Management.',releaseSummary:'Release Workspace multi-select and view cleanup.',releaseUserGuide:'In Release Management → Workspace, check the releases you want to change and click Update Selected. Use the existing Bulk Update editor to apply changes to those selected releases. Duration and Change filters are no longer shown in this view.',releaseTechnicalNotes:'Surgical v387 update on v386. No schema changes; selection reuses selectedIds/openBulkFromSelection and existing Bulk Update behavior.',updatedAt:Date.now()});
+  x.listNums=x.listNums||{};x.listNums.releases=387;x.seqNum='387';S.items.push(x);try{save()}catch(_){}return true;
+ }
+ let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&typeof makeItem==='function'){ensure387();clearInterval(t)}else if(++n>60)clearInterval(t)},250);
+})();
+</script>
 
 </body>
 </html>
