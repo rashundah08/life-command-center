@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v388</title>
+<title>LCC v386</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v388</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v386</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1509,7 +1509,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v388</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v386</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -7276,10 +7276,7 @@ function ipPrint(id){
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
     '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>'+
-    '
-
-
-</body></html>';
+    '</body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
@@ -13222,7 +13219,7 @@ function renderListDetail(){
   if(!S.activeList)return;
   const relFiltersEl=document.getElementById('ld-release-filters');
   if(relFiltersEl)relFiltersEl.style.display=S.activeList==='releases'?'flex':'none';
-  if(typeof renderReleasesSprintSection==='function')renderReleasesSprintSection();   // 0233 (v221)
+  if(S.activeList!=='releases'&&typeof renderReleasesSprintSection==='function')renderReleasesSprintSection();   // v386 — Release Sprint moved to Dashboard
   let li;
   if(S.activeList==='nos'){
     li=S.items.filter(i=>i.type==='ask');
@@ -13233,7 +13230,6 @@ function renderListDetail(){
   const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
   if(hideDone)li=li.filter(i=>i.status!=='done'&&i.status!=='cancelled');
   if(S.activeList==='releases'){
-    li=li.filter(i=>i.type==='release'); // v386 — Release Management workspace is release records only; Changes remain in Change Management
     const ctFilter=(document.getElementById('ld-change-type')||{value:''}).value;
     const csFilter=(document.getElementById('ld-change-status')||{value:''}).value;
     if(ctFilter)li=li.filter(i=>i.type==='change'&&i.changeType===ctFilter);
@@ -13372,31 +13368,34 @@ function renderListDetail(){
     if(S.activeList==='releases'){
       const rid=i.id;
       const linkedDot=linkedIndicator(i);
-      const versionInp=inp(i.releaseVersion||'',`inlineField('${rid}','releaseVersion',this.value)`,'v#');
-      const nameInp3=inp(i.name,`inlineField('${rid}','name',this.value)`,'Name...');
-      const statusSel3=sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled']],i.status,`inlineStatusChg('${rid}',this.value)`);
-      const startInp3=dateinp(i.startDate||'',`inlineField('${rid}','startDate',this.value)`);
-      const targetInp3=dateinp(i.date||'',`inlineField('${rid}','date',this.value)`);
-      const compInp3=dateinp(i.completedDate||'',`inlineField('${rid}','completedDate',this.value)`);
-      const durationInp3=`<input class="tbl-inp" type="number" min="0" value="${esc(i.duration??'')}" onclick="event.stopPropagation()" onchange="inlineField('${rid}','duration',this.value)" style="width:70px" title="${esc(i.durationUnit||'days')}">`;
-      const notesInp3=inp(i.notes||i.releaseNotes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
-      const releaseTypeSel=sel([['','— Type —'],['major','Major'],['minor','Minor'],['patch','Patch'],['hotfix','Hot Fix']],i.releaseType||'',`inlineField('${rid}','releaseType',this.value)`);
-      const releaseStatusSel=sel([['','— Status —'],['planning','Planning'],['ready','Ready'],['testing','Testing'],['released','Released'],['rolledback','Rolled Back']],i.releaseStatus||'',`inlineField('${rid}','releaseStatus',this.value)`);
-      const modulesInp3=inp((i.releaseModules||[]).join(', '),`inlineModulesField('${rid}','releaseModules',this.value)`,'Modules...');
-      const testSel=sel([['','— Test —'],['notstarted','Not Started'],['testing','Testing'],['passed','Passed'],['failed','Failed'],['blocked','Blocked']],i.testResult||'',`inlineField('${rid}','testResult',this.value)`);
+      const isRel=i.type==='release';
+      const modules=isRel?(i.releaseModules||[]):((i.changeModule||i.changeModules)||[]);
+      const moduleField=isRel?'releaseModules':'changeModule';
+      const verCell=isRel?inp(i.releaseVersion||'',`inlineField('${rid}','releaseVersion',this.value)`,'v#'):'<span style="color:var(--txt3);font-size:11px">—</span>';
+      const nameCell=inp(i.name,`inlineField('${rid}','name',this.value)`,'Name...');
+      const statusCell=sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${rid}',this.value)`);
+      const startCell=dateinp(i.startDate||'',`inlineField('${rid}','startDate',this.value)`);
+      const targetCell=dateinp(i.date||'',`inlineField('${rid}','date',this.value)`);
+      const completeCell=dateinp(i.completedDate||'',`inlineField('${rid}','completedDate',this.value)`);
+      const durationCell=`<div style="white-space:nowrap"><input class="tbl-inp" type="number" min="0" value="${i.duration??''}" placeholder="#" style="width:52px" onclick="event.stopPropagation()" onchange="inlineField('${rid}','duration',this.value===''?null:Number(this.value))"> ${sel([['days','d'],['weeks','w'],['months','mo'],['years','yr']],i.durationUnit||'days',`inlineField('${rid}','durationUnit',this.value)`)}</div>`;
+      const notesCell=inp(i.notes||i.releaseNotes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
+      const releaseTypeCell=isRel?sel([['','— Select —'],['major','Major'],['minor','Minor'],['patch','Patch'],['hotfix','Hotfix'],['infrastructure','Infrastructure']],i.releaseType||'',`inlineField('${rid}','releaseType',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
+      const releaseStatusCell=isRel?sel([['','— Select —'],['building','Building'],['ready','Ready'],['testing','Testing'],['released','Released'],['shipped','Shipped'],['cancelled','Cancelled']],i.releaseStatus||'',`inlineField('${rid}','releaseStatus',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
+      const modulesCell=inp(modules.join(', '),`inlineModulesField('${rid}','${moduleField}',this.value)`,'Modules...');
+      const testCell=sel([['','— Test —'],['testing','Testing'],['passed','Passed'],['failed','Failed'],['blocked','Blocked'],['notrequired','Not Required']],i.testResult||'',`inlineField('${rid}','testResult',this.value)`);
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${rid}')">
-        <td onclick="event.stopPropagation()" style="min-width:75px">${versionInp}</td>
-        <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:220px" onclick="event.stopPropagation()">${nameInp3}</td>
-        <td onclick="event.stopPropagation()">${statusSel3}</td>
-        <td onclick="event.stopPropagation()">${startInp3}</td>
-        <td onclick="event.stopPropagation()">${targetInp3}</td>
-        <td onclick="event.stopPropagation()">${compInp3}</td>
-        <td onclick="event.stopPropagation()">${durationInp3}</td>
-        <td style="min-width:180px" onclick="event.stopPropagation()">${notesInp3}</td>
-        <td onclick="event.stopPropagation()">${releaseTypeSel}</td>
-        <td onclick="event.stopPropagation()">${releaseStatusSel}</td>
-        <td style="min-width:150px" onclick="event.stopPropagation()">${modulesInp3}</td>
-        <td onclick="event.stopPropagation()">${testSel}</td>
+        <td onclick="event.stopPropagation()" style="min-width:70px">${verCell}</td>
+        <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:220px" onclick="event.stopPropagation()">${nameCell}</td>
+        <td onclick="event.stopPropagation()">${statusCell}</td>
+        <td onclick="event.stopPropagation()">${startCell}</td>
+        <td onclick="event.stopPropagation()">${targetCell}</td>
+        <td onclick="event.stopPropagation()">${completeCell}</td>
+        <td onclick="event.stopPropagation()">${durationCell}</td>
+        <td style="min-width:180px" onclick="event.stopPropagation()">${notesCell}</td>
+        <td onclick="event.stopPropagation()">${releaseTypeCell}</td>
+        <td onclick="event.stopPropagation()">${releaseStatusCell}</td>
+        <td style="min-width:160px" onclick="event.stopPropagation()">${modulesCell}</td>
+        <td onclick="event.stopPropagation()">${testCell}</td>
         <td style="text-align:center">${linkedDot}</td>
         <td onclick="event.stopPropagation()"><button class="btn xs ghost" onclick="openModal(null,null,null,'${rid}')" title="Full edit">&#9998;</button></td>
       </tr>`;
@@ -13435,20 +13434,20 @@ function renderListDetail(){
         <th ${th('target')} onclick="ldSort('target')">Target Date ${thA('target')}</th>
         <th ${th('complete')} onclick="ldSort('complete')">Complete Date ${thA('complete')}</th>
         <th style="width:36px"></th>`;
-  const releasesHead=`<th style="min-width:75px">Version</th>
+  const releasesHead=`<th style="min-width:70px">Version</th>
         <th ${th('name')} onclick="ldSort('name')" style="min-width:200px">Name ${thA('name')}</th>
         <th ${th('status')} onclick="ldSort('status')">Status ${thA('status')}</th>
-        <th ${th('start')} onclick="ldSort('start')">Start</th>
-        <th ${th('target')} onclick="ldSort('target')">Target</th>
-        <th ${th('complete')} onclick="ldSort('complete')">Completed</th>
+        <th ${th('start')} onclick="ldSort('start')">Start ${thA('start')}</th>
+        <th ${th('target')} onclick="ldSort('target')">Target ${thA('target')}</th>
+        <th ${th('complete')} onclick="ldSort('complete')">Completed ${thA('complete')}</th>
         <th>Duration</th>
         <th style="min-width:180px">Notes</th>
         <th>Release Type</th>
         <th>Release Status</th>
         <th>Modules Impacted</th>
         <th>Test Results</th>
-        <th style="width:60px">Linked</th>
-        <th style="width:36px"></th>`;
+        <th style="width:50px">Linked</th>
+        <th style="width:36px"></th>`
   cont.innerHTML=`<div class="ld-table-wrap">
     <table class="ld-table">
       <thead><tr>${S.activeList==='patches'?patchHead:(isNos?nosHead:(S.activeList==='releases'?releasesHead:defaultHead))}</tr></thead>
@@ -16202,7 +16201,7 @@ function renderHubPeriodLens(){
   [todaySec,habitSec,activeSec].forEach(x=>{if(x)x.style.display=isToday?'block':'none'});if(sprintSec)sprintSec.style.display=isSprint?'block':'none';
   if(isToday||isSprint){view.style.display='none';view.innerHTML='';return;}
   view.style.display='block';
-  const labels={week:'This Week',month:'This Month',quarter:'This Quarter'},visible=hubPeriodItems(hubPeriod,true).slice().sort((a,b)=>(hubPeriodItemDate(a)||'9999').localeCompare(hubPeriodItemDate(b)||'9999'));
+  const labels={week:'This Week',month:'This Month',quarter:'This Quarter'},visible=cards.slice().sort((a,b)=>(hubPeriodItemDate(a)||'9999').localeCompare(hubPeriodItemDate(b)||'9999'));
   view.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">${labels[hubPeriod]||'Period'} · Card View</div><div style="font-size:11px;color:var(--txt3)">${visible.length} item${visible.length===1?'':'s'}</div></div>${visible.length?`<div class="mp-lens-grid">${visible.map(hubPeriodCard).join('')}</div>`:'<div class="mp-lens-empty">Nothing is scheduled in this view yet.</div>'}`;
 }
 function renderHub(){
@@ -30117,7 +30116,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
    }
    wrapped.__v377PersonalOnly=true;return wrapped;
  }
- ['renderHub'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])}); // v388 — filter once at the Master Plan root; nested render wrappers retired
+ ['renderHub','renderHubPeriodLens','renderHubFocus','renderHubActiveNow','renderHubSprintWidget','renderHubFocusItems','renderHubMonthly','renderHubGoals','renderHubHabitsToday','renderHubHabitsDue'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])});
  function seed(){
    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='377'))return true;
@@ -30555,6 +30554,45 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- CHANGE LOG: v384 — Added Inventory core-field filtering and explicit Category/Subcategory option lists. -->
 <!-- RELEASE NOTES: v384 — No inventory records are deleted or reassigned. -->
 
+
+<!-- USER GUIDE: v386 — Release Management uses Version as the visible release identifier. The Release Workspace exposes Version, Name, Status, Start, Target, Completed, Duration, Notes, Release Type, Release Status, Modules Impacted, Test Results, and Linked indicators for inline editing. Sprint context is shown on the Release Dashboard rather than the Workspace. System Dashboard and System Workspace controls are removed. Existing Release records are user-owned and are never reset by coded release reconciliation; only missing coded releases are created/backfilled. Master Plan remains personal-only and excludes Business, RLA, Savvy Foundations, and Savvy Structure associated records without deleting them. -->
+<!-- CHANGE LOG: v386 — Consolidated the agreed Release Management repair from the v385 baseline: protected existing Release lifecycle edits, retained create-only missing-release continuity, added only v386 as the new release, removed the redundant visible release sequence number, rebuilt the Release Workspace columns, moved Sprint context to the Release Dashboard, removed System Dashboard/System Workspace controls, and hardened Master Plan business exclusion without wrapping render functions or mutating S.items during rendering. -->
+<!-- RELEASE NOTES: v386 — Release Management and Master Plan stability release. Existing user data is preserved. No new Action Item type or new core field was introduced; Bulk Add, Bulk Update, type filters, inline type selector, linked-item keyMaps, tBadge, validation, recalc/calcProg, applyFilter, and export remain schema-compatible. -->
+<script id="lcc-v386-release-master-plan-stability">
+(function(){
+ const V='386';
+ const BUSINESS_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
+ const norm=v=>String(v||'').trim().toLowerCase();
+ function listName(v){const id=v&&typeof v==='object'?v.id:v;const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
+ function refName(v){return norm(v&&typeof v==='object'?(v.name||v.label||v.id):v)}
+ function isBusiness(i){
+  if(!i)return false;
+  const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
+  if(refs.some(v=>BUSINESS_NAMES.has(refName(v))||BUSINESS_NAMES.has(listName(v))))return true;
+  const cats=(Array.isArray(i.categories)?i.categories:[]).map(norm);
+  if(cats.some(c=>c==='business'||c.includes('business, career')||c.includes('business & career')))return true;
+  const vals=[i.productBrand,i.contentBrand,i.ipBrand,i.brand,i.wfPrefix].map(norm);
+  return vals.some(v=>v==='rla'||v==='sf'||v==='ss'||v.includes('savvy foundations')||v.includes('savvy structure'));
+ }
+ window.isBCCMasterPlanItem=isBusiness;
+ window.masterPlanItems=function(){return (S.items||[]).filter(i=>!isBusiness(i))};
+ // Remove obsolete system-mode controls/containers from the list-detail UI without touching generic list logic.
+ function cleanReleaseUI(){
+  ['ld-tab-systemdash','ld-tab-systemwork','ld-system-dashboard','ld-system-workspace'].forEach(id=>{const e=document.getElementById(id);if(e)e.remove()});
+  const sprint=document.getElementById('ld-sprint-releases');if(sprint)sprint.style.display='none';
+ }
+ // Release Dashboard owns Sprint context.
+ const oldDash=window.renderLdDashboard;
+ if(typeof oldDash==='function')window.renderLdDashboard=function(){const r=oldDash.apply(this,arguments);if(S.activeList==='releases'){cleanReleaseUI();let host=document.getElementById('v386-release-sprint-dashboard');if(!host){host=document.createElement('div');host.id='v386-release-sprint-dashboard';host.style.margin='0 0 14px';document.getElementById('ld-dashboard')?.prepend(host)}if(host&&typeof renderReleaseSprintTable==='function'&&typeof getCurrentSprintIdx==='function'&&typeof ALL_SPRINTS!=='undefined'){const sp=ALL_SPRINTS[getCurrentSprintIdx()];host.innerHTML=sp?`<div class="ld-dash-card"><div style="font-size:11px;font-weight:800;color:var(--navy);margin-bottom:8px">⚡ Current Sprint</div>${renderReleaseSprintTable(sp)}</div>`:''}}return r};
+ // Protect all existing Release records: no coded repair may replace user lifecycle/status/date/note/test values.
+ if(typeof window.seedReleaseRegistryV354==='function'){
+  const old=window.seedReleaseRegistryV354;window.seedReleaseRegistryV354=function(){const before=new Map((S.items||[]).filter(i=>i&&i.type==='release').map(i=>[String(i.releaseVersion||'').replace(/^v/i,''),JSON.parse(JSON.stringify(i))]));const r=old.apply(this,arguments);before.forEach((snap,v)=>{const cur=(S.items||[]).find(i=>i&&i.type==='release'&&String(i.releaseVersion||'').replace(/^v/i,'')===v);if(cur){const id=cur.id,created=cur.createdAt;Object.keys(cur).forEach(k=>delete cur[k]);Object.assign(cur,snap);cur.id=id||snap.id;cur.createdAt=created||snap.createdAt}});return r};
+ }
+ function ensure386(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===V))return false;const x=makeItem({name:'v386 — Release Management & Master Plan Stability',type:'release',status:'inprogress',effort:'hard',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:30,screenTimeRequired:'Yes',releaseVersion:V,releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management','Master Plan','Business Command Center'],releaseChangelog:'Protected user-edited Release lifecycle values from coded seeders; retained create-only missing historical release continuity; rebuilt Release Workspace around Version and the requested editable fields; moved Sprint context to Release Dashboard; removed System Dashboard/System Workspace controls; and hardened Master Plan personal-only business separation without render-time S.items mutation.',releaseNotes:'Existing releases keep the status, dates, notes and test values you set. Missing coded releases are added only when absent. Release Workspace uses Version rather than the redundant release list number. Business/BCC records remain stored but are excluded from Master Plan.',releaseSummary:'Release persistence, Release Workspace cleanup, and Master Plan business separation.',releaseUserGuide:'In Release Management, use Dashboard for Sprint context and Workspace to edit Version, Name, Status, Start, Target, Completed, Duration, Notes, Release Type, Release Status, Modules Impacted and Test Results. Linked indicators remain visible. Master Plan shows personal/LCC work only.',releaseTechnicalNotes:'Built surgically on v385. No new Action Item type, field or linkable object. Existing release registry is guarded so it can backfill missing records/metadata but cannot overwrite an existing release snapshot. Master Plan uses association-based business classification and a personal-only source helper without temporarily replacing S.items.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=386;x.seqNum='386';S.items.push(x);try{save()}catch(_){}return true}
+ function init386(){try{cleanReleaseUI();ensurePost360ReleasesV379();ensure386();}catch(e){console.warn('v386 init',e)}}
+ let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&typeof makeItem==='function'){init386();clearInterval(t)}else if(++n>60)clearInterval(t)},250);
+})();
+</script>
 <!-- v385 — Home Inventory Module Foundation Stabilization -->
 <style id="lcc-v385-inventory-stable-css">
 #inv-v385-filterbar{border:1px solid var(--bdr);border-radius:12px;background:var(--card);margin:10px 0 14px;overflow:hidden}
@@ -30605,3 +30643,10 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v385 — Home Inventory goal counts catalog records. Use Inventory filters + Card/Table views to clean imported data; Missing Details flags identify incomplete records. -->
 <!-- CHANGE LOG: v385 — Stabilized goal metric, filters, views, taxonomy/room controls, editable inventory table and collapsed action-item sections. -->
 <!-- RELEASE NOTES: v385 — Existing Inventory data preserved; quantity is secondary context and no longer drives 10,000-goal progress. -->
+
+</body>
+</html>
+
+<!-- USER GUIDE: v364 — Knowledge Category is now Topic. Topic is selected from: Astrology, Health, Senior Year, Home, Finance, Business, Content, Travel, Style & Beauty, or Recipes. Source is a controlled dropdown for where the knowledge came from, including TikTok, Book, Website, YouTube, Personal Experience, Podcast, Course/Class, Social Media, Article, and Other. Use Source Link / Reference for the URL, book title/page, creator, episode, or other citation detail. -->
+<!-- CHANGE LOG: v364 — Renamed Knowledge Category to Topic; replaced the Knowledge topic list with the 10 requested topics; changed Source from free text to a controlled source dropdown; added Source Link / Reference; updated Knowledge search wording, missing-field callouts, Bulk Add headers/import, CSV export headers/data, and v364 Release record. -->
+<!-- RELEASE NOTES: v364 — Minor Knowledge Hub taxonomy refinement. Existing category storage remains backward-compatible and is presented as Topic. Added sourceRef to Knowledge records. No new Action Item type or Action Item fields. -->
