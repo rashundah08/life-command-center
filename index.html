@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v387</title>
+<title>LCC v388</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v387</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v388</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1509,7 +1509,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v387</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v388</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -30117,7 +30117,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
    }
    wrapped.__v377PersonalOnly=true;return wrapped;
  }
- ['renderHub','renderHubPeriodLens','renderHubFocus','renderHubActiveNow','renderHubSprintWidget','renderHubFocusItems','renderHubMonthly','renderHubGoals','renderHubHabitsToday','renderHubHabitsDue'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])});
+ ['renderHub'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])}); // v388 — filter once at the Master Plan root; nested render wrappers retired
  function seed(){
    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='377'))return true;
@@ -30605,65 +30605,3 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v385 — Home Inventory goal counts catalog records. Use Inventory filters + Card/Table views to clean imported data; Missing Details flags identify incomplete records. -->
 <!-- CHANGE LOG: v385 — Stabilized goal metric, filters, views, taxonomy/room controls, editable inventory table and collapsed action-item sections. -->
 <!-- RELEASE NOTES: v385 — Existing Inventory data preserved; quantity is secondary context and no longer drives 10,000-goal progress. -->
-
-<!-- v386 — Release Management & Master Plan Stability Repair -->
-<style id="lcc-v386-release-stability-css">
-#ld-tab-systemdash,#ld-tab-systemwork{display:none!important}
-</style>
-<script id="lcc-v386-release-stability">
-(function(){
-  /* Permanent Master Plan business boundary: association wins regardless of action-item type. */
-  const norm=v=>String(v||'').trim().toLowerCase();
-  function businessToken(v){const n=norm(v&&typeof v==='object'?(v.name||v.label||v.id):v);return n==='rla'||n.includes('business')||n.includes('savvy foundations')||n.includes('savvy structure');}
-  window.isBCCMasterPlanItem=function(i){
-    if(!i)return false;
-    const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
-    if(refs.some(v=>{if(businessToken(v))return true;const id=v&&typeof v==='object'?v.id:v;const l=(S.lists||[]).find(x=>String(x.id)===String(id));return l&&businessToken(l.name);}))return true;
-    if((Array.isArray(i.categories)?i.categories:[]).some(businessToken))return true;
-    return [i.productBrand,i.ipBrand,i.brand,i.business,i.company].some(businessToken);
-  };
-  /* System Dashboard/System Workspace are retired. Old calls fall back safely. */
-  const _setLdMode386=window.setLdMode;
-  window.setLdMode=function(mode){if(mode==='systemdash')mode='dashboard';if(mode==='systemwork')mode='workspace';return _setLdMode386.call(this,mode)};
-  /* Sprint belongs on Release Dashboard, not Workspace. */
-  const _renderLdDashboard386=window.renderLdDashboard;
-  window.renderLdDashboard=function(){
-    const r=_renderLdDashboard386.apply(this,arguments);
-    if(S.activeList==='releases'){
-      const dash=document.getElementById('ld-dashboard'),box=document.getElementById('ld-sprint-releases');
-      if(dash&&box){dash.appendChild(box);if(typeof renderReleasesSprintSection==='function')renderReleasesSprintSection();}
-    }
-    return r;
-  };
-  /* Existing Release records are user-owned. Only create v386 when absent. */
-  function seed386(){
-    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
-    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='386'))return true;
-    const x=makeItem({name:'v386 — Release Management & Master Plan Stability Repair',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:120,screenTimeRequired:'Yes',releaseVersion:'386',releaseType:'major',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management','Master Plan'],releaseChangelog:'Repaired Release Management persistence and workspace usability and hardened the Master Plan business boundary. Existing Release lifecycle edits remain user-owned; Release Workspace now exposes Version, Name, Status, Start/Target/Completed dates, Duration, Notes, Release Type, Release Status, Modules Impacted, Test Results and Linked indicators; Sprint moved to Dashboard; System Dashboard/System Workspace were retired; Master Plan business exclusion now recognizes any Business/RLA/Savvy association.',releaseNotes:'No historical Release record is rebuilt or reset. Missing coded historical releases continue to be created only when absent. Release sequence/list number is no longer part of the Release workspace; Version is the visible release identifier.',releaseSummary:'Release persistence, Release workspace cleanup, and permanent personal-only Master Plan boundary.',releaseUserGuide:'Release Management now uses Dashboard, Workspace and Change Log. Use Workspace to edit release details directly. Sprint information is on Dashboard. Version is the release identifier; the redundant release list number is not shown. Completed releases remain as you leave them. Master Plan excludes Business/RLA/Savvy-scoped items.',releaseTechnicalNotes:'Surgical v386 patch. Reuses existing Release fields; no new Action Item type, field, module or linkable object. Existing historical seqNum/listNums may remain in stored records for compatibility but are not used as the Release Management identifier.'});
-    S.items.push(x);try{save()}catch(_){}return true;
-  }
-  let n=0,t=setInterval(()=>{if(seed386()||++n>40)clearInterval(t)},250);
-  setTimeout(()=>{try{if(typeof renderHub==='function')renderHub()}catch(_){}},700);
-})();
-</script>
-<!-- USER GUIDE: v386 — Release Management uses Dashboard, Workspace and Change Log. Workspace edits Version, Name, Status, Start/Target/Completed dates, Duration, Notes, Release Type, Release Status, Modules Impacted and Test Results while retaining Linked indicators. Sprint is on Dashboard. Version replaces the redundant visible release list number. Master Plan is personal-only and excludes Business/RLA/Savvy-scoped records. -->
-<!-- CHANGE LOG: v386 — Hardened Master Plan business exclusion; preserved user-owned Release lifecycle state; redesigned Release Workspace columns; moved Release Sprint to Dashboard; retired System Dashboard/System Workspace; added only the v386 Release record. -->
-<!-- RELEASE NOTES: v386 — Stability repair for Release Management and Master Plan. Historical Release records are preserved; only absent coded releases are backfilled. -->
-
-<!-- v387 — Master Plan Render Recovery -->
-<script id="lcc-v387-master-plan-render-recovery">
-(function(){
- function seed387(){
-  if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
-  if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='387'))return true;
-  const x=makeItem({name:'v387 — Master Plan Render Recovery',type:'release',status:'inprogress',effort:'hard',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:30,screenTimeRequired:'Yes',releaseVersion:'387',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Master Plan','Release Management'],releaseChangelog:'Repaired the Master Plan period-lens runtime failure that left the page body blank. Period views now build their visible cards from hubPeriodItems(), which already reads through the personal-only masterPlanItems() boundary. Preserved v386 Release Management changes and removed stray content after the document closing tag.',releaseNotes:'No user Action Items or historical Release records are rewritten. Existing Release lifecycle state remains user-owned. Business/BCC items remain excluded from Master Plan through the canonical masterPlanItems() source.',releaseSummary:'Restores Master Plan rendering without undoing Release Management or BCC separation.',releaseUserGuide:'Master Plan should load normally again. Today, Week, Month, Quarter and Sprint continue to use personal-only Master Plan data. Release Management retains the v386 workspace cleanup and persistence behavior.',releaseTechnicalNotes:'Surgical repair: replaced an undefined cards reference in renderHubPeriodLens() with hubPeriodItems(hubPeriod,true); retained the existing masterPlanItems() BCC boundary; removed only trailing content outside the HTML document. No new type, field, module or linkable object.',updatedAt:Date.now()});
-  S.items.push(x);try{save()}catch(_){}return true;
- }
- let n=0,t=setInterval(()=>{if(seed387()||++n>40)clearInterval(t)},250);
-})();
-</script>
-<!-- USER GUIDE: v387 — Master Plan rendering is restored. Period lenses use the canonical personal-only Master Plan source; Release Management behavior from v386 remains in place. -->
-<!-- CHANGE LOG: v387 — Fixed the undefined period-lens card source that blanked Master Plan; preserved BCC exclusion and Release persistence; removed stray markup after the HTML document. -->
-<!-- RELEASE NOTES: v387 — Master Plan render recovery patch. No historical Release records or user lifecycle edits are reset. -->
-</body>
-</html>
