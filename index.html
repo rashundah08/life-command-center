@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v381</title>
+<title>LCC v382</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -30319,6 +30319,58 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 </script>
 <!-- USER GUIDE: v381 — Home Inventory Module 2.0 adds purpose-built views, category/subcategory taxonomy, dynamic category fields, decluttering lifecycle tracking, replacement cost, and collapsible system fields while keeping one Inventory dataset. -->
 <!-- CHANGE LOG: v381 — Home Inventory multi-view + category-aware Inventory Action Item architecture. -->
+
+<!-- v382 — Home Inventory Overview Render Hotfix -->
+<script id="lcc-v382-inventory-overview-hotfix">
+(function(){
+  function q(id){return document.getElementById(id)}
+  function renderOverview382(){
+    const dash=q('inv-command-dashboard'), view=q('inv381-view');
+    if(!dash)return;
+    try{
+      const items=(typeof loadInv==='function')?loadInv():[];
+      dash.style.display='';
+      if(typeof renderInvCommandDashboard==='function')renderInvCommandDashboard(items);
+      if(view&&(window.inv381View||'overview')==='overview')view.innerHTML='';
+      const insights=q('inv-asset-insights');if(insights)insights.style.display='';
+    }catch(e){
+      console.error('v382 inventory overview render',e);
+      if(view&&(window.inv381View||'overview')==='overview')
+        view.innerHTML='<div class="inv381-card"><h4>🏠 Home Inventory Overview</h4><div class="inv381-note">The overview could not render. The error was captured in the browser console.</div></div>';
+    }
+  }
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest&&e.target.closest('#inv381-tabs button[data-v="overview"]');
+    if(b)setTimeout(renderOverview382,0);
+  });
+
+  const oldRender=window.renderInventory;
+  if(typeof oldRender==='function'){
+    window.renderInventory=function(){
+      const r=oldRender.apply(this,arguments);
+      setTimeout(function(){if((window.inv381View||'overview')==='overview')renderOverview382()},0);
+      return r;
+    };
+  }
+
+  function seedRelease(){
+    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='382'))return true;
+    const x=makeItem({name:'v382 — Home Inventory Overview Render Hotfix',type:'release',status:'inprogress',effort:'medium',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:15,screenTimeRequired:'Yes',releaseVersion:'382',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Home Inventory'],releaseChangelog:'Fixed the v381 Home Inventory Overview tab rendering blank by explicitly rendering the existing Home Inventory command dashboard whenever Overview is selected or the Inventory page refreshes.',releaseNotes:'No inventory records, category fields, decluttering fields, or saved user data are changed.',releaseSummary:'Restores the Home Inventory Overview dashboard.',releaseUserGuide:'Open Home Inventory and select Overview. The 10,000-item progress dashboard, room/category summaries, decluttering snapshot, attention queues and Search My House should render immediately.',releaseTechnicalNotes:'v381 depended on the prior v380 dashboard render pass. v382 explicitly invokes renderInvCommandDashboard(loadInv()) for the Overview state and after inventory refreshes.',updatedAt:Date.now()});
+    x.listNums=x.listNums||{};x.listNums.releases=382;x.seqNum='382';S.items.push(x);try{save()}catch(_){}return true;
+  }
+
+  let tries=0,t=setInterval(function(){
+    if(window.S&&Array.isArray(S.items)){seedRelease();if(q('inv-command-dashboard')&&(window.inv381View||'overview')==='overview')renderOverview382();clearInterval(t)}
+    else if(++tries>80)clearInterval(t);
+  },250);
+})();
+</script>
+<!-- USER GUIDE: v382 — Home Inventory Overview now explicitly renders its command dashboard whenever Overview is selected. -->
+<!-- CHANGE LOG: v382 — Fixed blank Home Inventory Overview tab caused by v381 view-state/render sequencing. -->
+<!-- RELEASE NOTES: v382 — Home Inventory Overview rendering hotfix only; no inventory data changes. -->
+
 </body>
 </html>
 
