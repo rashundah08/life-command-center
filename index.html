@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v378</title>
+<title>LCC v379</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v378</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v379</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1511,7 +1511,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v378</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v379</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4192,8 +4192,10 @@ function loadFromDriveData(p){
   if(typeof window.ensureRetroReleaseHistory==='function')window.ensureRetroReleaseHistory();
   if(typeof window.ensureRelease335==='function')window.ensureRelease335();
   if(typeof window.ensureRelease336==='function')window.ensureRelease336();
+  const _v379ReleaseAdded=ensurePost360ReleasesV379();
   recalc();
   renderAll();
+  if(_v379ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4370,6 +4372,21 @@ setInterval(()=>{
 // PERSIST (localStorage + Drive)
 // ═══════════════════════════════════════════════
 function save(){invalidateSprintTaskBuckets();_invContainerChildCountCache=null;driveSaveDebounced();}
+/* v379 — durable coded-release continuity. Runs inside every persisted-data load path before first render. */
+const LCC_POST360_RELEASES_V379={
+ '361':['Knowledge Hub Command Center','2026-08-24'],'362':['Knowledge Hub Field Controls & Validation','2026-08-24'],'363':['Knowledge Review Scheduling','2026-08-24'],'364':['Knowledge Topics & Sources','2026-08-24'],'365':['Knowledge Hub Render Hotfix','2026-08-24'],'366':['Digital Library Merge & Knowledge Hub Layout Fix','2026-08-24'],'367':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'368':['Bulk Update Field & Option Reconciliation','2026-08-24'],'369':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'370':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'371':['Business Command Center Structure','2026-08-25'],'372':['BCC Migration Export & Render Hotfix','2026-08-25'],'373':['BCC Migration Goals & Placeholders','2026-08-25'],'374':['Strict BCC Migration Scope','2026-08-25'],'375':['Bulk Add Permissive Capture','2026-08-25'],'376':['Knowledge Hub Types, Fields & CSV Upload','2026-08-25'],'377':['Master Plan BCC Separation','2026-08-26'],'378':['Release Persistence & Master Plan BCC Filter Repair','2026-08-27'],'379':['Release Continuity & Master Plan Widget Isolation','2026-08-27']
+};
+function ensurePost360ReleasesV379(){
+ if(!S||!Array.isArray(S.items))return false;
+ let changed=false,now=new Date().toISOString();
+ Object.entries(LCC_POST360_RELEASES_V379).forEach(([v,[title,startDate]])=>{
+   if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===v))return;
+   const is379=v==='379';
+   const vals={id:'release-lcc-v'+v,seqNum:v,listNums:{releases:parseInt(v,10)},name:'v'+v+' — '+title,type:'release',status:'inprogress',effort:is379?'hard':'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate,releaseVersion:v,releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:is379?['Release Management','Master Plan']:['Release Management'],releaseChangelog:is379?'Moved post-v360 Release Action Item reconciliation into the actual local and Google Drive load paths so missing coded releases are present before render; changed Master Plan business exclusion to association-based filtering for all item types and refreshed all period widgets through the personal-only source.':'Restored missing coded Release Action Item from post-v360 release history without overwriting any existing user-edited Release record.',releaseNotes:is379?'Release records v361-v379 are create-only when absent and user lifecycle edits remain untouched. Weekly, Monthly, Quarterly and Sprint Master Plan views/widgets exclude records associated with Business, RLA, Savvy Foundations or Savvy Structure.':'Continuity repair only; existing Release records are never overwritten.',releaseSummary:title,releaseUserGuide:is379?'Release Management automatically restores only missing coded releases after data loads. Master Plan period tabs and widgets are personal-only; business-scoped records remain stored elsewhere.':'Documents coded LCC version v'+v+'.',releaseTechnicalNotes:is379?'Synchronous reconciliation now executes after S.items assignment in both local load() and loadFromDriveData(), before recalc/render. Master Plan exclusion no longer depends on BCC type allowlisting; business association alone is sufficient. No new Action Item type, field, module, or linkable object.':'Create-only continuity repair added by v379.',createdAt:now,updatedAt:now};
+   const rec=typeof makeItem==='function'?makeItem(vals):vals;rec.id=rec.id||('release-lcc-v'+v);rec.listNums=rec.listNums||{};rec.listNums.releases=parseInt(v,10);rec.seqNum=v;S.items.push(rec);changed=true;
+ });
+ return changed;
+}
 async function load(){
   try{
     const{payload:raw,migrated,fromAncient}=await loadDataStore();
@@ -4395,6 +4412,7 @@ async function load(){
       if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
       if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
+      ensurePost360ReleasesV379();
     }
   }catch(e){console.warn('Load failed:',e);}
   // Note: Drive reconnects manually each session via Connect Drive button
@@ -30070,7 +30088,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
  function refName(v){if(v&&typeof v==='object')return norm(v.name||v.label||v.id);return norm(v)}
  function isBCCMasterPlanItem(i){
-   if(!i||!BCC_TYPES.has(norm(i.type)))return false;
+   if(!i)return false;
    const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
    if(refs.some(v=>BUSINESS_NAMES.has(refName(v))||BUSINESS_NAMES.has(listName(v&&typeof v==='object'?v.id:v))))return true;
    const cats=(Array.isArray(i.categories)?i.categories:[]).map(norm);
@@ -30151,6 +30169,17 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v378 — Release completion/lifecycle changes are preserved across later versions. Missing coded post-v360 Release Action Items are repaired once when absent. Master Plan is personal-only and excludes BCC-scoped work automatically. -->
 <!-- CHANGE LOG: v378 — Made release registries create/backfill-only instead of overwriting user state; repaired post-v360 Release continuity; fixed remaining direct Master Plan reads that bypassed BCC filtering; hardened business-scope matching. -->
 <!-- RELEASE NOTES: v378 — Persistence and Master Plan separation hotfix. No new Action Item type, field, module, or linkable object. -->
+
+<script id="lcc-v379-release-continuity-master-plan-widget-isolation">
+/* v379 — refresh Master Plan after personal-only wrappers are installed so startup widgets cannot retain pre-filter business counts/cards. */
+(function(){
+ function refresh379(){try{ensurePost360ReleasesV379();if(typeof recalc==='function')recalc();if(document.getElementById('pg-hub')&&typeof renderHub==='function')renderHub();}catch(e){console.warn('v379 refresh',e)}}
+ setTimeout(refresh379,0);setTimeout(refresh379,600);
+})();
+</script>
+<!-- USER GUIDE: v379 — Release Management creates any missing coded Release Action Items v361-v379 during local or Drive data load without changing existing release statuses. Master Plan Today, Weekly, Monthly, Quarterly and Sprint tabs/widgets use personal-only data and exclude anything associated with Business, RLA, Savvy Foundations or Savvy Structure. -->
+<!-- CHANGE LOG: v379 — Moved post-v360 Release continuity into both persisted-data load paths before render; removed the BCC-type prerequisite from Master Plan business filtering; refreshed Master Plan after filter installation so period widgets cannot retain stale business counts/cards. -->
+<!-- RELEASE NOTES: v379 — Release continuity and Master Plan widget isolation hotfix. No new Action Item type, field, module, or linkable object. -->
 </body>
 </html>
 
