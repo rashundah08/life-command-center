@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v382</title>
+<title>LCC v384</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -30370,6 +30370,181 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v382 — Home Inventory Overview now explicitly renders its command dashboard whenever Overview is selected. -->
 <!-- CHANGE LOG: v382 — Fixed blank Home Inventory Overview tab caused by v381 view-state/render sequencing. -->
 <!-- RELEASE NOTES: v382 — Home Inventory Overview rendering hotfix only; no inventory data changes. -->
+
+
+<style id="lcc-v383-home-inventory-refinement-css">
+.inv383-missing{display:inline-flex;align-items:center;gap:4px;background:#FFF1F2;color:#BE123C;border:1px solid #FECDD3;border-radius:12px;padding:3px 7px;font-size:9px;font-weight:700}.inv383-complete{background:#ECFDF5;color:#047857;border-color:#A7F3D0}.inv383-cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px}.inv383-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:var(--sh);cursor:pointer}.inv383-card:hover{border-color:var(--teal)}.inv383-cardbody{padding:12px}.inv383-cardtop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.inv383-cardname{font-size:13px;font-weight:700;color:var(--navy);line-height:1.3}.inv383-meta{font-size:10px;color:var(--txt3);margin-top:5px;line-height:1.5}.inv383-missinglist{font-size:9.5px;color:#9F1239;background:#FFF7F8;border-radius:8px;padding:6px 8px;margin-top:8px}.inv383-drill{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);box-shadow:var(--sh);margin:12px 0;padding:14px}.inv383-drillhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.inv383-drilltitle{font:600 20px 'Cormorant Garamond',serif;color:var(--navy)}.inv383-click{cursor:pointer}.inv383-click:hover{border-color:var(--teal)!important;transform:translateY(-1px)}
+#inv-modal .modal{max-width:820px!important}.inv383-section{border:1px solid var(--bdr);border-radius:12px;background:var(--card);margin:8px 0;overflow:hidden}.inv383-section>summary{cursor:pointer;list-style:none;padding:11px 13px;background:var(--soft);font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--navy);display:flex;justify-content:space-between;gap:8px}.inv383-section>summary::-webkit-details-marker{display:none}.inv383-section>summary:after{content:'▸';color:var(--txt3)}.inv383-section[open]>summary:after{content:'▾'}.inv383-body{padding:11px 13px}.inv383-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.inv383-grid>.field{margin:0!important}.inv383-section .g2,.inv383-section .g3{display:contents}.inv383-section details.inv381-form-section{border:0;margin:0;box-shadow:none}.inv383-section details.inv381-form-section>summary{display:none}.inv383-section details.inv381-form-section>.inv381-form-body{padding:0}
+@media(max-width:650px){.inv383-grid{grid-template-columns:1fr}}
+</style>
+<script id="lcc-v383-home-inventory-refinement">
+(function(){
+ const ROOMS=['Front Yard','Left Yard','Back Yard','Right (East) Yard','Front Porch','Foyer','Garage','Mudroom','Guest Room','Guest Room Closet','Front Hallway','Linen Closet','Ravyn’s Bathroom','Laundry Room','Ravyn’s Closet','Ravyn’s Room','Office Closet','Office','Pantry','Kitchen','Dining Room','Patio','Living Room','My Room Hallway','My Room','My Bathroom','My Bathroom (Toilet Area)','My Closet','Attic','Den'];
+ const CAT_REQ={Appliances:['brand','model','serial'],Electronics:['brand','model','serial'],Furniture:['brand'],Jewelry:['currentValue'],Vehicles:['brand','model','serial'],Books:['creator'],Vinyl:['creator'],Movies:['format'],Games:[],'Health & Beauty':[],Household:[],Groceries:[],Pantry:[],Clothing:[],Tools:['brand'],Outdoor:[],Decor:[]};
+ const DETAIL_REQ={Appliances:['applianceType'],Electronics:['deviceType'],Furniture:['furnitureType'],Jewelry:['metal'],Tools:['toolType'],Decor:['decorType'],Vehicles:['vin'],Books:['bookAuthor'],Vinyl:['artist','album'],Movies:['movieFormat'],Games:['gameType','platform'],'Health & Beauty':['productType'],Household:['productType']};
+ function q(id){return document.getElementById(id)}
+ function esc383(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+ function qty383(x){let n=Number(x.qty);return isFinite(n)&&n>0?n:1}
+ function missing383(i){const m=[];if(!(i.name||'').trim())m.push('Item Name');if(!(i.cat||'').trim())m.push('Category');if(!(i.subcategory||'').trim())m.push('Subcategory');if(!(i.inventoryMethod||'').trim())m.push('Inventory Method');if(!(i.invStatus||'').trim())m.push('Stock Status');if(!(i.location||'').trim())m.push('Room');if(!(i.qty>0))m.push('Quantity');if(!(i.unit||'').trim())m.push('Unit');(CAT_REQ[i.cat]||[]).forEach(k=>{if(i[k]==null||String(i[k]).trim()==='')m.push(({brand:'Brand',model:'Model',serial:'Serial / Identifier',currentValue:'Current Value',creator:'Creator / Author',format:'Format'})[k]||k)});const d=i.categoryDetails||{};(DETAIL_REQ[i.cat]||[]).forEach(k=>{if(d[k]==null||String(d[k]).trim()==='')m.push(k.replace(/([A-Z])/g,' $1').replace(/^./,c=>c.toUpperCase()))});if(!i.invCover)m.push('Photo');if((Number(i.price)||Number(i.currentValue)||0)>=100&&!i.receiptUrl)m.push('Receipt');return [...new Set(m)]}
+ window.inv383Missing=missing383;
+ function hardRooms(){const s=q('inv-location');if(!s)return;const cur=s.value||'';s.innerHTML='<option value="">— Unassigned —</option>'+ROOMS.map(r=>`<option value="${esc383(r)}">${esc383(r)}</option>`).join('');if(ROOMS.includes(cur))s.value=cur;else s.value=''}
+ function migrateRoomsOnce(){try{if(localStorage.getItem('lcc_v383_inventory_rooms_reset')==='1')return;const a=loadInv();if(a.length){a.forEach(x=>{x.location='';x.roomId=''});saveInv(a)}localStorage.setItem('lcc_v383_inventory_rooms_reset','1')}catch(e){console.warn('v383 room reset',e)}}
+ function makeSection(title,sub){const d=document.createElement('details');d.className='inv383-section';d.innerHTML=`<summary><span>${title}</span><span style="font-size:9px;color:var(--txt3);font-weight:500">${sub||''}</span></summary><div class="inv383-body"><div class="inv383-grid"></div></div>`;return d}
+ function fieldNode(id){const e=q(id);if(!e)return null;return e.closest('.field')||e.closest('.g2')||e.closest('.g3')||e.parentElement}
+ function moveFields(grid,ids){const moved=new Set();ids.forEach(id=>{let n=fieldNode(id);if(!n||moved.has(n)||n.closest('.inv383-section'))return;moved.add(n);grid.appendChild(n)})}
+ function organize383(){const body=q('inv-modal')?.querySelector('.modal-body');if(!body||q('inv383-sections')){hardRooms();document.querySelectorAll('.inv381-form-section').forEach(d=>d.open=false);return}hardRooms();const wrap=document.createElement('div');wrap.id='inv383-sections';const first=body.firstChild;body.insertBefore(wrap,first);
+  const specs=[
+   ['📦 Item Identity','what it is',['inv-name','inv-cat','inv381-subcategory','inv381-method','inv-brand-sel','inv-brand','inv-model','inv-serial','inv-cover','inv-cover-img']],
+   ['📍 Location & Quantity','where it is + how many',['inv-status','inv-location','inv-container','inv-iscontainer','inv-qty','inv-unit','inv-low']],
+   ['💰 Purchase & Value','cost + replacement',['inv-price','inv-pdate','inv-store-sel','inv-store','inv-url','inv-currentvalue','inv381-replacement']],
+   ['🛡️ Protection & Documentation','warranty + insurance + proof',['inv-warranty','inv-warrantyprovider','inv-warrantytype','inv-expiration','inv-insured','inv-coverage','inv-policy','inv-receipturl','inv-manualurl']],
+   ['🧩 Category Details','only fields that apply to this category',['inv-creator','inv-year','inv-format','inv-genre','inv-isbn','inv-clothing-fields','inv-media-fields','inv381-category-fields']],
+   ['🧹 Lifecycle & Decluttering','review → decision → exit',['inv381-declutter','inv381-reviewdate','inv381-declutterqty','inv381-reason','inv381-exitdeadline','inv381-exitdate','inv381-destination','inv381-saleamount']],
+   ['📝 Notes & Tags','supporting context',['inv-tags','inv-notes']],
+   ['⚙️ LCC System Fields','system metadata',['inv-list','inv-corecat','inv-level','inv-effort','inv-corestatus']]
+  ];
+  specs.forEach(([t,s,ids])=>{const d=makeSection(t,s),g=d.querySelector('.inv383-grid');wrap.appendChild(d);moveFields(g,ids)});
+  // absorb v381 details into the appropriate v383 sections, then keep every section collapsed by default
+  const catD=q('inv381-category-fields')?.closest('details.inv381-form-section'),decD=q('inv381-declutter')?.closest('details.inv381-form-section');if(catD){const g=wrap.children[4].querySelector('.inv383-grid');while(catD.querySelector('.inv381-form-body')?.firstChild)g.appendChild(catD.querySelector('.inv381-form-body').firstChild);catD.remove()}if(decD){const g=wrap.children[5].querySelector('.inv383-grid');while(decD.querySelector('.inv381-form-body')?.firstChild)g.appendChild(decD.querySelector('.inv381-form-body').firstChild);decD.remove()}wrap.querySelectorAll('details').forEach(d=>d.open=false)
+ }
+ const oldOpen=window.openInvModal;window.openInvModal=function(id){const r=oldOpen.apply(this,arguments);setTimeout(()=>{hardRooms();organize383();const item=id?loadInv().find(x=>x.id===id):null;if(q('inv-location'))q('inv-location').value=ROOMS.includes(item?.location)?item.location:''},20);return r};
+ // Inventory-only hard-coded room save. Room action items no longer control Inventory options.
+ const oldSave=window.saveInvItem;window.saveInvItem=function(){const room=q('inv-location')?.value||'';const r=oldSave.apply(this,arguments);setTimeout(()=>{let a=loadInv(),id=window.invEditingId||window.invEditingId;let t=id?a.find(x=>x.id===id):a.slice().sort((x,y)=>(y.created||0)-(x.created||0))[0];if(t){t.location=ROOMS.includes(room)?room:'';t.roomId='';saveInv(a)}},0);return r};
+ function ensureCardOption(){const s=q('inv-view');if(s&&!Array.from(s.options).some(o=>o.value==='card'))s.insertAdjacentHTML('beforeend','<option value="card">Card</option>')}
+ function cardView(items,cont){cont.innerHTML='<div class="inv383-cardgrid">'+items.map(i=>{const m=missing383(i),photo=i.invCover?`<div style="height:125px;background:#f3f3f3 url(\'${esc383(i.invCover)}\') center/cover no-repeat"></div>`:`<div style="height:125px;background:linear-gradient(135deg,#0E7490,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:36px">${INV_CAT_EMOJI[i.cat]||'📦'}</div>`;return `<div class="inv383-card" onclick="openInvModal('${i.id}')">${photo}<div class="inv383-cardbody"><div class="inv383-cardtop"><div class="inv383-cardname">${esc383(i.name||'Untitled')}</div><span class="inv383-missing ${m.length?'':'inv383-complete'}">${m.length?'⚠ '+m.length+' missing':'✓ Complete'}</span></div><div class="inv383-meta">${esc383(i.cat||'No category')} · ${esc383(i.subcategory||'No subcategory')}<br>📍 ${esc383(i.location||'Unassigned')} · ${qty383(i)} ${esc383(i.unit||'')}</div>${m.length?`<div class="inv383-missinglist"><b>Missing:</b> ${m.slice(0,6).map(esc383).join(' · ')}${m.length>6?' · +'+(m.length-6)+' more':''}</div>`:''}</div></div>`}).join('')+'</div>'}
+ const priorRender=window.renderInventory;window.renderInventory=function(){ensureCardOption();const s=q('inv-view');if(s&&s.value==='card'){const desired='card';s.value='grid';const r=priorRender.apply(this,arguments);s.value=desired;let items=loadInv();const search=(q('inv-search')?.value||'').toLowerCase(),cat=q('inv-cat-filter')?.value||'',stat=q('inv-status-filter')?.value||'',rid=q('inv-room-filter')?.value||'',brand=q('inv-brand-filter')?.value||'',miss=q('inv-missing-filter')?.value||'';items=items.filter(i=>{const hay=JSON.stringify(i).toLowerCase();if(search&&!hay.includes(search))return false;if(cat&&i.cat!==cat)return false;if(stat&&i.invStatus!==stat)return false;if(rid&&i.location!==rid)return false;if(brand&&i.brand!==brand)return false;if(miss==='missing'&&!missing383(i).length)return false;if(miss==='complete'&&missing383(i).length)return false;return true});cardView(items,q('inv-content'));if(q('inv-count'))q('inv-count').textContent=items.length+' records';return r}return priorRender.apply(this,arguments)};
+ // Replace room filter with canonical names and strengthen missing filter.
+ function controls383(){ensureCardOption();const rf=q('inv-room-filter');if(rf){const cur=rf.value;rf.innerHTML='<option value="">All Rooms</option><option value="__unassigned">⚠ Unassigned</option>'+ROOMS.map(r=>`<option value="${esc383(r)}">${esc383(r)}</option>`).join('');rf.value=Array.from(rf.options).some(o=>o.value===cur)?cur:''}const mf=q('inv-missing-filter');if(mf)mf.innerHTML='<option value="">All Field States</option><option value="missing">⚠ Missing Recommended Fields</option><option value="complete">✓ Recommended Fields Complete</option>'}
+ function tableRows(title,items){const cols=['Item','Category','Subcategory','Room','Qty','Status','Missing','Edit'];return `<div class="inv383-drill"><div class="inv383-drillhead"><div><div class="inv383-drilltitle">${esc383(title)}</div><div class="inv381-note">${items.length} record(s) · click ✏️ for the full organized action item</div></div><button class="btn xs" onclick="this.closest('.inv383-drill').remove()">Close</button></div><div style="overflow:auto"><table style="width:100%;border-collapse:collapse;min-width:850px"><thead><tr style="background:var(--navy);color:white">${cols.map(c=>`<th style="padding:8px;text-align:left;font-size:10px">${c}</th>`).join('')}</tr></thead><tbody>${items.map(i=>{const m=missing383(i);return `<tr style="border-bottom:1px solid var(--bdr)"><td style="padding:6px">${input383(i,'name',i.name,'text','180px')}</td><td style="padding:6px">${input383(i,'cat',i.cat,'text','110px')}</td><td style="padding:6px">${input383(i,'subcategory',i.subcategory,'text','130px')}</td><td style="padding:6px"><select onchange="inv383Inline('${i.id}','location',this.value)" style="font-size:10px;max-width:150px"><option value="">Unassigned</option>${ROOMS.map(r=>`<option${i.location===r?' selected':''}>${esc383(r)}</option>`).join('')}</select></td><td style="padding:6px">${input383(i,'qty',i.qty,'number','55px')}</td><td style="padding:6px">${input383(i,'invStatus',i.invStatus,'text','95px')}</td><td style="padding:6px"><span class="inv383-missing ${m.length?'':'inv383-complete'}">${m.length?m.length+' missing':'Complete'}</span>${m.length?`<div style="font-size:8.5px;color:#9F1239;margin-top:3px;max-width:220px">${m.map(esc383).join(', ')}</div>`:''}</td><td style="padding:6px"><button class="btn xs" onclick="openInvModal('${i.id}')">✏️</button></td></tr>`}).join('')}</tbody></table></div></div>`}
+ function input383(i,f,v,t,w){return `<input type="${t||'text'}" value="${esc383(v??'')}" onblur="inv383Inline('${i.id}','${f}',this.value)" onkeydown="if(event.key==='Enter')this.blur()" style="font-size:10px;padding:4px 5px;width:${w};max-width:${w}">`}
+ window.inv383Inline=function(id,f,v){const a=loadInv(),i=a.find(x=>x.id===id);if(!i)return;if(f==='qty')i[f]=Number(v)||0;else i[f]=v;if(f==='location')i.roomId='';saveInv(a);renderInventory()};
+ window.inv383Drill=function(title,pred){const a=loadInv().filter(pred),view=q('inv381-view');if(view){window.inv381View='rooms';view.innerHTML=tableRows(title,a);[q('inv-command-dashboard'),q('inv-asset-insights'),q('inv-content')].forEach(x=>{if(x)x.style.display='none'})}};
+ function compactTabs(){const tabs=q('inv381-tabs');if(!tabs)return;tabs.querySelectorAll('button').forEach(b=>{if(['declutter','protection','purchases','value'].includes(b.dataset.v))b.remove()});const labels={overview:'🏠 Overview',inventory:'📦 Inventory',rooms:'🚪 Rooms',categories:'🗂️ Categories',reports:'📊 Reports'};tabs.querySelectorAll('button').forEach(b=>{if(labels[b.dataset.v])b.textContent=labels[b.dataset.v]})}
+ function clickableOverview(){const d=q('inv-command-dashboard');if(!d)return;const a=loadInv();const k=d.querySelectorAll('.inv380-kpi');if(k[0])k[0].onclick=()=>inv383Drill('All Inventory',()=>true);if(k[1])k[1].onclick=()=>inv383Drill('All Inventory Records',()=>true);if(k[2])k[2].onclick=()=>inv383Drill('Unassigned Room',i=>!i.location);if(k[3])k[3].onclick=()=>inv383Drill('Items With Documented Value',i=>Number(i.currentValue||i.price)>0);if(k[4])k[4].onclick=()=>inv383Drill('Fully Covered Items',i=>i.insuranceStatus==='Fully Covered');
+  d.querySelectorAll('.inv380-chip').forEach(b=>{const t=b.textContent;if(t.includes('Missing room'))b.onclick=()=>inv383Drill('Missing Room',i=>!i.location);if(t.includes('missing receipt'))b.onclick=()=>inv383Drill('Missing Receipt',i=>(Number(i.currentValue)||Number(i.price)||0)>=100&&!i.receiptUrl);if(t.includes('serial missing'))b.onclick=()=>inv383Drill('Missing Serial / Identifier',i=>['Appliances','Electronics','Vehicles'].includes(i.cat)&&!i.serial);if(t.includes('Coverage review'))b.onclick=()=>inv383Drill('Coverage Review',i=>(Number(i.currentValue)||Number(i.price)||0)>=500&&(!i.insuranceStatus||i.insuranceStatus==='Not Covered'));if(t.includes('Warranty'))b.onclick=()=>inv383Drill('Warranty Review',i=>!!i.warranty)});
+  // Add compact declutter/purchase/value widgets to Overview so dedicated empty-feeling tabs are unnecessary.
+  if(!q('inv383-overview-extra')){const out=a.filter(i=>i.actualExitDate),await=a.filter(i=>['Sell','Donate','Gift','Recycle','Trash','Ready to Exit'].includes(i.declutterStatus)&&!i.actualExitDate),spend=a.reduce((s,i)=>s+(Number(i.price)||0)*qty383(i),0),replace=a.reduce((s,i)=>s+(Number(i.replacementCost)||Number(i.currentValue)||Number(i.price)||0)*qty383(i),0),extra=document.createElement('div');extra.id='inv383-overview-extra';extra.className='inv380-section';extra.innerHTML=`<div class="inv380-title">📌 Inventory Intelligence</div><div class="inv380-sub">Click any card to open the records behind the number.</div><div class="inv380-grid"><div class="inv380-kpi inv383-click" data-k="missing"><span>Missing Details</span><b>${a.filter(i=>missing383(i).length).length}</b><small>import cleanup queue</small></div><div class="inv380-kpi inv383-click" data-k="out"><span>Decluttered / OUT</span><b>${out.reduce((s,i)=>s+qty383(i),0)}</b><small>actual exit date recorded</small></div><div class="inv380-kpi inv383-click" data-k="await"><span>Awaiting Exit</span><b>${await.reduce((s,i)=>s+qty383(i),0)}</b><small>decision made, still here</small></div><div class="inv380-kpi inv383-click" data-k="spend"><span>Documented Spend</span><b>$${Math.round(spend).toLocaleString()}</b><small>purchase history</small></div><div class="inv380-kpi inv383-click" data-k="replace"><span>Replacement Value</span><b>$${Math.round(replace).toLocaleString()}</b><small>documented/fallback value</small></div></div>`;d.appendChild(extra);extra.querySelector('[data-k="missing"]').onclick=()=>inv383Drill('Missing Recommended Fields',i=>missing383(i).length);extra.querySelector('[data-k="out"]').onclick=()=>inv383Drill('Decluttered / OUT',i=>!!i.actualExitDate);extra.querySelector('[data-k="await"]').onclick=()=>inv383Drill('Awaiting Exit',i=>['Sell','Donate','Gift','Recycle','Trash','Ready to Exit'].includes(i.declutterStatus)&&!i.actualExitDate);extra.querySelector('[data-k="spend"]').onclick=()=>inv383Drill('Purchase History',i=>Number(i.price)>0);extra.querySelector('[data-k="replace"]').onclick=()=>inv383Drill('Replacement Value Records',i=>Number(i.replacementCost||i.currentValue||i.price)>0)}
+ }
+ function roomsCategoriesClickable(){const view=q('inv381-view');if(!view)return;if(window.inv381View==='rooms'){const a=loadInv(),m={};ROOMS.concat(['Unassigned']).forEach(r=>m[r]=[]);a.forEach(i=>(m[i.location||'Unassigned']||(m[i.location||'Unassigned']=[])).push(i));view.innerHTML='<div class="inv381-cards">'+Object.entries(m).filter(([r,x])=>x.length||r==='Unassigned').map(([r,x])=>`<div class="inv381-card inv383-click" onclick="inv383Drill('${esc383(r)}',i=>${r==='Unassigned'?'!i.location':`i.location===${JSON.stringify(r)}`})"><h4>🏠 ${esc383(r)}</h4><div class="inv381-num">${x.reduce((s,i)=>s+qty383(i),0)} items</div><div class="inv381-note">${x.length} records · ${x.filter(i=>missing383(i).length).length} with missing details</div></div>`).join('')+'</div>'}if(window.inv381View==='categories'){const a=loadInv(),m={};a.forEach(i=>(m[i.cat||'Other']||(m[i.cat||'Other']=[])).push(i));view.innerHTML='<div class="inv381-cards">'+Object.entries(m).map(([r,x])=>`<div class="inv381-card inv383-click" onclick="inv383Drill('${esc383(r)}',i=>i.cat===${JSON.stringify(r)})"><h4>${INV_CAT_EMOJI[r]||'📦'} ${esc383(r)}</h4><div class="inv381-num">${x.reduce((s,i)=>s+qty383(i),0)} items</div><div class="inv381-note">${x.length} records · ${x.filter(i=>missing383(i).length).length} with missing details</div></div>`).join('')+'</div>'}}
+ function refresh383(){controls383();compactTabs();clickableOverview();roomsCategoriesClickable()}
+ document.addEventListener('click',e=>{const b=e.target.closest?.('#inv381-tabs button');if(b)setTimeout(refresh383,30)});
+ const rr=window.renderInventory;window.renderInventory=function(){const r=rr.apply(this,arguments);setTimeout(refresh383,30);return r};
+ function seed(){if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='383'))return true;const x=makeItem({name:'v383 — Home Inventory Workflow & Drilldown Refinement',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:120,screenTimeRequired:'Yes',releaseVersion:'383',releaseType:'major',releaseStatus:'testing',testResult:'testing',releaseModules:['Home Inventory'],releaseChangelog:'Adds a dedicated Card inventory view with missing-field flags; hard-codes the canonical room list from the Notion Rooms export and resets existing Inventory room assignments to Unassigned once; consolidates widget-only Decluttering/Protection/Purchases/Value screens into clickable Overview intelligence; makes Overview, Room and Category cards drill into editable record tables; and reorganizes the Inventory Action Item into collapsed field sections.',releaseNotes:'Canonical Inventory rooms are independent of Room action-item imports. Existing Inventory room/location values are intentionally cleared once in v383 so imported records can be reassigned cleanly.',releaseSummary:'Inventory cleanup workflow: see missing data, assign clean rooms, drill from dashboard numbers into editable records, and use a truly grouped/collapsible Inventory form.',releaseUserGuide:'Use Overview for all KPI widgets and click any actionable number to see its underlying editable records. Use Inventory → Card to see missing-field badges on each item. Rooms uses only the hard-coded canonical home room list. Open any inventory item to edit fields grouped into collapsed Identity, Location, Purchase, Protection, Category Details, Decluttering, Notes and LCC System sections.',releaseTechnicalNotes:'One-time migration clears location and roomId on existing Inventory records and stores lcc_v383_inventory_rooms_reset marker. No Room action items are deleted. Inventory room dropdowns no longer depend on loadRooms().',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=383;x.seqNum='383';S.items.push(x);try{save()}catch(_){}return true}
+ let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){migrateRoomsOnce();seed();setTimeout(()=>{renderInventory();refresh383()},80);clearInterval(t)}else if(++n>80)clearInterval(t)},250);
+})();
+</script>
+<!-- USER GUIDE: v383 — Card view flags missing inventory details; canonical rooms are hard-coded; existing inventory starts Unassigned; dashboard/room/category cards drill into editable records; Inventory Action Item sections are collapsed and grouped. -->
+<!-- CHANGE LOG: v383 — Home Inventory workflow, room cleanup, drilldowns, card view and form organization refinement. -->
+<!-- RELEASE NOTES: v383 — No Room action items are deleted; Inventory simply stops using imported Room records as its option source. -->
+
+
+<!-- v384 — Inventory Core Filters + Category/Subcategory Options -->
+<style id="lcc-v384-inventory-filter-css">
+.inv384-filterbox{border:1px solid var(--bdr);border-radius:12px;background:var(--card);margin:8px 0 12px;overflow:hidden}
+.inv384-filterbox>summary{cursor:pointer;padding:9px 12px;background:var(--soft);font-size:10.5px;font-weight:800;color:var(--navy)}
+.inv384-filtergrid{padding:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}
+.inv384-filtergrid label{display:block;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3);margin-bottom:3px}
+.inv384-filtergrid input,.inv384-filtergrid select{width:100%;padding:6px 7px;border:1px solid var(--bdr2);border-radius:8px;background:var(--soft);font-size:10px;color:var(--txt)}
+</style>
+<script id="lcc-v384-inventory-core-filters">
+(function(){
+ const CATS384=['Appliances','Electronics','Furniture','Groceries','Pantry','Clothing','Jewelry','Tools','Outdoor','Decor','Vehicles','Health & Beauty','Household','Books','Vinyl','Movies','Games','Other'];
+ const SUB384={
+  Appliances:['Major Appliance','Small Kitchen Appliance','Floor Care','Laundry Appliance','Climate / Air','Personal Appliance','Other Appliance'],
+  Electronics:['Computer','Tablet','Phone','TV / Display','Audio','Gaming System','Smart Home','Networking','Camera','Accessory / Cable','Other Electronics'],
+  Furniture:['Sofa / Sectional','Chair','Table','Desk','Bed','Dresser','Bookcase / Shelving','Storage Furniture','Outdoor Furniture','Other Furniture'],
+  Groceries:['Produce','Meat / Protein','Dairy / Refrigerated','Frozen','Beverage','Snack','Bakery','Condiment','Other Grocery'],
+  Pantry:['Canned Goods','Dry Goods','Baking','Spices / Seasoning','Breakfast','Snacks','Beverages','Condiments','Backstock','Other Pantry'],
+  Clothing:['Tops','Bottoms','Dresses / Jumpsuits','Outerwear','Activewear','Sleepwear','Underwear / Intimates','Shoes','Handbags','Accessories','Other Clothing'],
+  Jewelry:['Ring','Necklace','Bracelet','Earrings','Watch','Brooch / Pin','Set','Other Jewelry'],
+  Tools:['Hand Tool','Power Tool','Automotive Tool','Lawn / Garden Tool','Measuring Tool','Hardware / Fastener','Accessory / Battery','Other Tool'],
+  Outdoor:['Patio','Lawn & Garden','Grill / Cooking','Outdoor Recreation','Yard Decor','Pool / Water','Other Outdoor'],
+  Decor:['Wall Art','Rug','Lamp / Lighting','Decorative Object','Vase / Floral','Candle / Fragrance','Seasonal / Holiday','Frame / Photo','Other Decor'],
+  Vehicles:['Car / SUV','Truck','Motorcycle','Trailer','Bike','Vehicle Accessory','Other Vehicle'],
+  'Health & Beauty':['Skincare','Haircare','Makeup','Body Care','Oral Care','Fragrance','Medical / Health Supply','Personal Care','Other Health & Beauty'],
+  Household:['Kitchen & Dining','Cleaning','Linens & Bedding','Bath','Storage & Organization','Laundry Supply','Paper Goods','Home Maintenance Supply','Office Supply','Luggage / Bag','Other Household'],
+  Books:['Fiction','Nonfiction','Biography / Memoir','Reference','Cookbook','Genealogy / Family History','Business / Career','Self Development','Children / YA','Other Book'],
+  Vinyl:['LP','EP','Single','Box Set','Soundtrack','Other Vinyl'],
+  Movies:['DVD','Blu-ray','4K UHD','Box Set','Digital','Other Movie'],
+  Games:['Board Game','Card Game','Video Game','Puzzle','Tabletop / RPG','Expansion / DLC','Other Game'],
+  Other:['Collectible / Memorabilia','Craft / Hobby','Pet Supply','Document / Record','Miscellaneous']
+ };
+ const ROOMS384=['Front Yard','Front Porch','Foyer','Garage','Mudroom','Guest Room','Guest Bathroom','Ravyn Bedroom','Ravyn Bathroom','Ravyn Closet','Office','Kitchen','Dining Room','Living Room','Primary Bedroom','Primary Bathroom','Primary Closet','Laundry Room','Hallway','Hall Closet','Linen Closet','Pantry','Back Patio','Back Yard','Attic','Den'];
+ function q(id){return document.getElementById(id)}
+ function esc384(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+ function catOptions(sel){return '<option value="">— Select category —</option>'+CATS384.map(x=>`<option value="${esc384(x)}"${x===sel?' selected':''}>${esc384(x)}</option>`).join('')}
+ function subOptions(cat,sel){return '<option value="">— Select subcategory —</option>'+(SUB384[cat]||[]).map(x=>`<option value="${esc384(x)}"${x===sel?' selected':''}>${esc384(x)}</option>`).join('')}
+ function enforceModalOptions(){
+   const cat=q('inv-cat'),sub=q('inv381-subcategory'); if(!cat)return;
+   const cv=cat.value||window._inv381CurrentItem?.cat||'';
+   cat.innerHTML=catOptions(cv); if(cv)cat.value=cv;
+   if(sub){const sv=sub.value||window._inv381CurrentItem?.subcategory||'';sub.innerHTML=subOptions(cat.value,sv);if(sv)sub.value=sv}
+   if(!cat.dataset.v384){cat.dataset.v384='1';cat.addEventListener('change',()=>{if(sub)sub.innerHTML=subOptions(cat.value,''); if(typeof renderDynamic==='function')try{renderDynamic(window._inv381CurrentItem||null)}catch(_){}})}
+ }
+ function addFilters(){
+   const content=q('inv-content'); if(!content||q('inv384-filters'))return;
+   const host=(q('inv381-view')?.parentElement)||content.parentElement; if(!host)return;
+   const d=document.createElement('details');d.id='inv384-filters';d.className='inv384-filterbox';d.open=true;
+   d.innerHTML=`<summary>🔎 Inventory Filters — Core Fields</summary><div class="inv384-filtergrid">
+    <div><label>Item Name</label><input data-f="name" placeholder="contains…"></div>
+    <div><label>Category</label><select data-f="cat">${catOptions('')}</select></div>
+    <div><label>Subcategory</label><select data-f="subcategory"><option value="">All Subcategories</option></select></div>
+    <div><label>Inventory Method</label><select data-f="inventoryMethod"><option value="">All Methods</option><option>Individual Item</option><option>Grouped Item</option><option>Consumable Stock</option><option>Collection</option><option>Container</option></select></div>
+    <div><label>Room</label><select data-f="location"><option value="">All Rooms</option><option value="__unassigned">⚠ Unassigned</option>${ROOMS384.map(x=>`<option>${esc384(x)}</option>`).join('')}</select></div>
+    <div><label>Stock Status</label><input data-f="invStatus" placeholder="status contains…"></div>
+    <div><label>Brand</label><input data-f="brand" placeholder="brand contains…"></div>
+    <div><label>Model</label><input data-f="model" placeholder="model contains…"></div>
+    <div><label>Serial / ID</label><input data-f="serial" placeholder="serial contains…"></div>
+    <div><label>Quantity ≥</label><input data-f="qtyMin" type="number" min="0"></div>
+    <div><label>Unit</label><input data-f="unit" placeholder="ea, set…"></div>
+    <div><label>Purchase Price ≥</label><input data-f="priceMin" type="number" min="0" step=".01"></div>
+    <div><label>Current Value ≥</label><input data-f="valueMin" type="number" min="0" step=".01"></div>
+    <div><label>Purchase Date From</label><input data-f="dateFrom" type="date"></div>
+    <div><label>Purchase Date To</label><input data-f="dateTo" type="date"></div>
+    <div><label>Insurance Status</label><input data-f="insuranceStatus" placeholder="coverage contains…"></div>
+    <div><label>Declutter Status</label><select data-f="declutterStatus"><option value="">All</option><option>Not Reviewed</option><option>Keep</option><option>Maybe</option><option>Sell</option><option>Donate</option><option>Gift</option><option>Recycle</option><option>Trash</option><option>Ready to Exit</option><option>Exited</option></select></div>
+    <div><label>Missing Fields</label><select data-f="missing"><option value="">All</option><option value="missing">⚠ Missing</option><option value="complete">✓ Complete</option></select></div>
+    <div style="display:flex;align-items:end"><button type="button" class="btn sm" id="inv384-clear">Clear Filters</button></div>
+   </div>`;
+   host.insertBefore(d,q('inv381-view')||content);
+   const cat=d.querySelector('[data-f="cat"]'),sub=d.querySelector('[data-f="subcategory"]');
+   cat.addEventListener('change',()=>{sub.innerHTML='<option value="">All Subcategories</option>'+(SUB384[cat.value]||[]).map(x=>`<option>${esc384(x)}</option>`).join('');render384()});
+   d.querySelectorAll('input,select').forEach(e=>{if(e!==cat)e.addEventListener(e.tagName==='INPUT'?'input':'change',render384)});
+   q('inv384-clear').onclick=()=>{d.querySelectorAll('input').forEach(x=>x.value='');d.querySelectorAll('select').forEach(x=>x.selectedIndex=0);sub.innerHTML='<option value="">All Subcategories</option>';render384()};
+ }
+ function matches(i){
+   const d=q('inv384-filters');if(!d)return true;const v=f=>d.querySelector(`[data-f="${f}"]`)?.value||'', has=(a,b)=>String(a||'').toLowerCase().includes(String(b||'').toLowerCase());
+   if(v('name')&&!has(i.name,v('name')))return false;if(v('cat')&&i.cat!==v('cat'))return false;if(v('subcategory')&&i.subcategory!==v('subcategory'))return false;
+   if(v('inventoryMethod')&&i.inventoryMethod!==v('inventoryMethod'))return false;if(v('location')==='__unassigned'&&i.location)return false;if(v('location')&&v('location')!=='__unassigned'&&i.location!==v('location'))return false;
+   for(const f of ['invStatus','brand','model','serial','unit','insuranceStatus'])if(v(f)&&!has(i[f],v(f)))return false;
+   if(v('declutterStatus')&&i.declutterStatus!==v('declutterStatus'))return false;if(v('qtyMin')&&Number(i.qty||0)<Number(v('qtyMin')))return false;if(v('priceMin')&&Number(i.price||0)<Number(v('priceMin')))return false;if(v('valueMin')&&Number(i.currentValue||0)<Number(v('valueMin')))return false;
+   if(v('dateFrom')&&String(i.pdate||'')<v('dateFrom'))return false;if(v('dateTo')&&String(i.pdate||'')>v('dateTo'))return false;
+   const m=typeof window.inv383Missing==='function'?window.inv383Missing(i):[];if(v('missing')==='missing'&&!m.length)return false;if(v('missing')==='complete'&&m.length)return false;return true
+ }
+ function render384(){
+   if((window.inv381View||'overview')!=='inventory')return;
+   const all=loadInv().filter(matches),cont=q('inv-content');if(!cont)return;
+   const view=q('inv-view')?.value||'table';
+   if(view==='card'&&typeof cardView==='function')cardView(all,cont);
+   else if(typeof tableRows==='function')cont.innerHTML=tableRows('Filtered Inventory',all);
+   if(q('inv-count'))q('inv-count').textContent=all.length+' records';
+ }
+ // Make inline drill tables use controlled category/subcategory options too.
+ window.inv384CatSelect=function(id,val){const a=loadInv(),i=a.find(x=>x.id===id);if(!i)return;i.cat=val;i.subcategory='';saveInv(a);render384()};
+ window.inv384SubSelect=function(id,val){const a=loadInv(),i=a.find(x=>x.id===id);if(!i)return;i.subcategory=val;saveInv(a);render384()};
+ function seed(){
+   if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return;
+   if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='384'))return;
+   const x=makeItem({name:'v384 — Inventory Core Filters & Taxonomy Options',type:'release',status:'inprogress',effort:'hard',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:30,screenTimeRequired:'Yes',releaseVersion:'384',releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['Home Inventory'],releaseChangelog:'Adds a collapsible core-field filter panel to Inventory and explicitly populates the agreed Inventory Category and Subcategory taxonomy in the Inventory action item and filter controls.',releaseSummary:'Inventory can now be filtered across core identifying, location, quantity, purchase/value, protection, decluttering and missing-field data; Category/Subcategory are controlled options.',updatedAt:Date.now()});x.listNums=x.listNums||{};x.listNums.releases=384;x.seqNum='384';S.items.push(x);try{save()}catch(_){}
+ }
+ document.addEventListener('click',e=>{if(e.target.closest?.('#inv381-tabs button[data-v="inventory"]'))setTimeout(()=>{addFilters();render384()},60)});
+ const oldOpen=window.openInvModal;window.openInvModal=function(){const r=oldOpen.apply(this,arguments);setTimeout(enforceModalOptions,60);return r};
+ const oldRender=window.renderInventory;window.renderInventory=function(){const r=oldRender.apply(this,arguments);setTimeout(()=>{addFilters();if((window.inv381View||'overview')==='inventory')render384()},70);return r};
+ let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){seed();setTimeout(()=>{enforceModalOptions();addFilters()},100);clearInterval(t)}else if(++n>80)clearInterval(t)},250);
+})();
+</script>
+<!-- CHANGE LOG: v384 — Added Inventory core-field filtering and explicit Category/Subcategory option lists. -->
+<!-- RELEASE NOTES: v384 — No inventory records are deleted or reassigned. -->
 
 </body>
 </html>
