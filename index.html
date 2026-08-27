@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v385</title>
+<title>LCC v386</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v379</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v386</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1355,8 +1355,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div class="ld-mode-tabs">
           <button class="ld-mode-tab active" id="ld-tab-dashboard" onclick="setLdMode('dashboard')">📊 Dashboard</button>
           <button class="ld-mode-tab" id="ld-tab-workspace" onclick="setLdMode('workspace')">🗂 Workspace</button>
-          <button class="ld-mode-tab" id="ld-tab-systemdash" onclick="setLdMode('systemdash')" style="display:none">✨ System Dashboard</button>
-          <button class="ld-mode-tab" id="ld-tab-systemwork" onclick="setLdMode('systemwork')" style="display:none">⚙️ System Workspace</button>
           <button class="ld-mode-tab" id="ld-tab-changelog" onclick="setLdMode('changelog')" style="display:none">📜 Change Log</button>
         </div>
         <div id="ld-dashboard"></div>
@@ -1511,7 +1509,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v379</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v386</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -7278,7 +7276,10 @@ function ipPrint(id){
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
     '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>'+
-    '</body></html>';
+    '
+
+
+</body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
@@ -13232,6 +13233,7 @@ function renderListDetail(){
   const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
   if(hideDone)li=li.filter(i=>i.status!=='done'&&i.status!=='cancelled');
   if(S.activeList==='releases'){
+    li=li.filter(i=>i.type==='release'); // v386 — Release Management workspace is release records only; Changes remain in Change Management
     const ctFilter=(document.getElementById('ld-change-type')||{value:''}).value;
     const csFilter=(document.getElementById('ld-change-status')||{value:''}).value;
     if(ctFilter)li=li.filter(i=>i.type==='change'&&i.changeType===ctFilter);
@@ -13369,28 +13371,32 @@ function renderListDetail(){
     }
     if(S.activeList==='releases'){
       const rid=i.id;
-      const linkedDot=linkedIndicator(i); // 0299/0300 (v246) — count + type icons instead of a binary dot
-      const modules=i.type==='release'?(i.releaseModules||[]):(i.changeModule||[]);
-      const moduleField=i.type==='release'?'releaseModules':'changeModule';
-      const seqInp3=inp(i.seqNum,`inlineField('${rid}','seqNum',this.value)`,'#');
+      const linkedDot=linkedIndicator(i);
+      const versionInp=inp(i.releaseVersion||'',`inlineField('${rid}','releaseVersion',this.value)`,'v#');
       const nameInp3=inp(i.name,`inlineField('${rid}','name',this.value)`,'Name...');
-      const statusSel3=sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${rid}',this.value)`);
+      const statusSel3=sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled']],i.status,`inlineStatusChg('${rid}',this.value)`);
       const startInp3=dateinp(i.startDate||'',`inlineField('${rid}','startDate',this.value)`);
+      const targetInp3=dateinp(i.date||'',`inlineField('${rid}','date',this.value)`);
       const compInp3=dateinp(i.completedDate||'',`inlineField('${rid}','completedDate',this.value)`);
-      const notesInp3=inp(i.notes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
-      const changeTypeCell=i.type==='change'?sel([['','— Select —'],['enhancement','✨ Enhancement'],['bugfix','🐛 Bug Fix'],['newfeature','🆕 New Feature'],['refactor','🔧 Refactor/Tech Debt'],['ui','🎨 UI Improvement'],['datastructure','🗄️ Data Structure'],['automation','⚡ Automation']],i.changeType||'',`inlineField('${rid}','changeType',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
-      const changeStatusCell=i.type==='change'?sel([['idea','💡 Idea'],['approved','✅ Approved'],['planned','📋 Planned'],['inprogress','🔧 In Progress'],['testing','🧪 Testing'],['complete','✅ Complete'],['cancelled','❌ Cancelled'],['deferred','⏸️ Deferred']],i.changeStatus||'',`inlineField('${rid}','changeStatus',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
-      const modulesInp3=inp(modules.join(', '),`inlineModulesField('${rid}','${moduleField}',this.value)`,'Modules...');
+      const durationInp3=`<input class="tbl-inp" type="number" min="0" value="${esc(i.duration??'')}" onclick="event.stopPropagation()" onchange="inlineField('${rid}','duration',this.value)" style="width:70px" title="${esc(i.durationUnit||'days')}">`;
+      const notesInp3=inp(i.notes||i.releaseNotes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
+      const releaseTypeSel=sel([['','— Type —'],['major','Major'],['minor','Minor'],['patch','Patch'],['hotfix','Hot Fix']],i.releaseType||'',`inlineField('${rid}','releaseType',this.value)`);
+      const releaseStatusSel=sel([['','— Status —'],['planning','Planning'],['ready','Ready'],['testing','Testing'],['released','Released'],['rolledback','Rolled Back']],i.releaseStatus||'',`inlineField('${rid}','releaseStatus',this.value)`);
+      const modulesInp3=inp((i.releaseModules||[]).join(', '),`inlineModulesField('${rid}','releaseModules',this.value)`,'Modules...');
+      const testSel=sel([['','— Test —'],['notstarted','Not Started'],['testing','Testing'],['passed','Passed'],['failed','Failed'],['blocked','Blocked']],i.testResult||'',`inlineField('${rid}','testResult',this.value)`);
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${rid}')">
-        <td onclick="event.stopPropagation()" style="width:44px">${seqInp3}</td>
-        <td class="td-name${i.status==='done'&&i.type!=='transaction'&&i.type!=='recurringexpense'?' done-name':''}" style="min-width:220px" onclick="event.stopPropagation()">${nameInp3}${testResultBadge(i)}</td>
+        <td onclick="event.stopPropagation()" style="min-width:75px">${versionInp}</td>
+        <td class="td-name${i.status==='done'?' done-name':''}" style="min-width:220px" onclick="event.stopPropagation()">${nameInp3}</td>
         <td onclick="event.stopPropagation()">${statusSel3}</td>
         <td onclick="event.stopPropagation()">${startInp3}</td>
-        <td style="min-width:160px" onclick="event.stopPropagation()">${notesInp3}</td>
-        <td onclick="event.stopPropagation()">${changeTypeCell}</td>
-        <td onclick="event.stopPropagation()">${changeStatusCell}</td>
-        <td style="min-width:140px" onclick="event.stopPropagation()">${modulesInp3}</td>
+        <td onclick="event.stopPropagation()">${targetInp3}</td>
         <td onclick="event.stopPropagation()">${compInp3}</td>
+        <td onclick="event.stopPropagation()">${durationInp3}</td>
+        <td style="min-width:180px" onclick="event.stopPropagation()">${notesInp3}</td>
+        <td onclick="event.stopPropagation()">${releaseTypeSel}</td>
+        <td onclick="event.stopPropagation()">${releaseStatusSel}</td>
+        <td style="min-width:150px" onclick="event.stopPropagation()">${modulesInp3}</td>
+        <td onclick="event.stopPropagation()">${testSel}</td>
         <td style="text-align:center">${linkedDot}</td>
         <td onclick="event.stopPropagation()"><button class="btn xs ghost" onclick="openModal(null,null,null,'${rid}')" title="Full edit">&#9998;</button></td>
       </tr>`;
@@ -13429,16 +13435,19 @@ function renderListDetail(){
         <th ${th('target')} onclick="ldSort('target')">Target Date ${thA('target')}</th>
         <th ${th('complete')} onclick="ldSort('complete')">Complete Date ${thA('complete')}</th>
         <th style="width:36px"></th>`;
-  const releasesHead=`<th ${th('seq')} onclick="ldSort('seq')" style="width:44px"># ${thA('seq')}</th>
+  const releasesHead=`<th style="min-width:75px">Version</th>
         <th ${th('name')} onclick="ldSort('name')" style="min-width:200px">Name ${thA('name')}</th>
         <th ${th('status')} onclick="ldSort('status')">Status ${thA('status')}</th>
-        <th ${th('start')} onclick="ldSort('start')">Start Date ${thA('start')}</th>
+        <th ${th('start')} onclick="ldSort('start')">Start</th>
+        <th ${th('target')} onclick="ldSort('target')">Target</th>
+        <th ${th('complete')} onclick="ldSort('complete')">Completed</th>
+        <th>Duration</th>
         <th style="min-width:180px">Notes</th>
-        <th>Change Type</th>
-        <th>Change Status</th>
+        <th>Release Type</th>
+        <th>Release Status</th>
         <th>Modules Impacted</th>
-        <th ${th('complete')} onclick="ldSort('complete')">Complete Date ${thA('complete')}</th>
-        <th style="width:50px">Linked</th>
+        <th>Test Results</th>
+        <th style="width:60px">Linked</th>
         <th style="width:36px"></th>`;
   cont.innerHTML=`<div class="ld-table-wrap">
     <table class="ld-table">
@@ -30597,6 +30606,49 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- CHANGE LOG: v385 — Stabilized goal metric, filters, views, taxonomy/room controls, editable inventory table and collapsed action-item sections. -->
 <!-- RELEASE NOTES: v385 — Existing Inventory data preserved; quantity is secondary context and no longer drives 10,000-goal progress. -->
 
+<!-- v386 — Release Management & Master Plan Stability Repair -->
+<style id="lcc-v386-release-stability-css">
+#ld-tab-systemdash,#ld-tab-systemwork{display:none!important}
+</style>
+<script id="lcc-v386-release-stability">
+(function(){
+  /* Permanent Master Plan business boundary: association wins regardless of action-item type. */
+  const norm=v=>String(v||'').trim().toLowerCase();
+  function businessToken(v){const n=norm(v&&typeof v==='object'?(v.name||v.label||v.id):v);return n==='rla'||n.includes('business')||n.includes('savvy foundations')||n.includes('savvy structure');}
+  window.isBCCMasterPlanItem=function(i){
+    if(!i)return false;
+    const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
+    if(refs.some(v=>{if(businessToken(v))return true;const id=v&&typeof v==='object'?v.id:v;const l=(S.lists||[]).find(x=>String(x.id)===String(id));return l&&businessToken(l.name);}))return true;
+    if((Array.isArray(i.categories)?i.categories:[]).some(businessToken))return true;
+    return [i.productBrand,i.ipBrand,i.brand,i.business,i.company].some(businessToken);
+  };
+  /* System Dashboard/System Workspace are retired. Old calls fall back safely. */
+  const _setLdMode386=window.setLdMode;
+  window.setLdMode=function(mode){if(mode==='systemdash')mode='dashboard';if(mode==='systemwork')mode='workspace';return _setLdMode386.call(this,mode)};
+  /* Sprint belongs on Release Dashboard, not Workspace. */
+  const _renderLdDashboard386=window.renderLdDashboard;
+  window.renderLdDashboard=function(){
+    const r=_renderLdDashboard386.apply(this,arguments);
+    if(S.activeList==='releases'){
+      const dash=document.getElementById('ld-dashboard'),box=document.getElementById('ld-sprint-releases');
+      if(dash&&box){dash.appendChild(box);if(typeof renderReleasesSprintSection==='function')renderReleasesSprintSection();}
+    }
+    return r;
+  };
+  /* Existing Release records are user-owned. Only create v386 when absent. */
+  function seed386(){
+    if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+    if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='386'))return true;
+    const x=makeItem({name:'v386 — Release Management & Master Plan Stability Repair',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:120,screenTimeRequired:'Yes',releaseVersion:'386',releaseType:'major',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management','Master Plan'],releaseChangelog:'Repaired Release Management persistence and workspace usability and hardened the Master Plan business boundary. Existing Release lifecycle edits remain user-owned; Release Workspace now exposes Version, Name, Status, Start/Target/Completed dates, Duration, Notes, Release Type, Release Status, Modules Impacted, Test Results and Linked indicators; Sprint moved to Dashboard; System Dashboard/System Workspace were retired; Master Plan business exclusion now recognizes any Business/RLA/Savvy association.',releaseNotes:'No historical Release record is rebuilt or reset. Missing coded historical releases continue to be created only when absent. Release sequence/list number is no longer part of the Release workspace; Version is the visible release identifier.',releaseSummary:'Release persistence, Release workspace cleanup, and permanent personal-only Master Plan boundary.',releaseUserGuide:'Release Management now uses Dashboard, Workspace and Change Log. Use Workspace to edit release details directly. Sprint information is on Dashboard. Version is the release identifier; the redundant release list number is not shown. Completed releases remain as you leave them. Master Plan excludes Business/RLA/Savvy-scoped items.',releaseTechnicalNotes:'Surgical v386 patch. Reuses existing Release fields; no new Action Item type, field, module or linkable object. Existing historical seqNum/listNums may remain in stored records for compatibility but are not used as the Release Management identifier.'});
+    S.items.push(x);try{save()}catch(_){}return true;
+  }
+  let n=0,t=setInterval(()=>{if(seed386()||++n>40)clearInterval(t)},250);
+  setTimeout(()=>{try{if(typeof renderHub==='function')renderHub()}catch(_){}},700);
+})();
+</script>
+<!-- USER GUIDE: v386 — Release Management uses Dashboard, Workspace and Change Log. Workspace edits Version, Name, Status, Start/Target/Completed dates, Duration, Notes, Release Type, Release Status, Modules Impacted and Test Results while retaining Linked indicators. Sprint is on Dashboard. Version replaces the redundant visible release list number. Master Plan is personal-only and excludes Business/RLA/Savvy-scoped records. -->
+<!-- CHANGE LOG: v386 — Hardened Master Plan business exclusion; preserved user-owned Release lifecycle state; redesigned Release Workspace columns; moved Release Sprint to Dashboard; retired System Dashboard/System Workspace; added only the v386 Release record. -->
+<!-- RELEASE NOTES: v386 — Stability repair for Release Management and Master Plan. Historical Release records are preserved; only absent coded releases are backfilled. -->
 </body>
 </html>
 
