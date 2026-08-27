@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>LCC v377</title>
+<title>LCC v378</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -928,7 +928,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <div class="sb-logo">
     <div class="sb-eye">Life Command Center</div>
     <div class="sb-name">Rashunda<span>.</span></div>
-    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v377</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v378</div>
     <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
     <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
     <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1511,7 +1511,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
         <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
         <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v377</div>
+          <div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v378</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128197; <span id="hub-date">--</span></div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#127807; Rotation Week <strong id="hub-rot">--</strong> of 13</div>
           <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">&#128336; Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -16123,9 +16123,9 @@ function hubPeriodBounds(period){
 }
 function hubPeriodItemDate(i){return i.date||i.targetDate||i.startDate||''}
 function hubPeriodItems(period,includeDone=true){
-  if(period==='sprint'){try{const sp=ALL_SPRINTS[getCurrentSprintIdx()];if(!sp)return[];return (S.items||[]).filter(i=>i.status!=='placeholder'&&String(i.sprint||sprintNumForDate(i.startDate||''))===String(sp.num));}catch(e){return[]}}
+  if(period==='sprint'){try{const sp=ALL_SPRINTS[getCurrentSprintIdx()];if(!sp)return[];return masterPlanItems().filter(i=>i.status!=='placeholder'&&String(i.sprint||sprintNumForDate(i.startDate||''))===String(sp.num));}catch(e){return[]}}
   const [a,b]=hubPeriodBounds(period);
-  return (S.items||[]).filter(i=>i.status!=='placeholder'&&!['transaction','recurringexpense','inventory'].includes(i.type)&&(includeDone||!['done','cancelled'].includes(i.status))&&(()=>{const d=hubPeriodItemDate(i);return d&&d>=a&&d<=b})());
+  return masterPlanItems().filter(i=>i.status!=='placeholder'&&!['transaction','recurringexpense','inventory'].includes(i.type)&&(includeDone||!['done','cancelled'].includes(i.status))&&(()=>{const d=hubPeriodItemDate(i);return d&&d>=a&&d<=b})());
 }
 function hubPeriodCard(i){
   const p=Math.max(0,Math.min(100,Number(i.progress||0))),cls=i.status==='behind'?' behind':i.status==='done'?' done':'';
@@ -16721,7 +16721,7 @@ function toggleHubFocusPeriod(period){
 // "TODAY" and "THIS WEEK" notes in Google Keep. LCC stays source of truth;
 // Keep is a paste-once mirror. Daily 5 = Day focus, Weekly 4 = Week focus.
 function _keepFocusItems(period){
-  return S.items
+  return masterPlanItems()
     .filter(i=>(i.focusPeriods||[]).includes(period)
       && i.status!=='done' && i.status!=='cancelled' && i.status!=='placeholder')
     .sort((a,b)=>(a.date||a.startDate||'~').localeCompare(b.date||b.startDate||'~')
@@ -21712,7 +21712,7 @@ function todayStr(){return new Date().toISOString().slice(0,10);}
       if(x.listNums.releases!==parseInt(r.releaseVersion,10)){x.listNums.releases=parseInt(r.releaseVersion,10);changed=true;}
       if(String(x.seqNum||'')!==r.releaseVersion){x.seqNum=r.releaseVersion;changed=true;}
       const vals={name:r.name,type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:r.startDate,duration:14,durationUnit:'days',releaseVersion:r.releaseVersion,releaseType:r.releaseType,releaseStatus:'ready',testResult:'testing',releaseModules:r.releaseModules,releaseChangelog:r.releaseChangelog,releaseNotes:r.releaseNotes,releaseSummary:r.name,releaseTechnicalNotes:r.releaseVersion==='359'?'Startup continuity hotfix: v356-v359 are reconciled synchronously with the existing release registry before first render.':r.releaseVersion==='355'?'Startup-order hotfix: release reconciliation now runs immediately after load and before first render.':r.releaseVersion==='354'?'Persistent post-v336 release reconciliation; no new action-item type or field. Current Bulk Add project template is v329.':'Reconciled from the coded release history for this version.',updatedAt:now};
-      Object.keys(vals).forEach(k=>{if(JSON.stringify(x[k])!==JSON.stringify(vals[k])){x[k]=vals[k];changed=true;}});
+      Object.keys(vals).forEach(k=>{if(x[k]===undefined||x[k]===null||x[k]===''){x[k]=vals[k];changed=true;}});
       if(typeof syncDurationDatesV337==='function')try{syncDurationDatesV337(x)}catch(e){}
     });
     if(changed&&typeof save==='function')try{save()}catch(e){}
@@ -29467,7 +29467,7 @@ USER GUIDE: v350 — Implementation Control Center. Open System → Implementati
   // #0656 Habit Frequency blank + required is already enforced by v358; reinforce required before save.
   const oldDoSave=window.doSave;window.doSave=function(){const t=document.getElementById('m-type')?.value;if(t==='habit'){const f=document.getElementById('m-hab-freq');if(f&&!f.value){alert('Habit Frequency is required.');return}}return oldDoSave&&oldDoSave.apply(this,arguments)};
   // v360 release record only.
-  function ensureRelease(){if(!window.S||!Array.isArray(S.items))return;let rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===V);const now=new Date().toISOString(),vals={name:'v360 — 44-Change Workbook Implementation',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-21',releaseVersion:V,releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['SF Scorecard','Initiative Dashboard','Client Build Module','Goal Module','Master Plan','Automation','Content Module','Habits & Routines','Home Inventory','Rewards Bank','Release Management','Change Management','Implementation Scorecard','Phase Module','Planning Queue','Sprint Planner'],releaseChangelog:'Implemented the 44 rows in v360-changes(2).xlsx using Notes as the coding instructions, including scorecard CC/collapse/drill-in, workspace freeze guard, custom client pricing, numeric goals, Master Plan period/count rules, automation add routing, Funnel Page, habit frequency, inventory links/status/focus, release/change lifecycle/view alignment, nested phases, dashboard goal/action-item sections, and Active Now relocation.',releaseNotes:'v360 is the requested 44-change release built directly from v359. The five Master Plan widgets now state their count rules and refresh from current data. This Week, Month, and Quarter preserve the canonical Active Now hierarchy/grouping while applying their date filters and each includes a Type filter; relocated Active Now in Planning Queue also retains Type filtering.',releaseSummary:'44-change workbook implementation',releaseTechnicalNotes:'No new Action Item type. New fields: goalNumberTarget, goalNumberCurrent, clientCustomPrice. Existing linked Inventory/Room/Automation arrays are persisted and canonical link maps updated.',updatedAt:now};if(rel)Object.assign(rel,vals);else{rel=makeItem(vals);rel.listNums=rel.listNums||{};rel.listNums.releases=360;rel.seqNum='360';S.items.push(rel)}try{save()}catch(e){}};
+  function ensureRelease(){if(!window.S||!Array.isArray(S.items))return;let rel=S.items.find(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===V);const now=new Date().toISOString(),vals={name:'v360 — 44-Change Workbook Implementation',type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-21',releaseVersion:V,releaseType:'minor',releaseStatus:'testing',testResult:'testing',releaseModules:['SF Scorecard','Initiative Dashboard','Client Build Module','Goal Module','Master Plan','Automation','Content Module','Habits & Routines','Home Inventory','Rewards Bank','Release Management','Change Management','Implementation Scorecard','Phase Module','Planning Queue','Sprint Planner'],releaseChangelog:'Implemented the 44 rows in v360-changes(2).xlsx using Notes as the coding instructions, including scorecard CC/collapse/drill-in, workspace freeze guard, custom client pricing, numeric goals, Master Plan period/count rules, automation add routing, Funnel Page, habit frequency, inventory links/status/focus, release/change lifecycle/view alignment, nested phases, dashboard goal/action-item sections, and Active Now relocation.',releaseNotes:'v360 is the requested 44-change release built directly from v359. The five Master Plan widgets now state their count rules and refresh from current data. This Week, Month, and Quarter preserve the canonical Active Now hierarchy/grouping while applying their date filters and each includes a Type filter; relocated Active Now in Planning Queue also retains Type filtering.',releaseSummary:'44-change workbook implementation',releaseTechnicalNotes:'No new Action Item type. New fields: goalNumberTarget, goalNumberCurrent, clientCustomPrice. Existing linked Inventory/Room/Automation arrays are persisted and canonical link maps updated.',updatedAt:now};if(!rel){rel=makeItem(vals);rel.listNums=rel.listNums||{};rel.listNums.releases=360;rel.seqNum='360';S.items.push(rel)}try{save()}catch(e){}};
   window.ensureReleaseV360=ensureRelease;
   setTimeout(()=>{ensureRelease();try{recalc();save()}catch(e){}},50);
 })();
@@ -30068,10 +30068,13 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  const BCC_TYPES=new Set(['goal','ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
  const norm=v=>String(v||'').trim().toLowerCase();
  function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
+ function refName(v){if(v&&typeof v==='object')return norm(v.name||v.label||v.id);return norm(v)}
  function isBCCMasterPlanItem(i){
    if(!i||!BCC_TYPES.has(norm(i.type)))return false;
-   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[])];
-   if(refs.some(v=>BUSINESS_NAMES.has(norm(v))||BUSINESS_NAMES.has(listName(v))))return true;
+   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
+   if(refs.some(v=>BUSINESS_NAMES.has(refName(v))||BUSINESS_NAMES.has(listName(v&&typeof v==='object'?v.id:v))))return true;
+   const cats=(Array.isArray(i.categories)?i.categories:[]).map(norm);
+   if(cats.some(c=>c==='business'||c.includes('business, career')||c.includes('business & career')))return true;
    const brand=norm(i.productBrand||i.ipBrand||i.brand);
    return brand==='rla'||brand.includes('savvy foundations')||brand.includes('savvy structure');
  }
@@ -30098,6 +30101,56 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v377 — The Master Plan is now personal-only. BCC-owned Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are hidden from Master Plan views without being deleted or removed from other LCC pages. -->
 <!-- CHANGE LOG: v377 — Added and hardened a Master Plan-only BCC scope filter across period lenses, Today’s Focus, Active Now, Sprint, focus-period, monthly, goal and habit rendering. Master Plan now reads through a canonical personal-only item source and recognizes current/legacy List storage shapes. Updated tab title and Master Plan hero/sidebar to v377. -->
 <!-- RELEASE NOTES: v377 — View-separation patch. Business/BCC records remain intact in LCC data and other LCC views; only Master Plan presentation is filtered. -->
+
+<script id="lcc-v378-release-persistence-master-plan-fix">
+/* v378 — release lifecycle persistence + post-v360 release continuity + Master Plan BCC exclusion repair. */
+(function(){
+ const HISTORY={
+  '361':['Knowledge Hub Command Center','2026-08-24'],
+  '362':['Knowledge Hub Field Controls & Validation','2026-08-24'],
+  '363':['Knowledge Review Scheduling','2026-08-24'],
+  '364':['Knowledge Topics & Sources','2026-08-24'],
+  '365':['Knowledge Hub Render Hotfix','2026-08-24'],
+  '366':['Digital Library Merge & Knowledge Hub Layout Fix','2026-08-24'],
+  '367':['Digital Library / Knowledge Hub Continuity','2026-08-24'],
+  '368':['Digital Library / Knowledge Hub Continuity','2026-08-24'],
+  '369':['Digital Library / Knowledge Hub Continuity','2026-08-24'],
+  '370':['Digital Library / Knowledge Hub Continuity','2026-08-24'],
+  '371':['Business Command Center Structure','2026-08-25'],
+  '372':['BCC Migration Export & Render Hotfix','2026-08-25'],
+  '373':['BCC Migration Goals & Placeholders','2026-08-25'],
+  '374':['Strict BCC Migration Scope','2026-08-25'],
+  '375':['Bulk Add Permissive Capture','2026-08-25'],
+  '376':['Knowledge Hub Types, Fields & CSV Upload','2026-08-25'],
+  '377':['Master Plan BCC Separation','2026-08-26']
+ };
+ function ensurePost360ReleaseContinuity(){
+  if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+  let changed=false;
+  Object.entries(HISTORY).forEach(([v,[name,startDate]])=>{
+   if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')===v))return;
+   const x=makeItem({name:'v'+v+' — '+name,type:'release',status:'inprogress',effort:'ultimate',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate,releaseVersion:v,releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management'],releaseChangelog:'Restored from the coded LCC release history because the persisted Release Action Item was missing.',releaseNotes:'Continuity repair only. This record is created only when the coded release is absent; existing user-edited Release records are never overwritten.',releaseSummary:name,releaseUserGuide:'This Release Action Item documents coded LCC version v'+v+'.',releaseTechnicalNotes:'v378 continuity repair. Existing records are preserved exactly; only absent post-v360 Release records are created.',updatedAt:Date.now()});
+   x.listNums=x.listNums||{};x.listNums.releases=parseInt(v,10);x.seqNum=v;S.items.push(x);changed=true;
+  });
+  return changed;
+ }
+ function ensure378(){
+  if(!window.S||!Array.isArray(S.items)||typeof makeItem!=='function')return false;
+  if(S.items.some(x=>x&&x.type==='release'&&String(x.releaseVersion||'').replace(/^v/i,'')==='378'))return false;
+  const x=makeItem({name:'v378 — Release Persistence & Master Plan BCC Filter Repair',type:'release',status:'inprogress',effort:'hard',level:'primary',planningStage:'ready',listIds:['releases'],lists:['releases'],categories:['💻 Technology'],startDate:'2026-08-27',date:'2026-08-27',estimatedMins:30,screenTimeRequired:'Yes',releaseVersion:'378',releaseType:'patch',releaseStatus:'testing',testResult:'testing',releaseModules:['Release Management','Master Plan','Business Command Center','Drive'],releaseChangelog:'Stopped coded release seed/reconciliation logic from overwriting user-edited Release lifecycle fields; repaired missing post-v360 Release Action Item continuity; and closed remaining Master Plan business leakage by filtering direct period-lens and Keep-companion reads through the personal-only Master Plan source and hardening Business scope recognition.',releaseNotes:'Marking a Release Done/Released now remains user-owned state across later LCC versions. Existing Release records are preserved instead of reset to In Progress/Testing. Master Plan remains personal-only; BCC-scoped records are view-filtered, not deleted.',releaseSummary:'Preserves Release completion state and keeps BCC work out of Master Plan.',releaseUserGuide:'Release Management: update Release Status/Action Item Status normally; later coded versions will not reset completed releases. Master Plan: business/BCC work is hidden automatically while remaining intact elsewhere.',releaseTechnicalNotes:'Changed v337-v359 registry reconciliation to backfill only missing fields; changed v360 seeder to create-only; added create-only post-v360 continuity repair; routed direct Master Plan period-lens/Keep reads through masterPlanItems(); hardened BCC scope matching for list IDs, list names, object refs, legacy listId, business category fallback, and brand fields. No new Action Item type, field, module, or linkable object.',updatedAt:Date.now()});
+  x.listNums=x.listNums||{};x.listNums.releases=378;x.seqNum='378';S.items.push(x);return true;
+ }
+ function reconcile(){const a=ensurePost360ReleaseContinuity(),b=ensure378();if(a||b)try{save()}catch(e){}return true}
+ let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&typeof makeItem==='function'){reconcile();clearInterval(t)}else if(++n>80)clearInterval(t)},250);
+ // Drive/import can replace S.items after startup; reconcile missing releases without changing existing lifecycle state.
+ if(typeof window.loadFromDriveData==='function'){
+  const old=window.loadFromDriveData;window.loadFromDriveData=function(){const r=old.apply(this,arguments);setTimeout(reconcile,0);return r};
+ }
+})();
+</script>
+<!-- USER GUIDE: v378 — Release completion/lifecycle changes are preserved across later versions. Missing coded post-v360 Release Action Items are repaired once when absent. Master Plan is personal-only and excludes BCC-scoped work automatically. -->
+<!-- CHANGE LOG: v378 — Made release registries create/backfill-only instead of overwriting user state; repaired post-v360 Release continuity; fixed remaining direct Master Plan reads that bypassed BCC filtering; hardened business-scope matching. -->
+<!-- RELEASE NOTES: v378 — Persistence and Master Plan separation hotfix. No new Action Item type, field, module, or linkable object. -->
 </body>
 </html>
 
