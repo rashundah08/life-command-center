@@ -3347,7 +3347,19 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           </div>
           <div class="g2" style="margin-bottom:10px">
             <div class="field" style="margin:0"><label>Test Result</label><select id="bu-release-testresult"><option value="">-- Keep --</option><option value="__clear__">— Clear —</option><option value="not_tested">Not Tested</option><option value="testing">Testing</option><option value="pass">✅ Passed</option><option value="fail">❌ Failed</option><option value="retest_required">Retest Required</option><option value="not_required">Not Required</option></select></div>
+            <div class="field" style="margin:0"><label>Release Date</label><input id="bu-release-date" type="date"></div>
+          </div>
+          <div class="g2" style="margin-bottom:10px">
             <div class="field" style="margin:0"><label>Target Ship Date</label><input id="bu-release-target-ship" type="date"></div>
+            <div class="field" style="margin:0"><label>Testing Status</label><input id="bu-release-testing-status" placeholder="Leave blank to keep"></div>
+          </div>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>Backup Status</label><input id="bu-release-backup-status" placeholder="Leave blank to keep"></div>
+            <div class="field" style="margin:0"><label>Changelog Complete</label><select id="bu-release-changelog-complete"><option value="">-- Keep --</option><option value="true">Yes</option><option value="false">No</option></select></div>
+          </div>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="field" style="margin:0"><label>User Guide Complete</label><select id="bu-release-user-guide-complete"><option value="">-- Keep --</option><option value="true">Yes</option><option value="false">No</option></select></div>
+            <div></div>
           </div>
           <div class="g2" style="margin-bottom:10px">
             <div class="field" style="margin:0"><label>Verification Status</label><input id="bu-release-verification" placeholder="Leave blank to keep"></div>
@@ -10583,7 +10595,7 @@ function resetBulkForm(){
   if(csvFileEl)csvFileEl.value='';
   const csvPrevEl=document.getElementById('ba-csv-preview');
   if(csvPrevEl)csvPrevEl.innerHTML='';
-  ['bu-type','bu-status','bu-effort','bu-start','bu-date','bu-completed','bu-duration-unit','bu-resp-status','bu-ask-who','bu-ask-type','bu-ask-channel','bu-ask-category','bu-reject-type','bu-onhold-reason','bu-patch-diff','bu-patch-cat','bu-rotation-week','bu-challenge','bu-badge-url','bu-seqnum','bu-priority','bu-checkin','bu-budget','bu-tags','bu-release-type','bu-release-status','bu-release-version','bu-release-filename','bu-release-testresult','bu-release-target-ship','bu-release-verification','bu-release-migration','bu-release-readiness','bu-release-rollback-required','bu-release-rollback-date','bu-release-rolledback-to','bu-release-modules','bu-release-override-reason','bu-release-summary','bu-release-changelog','bu-release-notes','bu-release-user-guide','bu-release-technical-notes','bu-change-type','bu-change-status','bu-change-priority','bu-testresult','bu-content-type','bu-content-stage','bu-content-purpose','bu-content-pillar','bu-content-campaign','bu-content-audience','bu-content-offer','bu-product-status','bu-product-category','bu-product-brand','bu-product-type','bu-product-featured','bu-product-launch-date','bu-product-format','bu-product-price','bu-product-regular-price','bu-product-founding-price','bu-product-payment-plan','bu-product-checkout-link','bu-product-sales-page','bu-s','bu-m','bu-a','bu-r','bu-notes','bu-est-mins','bu-func','bu-cadence','bu-knowtype','bu-mainttype'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['bu-type','bu-status','bu-effort','bu-start','bu-date','bu-completed','bu-duration-unit','bu-resp-status','bu-ask-who','bu-ask-type','bu-ask-channel','bu-ask-category','bu-reject-type','bu-onhold-reason','bu-patch-diff','bu-patch-cat','bu-rotation-week','bu-challenge','bu-badge-url','bu-seqnum','bu-priority','bu-checkin','bu-budget','bu-tags','bu-release-type','bu-release-status','bu-release-version','bu-release-filename','bu-release-testresult','bu-release-date','bu-release-target-ship','bu-release-testing-status','bu-release-backup-status','bu-release-changelog-complete','bu-release-user-guide-complete','bu-release-verification','bu-release-migration','bu-release-readiness','bu-release-rollback-required','bu-release-rollback-date','bu-release-rolledback-to','bu-release-modules','bu-release-override-reason','bu-release-summary','bu-release-changelog','bu-release-notes','bu-release-user-guide','bu-release-technical-notes','bu-change-type','bu-change-status','bu-change-priority','bu-testresult','bu-content-type','bu-content-stage','bu-content-purpose','bu-content-pillar','bu-content-campaign','bu-content-audience','bu-content-offer','bu-product-status','bu-product-category','bu-product-brand','bu-product-type','bu-product-featured','bu-product-launch-date','bu-product-format','bu-product-price','bu-product-regular-price','bu-product-founding-price','bu-product-payment-plan','bu-product-checkout-link','bu-product-sales-page','bu-s','bu-m','bu-a','bu-r','bu-notes','bu-est-mins','bu-func','bu-cadence','bu-knowtype','bu-mainttype'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.bu-focus-period').forEach(c=>c.checked=false);
   ['bu-clear-start','bu-clear-date','bu-clear-completed'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
   document.querySelectorAll('.lci.sel,.cci.sel').forEach(el=>{el.classList.remove('sel');el.style.background='';el.style.borderColor='';});
@@ -11632,7 +11644,12 @@ function saveBulk(){
       const _bRelVersion=document.getElementById('bu-release-version')?.value||'';
       const _bRelFilename=document.getElementById('bu-release-filename')?.value||'';
       const _bRelTestResult=document.getElementById('bu-release-testresult')?.value||'';
+      const _bRelDate=document.getElementById('bu-release-date')?.value||'';
       const _bRelTargetShip=document.getElementById('bu-release-target-ship')?.value||'';
+      const _bRelTestingStatus=document.getElementById('bu-release-testing-status')?.value||'';
+      const _bRelBackupStatus=document.getElementById('bu-release-backup-status')?.value||'';
+      const _bRelChangelogComplete=document.getElementById('bu-release-changelog-complete')?.value||'';
+      const _bRelUserGuideComplete=document.getElementById('bu-release-user-guide-complete')?.value||'';
       const _bRelVerification=document.getElementById('bu-release-verification')?.value||'';
       const _bRelMigration=document.getElementById('bu-release-migration')?.value||'';
       const _bRelReadiness=document.getElementById('bu-release-readiness')?.value||'';
@@ -11670,7 +11687,12 @@ function saveBulk(){
       if(_bRelVersion)item.releaseVersion=_bRelVersion;
       if(_bRelFilename)item.releaseFileName=_bRelFilename;
       if(_bRelTestResult&&item.type==='release')item.testResult=(_bRelTestResult==='__clear__'?'':_bRelTestResult);
+      if(_bRelDate)item.releaseDate=_bRelDate;
       if(_bRelTargetShip)item.releaseTargetShipDate=_bRelTargetShip;
+      if(_bRelTestingStatus)item.releaseTestingStatus=_bRelTestingStatus;
+      if(_bRelBackupStatus)item.releaseBackupStatus=_bRelBackupStatus;
+      if(_bRelChangelogComplete)item.releaseChangelogComplete=(_bRelChangelogComplete==='true');
+      if(_bRelUserGuideComplete)item.releaseUserGuideComplete=(_bRelUserGuideComplete==='true');
       if(_bRelVerification)item.releaseVerificationStatus=_bRelVerification;
       if(_bRelMigration)item.releaseMigrationStatus=_bRelMigration;
       if(_bRelReadiness)item.releaseReadinessOverride=(_bRelReadiness==='yes');
@@ -11775,22 +11797,28 @@ function saveBulk(){
       if(_buDateWith==='__CLEAR__')item.dateWith='';
       else if(_buDateWith)item.dateWith=_buDateWith;
       schema2NormalizeRecord(item);
-      // v390 correction — a terminal Release Status is a completion action, not just metadata.
-      // Apply after BOTH the Complete Bulk Editor and dedicated Release fields so either path behaves identically.
+      // v390 source fix — one authoritative Release completion path for BOTH bulk editors.
+      // The user's bulk-close workflow is Test Result + terminal Release Status; historical release docs are preserved when present
+      // and receive an audit note only when blank so the close action is not silently blocked.
+      let _releaseBulkFinalized=false;
       if(item.type==='release'&&['released','shipped','verified','closed'].includes(String(item.releaseStatus||'').toLowerCase())){
-        const _relCloseMiss=[];
-        if(!['pass','not_required'].includes(String(item.testResult||'').toLowerCase()))_relCloseMiss.push('Test Result = Passed / Not Required');
-        if(_relCloseMiss.length){
+        if(!['pass','not_required'].includes(String(item.testResult||'').toLowerCase())){
           item.releaseStatus=_s2OldReleaseStatus;
           item.status=_s2OldStatus;
-          _schema2BulkCloseErrors.push((item.name||'Item')+': '+_relCloseMiss.join(', '));
+          _schema2BulkCloseErrors.push((item.name||'Item')+': Test Result = Passed / Not Required');
         }else{
           if(!(item.releaseChangelog||'').trim())item.releaseChangelog='Historical release completed via Bulk Update.';
           if(!(item.releaseNotes||'').trim())item.releaseNotes='Release marked '+String(item.releaseStatus||'completed')+' via Bulk Update.';
-          item.status='done';item.progress=100;if(!item.completedDate)item.completedDate=today();
+          item.releaseChangelogComplete=true;
+          if((item.releaseUserGuide||'').trim())item.releaseUserGuideComplete=true;
+          if(!item.releaseDate)item.releaseDate=today();
+          item.status='done';
+          item.progress=100;
+          if(!item.completedDate)item.completedDate=today();
+          _releaseBulkFinalized=true;
         }
       }
-      if(item.status==='done'){
+      if(item.status==='done'&&!_releaseBulkFinalized){
         const _s2CloseMiss=schema2CloseMissing(item);
         if(_s2CloseMiss.length){item.status=_s2OldStatus;_schema2BulkCloseErrors.push((item.name||'Item')+': '+_s2CloseMiss.join(', '));}
       }
@@ -29360,7 +29388,7 @@ USER GUIDE: v350 — Implementation Control Center. Open System → Implementati
 
   // Save guard for required inventory entry fields.
   const oldSaveInvItem=window.saveInvItem;
-  window.saveInvItem=function(){const c=document.getElementById('inv-cat')?.value||'',st=document.getElementById('inv-status')?.value||'',loc=document.getElementById('inv-location')?.value||'',method=document.getElementById('inv381-method')?.value||'';const roomRequired=!['Need to Buy','On Order','Out of Stock','Donated','Trashed','Sold','Gifted'].includes(st);if(!c||!st||!method||(roomRequired&&!loc)){alert('Inventory requires Item Name, Category, Inventory Method, Item Status'+(roomRequired?', and Room / Storage Location.':'.'));return}return oldSaveInvItem&&oldSaveInvItem.apply(this,arguments)};
+  window.saveInvItem=function(){const c=document.getElementById('inv-cat')?.value||'',st=document.getElementById('inv-status')?.value||'',method=document.getElementById('inv381-method')?.value||'';if(!c||!st||!method){alert('Inventory requires Item Name, Category, Inventory Method, and Item Status.');return}return oldSaveInvItem&&oldSaveInvItem.apply(this,arguments)};
 
   function ensureInvControls(){const search=document.getElementById('inv-search');if(!search||document.getElementById('inv-room-filter'))return;const host=search.closest('div[style*="display:flex"]')?.parentElement||search.parentElement?.parentElement;if(!host)return;const row=search.closest('div[style*="display:flex"]')||search.parentElement?.parentElement;const rooms=typeof loadRooms==='function'?loadRooms().slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''))):[];const brands=[...new Set((typeof loadInv==='function'?loadInv():[]).map(i=>i.brand).filter(Boolean))].sort();row.insertAdjacentHTML('beforeend',`<select id="inv-room-filter" onchange="renderInventory()" class="tbl-sel" style="width:auto"><option value="">All Rooms</option>${rooms.map(r=>`<option value="${escV(r.id)}">${escV(r.name)}</option>`).join('')}</select><select id="inv-brand-filter" onchange="renderInventory()" class="tbl-sel" style="width:auto"><option value="">All Brands</option>${brands.map(b=>`<option>${escV(b)}</option>`).join('')}</select><select id="inv-missing-filter" onchange="renderInventory()" class="tbl-sel" style="width:auto"><option value="">All Field States</option><option value="missing">Missing Required Fields</option><option value="complete">Required Fields Complete</option></select><select id="inv-sort" onchange="renderInventory()" class="tbl-sel" style="width:auto"><option value="name">Sort: Item Name</option><option value="cat">Sort: Category</option><option value="status">Sort: Stock Status</option><option value="location">Sort: Location</option></select>`);}
   // Replace inventory renderer with same source-of-truth data plus requested filters/sorts.
@@ -29979,7 +30007,18 @@ function v368FieldDef(type,key){
  return d;
 }
 const _v368OrigCatalog=schema2FieldCatalog;
-schema2FieldCatalog=function(type){const a=_v368OrigCatalog(type),g=Object.keys(V368_FIELD_GUIDE_META[type]||{}),extra=['duration','durationUnit','tags','focusPeriods','checkinDate','sprint','rotationWeek','func','cadence','knowledgeType','maintType'];return [...new Set([...a,...g,...extra])].filter(k=>!['id','createdAt','updatedAt','listNums'].includes(k)).sort((x,y)=>v368FieldDef(type,x).l.localeCompare(v368FieldDef(type,y).l));};
+schema2FieldCatalog=function(type){
+  // v390 source fix — Release bulk editing uses the actual Release field set from the current Field Guide.
+  // Do not mix unrelated generic/stored properties into the Release-specific editor.
+  if(type==='release')return [
+    'releaseVersion','releaseType','releaseStatus','releaseFileName','releaseDate','releaseChangelog','releaseNotes','testResult',
+    'releaseTargetShipDate','releaseReadinessOverride','releaseOverrideReason','releaseMigrationStatus','releaseVerificationStatus',
+    'releaseRollbackRequired','releaseRollbackDate','releaseRolledBackTo','releaseSummary','releaseUserGuide','releaseTechnicalNotes',
+    'releaseTestingStatus','releaseBackupStatus','releaseChangelogComplete','releaseUserGuideComplete','releaseModules'
+  ];
+  const a=_v368OrigCatalog(type),g=Object.keys(V368_FIELD_GUIDE_META[type]||{}),extra=['duration','durationUnit','tags','focusPeriods','checkinDate','sprint','rotationWeek','func','cadence','knowledgeType','maintType'];
+  return [...new Set([...a,...g,...extra])].filter(k=>!['id','createdAt','updatedAt','listNums'].includes(k)).sort((x,y)=>v368FieldDef(type,x).l.localeCompare(v368FieldDef(type,y).l));
+};
 function v368ValueControl(prefix,idx,r,d){const dis=r.mode!=='set'?' disabled':'';const change=`onchange="schema2BulkRowChange('${prefix}',${idx},'value',this.value)"`;const input=`oninput="schema2BulkRowChange('${prefix}',${idx},'value',this.value)"`;let opts=d._liveOptions||((d.o||[]).map(o=>typeof o==='object'?o:{v:o,l:o}));if(d.t==='select'&&opts&&opts.length)return `<select ${change}${dis}><option value="">— Select value —</option>${opts.filter(o=>o.v!==''&&o.l!=='').map(o=>`<option value="${esc(String(o.v))}"${String(r.value)===String(o.v)?' selected':''}>${esc(String(o.l))}</option>`).join('')}</select>`;if(d.t==='date')return `<input type="date" value="${esc(r.value||'')}" ${change}${dis}>`;if(d.t==='number')return `<input type="number" step="any" value="${esc(r.value||'')}" ${input}${dis}>`;return `<input value="${esc(r.value||'')}" placeholder="${d.t==='select'?'Enter current catalog value':'Value'}" ${input}${dis}>`}
 schema2RenderBulkRows=function(prefix){const box=document.getElementById(prefix+'-schema2-rows');if(!box)return;const type=document.getElementById(prefix+'-type')?.value||'',cat=schema2FieldCatalog(type);if(!_schema2BulkRows[prefix].length)_schema2BulkRows[prefix].push({key:'',value:'',mode:'set'});box.innerHTML=_schema2BulkRows[prefix].map((r,idx)=>{const d=r.key&&r.key!=='__custom__'?v368FieldDef(type,r.key):{l:'Value',t:'text'};return `<div style="display:grid;grid-template-columns:minmax(210px,1.2fr) 100px minmax(190px,1fr) 34px;gap:6px;margin-bottom:6px;align-items:center"><select onchange="schema2BulkRowChange('${prefix}',${idx},'key',this.value);schema2BulkRowChange('${prefix}',${idx},'value','');schema2RenderBulkRows('${prefix}')"><option value="">— Select Field —</option>${cat.map(k=>`<option value="${esc(k)}"${r.key===k?' selected':''}>${esc(v368FieldDef(type,k).l)} · ${esc(k)}</option>`).join('')}<option value="__custom__"${r.key==='__custom__'?' selected':''}>Custom property…</option></select><select onchange="schema2BulkRowChange('${prefix}',${idx},'mode',this.value);schema2RenderBulkRows('${prefix}')"><option value="set"${r.mode==='set'?' selected':''}>Set</option><option value="clear"${r.mode==='clear'?' selected':''}>Clear</option><option value="true"${r.mode==='true'?' selected':''}>True</option><option value="false"${r.mode==='false'?' selected':''}>False</option></select>${r.key==='__custom__'?`<input value="${esc(r.value||'')}" placeholder="property=value" oninput="schema2BulkRowChange('${prefix}',${idx},'value',this.value)">`:v368ValueControl(prefix,idx,r,d)}<button type="button" class="btn xs danger" onclick="schema2RemoveBulkRow('${prefix}',${idx})">×</button></div>`}).join('');const panel=document.getElementById(prefix+'-schema2-panel');if(panel){const st=panel.querySelector('strong');if(st)st.textContent='🧬 '+(type?(ACTION_SCHEMA_2[type]?.label||type):'All')+' Fields · Complete Bulk Editor';const sub=panel.querySelector('strong+div');if(sub)sub.textContent='Field list reconciled to the Field Guide + current schema. Controlled fields use dropdown options instead of free text.'}};
 const _v368OrigDef=schema2FieldDef;schema2FieldDef=function(type,key){return v368FieldDef(type,key)};
@@ -30499,7 +30538,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  function missing383(i){const m=[];if(!(i.name||'').trim())m.push('Item Name');if(!(i.cat||'').trim())m.push('Category');if(!(i.subcategory||'').trim())m.push('Subcategory');if(!(i.inventoryMethod||'').trim())m.push('Inventory Method');if(!(i.invStatus||'').trim())m.push('Stock Status');if(!(i.location||'').trim())m.push('Room');if(!(i.qty>0))m.push('Quantity');if(!(i.unit||'').trim())m.push('Unit');(CAT_REQ[i.cat]||[]).forEach(k=>{if(i[k]==null||String(i[k]).trim()==='')m.push(({brand:'Brand',model:'Model',serial:'Serial / Identifier',currentValue:'Current Value',creator:'Creator / Author',format:'Format'})[k]||k)});const d=i.categoryDetails||{};(DETAIL_REQ[i.cat]||[]).forEach(k=>{if(d[k]==null||String(d[k]).trim()==='')m.push(k.replace(/([A-Z])/g,' $1').replace(/^./,c=>c.toUpperCase()))});if(!i.invCover)m.push('Photo');if((Number(i.price)||Number(i.currentValue)||0)>=100&&!i.receiptUrl)m.push('Receipt');return [...new Set(m)]}
  window.inv383Missing=missing383;
  function hardRooms(){/* v390 source fix: room options are owned by openInvModal/loadRooms; do not replace record IDs with legacy hard-coded names. */}
- function migrateRoomsOnce(){try{if(localStorage.getItem('lcc_v383_inventory_rooms_reset')==='1')return;const a=loadInv();if(a.length){a.forEach(x=>{x.location='';x.roomId=''});saveInv(a)}localStorage.setItem('lcc_v383_inventory_rooms_reset','1')}catch(e){console.warn('v383 room reset',e)}}
+ function migrateRoomsOnce(){/* v390 correction: disabled destructive legacy room reset; existing Inventory roomId/location values must persist. */}
  function makeSection(title,sub){const d=document.createElement('details');d.className='inv383-section';d.innerHTML=`<summary><span>${title}</span><span style="font-size:9px;color:var(--txt3);font-weight:500">${sub||''}</span></summary><div class="inv383-body"><div class="inv383-grid"></div></div>`;return d}
  function fieldNode(id){const e=q(id);if(!e)return null;return e.closest('.field')||e.closest('.g2')||e.closest('.g3')||e.parentElement}
  function moveFields(grid,ids){const moved=new Set();ids.forEach(id=>{let n=fieldNode(id);if(!n||moved.has(n)||n.closest('.inv383-section'))return;moved.add(n);grid.appendChild(n)})}
