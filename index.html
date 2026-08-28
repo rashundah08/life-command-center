@@ -61,7 +61,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{background:var(--card);border-bottom:1px solid var(--bdr);padding:0 18px;height:52px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);flex:1}
-.content{flex:1;overflow-y:auto;overflow-x:auto;padding:18px 20px 80px;position:relative}
+.content{flex:1;min-height:0;overflow-y:auto;overflow-x:auto;padding:18px 20px 18px;position:relative;background:var(--bg)}
 .btn{padding:6px 13px;border-radius:var(--r);border:1px solid var(--bdr2);font-size:12px;font-weight:500;cursor:pointer;background:var(--card);color:var(--txt);font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
 .btn:hover{background:var(--soft)}
 .btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}
@@ -3336,7 +3336,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#166534">🚀 Release Fields</div>
           <span id="bu-release-arrow" style="color:#166534">▼</span>
         </div>
-        <div id="bu-release-body" style="display:none;padding:12px 14px;background:#f5fffa">
+        <div id="bu-release-body" style="display:none;padding:12px 14px;background:#f5fffa"><div style="font-size:10px;color:#166534;margin-bottom:10px;line-height:1.45"><strong>Bulk Release completion:</strong> set Test Result to Passed (or Not Required) and Release Status to Released / Shipped / Verified / Closed. The selected Release records will be marked Done, dated, and removed from active Release views. Blank Changelog/Release Notes on historical records receive an audit placeholder so bulk completion is not blocked.</div>
           <div class="g2" style="margin-bottom:0">
             <div class="field" style="margin:0"><label>Release Type</label><select id="bu-release-type"><option value="">-- Keep --</option><option value="major">🏗️ Major Release</option><option value="minor">✨ Minor Release</option><option value="patch">🩹 Patch Release</option><option value="hotfix">🔥 Hot Fix</option></select></div>
             <div class="field" style="margin:0"><label>Release Status</label><select id="bu-release-status"><option value="">-- Keep --</option><option value="planning">📋 Planning</option><option value="building">🔧 Building</option><option value="testing">🧪 Testing</option><option value="ready">✅ Ready to Ship</option><option value="released">🚀 Released</option><option value="shipped">🚀 Shipped (Legacy)</option><option value="verified">🔎 Verified</option><option value="closed">✔️ Closed</option><option value="onhold">⏸️ On Hold</option><option value="cancelled">❌ Cancelled</option><option value="rollback">↩️ Rolled Back</option></select></div>
@@ -11780,17 +11780,20 @@ function saveBulk(){
       if(item.type==='release'&&['released','shipped','verified','closed'].includes(String(item.releaseStatus||'').toLowerCase())){
         const _relCloseMiss=[];
         if(!['pass','not_required'].includes(String(item.testResult||'').toLowerCase()))_relCloseMiss.push('Test Result = Passed / Not Required');
-        if(!(item.releaseChangelog||'').trim())_relCloseMiss.push('Changelog');
-        if(!(item.releaseNotes||'').trim())_relCloseMiss.push('Release Notes');
         if(_relCloseMiss.length){
           item.releaseStatus=_s2OldReleaseStatus;
           item.status=_s2OldStatus;
           _schema2BulkCloseErrors.push((item.name||'Item')+': '+_relCloseMiss.join(', '));
         }else{
+          if(!(item.releaseChangelog||'').trim())item.releaseChangelog='Historical release completed via Bulk Update.';
+          if(!(item.releaseNotes||'').trim())item.releaseNotes='Release marked '+String(item.releaseStatus||'completed')+' via Bulk Update.';
           item.status='done';item.progress=100;if(!item.completedDate)item.completedDate=today();
         }
       }
-      if(item.status==='done'){const _s2CloseMiss=schema2CloseMissing(item);if(_s2CloseMiss.length){item.status=_s2OldStatus;_schema2BulkCloseErrors.push((item.name||'Item')+': '+_s2CloseMiss.join(', '));}}
+      if(item.status==='done'){
+        const _s2CloseMiss=schema2CloseMissing(item);
+        if(_s2CloseMiss.length){item.status=_s2OldStatus;_schema2BulkCloseErrors.push((item.name||'Item')+': '+_s2CloseMiss.join(', '));}
+      }
     });
     toast('Updated '+updated+' item'+(updated!==1?'s':'')+'!'+(skippedPhaseNoParent?' ⚠️ '+skippedPhaseNoParent+' skipped the type change to Phase (must be linked to a Goal/Project first).':'')+(_bCSkipped?' ⚠️ '+_bCSkipped+' content item'+(_bCSkipped===1?'':'s')+' stayed put — checklist not finished.':'')+(_schema2BulkCloseErrors.length?' ⚠️ '+_schema2BulkCloseErrors.length+' could not close: '+_schema2BulkCloseErrors.slice(0,2).join(' | '):''),(skippedPhaseNoParent||_bCSkipped||_schema2BulkCloseErrors.length)?7000:4000);
   } else if(currentBulkTab==='delete'){
@@ -12669,9 +12672,13 @@ function openListDetail(listId){
   if(listId==='patches')ldTableSort={col:'name',dir:'asc'};
   else if(ldTableSort.col==='name'&&listId!=='patches')ldTableSort={col:'seq',dir:'asc'};
   const l=S.lists.find(x=>x.id===listId);if(!l)return;
-  const li=listId==='nos'
+  let li=listId==='nos'
     ? S.items.filter(i=>i.type==='ask'&&i.status!=='placeholder')
     : S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));
+  if(listId==='releases'){
+    const terminalRelease390=new Set(['released','shipped','verified','closed','cancelled','archived']);
+    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminalRelease390.has(String(i.releaseStatus||'').toLowerCase())));
+  }
   document.getElementById('ld-title').textContent=l.name+' ('+li.length+')';
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
   const cnt=f=>applyFilter(li,f).length;
@@ -13027,9 +13034,13 @@ function renderLdDashboard(){
   const listId=S.activeList;
   const sopPanel=(listId==='ss'||listId==='sf')?csopPanelHtml(listId):''; // v156 / 0181 (v228)
   const ipPanel=(listId==='ss'||listId==='sf')&&typeof ipListPanelHtml==='function'?ipListPanelHtml(listId):'';
-  const li=listId==='nos'
+  let li=listId==='nos'
     ? S.items.filter(i=>i.type==='ask'&&i.status!=='placeholder')
     : S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));
+  if(listId==='releases'){
+    const terminalRelease390=new Set(['released','shipped','verified','closed','cancelled','archived']);
+    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminalRelease390.has(String(i.releaseStatus||'').toLowerCase())));
+  }
   // Progress — same math as the Lists page cards (done / total)
   const done=li.filter(i=>i.status==='done').length;
   const active=li.filter(i=>i.status!=='done'&&i.status!=='cancelled'&&i.status!=='placeholder');
@@ -15777,7 +15788,7 @@ function renderHubWidgets(){
   // This Month's Focus — pull from items flagged pinnedFocus
   const focusEl=el('hub-month-focus-display');
   if(focusEl){
-    const focusItems=S.items.filter(i=>i.pinnedFocus&&i.status!=='done'&&i.status!=='placeholder');
+    const focusItems=masterPlanItems().filter(i=>i.pinnedFocus&&i.status!=='done'&&i.status!=='placeholder');
     if(focusItems.length){
       focusEl.innerHTML=focusItems.map(i=>{
         const typeColors={goal:'#185FA5',project:'#7C3AED',task:'#059669',ask:'#D97706'};
@@ -15796,7 +15807,7 @@ function renderHubWidgets(){
   // Sticky Notes — pull from items flagged pinnedSticky
   const stickyEl=el('hub-sticky-display');
   if(stickyEl){
-    const stickyItems=S.items.filter(i=>i.pinnedSticky&&i.status!=='done'&&i.status!=='placeholder');
+    const stickyItems=masterPlanItems().filter(i=>i.pinnedSticky&&i.status!=='done'&&i.status!=='placeholder');
     if(stickyItems.length){
       stickyEl.style.whiteSpace='normal';
       stickyEl.innerHTML=stickyItems.map(i=>{
@@ -15868,7 +15879,7 @@ function renderHubWeekGlance(){
   const todayName=now.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Chicago'});
 
   // Get items due today through end of week, not done — matches applyFilter('week') + today
-  const weekItems=S.items.filter(i=>{
+  const weekItems=masterPlanItems().filter(i=>{
     if(!i.date||i.status==='done'||i.status==='placeholder')return false;
     return i.date>=td&&i.date<=ew;
   });
@@ -16241,7 +16252,20 @@ function setHubPeriod(period,btn){
 }
 function masterPlanItems(){
   const all=(S&&Array.isArray(S.items))?S.items:[];
-  return typeof window.isBCCMasterPlanItem==='function'?all.filter(i=>!window.isBCCMasterPlanItem(i)):all;
+  const keys=new Set(['business','biz-main','rla','sf','ss','savvy foundations','savvy structure']);
+  const norm=v=>String(v==null?'':v).trim().toLowerCase();
+  const businessAssigned=item=>{
+    if(!item)return false;
+    const refs=[];
+    const add=v=>{if(v==null||v==='')return;if(Array.isArray(v)){v.forEach(add);return;}if(typeof v==='object'){add(v.id);add(v.name);add(v.label);return;}refs.push(v)};
+    ['listIds','lists','listId','list','listName'].forEach(k=>add(item[k]));
+    return refs.some(ref=>{
+      const raw=norm(ref);if(keys.has(raw))return true;
+      const l=(S.lists||[]).find(x=>norm(x.id)===raw||norm(x.name)===raw);
+      return !!(l&&(keys.has(norm(l.id))||keys.has(norm(l.name))));
+    });
+  };
+  return all.filter(i=>!businessAssigned(i));
 }
 
 function renderHubPeriodLens(){
@@ -24170,8 +24194,9 @@ function saveInvItem() {
   invCatalogAddName('invClothSubcats',invClothDd('clothsub'));
   invCatalogAddName('invClothStyles',invClothDd('clothstyle'));
   invCatalogAddName('invSeasons',invClothDd('clothseason'));
-  const _invRid=(document.getElementById('inv-location').value||'').trim(); /* v250 Stage B — room record id; v390 canonical Inventory rooms may provide the room name directly */
-  const _invRoom=_invRid?loadRooms().find(r=>r.id===_invRid):null;
+  const _invRid=(document.getElementById('inv-location').value||'').trim(); /* v250 Stage B — accepts room record id or canonical room name */
+  const _invNormRoom=v=>String(v||'').trim().toLowerCase();
+  const _invRoom=_invRid?loadRooms().find(r=>String(r.id)===String(_invRid)||_invNormRoom(r.name)===_invNormRoom(_invRid)):null;
   const _invRoomName=_invRoom?(_invRoom.name||''):_invRid;
   if(_invRoomName)invCatalogAddName('invLocations',_invRoomName.trim());
   const _invCid=(document.getElementById('inv-container')?document.getElementById('inv-container').value:'')||''; /* v251 Stage C */
@@ -24189,7 +24214,7 @@ function saveInvItem() {
     inventoryMethod:document.getElementById('inv381-method')?.value||_invPrev.inventoryMethod||'Individual Item',
     status:document.getElementById('inv-corestatus')?.value||'notstarted',
     invStatus: document.getElementById('inv-status').value,
-    roomId: _invRoom?_invRid:'',
+    roomId: _invRoom?(_invRoom.id||''):'',
     location: _invRoomName||'',
     containerId:(_invCid&&_invCid!==invEditingId)?_invCid:'', /* v251 Stage C — self-container guard */
     isContainer:_invIsCont, /* v251 Stage C */
@@ -30473,7 +30498,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
  function qty383(x){let n=Number(x.qty);return isFinite(n)&&n>0?n:1}
  function missing383(i){const m=[];if(!(i.name||'').trim())m.push('Item Name');if(!(i.cat||'').trim())m.push('Category');if(!(i.subcategory||'').trim())m.push('Subcategory');if(!(i.inventoryMethod||'').trim())m.push('Inventory Method');if(!(i.invStatus||'').trim())m.push('Stock Status');if(!(i.location||'').trim())m.push('Room');if(!(i.qty>0))m.push('Quantity');if(!(i.unit||'').trim())m.push('Unit');(CAT_REQ[i.cat]||[]).forEach(k=>{if(i[k]==null||String(i[k]).trim()==='')m.push(({brand:'Brand',model:'Model',serial:'Serial / Identifier',currentValue:'Current Value',creator:'Creator / Author',format:'Format'})[k]||k)});const d=i.categoryDetails||{};(DETAIL_REQ[i.cat]||[]).forEach(k=>{if(d[k]==null||String(d[k]).trim()==='')m.push(k.replace(/([A-Z])/g,' $1').replace(/^./,c=>c.toUpperCase()))});if(!i.invCover)m.push('Photo');if((Number(i.price)||Number(i.currentValue)||0)>=100&&!i.receiptUrl)m.push('Receipt');return [...new Set(m)]}
  window.inv383Missing=missing383;
- function hardRooms(){const s=q('inv-location');if(!s)return;const cur=s.value||'';s.innerHTML='<option value="">— Unassigned —</option>'+ROOMS.map(r=>`<option value="${esc383(r)}">${esc383(r)}</option>`).join('');if(ROOMS.includes(cur))s.value=cur;else s.value=''}
+ function hardRooms(){/* v390 source fix: room options are owned by openInvModal/loadRooms; do not replace record IDs with legacy hard-coded names. */}
  function migrateRoomsOnce(){try{if(localStorage.getItem('lcc_v383_inventory_rooms_reset')==='1')return;const a=loadInv();if(a.length){a.forEach(x=>{x.location='';x.roomId=''});saveInv(a)}localStorage.setItem('lcc_v383_inventory_rooms_reset','1')}catch(e){console.warn('v383 room reset',e)}}
  function makeSection(title,sub){const d=document.createElement('details');d.className='inv383-section';d.innerHTML=`<summary><span>${title}</span><span style="font-size:9px;color:var(--txt3);font-weight:500">${sub||''}</span></summary><div class="inv383-body"><div class="inv383-grid"></div></div>`;return d}
  function fieldNode(id){const e=q(id);if(!e)return null;return e.closest('.field')||e.closest('.g2')||e.closest('.g3')||e.parentElement}
@@ -30493,9 +30518,9 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
   // absorb v381 details into the appropriate v383 sections, then keep every section collapsed by default
   const catD=q('inv381-category-fields')?.closest('details.inv381-form-section'),decD=q('inv381-declutter')?.closest('details.inv381-form-section');if(catD){const g=wrap.children[4].querySelector('.inv383-grid');while(catD.querySelector('.inv381-form-body')?.firstChild)g.appendChild(catD.querySelector('.inv381-form-body').firstChild);catD.remove()}if(decD){const g=wrap.children[5].querySelector('.inv383-grid');while(decD.querySelector('.inv381-form-body')?.firstChild)g.appendChild(decD.querySelector('.inv381-form-body').firstChild);decD.remove()}wrap.querySelectorAll('details').forEach(d=>d.open=false)
  }
- const oldOpen=window.openInvModal;window.openInvModal=function(id){const r=oldOpen.apply(this,arguments);setTimeout(()=>{hardRooms();organize383();const item=id?loadInv().find(x=>x.id===id):null;if(q('inv-location'))q('inv-location').value=ROOMS.includes(item?.location)?item.location:''},20);return r};
+ const oldOpen=window.openInvModal;window.openInvModal=function(id){const r=oldOpen.apply(this,arguments);setTimeout(()=>{organize383()},20);return r};
  // Inventory-only hard-coded room save. Room action items no longer control Inventory options.
- const oldSave=window.saveInvItem;window.saveInvItem=function(){const room=q('inv-location')?.value||'';const editId=(typeof invEditingId!=='undefined'&&invEditingId)?invEditingId:'';const r=oldSave.apply(this,arguments);setTimeout(()=>{let a=loadInv(),id=editId;let t=id?a.find(x=>x.id===id):a.slice().sort((x,y)=>(y.created||0)-(x.created||0))[0];if(t){t.location=ROOMS.includes(room)?room:'';t.roomId='';saveInv(a)}},0);return r};
+ const oldSave=window.saveInvItem;window.saveInvItem=function(){return oldSave.apply(this,arguments)};
  function ensureCardOption(){const s=q('inv-view');if(s&&!Array.from(s.options).some(o=>o.value==='card'))s.insertAdjacentHTML('beforeend','<option value="card">Card</option>')}
  function cardView(items,cont){cont.innerHTML='<div class="inv383-cardgrid">'+items.map(i=>{const m=missing383(i),photo=i.invCover?`<div style="height:125px;background:#f3f3f3 url(\'${esc383(i.invCover)}\') center/cover no-repeat"></div>`:`<div style="height:125px;background:linear-gradient(135deg,#0E7490,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:36px">${INV_CAT_EMOJI[i.cat]||'📦'}</div>`;return `<div class="inv383-card" onclick="openInvModal('${i.id}')">${photo}<div class="inv383-cardbody"><div class="inv383-cardtop"><div class="inv383-cardname">${esc383(i.name||'Untitled')}</div><span class="inv383-missing ${m.length?'':'inv383-complete'}">${m.length?'⚠ '+m.length+' missing':'✓ Complete'}</span></div><div class="inv383-meta">${esc383(i.cat||'No category')} · ${esc383(i.subcategory||'No subcategory')}<br>📍 ${esc383(i.location||'Unassigned')} · ${qty383(i)} ${esc383(i.unit||'')}</div>${m.length?`<div class="inv383-missinglist"><b>Missing:</b> ${m.slice(0,6).map(esc383).join(' · ')}${m.length>6?' · +'+(m.length-6)+' more':''}</div>`:''}</div></div>`}).join('')+'</div>'}
  const priorRender=window.renderInventory;window.renderInventory=function(){ensureCardOption();const s=q('inv-view');if(s&&s.value==='card'){const desired='card';s.value='grid';const r=priorRender.apply(this,arguments);s.value=desired;let items=loadInv();const search=(q('inv-search')?.value||'').toLowerCase(),cat=q('inv-cat-filter')?.value||'',stat=q('inv-status-filter')?.value||'',rid=q('inv-room-filter')?.value||'',brand=q('inv-brand-filter')?.value||'',miss=q('inv-missing-filter')?.value||'';items=items.filter(i=>{const hay=JSON.stringify(i).toLowerCase();if(search&&!hay.includes(search))return false;if(cat&&i.cat!==cat)return false;if(stat&&i.invStatus!==stat)return false;if(rid&&i.location!==rid)return false;if(brand&&i.brand!==brand)return false;if(miss==='missing'&&!missing383(i).length)return false;if(miss==='complete'&&missing383(i).length)return false;return true});cardView(items,q('inv-content'));if(q('inv-count'))q('inv-count').textContent=items.length+' records';return r}return priorRender.apply(this,arguments)};
@@ -30960,6 +30985,7 @@ html,body{height:100%;min-height:100%;margin:0;overflow:hidden}
 <!-- USER GUIDE: v390 correction — Master Plan exclusion now keys off the actual Business/RLA/SF/SS list assignments. Bulk Update Release Fields expose the release-specific schema. Released/Shipped/Verified/Closed from either bulk editor automatically complete a Release only after Test Result, Changelog and Release Notes are valid. -->
 <!-- CHANGE LOG: v390 correction — Corrected Master Plan Business-list filtering; expanded dedicated Release bulk fields; reconciled Complete Bulk Editor with Release bulk completion; terminal Release Status now sets Done/Completed Date/100% when close validation passes and is rejected when it does not. -->
 <!-- RELEASE NOTES: v390 correction — Same v390 release; no new version/Release record. No new Action Item type or schema field. -->
+<!-- RELEASE NOTES: v390 source-fix — Business-list filtering is enforced in the actual Master Plan source helper; Inventory room persistence uses Room record IDs/names without the legacy v383 overwrite; terminal Release bulk updates close historical releases from either bulk editor; Release dashboard/list surfaces exclude completed releases; and global content bottom padding was reduced to remove the artificial blank band. -->
 </body>
 </html>
 
