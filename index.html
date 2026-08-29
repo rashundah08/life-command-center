@@ -4732,7 +4732,7 @@ function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.
   else if(t==='product'){req(obj.productStatus,'Product Status');req(obj.productBrand,'Brand');req(obj.productCategory,'Product Category');}
   else if(t==='industryprofile'){req(obj.ipBrand||obj.productBrand||obj.brand,'Brand');req(obj.ipIndustry||obj.industry,'Industry');}
   else if(t==='clientbuild'){req(obj.clientName||obj.name,'Client Name');req(obj.industry,'Industry');req(obj.ssPackage||obj.sfPackage,'Package');req(obj.slotStatus,'Slot Status');}
-  else if(t==='release'){req(obj.releaseVersion,'Version');req(obj.releaseStatus,'Release Status');}
+  else if(t==='release'){req(obj.releaseVersion,'Version');req(obj.releaseType,'Release Type');}
   else if(t==='change'){req(obj.changeType,'Change Type');req(obj.changeStatus,'Change Status');}
   else if(t==='automation'){req(obj.autoTrigger,'Trigger');req(obj.autoAction,'Action');}
   else if(t==='workflow'){req(obj.wfDescriptor,'Descriptor');req(obj.wfOwner,'Owner');req(obj.wfTrigger,'Trigger');req((obj.wfSteps||[]).length,'Flow Steps');if(obj.wfOwner==='Client')req((obj.linkedClientBuilds||[]).length,'Linked Client Build');}
@@ -4742,7 +4742,7 @@ function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.
   return [...new Set(m)];}
 function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='goal')req(obj.smart_m,'M — Measurable');if(t==='phase')req(obj.startDate,'Start Date');if(t==='clientbuild'){req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
 function schema2ExecutionMissing(obj){const m=[],req=(ok,l)=>{if(!ok)m.push(l)};if(obj.type==='task'&&obj.sprint){req(Number(obj.estimatedMins)>0,'Estimated Minutes');req(obj.effort,'Effort');}if(obj.type==='clientbuild')req(obj.cbAssetsStatus==='Received'||obj.assetsReceived,'Required Assets Received');return m;}
-function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=t==='release'?['shipped','verified','closed'].includes(obj.releaseStatus):t==='change'?['released','verified','closed'].includes(obj.changeStatus):t==='industryprofile'?obj.ipStatus==='Verified':t==='automation'?obj.autoLifecycleStatus==='Live':t==='workflow'?obj.wfStatus==='Live':obj.status==='done';if(!terminal)return m;
+function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=t==='change'?['released','verified','closed'].includes(obj.changeStatus):t==='industryprofile'?obj.ipStatus==='Verified':t==='automation'?obj.autoLifecycleStatus==='Live':t==='workflow'?obj.wfStatus==='Live':obj.status==='done';if(!terminal)return m;
   if(t==='goal')req(obj.smart_m,'M — Measurable');
   else if(t==='ask'){if(obj.responseStatus==='no')req(obj.rejectionType,'Rejection Type');if(obj.responseStatus==='yes'&&['Revenue','Savings','Discount'].includes(obj.askOutcomeType))req(obj.askOutcomeValue!==''&&obj.askOutcomeValue!=null,'Outcome Value');}
   else if(t==='content'){const internal=['SOP','Policy','Template'].includes(obj.contentType);req(obj.contentFinalUrl||obj.refLink,'Final Asset / Document URL');if(internal){req(obj.contentVersion,'Version');req(obj.contentOwner,'Owner');if(obj.contentType==='Policy')req(obj.contentEffectiveDate,'Effective Date');}else{req(obj.contentCTA,'CTA');}}
@@ -4750,7 +4750,6 @@ function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.pu
   else if(t==='patch')req(obj.completedDate,'Completion Date');
   else if(t==='product'){req(obj.productPrice!==''&&obj.productPrice!=null,'Price');req(obj.productSalesPage||obj.productCheckoutLink,'Sales / Checkout URL');}
   else if(t==='clientbuild'){req(obj.qaComplete,'QA Complete');req(obj.finalDeliveryComplete,'Final Delivery Complete');}
-  else if(t==='release'){req(['pass','not_required'].includes(obj.testResult),'Test Result = Passed / Not Required');req((obj.releaseChangelog||'').trim(),'Changelog');req((obj.releaseNotes||'').trim(),'Release Notes');}
   else if(t==='change'){req(['pass','not_required'].includes(obj.testResult),'Test Result = Passed / Not Required');}
   else if(t==='automation'){req(obj.autoPlatform,'Platform');req(obj.autoTestResult==='Passed','Test Result = Passed');}
   return [...new Set(m)];}
@@ -5786,28 +5785,11 @@ function habitCloseOutBounded(){
   return closed;
 }
 
-function syncReleaseLifecycleV390(i,td){
-  if(!i||i.type!=='release')return false;
-  const rs=String(i.releaseStatus||'').trim().toLowerCase();
-  const tr=String(i.testResult||'').trim().toLowerCase().replace(/[ -]+/g,'_');
-  const terminal=['released','shipped','verified','closed'].includes(rs);
-  if(!terminal)return false;
-  // Passed / Not Required are the only terminal test outcomes. Accept legacy human-readable values too.
-  if(!['pass','passed','not_required'].includes(tr))return false;
-  i.testResult=(tr==='passed'?'pass':tr);
-  i.status='done';
-  i.progress=100;
-  if(!i.completedDate)i.completedDate=td||today();
-  if(!i.releaseDate)i.releaseDate=i.completedDate;
-  return true;
-}
 
 function recalc(){
   const td=today();
   rebuildValidationIndexesV323();
   S.items.forEach(i=>{
-    // v390 correction — terminal Releases must become Done before date-aging can mark them Past Due/Behind.
-    syncReleaseLifecycleV390(i,td);
     // v337 — derive whichever endpoint is missing before any aging/Behind logic runs.
     // Prevents Start Date + Duration records from being treated as overdue merely because
     // their Target Date was never calculated by a specific bulk/import path.
@@ -5837,18 +5819,6 @@ function recalc(){
     // Bulk Update) so it's a single invariant that always holds after any save.
     if(i.status==='onhold'&&i.planningStage!=='deferred'){
       i.planningStage='deferred';
-    }
-    // 0640 (v238) — a Release whose Release Status is "Released" auto-completes the item.
-    // Forward-only invariant (mirrors the 0160 On Hold→Deferred rule above): it flips the
-    // main status to Done with today's completed date, but never un-completes if the Release
-    // Status is later moved away from Released. Cancelled releases are left alone.
-    // 0662 (v263) — auto-flip Test Result to Pass once every linked change is complete.
-    if(i.type==='release'){const _lc=(i.linkedChanges||[]).map(getItem).filter(c=>c&&c.type==='change');if(_lc.length&&_lc.every(c=>c.changeStatus==='complete')&&i.testResult!=='pass')i.testResult='pass';}
-    // 0410 (v263) — gate: a Release can't stay 'Released' without Release Notes AND Test Result=Pass; bounce to 'ready' until met.
-    // v390 correction — do not bounce a successfully terminal Release back to Ready after Bulk Update.
-    // Lifecycle completion is governed by Release Status + Test Result in syncReleaseLifecycleV390().
-    if(i.type==='release'&&i.releaseStatus==='released'&&!syncReleaseLifecycleV390(i,td)&&i.status!=='cancelled'){
-      if(!(i.releaseNotes||'').trim()||!['pass','passed','not_required'].includes(String(i.testResult||'').toLowerCase().replace(/[ -]+/g,'_')))i.releaseStatus='ready';
     }
   });
   S.items.filter(i=>i.type==='task').forEach(i=>{i.progress=i.status==='done'?100:(i.status==='cancelled'?(i.progress||0):0);});
@@ -11730,25 +11700,9 @@ function saveBulk(){
       if(_buDateWith==='__CLEAR__')item.dateWith='';
       else if(_buDateWith)item.dateWith=_buDateWith;
       schema2NormalizeRecord(item);
-      // v390 source fix — one authoritative Release completion path for BOTH bulk editors.
-      // The user's bulk-close workflow is Test Result + terminal Release Status; historical release docs are preserved when present
-      // and receive an audit note only when blank so the close action is not silently blocked.
-      let _releaseBulkFinalized=false;
-      if(item.type==='release'&&['released','shipped','verified','closed'].includes(String(item.releaseStatus||'').trim().toLowerCase())){
-        const _tr=String(item.testResult||'').trim().toLowerCase().replace(/[ -]+/g,'_');
-        if(['pass','passed','not_required'].includes(_tr)){
-          if(!(item.releaseChangelog||'').trim())item.releaseChangelog='Historical release completed via Bulk Update.';
-          if(!(item.releaseNotes||'').trim())item.releaseNotes='Release marked '+String(item.releaseStatus||'completed')+' via Bulk Update.';
-          item.releaseChangelogComplete=true;
-          if((item.releaseUserGuide||'').trim())item.releaseUserGuideComplete=true;
-          _releaseBulkFinalized=syncReleaseLifecycleV390(item,today());
-        }else{
-          // Keep the selected Release Status visible; do not silently revert the user's update.
-          item.status=_s2OldStatus;
-          _schema2BulkCloseErrors.push((item.name||'Item')+': Test Result must be Passed or Not Required before it can become Done');
-        }
-      }
-      if(item.status==='done'&&!_releaseBulkFinalized){
+      // v390 release simplification — Core Status is the only lifecycle status for Releases.
+      // No Release Status/Test Result synchronization or close gate remains.
+      if(item.status==='done'){
         const _s2CloseMiss=schema2CloseMissing(item);
         if(_s2CloseMiss.length){item.status=_s2OldStatus;_schema2BulkCloseErrors.push((item.name||'Item')+': '+_s2CloseMiss.join(', '));}
       }
@@ -30940,8 +30894,8 @@ html,body{height:100%;min-height:100%;margin:0;overflow:hidden}
  let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){updateRelease390();clearInterval(t)}else if(++n>80)clearInterval(t)},150);
 })();
 </script>
-<!-- USER GUIDE: v390 correction — Master Plan exclusion now keys off the actual Business/RLA/SF/SS list assignments. Bulk Update Release Fields expose the release-specific schema. Released/Shipped/Verified/Closed from either bulk editor automatically complete a Release only after Test Result, Changelog and Release Notes are valid. -->
-<!-- CHANGE LOG: v390 correction — Corrected Master Plan Business-list filtering; expanded dedicated Release bulk fields; reconciled Complete Bulk Editor with Release bulk completion; terminal Release Status now sets Done/Completed Date/100% when close validation passes and is rejected when it does not. -->
+<!-- USER GUIDE: v390 release simplification — Release completion uses the normal Core Status only. Set Status = Done when a version is finished. Release-specific Status and Test Result are retired. -->
+<!-- CHANGE LOG: v390 release simplification — Removed Release Status/Test Result lifecycle validation and automation. Release entry now requires Version and Release Type; completion is controlled only by Core Status. -->
 <!-- RELEASE NOTES: v390 correction — Same v390 release; no new version/Release record. No new Action Item type or schema field. -->
 <!-- RELEASE NOTES: v390 source-fix — Business-list filtering is enforced in the actual Master Plan source helper; Inventory room persistence uses Room record IDs/names without the legacy v383 overwrite; terminal Release bulk updates close historical releases from either bulk editor; Release dashboard/list surfaces exclude completed releases; and global content bottom padding was reduced to remove the artificial blank band. -->
 
