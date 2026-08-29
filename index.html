@@ -5827,10 +5827,28 @@ function habitCloseOutBounded(){
   return closed;
 }
 
+function syncReleaseLifecycleV390(i,td){
+  if(!i||i.type!=='release')return false;
+  const rs=String(i.releaseStatus||'').trim().toLowerCase();
+  const tr=String(i.testResult||'').trim().toLowerCase().replace(/[ -]+/g,'_');
+  const terminal=['released','shipped','verified','closed'].includes(rs);
+  if(!terminal)return false;
+  // Passed / Not Required are the only terminal test outcomes. Accept legacy human-readable values too.
+  if(!['pass','passed','not_required'].includes(tr))return false;
+  i.testResult=(tr==='passed'?'pass':tr);
+  i.status='done';
+  i.progress=100;
+  if(!i.completedDate)i.completedDate=td||today();
+  if(!i.releaseDate)i.releaseDate=i.completedDate;
+  return true;
+}
+
 function recalc(){
   const td=today();
   rebuildValidationIndexesV323();
   S.items.forEach(i=>{
+    // v390 correction — terminal Releases must become Done before date-aging can mark them Past Due/Behind.
+    syncReleaseLifecycleV390(i,td);
     // v337 — derive whichever endpoint is missing before any aging/Behind logic runs.
     // Prevents Start Date + Duration records from being treated as overdue merely because
     // their Target Date was never calculated by a specific bulk/import path.
@@ -5868,9 +5886,10 @@ function recalc(){
     // 0662 (v263) — auto-flip Test Result to Pass once every linked change is complete.
     if(i.type==='release'){const _lc=(i.linkedChanges||[]).map(getItem).filter(c=>c&&c.type==='change');if(_lc.length&&_lc.every(c=>c.changeStatus==='complete')&&i.testResult!=='pass')i.testResult='pass';}
     // 0410 (v263) — gate: a Release can't stay 'Released' without Release Notes AND Test Result=Pass; bounce to 'ready' until met.
-    if(i.type==='release'&&i.releaseStatus==='released'&&(!(i.releaseNotes||'').trim()||i.testResult!=='pass'))i.releaseStatus='ready';
-    if(i.type==='release'&&i.releaseStatus==='released'&&i.status!=='done'&&i.status!=='cancelled'){
-      i.status='done';i.progress=100;if(!i.completedDate)i.completedDate=td;
+    // v390 correction — do not bounce a successfully terminal Release back to Ready after Bulk Update.
+    // Lifecycle completion is governed by Release Status + Test Result in syncReleaseLifecycleV390().
+    if(i.type==='release'&&i.releaseStatus==='released'&&!syncReleaseLifecycleV390(i,td)&&i.status!=='cancelled'){
+      if(!(i.releaseNotes||'').trim()||!['pass','passed','not_required'].includes(String(i.testResult||'').toLowerCase().replace(/[ -]+/g,'_')))i.releaseStatus='ready';
     }
   });
   S.items.filter(i=>i.type==='task').forEach(i=>{i.progress=i.status==='done'?100:(i.status==='cancelled'?(i.progress||0):0);});
@@ -10364,6 +10383,9 @@ function populateBulkFieldDropdowns(){
 }
 function openBulk(mode,parentId,parentType){
   bulkParentId=parentId||'';bulkParentType=parentType||'';
+  // v390 correction — a prior Focus-panel bulk update must never restrict later normal Bulk Update lists.
+  // openBulkUpdateForFocus() intentionally bypasses openBulk() and sets this immediately before rendering.
+  window._buFocusLinkedIds=[];
   currentBulkTab=mode==='delete'?'delete':mode==='update'?'update':'add';
   document.getElementById('bulk-modal').style.display='flex';
   // Parent context banner
@@ -11801,21 +11823,18 @@ function saveBulk(){
       // The user's bulk-close workflow is Test Result + terminal Release Status; historical release docs are preserved when present
       // and receive an audit note only when blank so the close action is not silently blocked.
       let _releaseBulkFinalized=false;
-      if(item.type==='release'&&['released','shipped','verified','closed'].includes(String(item.releaseStatus||'').toLowerCase())){
-        if(!['pass','not_required'].includes(String(item.testResult||'').toLowerCase())){
-          item.releaseStatus=_s2OldReleaseStatus;
-          item.status=_s2OldStatus;
-          _schema2BulkCloseErrors.push((item.name||'Item')+': Test Result = Passed / Not Required');
-        }else{
+      if(item.type==='release'&&['released','shipped','verified','closed'].includes(String(item.releaseStatus||'').trim().toLowerCase())){
+        const _tr=String(item.testResult||'').trim().toLowerCase().replace(/[ -]+/g,'_');
+        if(['pass','passed','not_required'].includes(_tr)){
           if(!(item.releaseChangelog||'').trim())item.releaseChangelog='Historical release completed via Bulk Update.';
           if(!(item.releaseNotes||'').trim())item.releaseNotes='Release marked '+String(item.releaseStatus||'completed')+' via Bulk Update.';
           item.releaseChangelogComplete=true;
           if((item.releaseUserGuide||'').trim())item.releaseUserGuideComplete=true;
-          if(!item.releaseDate)item.releaseDate=today();
-          item.status='done';
-          item.progress=100;
-          if(!item.completedDate)item.completedDate=today();
-          _releaseBulkFinalized=true;
+          _releaseBulkFinalized=syncReleaseLifecycleV390(item,today());
+        }else{
+          // Keep the selected Release Status visible; do not silently revert the user's update.
+          item.status=_s2OldStatus;
+          _schema2BulkCloseErrors.push((item.name||'Item')+': Test Result must be Passed or Not Required before it can become Done');
         }
       }
       if(item.status==='done'&&!_releaseBulkFinalized){
@@ -12705,7 +12724,7 @@ function openListDetail(listId){
     : S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));
   if(listId==='releases'){
     const terminalRelease390=new Set(['released','shipped','verified','closed','cancelled','archived']);
-    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminalRelease390.has(String(i.releaseStatus||'').toLowerCase())));
+    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate));
   }
   document.getElementById('ld-title').textContent=l.name+' ('+li.length+')';
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
@@ -13067,7 +13086,7 @@ function renderLdDashboard(){
     : S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));
   if(listId==='releases'){
     const terminalRelease390=new Set(['released','shipped','verified','closed','cancelled','archived']);
-    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminalRelease390.has(String(i.releaseStatus||'').toLowerCase())));
+    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate));
   }
   // Progress — same math as the Lists page cards (done / total)
   const done=li.filter(i=>i.status==='done').length;
@@ -13338,7 +13357,7 @@ function renderListDetail(){
   }
   if(S.activeList==='releases'){
     const terminal=new Set(['released','shipped','verified','closed','cancelled','archived']);
-    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminal.has(String(i.releaseStatus||'').toLowerCase())));
+    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate));
   }
   const hideDone=(document.getElementById('ld-hide-done')||{checked:false}).checked;
   if(hideDone)li=li.filter(i=>i.status!=='done'&&i.status!=='cancelled');
@@ -21070,7 +21089,7 @@ function getSprintInFlightTasks(sprint){
 // ── SPRINT RELEASES TABLE ────────────────────────────────────────────────
 function getSprintReleases(sprint){
   const terminal=new Set(['released','shipped','verified','closed','cancelled','archived']);
-  return (masterPlanItems()).filter(i=>i.type==='release'&&i.status!=='placeholder'&&i.sprint===sprint.num&&i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate&&!terminal.has(String(i.releaseStatus||'').toLowerCase()));
+  return (masterPlanItems()).filter(i=>i.type==='release'&&i.status!=='placeholder'&&i.sprint===sprint.num&&i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate);
 }
 function renderChangeCapsSettings(){
   const caps=loadChangeCaps();
