@@ -3037,15 +3037,11 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           <span id="ba-release-arrow" style="color:#166534">▼</span>
         </div>
         <div id="ba-release-body" style="display:none;padding:12px 14px;background:#f5fffa">
-          <div class="g2" style="margin-bottom:0">
-            <div class="field" style="margin:0"><label>Release Type</label><select id="ba-release-type"><option value="">-- None --</option><option value="major">🏗️ Major Release</option><option value="minor">✨ Minor Release</option><option value="patch">🩹 Patch Release</option><option value="hotfix">🔥 Hot Fix</option></select></div>
-            <div class="field" style="margin:0"><label>Release Status</label><select id="ba-release-status"><option value="">-- None --</option><option value="backlog">📥 Backlog</option><option value="planned">📋 Planned</option><option value="indev">🔧 In Development</option><option value="testing">🧪 Testing</option><option value="ready">✅ Ready for Release</option><option value="released">🚀 Released</option><option value="archived">📦 Archived</option></select></div>
-          </div>
           <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Version <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">number</span></label><input id="ba-release-version" type="number" min="0" max="99999" placeholder="e.g. 100"></div>
-            <div class="field" style="margin:0"><label>File Name</label><input id="ba-release-filename" placeholder="e.g. life-command-center-v100.html"></div>
+            <div class="field" style="margin:0"><label>Release Type</label><select id="ba-release-type"><option value="">-- None --</option><option value="major">🏗️ Major Release</option><option value="minor">✨ Minor Release</option><option value="patch">🩹 Patch Release</option><option value="hotfix">🔥 Hot Fix</option></select></div>
+            <div class="field" style="margin:0"><label>Version</label><input id="ba-release-version" type="number" min="0" max="99999" placeholder="e.g. 100"></div>
           </div>
-          <div class="field" style="margin-bottom:10px"><label>Changelog</label><textarea id="ba-release-changelog" rows="3" placeholder="- Added Change type&#10;..."></textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Changelog</label><textarea id="ba-release-changelog" rows="3" placeholder="What changed in this version..."></textarea></div>
           <div class="field" style="margin-bottom:0"><label>Release Notes</label><textarea id="ba-release-notes" rows="3" placeholder="What was delivered..."></textarea></div>
         </div>
       </div>
@@ -3336,50 +3332,15 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
           <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#166534">🚀 Release Fields</div>
           <span id="bu-release-arrow" style="color:#166534">▼</span>
         </div>
-        <div id="bu-release-body" style="display:none;padding:12px 14px;background:#f5fffa"><div style="font-size:10px;color:#166534;margin-bottom:10px;line-height:1.45"><strong>Bulk Release completion:</strong> set Test Result to Passed (or Not Required) and Release Status to Released / Shipped / Verified / Closed. The selected Release records will be marked Done, dated, and removed from active Release views. Blank Changelog/Release Notes on historical records receive an audit placeholder so bulk completion is not blocked.</div>
-          <div class="g2" style="margin-bottom:0">
+        <div id="bu-release-body" style="display:none;padding:12px 14px;background:#f5fffa">
+          <div style="font-size:10px;color:#166534;margin-bottom:10px;line-height:1.45"><strong>Release status uses the Core Status field above.</strong> Mark the Release Done there when the version is complete.</div>
+          <div class="g2" style="margin-bottom:10px">
             <div class="field" style="margin:0"><label>Release Type</label><select id="bu-release-type"><option value="">-- Keep --</option><option value="major">🏗️ Major Release</option><option value="minor">✨ Minor Release</option><option value="patch">🩹 Patch Release</option><option value="hotfix">🔥 Hot Fix</option></select></div>
-            <div class="field" style="margin:0"><label>Release Status</label><select id="bu-release-status"><option value="">-- Keep --</option><option value="planning">📋 Planning</option><option value="building">🔧 Building</option><option value="testing">🧪 Testing</option><option value="ready">✅ Ready to Ship</option><option value="released">🚀 Released</option><option value="shipped">🚀 Shipped (Legacy)</option><option value="verified">🔎 Verified</option><option value="closed">✔️ Closed</option><option value="onhold">⏸️ On Hold</option><option value="cancelled">❌ Cancelled</option><option value="rollback">↩️ Rolled Back</option></select></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
             <div class="field" style="margin:0"><label>Version</label><input id="bu-release-version" type="number" min="0" max="99999" placeholder="Leave blank to keep"></div>
-            <div class="field" style="margin:0"><label>File Name</label><input id="bu-release-filename" placeholder="Leave blank to keep"></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Test Result</label><select id="bu-release-testresult"><option value="">-- Keep --</option><option value="__clear__">— Clear —</option><option value="not_tested">Not Tested</option><option value="testing">Testing</option><option value="pass">✅ Passed</option><option value="fail">❌ Failed</option><option value="retest_required">Retest Required</option><option value="not_required">Not Required</option></select></div>
-            <div class="field" style="margin:0"><label>Release Date</label><input id="bu-release-date" type="date"></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Target Ship Date</label><input id="bu-release-target-ship" type="date"></div>
-            <div class="field" style="margin:0"><label>Testing Status</label><input id="bu-release-testing-status" placeholder="Leave blank to keep"></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Backup Status</label><input id="bu-release-backup-status" placeholder="Leave blank to keep"></div>
-            <div class="field" style="margin:0"><label>Changelog Complete</label><select id="bu-release-changelog-complete"><option value="">-- Keep --</option><option value="true">Yes</option><option value="false">No</option></select></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>User Guide Complete</label><select id="bu-release-user-guide-complete"><option value="">-- Keep --</option><option value="true">Yes</option><option value="false">No</option></select></div>
-            <div></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Verification Status</label><input id="bu-release-verification" placeholder="Leave blank to keep"></div>
-            <div class="field" style="margin:0"><label>Migration Status</label><input id="bu-release-migration" placeholder="Leave blank to keep"></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Readiness Override</label><select id="bu-release-readiness"><option value="">-- Keep --</option><option value="yes">Yes</option><option value="no">No</option></select></div>
-            <div class="field" style="margin:0"><label>Rollback Required</label><select id="bu-release-rollback-required"><option value="">-- Keep --</option><option value="yes">Yes</option><option value="no">No</option></select></div>
-          </div>
-          <div class="g2" style="margin-bottom:10px">
-            <div class="field" style="margin:0"><label>Rollback Date</label><input id="bu-release-rollback-date" type="date"></div>
-            <div class="field" style="margin:0"><label>Rolled Back To</label><input id="bu-release-rolledback-to" placeholder="Version / release"></div>
           </div>
           <div class="field" style="margin-bottom:10px"><label>Modules Impacted <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(comma-separated; replaces existing)</span></label><input id="bu-release-modules" placeholder="Leave blank to keep existing"></div>
-          <div class="field" style="margin-bottom:10px"><label>Override Reason</label><textarea id="bu-release-override-reason" rows="2" placeholder="Leave blank to keep existing"></textarea></div>
-          <div class="field" style="margin-bottom:10px"><label>Release Summary</label><textarea id="bu-release-summary" rows="2" placeholder="Leave blank to keep existing"></textarea></div>
-          <div class="field" style="margin-bottom:10px"><label>Changelog <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--pink)">(replaces existing)</span></label><textarea id="bu-release-changelog" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
-          <div class="field" style="margin-bottom:10px"><label>Release Notes <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--pink)">(replaces existing)</span></label><textarea id="bu-release-notes" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
-          <div class="field" style="margin-bottom:10px"><label>User Guide</label><textarea id="bu-release-user-guide" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
-          <div class="field" style="margin-bottom:0"><label>Technical Notes</label><textarea id="bu-release-technical-notes" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Changelog</label><textarea id="bu-release-changelog" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
+          <div class="field" style="margin-bottom:0"><label>Release Notes</label><textarea id="bu-release-notes" rows="3" placeholder="Leave blank to keep existing"></textarea></div>
         </div>
       </div>
       <!-- CHANGE FIELDS -->
@@ -4454,7 +4415,7 @@ async function load(){
 function exportItemsExcel(){
   try{
     const items=(S.items||[]).filter(i=>i.status!=='placeholder');
-    const headers=['Seq#','Name','Type','Status','Cancellation Reason','On Hold Reason','Level','Planning Stage','Effort','Sprint','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Reference Link','Linked Goals','Linked Projects','Linked Tasks','Linked Digital Library','Notes','Ask Type','Who','Who Type','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Family','Content Stage','Checklist %','Content Purpose','Content Pillar','Campaign','Audience','Offer/CTA','Platforms','Publish Date','Headline','Subject Line','Preview Text','Caption','Hashtags','Meta Description','Slug','Thumbnail Concept','Guest','Registration URL','Lesson Count','Doc Owner','Doc Version','Body','Linked Products','Views','Likes','Comments','Shares','Release Version','Release Type','Release Status','Release Modules','Release Changelog','Release Notes','Release File','Change Type','Change Status','Change Priority','Change Modules','Habit Frequency','Habit Time of Day','Habit Rotation Week','Habit Award Pts','Habit Missed Days','Habit Skipped Days','Habit Week Progress','Habit Amount Goal','Habit Amount Unit','Habit Amount Logged','Event Location','Event All Day','Event Calendar Source','Event Calendar Link','Linked Events','Linked Challenges','Linked Phases','Is Milestone','Recurrence','Screen Time Required','Client Name','Client Archetype','Industry','SS Package','SF Package','Founding Client','Founding #','Build Week','Build Phase','Slot Status','Client Status','How They Found You','Date Cancelled','Est Build Hours','Actual Build Hours','Revision Count','Contract Signed','Deposit Paid','Payment Status','GHL Contact Link','Assets Received','Logo Received','Brand Colors Received','Domain Access Received','Calendar Info Received','Email Domain Connected','Payment Processor Connected','Snapshot Source','Industry Snapshot Level','Snapshot Updated','SOP Updated','QA Complete','Client Review Complete','Loom Recorded','Final Delivery Complete','Test Account Passed','Build Notes','Linked Client Builds','Product Status','Product Brand','Product Category','Product Type','Product Format','Product Featured','Product Launch Date','Product SKU','Product ID','Product Price','Regular Price','Founding Price','Payment Plan','Checkout Link','Sales Page','Order Bump','Upsell','Downsell','Short Description','Long Description','GHL Product Description','SEO Title','SEO Description','Keywords','Tags','Google Doc Link','Drive Folder','Canva Folder','Snapshot Link','Course Link','Loom Walkthrough','Version','Est Build Hours','Actual Build Hours','Product Images','Mockups','Promo Video','Email Sequence','Social Graphics','Blog Post','FAQ','GHL Link','Revenue','Active Customers','Product Raw Cost','Product Snapshot Eligible','Product Snapshot Price','IP Brand','IP Profile #','IP Status','IP Last Verified','IP Industry','IP Business Types','IP Typical Size','IP How Operate','IP Revenue Model','IP Savings','IP Identify','IP Stage','IP Tech Comfort','IP How Find','IP Decision Style','IP Motivation','IP Pain Points','IP Tried Before','IP Done Looks Like','IP Sales Pitch','IP Pitch Notes','IP Common Requests','IP Hands-On','IP Comm Style','IP Onboard Complexity','IP Onboard Notes','IP Risk Level','IP Risk Notes','IP Modules','IP Config Notes','IP Hosting Product','IP Snapshot Eligible','IP Snapshot Notes','IP Snapshot Product','IP Objections','IP Reframes','IP Outgrown Signs','IP Transition Points','IP Entry Product','IP Entry Note','IP Bad Fit','IP Churn Behaviors','IP Industry Notes','IP FAQs (count)','IP Credits Note','IP Add-Ons','IP DFY','IP Social Angles','IP Email Subjects','IP Referral Sources (count)','IP Seasonal Triggers (count)','IP Tools (count)','WF Name','WF Prefix','WF Phase','WF Descriptor','WF Function','WF Owner','WF Client','WF Scope','WF Status','WF Trigger','WF Intent','WF Steps','WF # Emails','WF # Tags','WF Duration (days)','WF #','WF Last Reviewed','WF Review Due','WF Fields','Content Name','Content #','Descriptor','Content Scope','Content Function','SOP/Policy Category','Inv Stock Status','Inv Category','Inv Location','Inv Room','Inv Container','Inv Qty','Inv Unit','Inv Low Alert','Inv Brand','Inv Model','Inv Price','Inv Store','Inv Serial','Inv Expiration/Warranty','Inv URL','Inv Cover','Inv Creator','Inv Genre','Inv Year','Inv ISBN/UPC','Inv Format','Inv Digital Version','Inv Digital Library IDs','Inv Sub-Category','Inv Colors','Inv Style','Inv Season','Inv Size(s)','Inv Wash','Inv Dryer','Inv Uses','Inv Capsule','Inv Essential','Inv Wish List','Test Result','Ask Category','Room Location #','Room Zone','Room Flooring','Room Sq Ft','Room Cover','Auto Trigger','Auto Action','Auto Devices','Auto Rooms','Auto App(s)','Auto Status','Function','Cadence','Knowledge Type','Maintenance Type','Transaction Type','Transaction Amount','Transaction Date','Transaction Account','Transaction To Account','Transaction Category','Transaction Payee','Transaction Subcategory','Transaction Payment Method','Transaction Budget Group','Transaction Cleared','Transaction Tax Deductible','Transaction Recurring','Transaction Memo','Recurring Kind','Recurring Amount','Recurring Frequency','Recurring Next Due','Recurring Account','Recurring Category','Recurring Payee','Recurring Payment Method','Recurring Auto Pay','Recurring Status','Recurring Start Date','Recurring Cancelled Date','Recurring Cancel Reason','Recurring Last Paid Date','Recurring Notes','Created At','Updated At','Reschedule Count','Sprint Rollover Count','Reopen Count','Hold Since','Guardrail History'];
+    const headers=['Seq#','Name','Type','Status','Cancellation Reason','On Hold Reason','Level','Planning Stage','Effort','Sprint','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Reference Link','Linked Goals','Linked Projects','Linked Tasks','Linked Digital Library','Notes','Ask Type','Who','Who Type','Channel','Rejection','Response Status','Challenge Details','Badge URL','Content Type','Content Family','Content Stage','Checklist %','Content Purpose','Content Pillar','Campaign','Audience','Offer/CTA','Platforms','Publish Date','Headline','Subject Line','Preview Text','Caption','Hashtags','Meta Description','Slug','Thumbnail Concept','Guest','Registration URL','Lesson Count','Doc Owner','Doc Version','Body','Linked Products','Views','Likes','Comments','Shares','Release Version','Release Type','Release Modules','Release Changelog','Release Notes','Change Type','Change Status','Change Priority','Change Modules','Habit Frequency','Habit Time of Day','Habit Rotation Week','Habit Award Pts','Habit Missed Days','Habit Skipped Days','Habit Week Progress','Habit Amount Goal','Habit Amount Unit','Habit Amount Logged','Event Location','Event All Day','Event Calendar Source','Event Calendar Link','Linked Events','Linked Challenges','Linked Phases','Is Milestone','Recurrence','Screen Time Required','Client Name','Client Archetype','Industry','SS Package','SF Package','Founding Client','Founding #','Build Week','Build Phase','Slot Status','Client Status','How They Found You','Date Cancelled','Est Build Hours','Actual Build Hours','Revision Count','Contract Signed','Deposit Paid','Payment Status','GHL Contact Link','Assets Received','Logo Received','Brand Colors Received','Domain Access Received','Calendar Info Received','Email Domain Connected','Payment Processor Connected','Snapshot Source','Industry Snapshot Level','Snapshot Updated','SOP Updated','QA Complete','Client Review Complete','Loom Recorded','Final Delivery Complete','Test Account Passed','Build Notes','Linked Client Builds','Product Status','Product Brand','Product Category','Product Type','Product Format','Product Featured','Product Launch Date','Product SKU','Product ID','Product Price','Regular Price','Founding Price','Payment Plan','Checkout Link','Sales Page','Order Bump','Upsell','Downsell','Short Description','Long Description','GHL Product Description','SEO Title','SEO Description','Keywords','Tags','Google Doc Link','Drive Folder','Canva Folder','Snapshot Link','Course Link','Loom Walkthrough','Version','Est Build Hours','Actual Build Hours','Product Images','Mockups','Promo Video','Email Sequence','Social Graphics','Blog Post','FAQ','GHL Link','Revenue','Active Customers','Product Raw Cost','Product Snapshot Eligible','Product Snapshot Price','IP Brand','IP Profile #','IP Status','IP Last Verified','IP Industry','IP Business Types','IP Typical Size','IP How Operate','IP Revenue Model','IP Savings','IP Identify','IP Stage','IP Tech Comfort','IP How Find','IP Decision Style','IP Motivation','IP Pain Points','IP Tried Before','IP Done Looks Like','IP Sales Pitch','IP Pitch Notes','IP Common Requests','IP Hands-On','IP Comm Style','IP Onboard Complexity','IP Onboard Notes','IP Risk Level','IP Risk Notes','IP Modules','IP Config Notes','IP Hosting Product','IP Snapshot Eligible','IP Snapshot Notes','IP Snapshot Product','IP Objections','IP Reframes','IP Outgrown Signs','IP Transition Points','IP Entry Product','IP Entry Note','IP Bad Fit','IP Churn Behaviors','IP Industry Notes','IP FAQs (count)','IP Credits Note','IP Add-Ons','IP DFY','IP Social Angles','IP Email Subjects','IP Referral Sources (count)','IP Seasonal Triggers (count)','IP Tools (count)','WF Name','WF Prefix','WF Phase','WF Descriptor','WF Function','WF Owner','WF Client','WF Scope','WF Status','WF Trigger','WF Intent','WF Steps','WF # Emails','WF # Tags','WF Duration (days)','WF #','WF Last Reviewed','WF Review Due','WF Fields','Content Name','Content #','Descriptor','Content Scope','Content Function','SOP/Policy Category','Inv Stock Status','Inv Category','Inv Location','Inv Room','Inv Container','Inv Qty','Inv Unit','Inv Low Alert','Inv Brand','Inv Model','Inv Price','Inv Store','Inv Serial','Inv Expiration/Warranty','Inv URL','Inv Cover','Inv Creator','Inv Genre','Inv Year','Inv ISBN/UPC','Inv Format','Inv Digital Version','Inv Digital Library IDs','Inv Sub-Category','Inv Colors','Inv Style','Inv Season','Inv Size(s)','Inv Wash','Inv Dryer','Inv Uses','Inv Capsule','Inv Essential','Inv Wish List','Test Result','Ask Category','Room Location #','Room Zone','Room Flooring','Room Sq Ft','Room Cover','Auto Trigger','Auto Action','Auto Devices','Auto Rooms','Auto App(s)','Auto Status','Function','Cadence','Knowledge Type','Maintenance Type','Transaction Type','Transaction Amount','Transaction Date','Transaction Account','Transaction To Account','Transaction Category','Transaction Payee','Transaction Subcategory','Transaction Payment Method','Transaction Budget Group','Transaction Cleared','Transaction Tax Deductible','Transaction Recurring','Transaction Memo','Recurring Kind','Recurring Amount','Recurring Frequency','Recurring Next Due','Recurring Account','Recurring Category','Recurring Payee','Recurring Payment Method','Recurring Auto Pay','Recurring Status','Recurring Start Date','Recurring Cancelled Date','Recurring Cancel Reason','Recurring Last Paid Date','Recurring Notes','Created At','Updated At','Reschedule Count','Sprint Rollover Count','Reopen Count','Hold Since','Guardrail History'];
     const rows=items.map(i=>{
       try{
         return[
@@ -4492,10 +4453,9 @@ function exportItemsExcel(){
           (i.contentBody||'').replace(/\n/g,' '),
           (i.linkedProducts||[]).map(id=>{const it=getItem(id);return it?it.name||id:id;}).join('; '),
           i.contentViews||0,i.contentLikes||0,i.contentComments||0,i.contentShares||0,
-          i.releaseVersion||'',i.releaseType||'',i.releaseStatus||'',
+          i.releaseVersion||'',i.releaseType||'',
           (i.releaseModules||[]).join('; '),
           (i.releaseChangelog||'').replace(/\n/g,' '),(i.releaseNotes||'').replace(/\n/g,' '),
-          i.releaseFileName||'',
           i.changeType||'',i.changeStatus||'',i.changePriority||'',
           (i.changeModule||[]).join('; '),
           i.habitFreq||'',i.habitTime||'',(i.type==='habit'?(i.habitRotWeek||''):''),(i.type==='habit'&&i.habitMaster)?(i.habitAwardPts||0):'',(i.type==='habit'&&i.habitMaster)?((i.habitMisses||[]).join('; ')):'',
@@ -4742,7 +4702,7 @@ const SCHEMA2_KNOWN_FIELDS={
   product:['productStatus','productBrand','productCategory','productType','productFeatured','productLaunchDate','productPrice','productRegularPrice','productFoundingPrice','productPaymentPlan','productCheckoutLink','productSalesPage'],
   industryprofile:['ipBrand','ipIndustry','ipProfileNum','ipLastVerified'],
   clientbuild:['clientName','clientArchetype','industry','ssPackage','sfPackage','foundingClient','foundingClientNumber','buildWeek','buildPhase','clientStatus','slotStatus','cbLeadSource','cbCancelDate','estBuildHours','actualBuildHours','revisionCount','paymentStatus','contractSigned','depositPaid','assetsReceived','logoReceived','brandColorsReceived','domainAccessReceived','calendarInfoReceived','emailDomainConnected','paymentProcessorConnected','snapshotSource','industrySnapshotLevel','snapshotUpdated','sopUpdated','qaComplete','clientReviewComplete','loomRecorded','finalDeliveryComplete','testAccountPassed','buildNotes'],
-  release:['releaseVersion','releaseType','releaseStatus','releaseFileName','releaseDate','releaseChangelog','releaseNotes','testResult','releaseTargetShipDate','releaseReadinessOverride','releaseOverrideReason','releaseMigrationStatus','releaseVerificationStatus','releaseRollbackRequired','releaseRollbackDate','releaseRolledBackTo','releaseSummary','releaseUserGuide','releaseTechnicalNotes'],
+  release:['releaseVersion','releaseType','releaseModules','releaseChangelog','releaseNotes'],
   change:['changeType','changeStatus','changePriority','testResult','changeDesiredBehavior','changeCurrentBehavior','changeAcceptanceCriteria','changeImpactLevel','changeRiskLevel','changeTestingRequired','changeTestedDate','changeRegressionRequired','changeDocsRequired','changeChangelogRequired','changeUserGuideRequired','changeSopRequired','changeDataDictionaryRequired','changeMigrationRequired','changeMigrationTested','changeBackupRequired','changeRollbackPlan','changeIncludeChangelog','changeChangelogSummary','changeUserFacingImpact'],
   automation:['autoTrigger','autoAction','autoDevices','autoRooms','autoApps','autoStatus'],
   workflow:['wfDescriptor','wfOwner','wfTrigger','wfSteps'],
@@ -4943,7 +4903,6 @@ function draftFromModal(){
   const _cp=v('m-content-platforms');
   if(_cp!==undefined){try{d.contentPlatforms=JSON.parse(_cp||'[]');}catch(e){}}
   set('releaseVersion',v('m-release-version'));
-  set('releaseStatus',v('m-release-status'));
   set('changeType',v('m-change-type'));
   set('changeStatus',v('m-change-status'));
   // these render live only for their own type; leave saved value in place otherwise
@@ -7715,7 +7674,6 @@ function renderModalBody(type,item,prefill){
     </div>`;
   } else if(type==='release'){
     const MODULE_OPTS=['Dashboard','All Action Items','Master Plan','Brain Dump','Parking Lot','Planning Queue','Sprint Planner','13-Week SOT','Meal Planner','Who I Am Becoming','My Arc','Habits & Routines','Health & Wellness','Finance Tracker','Dream Life Fund','Countdowns','Rewards Bank','Home Operations','Home Inventory','Digital Library','Rooms','Automations','Tags','Lists','Catalog Settings','Ask Module','1,000 NOs Challenge','Goal Module','Project Module','Phase Module','Task Module','Challenge Module','Release Management','Change Management','Content Module','Content Planner','Course Module','Patch Challenges','Product Module','Product Catalog','Industry Profile Module','Client Build Module','Workflow Module','Event Module','Core Action Item Module','Add Module','Bulk Add','Bulk Update','Date Series','Focus View','Print','Export','Import','Drive','SF Scorecard','Initiative Dashboard','Hierarchy','Other'];
-    const releaseStatusOpts=[['planning','📋 Planning'],['building','🔧 Building'],['testing','🧪 Testing'],['ready','✅ Ready to Ship'],['released','🚀 Released'],['shipped','🚀 Shipped (Legacy)'],['verified','🔎 Verified'],['closed','✔️ Closed'],['onhold','⏸️ On Hold'],['cancelled','❌ Cancelled'],['rollback','↩️ Rolled Back']].map(([v,l])=>`<option value="${v}"${(item?.releaseStatus||'backlog')===v?' selected':''}>${l}</option>`).join('');
     const releaseTypeOpts=[['','— Select —'],['major','🏗️ Major Release'],['minor','✨ Minor Release'],['patch','🩹 Patch Release'],['hotfix','🔥 Hot Fix']].map(([v,l])=>`<option value="${v}"${(item?.releaseType||'')===v?' selected':''}>${l}</option>`).join('');
     const savedMods=item?.releaseModules||[];
     const modChips=savedMods.map(m=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;background:#166534;color:#fff">${esc(m)}<button type="button" onclick="removeReleaseModule('${esc(m)}')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:12px;line-height:1;padding:0">×</button></span>`).join('');
@@ -7730,10 +7688,6 @@ function renderModalBody(type,item,prefill){
         <div class="field" style="margin:0"><label>Version <span class="req">*</span> <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">number, max 5 digits</span></label><input id="m-release-version" type="number" maxlength="5" min="0" max="99999" placeholder="e.g. 100" value="${esc(verVal)}"></div>
         <div class="field" style="margin:0"><label>Release Type <span class="req">*</span></label><select id="m-release-type">${releaseTypeOpts}</select><div style="font-size:9.5px;color:var(--txt3);margin-top:3px;line-height:1.35">🏗️ Major = big or breaking changes · ✨ Minor = new features, backward-compatible · 🩹 Patch = small fixes/tweaks · 🔥 Hot Fix = urgent production fix</div></div>
       </div>
-      <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Status <span class="req">*</span></label><select id="m-release-status">${releaseStatusOpts}</select></div>
-        <div class="field" style="margin:0"><label>Test Result</label><select id="m-testresult"><option value=""${!(item?.testResult)?' selected':''}>— Select —</option><option value="not_tested"${(item?.testResult)==='not_tested'?' selected':''}>Not Tested</option><option value="testing"${(item?.testResult)==='testing'?' selected':''}>Testing</option><option value="pass"${(item?.testResult)==='pass'?' selected':''}>✅ Passed</option><option value="fail"${(item?.testResult)==='fail'?' selected':''}>❌ Failed</option><option value="retest_required"${(item?.testResult)==='retest_required'?' selected':''}>Retest Required</option><option value="not_required"${(item?.testResult)==='not_required'?' selected':''}>Not Required</option></select></div>
-      </div>
       <div class="field" style="margin-bottom:10px">
         <label>Modules Impacted</label>
         <select id="m-release-modules-sel" onchange="addReleaseModule(this.value);this.value=''" style="width:100%;padding:7px 10px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
@@ -7747,7 +7701,6 @@ function renderModalBody(type,item,prefill){
         📊 <strong>${completedChg}/${totalChg} Changes Complete</strong> &nbsp;·&nbsp; ${pct}% &nbsp;
         <div style="margin-top:4px;height:6px;background:#BBF7D0;border-radius:3px"><div style="width:${pct}%;height:100%;background:#16A34A;border-radius:3px"></div></div>
       </div>`:''}
-      <div class="field" style="margin-bottom:10px"><label>File Name <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(filled in by Claude after the release ships)</span></label><input id="m-release-filename" placeholder="e.g. life-command-center-v65.html" value="${esc(item?.releaseFileName||'')}"></div>
       <div class="field" style="margin-bottom:10px"><label>Changelog <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(filled in by Claude after the release ships)</span></label><textarea id="m-release-changelog" rows="4" placeholder="- Added Change type&#10;- Rebuilt Release module&#10;...">${esc(item?.releaseChangelog||'')}</textarea></div>
       <div class="field" style="margin-bottom:0"><label>Release Notes <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(filled in by Claude after the release ships)</span></label><textarea id="m-release-notes" rows="4" placeholder="What was delivered in this release...">${esc(item?.releaseNotes||'')}</textarea></div>
     </div>`;
@@ -8507,9 +8460,7 @@ function renderModalBody(type,item,prefill){
     <input type="hidden" id="m-event-lastsync" value="${esc(item?.lastSyncedAt||'')}">
     <input type="hidden" id="m-release-version" value="${esc(item?.releaseVersion||'')}">
     <input type="hidden" id="m-release-type" value="${esc(item?.releaseType||'')}">
-    <input type="hidden" id="m-release-status" value="${esc(item?.releaseStatus||'')}">
     <input type="hidden" id="m-release-modules-data" value="${esc(JSON.stringify(item?.releaseModules||[]))}">
-    <input type="hidden" id="m-release-filename" value="${esc(item?.releaseFileName||'')}">
     <input type="hidden" id="m-release-changelog" value="${esc(item?.releaseChangelog||'')}">
     <input type="hidden" id="m-release-notes" value="${esc(item?.releaseNotes||'')}">
     <input type="hidden" id="m-change-type" value="${esc(item?.changeType||'')}">
@@ -9722,12 +9673,10 @@ function saveItemInner(){
   const releaseFields=type==='release'?{
     releaseVersion:document.getElementById('m-release-version')?.value||'',
     releaseType:document.getElementById('m-release-type')?.value||'',
-    releaseStatus:document.getElementById('m-release-status')?.value||'',
     releaseModules:(()=>{try{return JSON.parse(document.getElementById('m-release-modules-data')?.value||'[]');}catch{return[];}})(),
     releaseChangelog:document.getElementById('m-release-changelog')?.value||'',
-    releaseNotes:document.getElementById('m-release-notes')?.value||'',
-    releaseFileName:document.getElementById('m-release-filename')?.value||''
-  }:(_cbEx?{releaseVersion:_cbEx.releaseVersion,releaseType:_cbEx.releaseType,releaseStatus:_cbEx.releaseStatus,releaseModules:_cbEx.releaseModules,releaseChangelog:_cbEx.releaseChangelog,releaseNotes:_cbEx.releaseNotes,releaseFileName:_cbEx.releaseFileName}:{});
+    releaseNotes:document.getElementById('m-release-notes')?.value||''
+  }:(_cbEx?{releaseVersion:_cbEx.releaseVersion,releaseType:_cbEx.releaseType,releaseModules:_cbEx.releaseModules,releaseChangelog:_cbEx.releaseChangelog,releaseNotes:_cbEx.releaseNotes}:{});
   const changeFields=type==='change'?{
     changeType:document.getElementById('m-change-type')?.value||'',
     changeStatus:document.getElementById('m-change-status')?.value||'',
@@ -9922,7 +9871,7 @@ function saveItemInner(){
     ...cbFields,...eventFields,...releaseFields,...changeFields,...patchAskFields,...courseFields,...contentFields,...productFields,...workflowFields,...transactionFields,...recurringExpenseFields,...themeFields,
     ...schema2CollectSingle(type,S.editId?getItem(S.editId):null),
     id:S.editId||uid(),name,type,
-    testResult:document.getElementById('m-testresult')?.value||'', // 0649 (v244) — Pass/Fail for changes & releases
+    testResult:type==='change'?(document.getElementById('m-testresult')?.value||''):(_cbEx?.testResult||''), // Test Result is Change-only; Releases use Core Status
     listIds:ML.listIds,categories:ML.categories,status,date:(type==='transaction'||type==='recurringexpense')?'':tcd,
     progress:type==='task'?(status==='done'?100:0):parseInt(document.getElementById('m-prog')?.value||0),
     notes:document.getElementById('m-notes')?.value||'',
@@ -10607,7 +10556,7 @@ function resetBulkForm(){
   ['ba-text','ba-s','ba-m','ba-a','ba-r','ba-notes','ba-est-mins','ba-duration','bu-name','bu-est-mins','bu-duration','ba-link-any','bu-link-any','ba-link-search','bu-link-search'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
   const _blm=document.getElementById('bu-link-mode');if(_blm)_blm.value='link';
   const prev=document.getElementById('bprev');if(prev)prev.innerHTML='';
-  ['ba-type','ba-status','ba-effort','ba-start','ba-date','ba-duration-unit','ba-resp-status','ba-ask-who','ba-ask-type','ba-ask-channel','ba-ask-category','ba-reject-type','ba-patch-diff','ba-patch-cat','ba-rotation-week','ba-challenge','ba-badge-url','ba-seqnum-field','ba-course-num','ba-course-hrs','ba-course-sem','ba-course-year','ba-course-inst','ba-course-grade','ba-course-proctored','ba-course-status','ba-priority','ba-checkin','ba-budget','ba-tags','ba-release-type','ba-release-status','ba-release-version','ba-release-filename','ba-release-changelog','ba-release-notes','ba-change-type','ba-change-status','ba-change-priority','ba-content-type','ba-content-stage','ba-content-purpose','ba-content-pillar','ba-content-campaign','ba-content-audience','ba-content-offer','ba-product-status','ba-product-category','ba-product-brand','ba-product-type','ba-product-featured','ba-product-launch-date','ba-product-format','ba-product-price','ba-product-regular-price','ba-product-founding-price','ba-product-payment-plan','ba-product-checkout-link','ba-product-sales-page'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['ba-type','ba-status','ba-effort','ba-start','ba-date','ba-duration-unit','ba-resp-status','ba-ask-who','ba-ask-type','ba-ask-channel','ba-ask-category','ba-reject-type','ba-patch-diff','ba-patch-cat','ba-rotation-week','ba-challenge','ba-badge-url','ba-seqnum-field','ba-course-num','ba-course-hrs','ba-course-sem','ba-course-year','ba-course-inst','ba-course-grade','ba-course-proctored','ba-course-status','ba-priority','ba-checkin','ba-budget','ba-tags','ba-release-type','ba-release-version','ba-release-changelog','ba-release-notes','ba-change-type','ba-change-status','ba-change-priority','ba-content-type','ba-content-stage','ba-content-purpose','ba-content-pillar','ba-content-campaign','ba-content-audience','ba-content-offer','ba-product-status','ba-product-category','ba-product-brand','ba-product-type','ba-product-featured','ba-product-launch-date','ba-product-format','ba-product-price','ba-product-regular-price','ba-product-founding-price','ba-product-payment-plan','ba-product-checkout-link','ba-product-sales-page'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.ba-focus-period').forEach(c=>c.checked=false);
   const csvModeEl=document.getElementById('ba-csv-mode');
   if(csvModeEl){csvModeEl.checked=false;toggleBaCsvMode();}
@@ -10617,7 +10566,7 @@ function resetBulkForm(){
   if(csvFileEl)csvFileEl.value='';
   const csvPrevEl=document.getElementById('ba-csv-preview');
   if(csvPrevEl)csvPrevEl.innerHTML='';
-  ['bu-type','bu-status','bu-effort','bu-start','bu-date','bu-completed','bu-duration-unit','bu-resp-status','bu-ask-who','bu-ask-type','bu-ask-channel','bu-ask-category','bu-reject-type','bu-onhold-reason','bu-patch-diff','bu-patch-cat','bu-rotation-week','bu-challenge','bu-badge-url','bu-seqnum','bu-priority','bu-checkin','bu-budget','bu-tags','bu-release-type','bu-release-status','bu-release-version','bu-release-filename','bu-release-testresult','bu-release-date','bu-release-target-ship','bu-release-testing-status','bu-release-backup-status','bu-release-changelog-complete','bu-release-user-guide-complete','bu-release-verification','bu-release-migration','bu-release-readiness','bu-release-rollback-required','bu-release-rollback-date','bu-release-rolledback-to','bu-release-modules','bu-release-override-reason','bu-release-summary','bu-release-changelog','bu-release-notes','bu-release-user-guide','bu-release-technical-notes','bu-change-type','bu-change-status','bu-change-priority','bu-testresult','bu-content-type','bu-content-stage','bu-content-purpose','bu-content-pillar','bu-content-campaign','bu-content-audience','bu-content-offer','bu-product-status','bu-product-category','bu-product-brand','bu-product-type','bu-product-featured','bu-product-launch-date','bu-product-format','bu-product-price','bu-product-regular-price','bu-product-founding-price','bu-product-payment-plan','bu-product-checkout-link','bu-product-sales-page','bu-s','bu-m','bu-a','bu-r','bu-notes','bu-est-mins','bu-func','bu-cadence','bu-knowtype','bu-mainttype'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['bu-type','bu-status','bu-effort','bu-start','bu-date','bu-completed','bu-duration-unit','bu-resp-status','bu-ask-who','bu-ask-type','bu-ask-channel','bu-ask-category','bu-reject-type','bu-onhold-reason','bu-patch-diff','bu-patch-cat','bu-rotation-week','bu-challenge','bu-badge-url','bu-seqnum','bu-priority','bu-checkin','bu-budget','bu-tags','bu-release-type','bu-release-version','bu-release-modules','bu-release-changelog','bu-release-notes','bu-change-type','bu-change-status','bu-change-priority','bu-testresult','bu-content-type','bu-content-stage','bu-content-purpose','bu-content-pillar','bu-content-campaign','bu-content-audience','bu-content-offer','bu-product-status','bu-product-category','bu-product-brand','bu-product-type','bu-product-featured','bu-product-launch-date','bu-product-format','bu-product-price','bu-product-regular-price','bu-product-founding-price','bu-product-payment-plan','bu-product-checkout-link','bu-product-sales-page','bu-s','bu-m','bu-a','bu-r','bu-notes','bu-est-mins','bu-func','bu-cadence','bu-knowtype','bu-mainttype'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.bu-focus-period').forEach(c=>c.checked=false);
   ['bu-clear-start','bu-clear-date','bu-clear-completed'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
   document.querySelectorAll('.lci.sel,.cci.sel').forEach(el=>{el.classList.remove('sel');el.style.background='';el.style.borderColor='';});
@@ -11636,7 +11585,6 @@ function saveBulk(){
       const _bBudget=document.getElementById('bu-budget')?.value||'';
       const _bTags=document.getElementById('bu-tags')?.value||'';
       const _bRelType=document.getElementById('bu-release-type')?.value||'';
-      const _bRelStatus=document.getElementById('bu-release-status')?.value||'';
       const _bChType=document.getElementById('bu-change-type')?.value||'';
       const _bChStatus=document.getElementById('bu-change-status')?.value||'';
       const _bChPriority=document.getElementById('bu-change-priority')?.value||'';
@@ -11664,27 +11612,9 @@ function saveBulk(){
       const _bPCheckoutLink=document.getElementById('bu-product-checkout-link')?.value||'';
       const _bPSalesPage=document.getElementById('bu-product-sales-page')?.value||'';
       const _bRelVersion=document.getElementById('bu-release-version')?.value||'';
-      const _bRelFilename=document.getElementById('bu-release-filename')?.value||'';
-      const _bRelTestResult=document.getElementById('bu-release-testresult')?.value||'';
-      const _bRelDate=document.getElementById('bu-release-date')?.value||'';
-      const _bRelTargetShip=document.getElementById('bu-release-target-ship')?.value||'';
-      const _bRelTestingStatus=document.getElementById('bu-release-testing-status')?.value||'';
-      const _bRelBackupStatus=document.getElementById('bu-release-backup-status')?.value||'';
-      const _bRelChangelogComplete=document.getElementById('bu-release-changelog-complete')?.value||'';
-      const _bRelUserGuideComplete=document.getElementById('bu-release-user-guide-complete')?.value||'';
-      const _bRelVerification=document.getElementById('bu-release-verification')?.value||'';
-      const _bRelMigration=document.getElementById('bu-release-migration')?.value||'';
-      const _bRelReadiness=document.getElementById('bu-release-readiness')?.value||'';
-      const _bRelRollbackRequired=document.getElementById('bu-release-rollback-required')?.value||'';
-      const _bRelRollbackDate=document.getElementById('bu-release-rollback-date')?.value||'';
-      const _bRelRolledBackTo=document.getElementById('bu-release-rolledback-to')?.value||'';
       const _bRelModules=document.getElementById('bu-release-modules')?.value||'';
-      const _bRelOverrideReason=document.getElementById('bu-release-override-reason')?.value||'';
-      const _bRelSummary=document.getElementById('bu-release-summary')?.value||'';
       const _bRelChangelog=document.getElementById('bu-release-changelog')?.value||'';
       const _bRelNotes=document.getElementById('bu-release-notes')?.value||'';
-      const _bRelUserGuide=document.getElementById('bu-release-user-guide')?.value||'';
-      const _bRelTechnicalNotes=document.getElementById('bu-release-technical-notes')?.value||'';
 
       const _bRejectType=document.getElementById('bu-reject-type')?.value||'';
       const _bOnHoldReason=document.getElementById('bu-onhold-reason')?.value||'';
@@ -11700,34 +11630,15 @@ function saveBulk(){
       const _bKnow=document.getElementById('bu-knowtype')?.value||'';if(_bKnow)item.knowledgeType=_bKnow;
       const _bMaint=document.getElementById('bu-mainttype')?.value||'';if(_bMaint)item.maintType=_bMaint;
       if(_bRelType)item.releaseType=_bRelType;
-      if(_bRelStatus)item.releaseStatus=_bRelStatus;
       if(_bChType)item.changeType=_bChType;
       if(_bChStatus)item.changeStatus=_bChStatus;
       if(_bChPriority)item.changePriority=_bChPriority;
-      if(_bTestResult&&(item.type==='change'||item.type==='release'))item.testResult=(_bTestResult==='__clear__'?'':_bTestResult); // 0649 (v244)
+      if(_bTestResult&&item.type==='change')item.testResult=(_bTestResult==='__clear__'?'':_bTestResult); // 0649 (v244)
 
       if(_bRelVersion)item.releaseVersion=_bRelVersion;
-      if(_bRelFilename)item.releaseFileName=_bRelFilename;
-      if(_bRelTestResult&&item.type==='release')item.testResult=(_bRelTestResult==='__clear__'?'':_bRelTestResult);
-      if(_bRelDate)item.releaseDate=_bRelDate;
-      if(_bRelTargetShip)item.releaseTargetShipDate=_bRelTargetShip;
-      if(_bRelTestingStatus)item.releaseTestingStatus=_bRelTestingStatus;
-      if(_bRelBackupStatus)item.releaseBackupStatus=_bRelBackupStatus;
-      if(_bRelChangelogComplete)item.releaseChangelogComplete=(_bRelChangelogComplete==='true');
-      if(_bRelUserGuideComplete)item.releaseUserGuideComplete=(_bRelUserGuideComplete==='true');
-      if(_bRelVerification)item.releaseVerificationStatus=_bRelVerification;
-      if(_bRelMigration)item.releaseMigrationStatus=_bRelMigration;
-      if(_bRelReadiness)item.releaseReadinessOverride=(_bRelReadiness==='yes');
-      if(_bRelRollbackRequired)item.releaseRollbackRequired=(_bRelRollbackRequired==='yes');
-      if(_bRelRollbackDate)item.releaseRollbackDate=_bRelRollbackDate;
-      if(_bRelRolledBackTo)item.releaseRolledBackTo=_bRelRolledBackTo;
       if(_bRelModules)item.releaseModules=_bRelModules.split(',').map(s=>s.trim()).filter(Boolean);
-      if(_bRelOverrideReason)item.releaseOverrideReason=_bRelOverrideReason;
-      if(_bRelSummary)item.releaseSummary=_bRelSummary;
       if(_bRelChangelog)item.releaseChangelog=_bRelChangelog;
       if(_bRelNotes)item.releaseNotes=_bRelNotes;
-      if(_bRelUserGuide)item.releaseUserGuide=_bRelUserGuide;
-      if(_bRelTechnicalNotes)item.releaseTechnicalNotes=_bRelTechnicalNotes;
 
       if(_bRejectType)item.rejectionType=_bRejectType;
       if(_bOnHoldReason)item.onHoldReason=_bOnHoldReason;
@@ -13505,9 +13416,7 @@ function renderListDetail(){
       const completeCell=dateinp(i.completedDate||'',`inlineField('${rid}','completedDate',this.value)`);
       const notesCell=inp(i.notes||i.releaseNotes||'',`inlineField('${rid}','notes',this.value)`,'Notes...');
       const releaseTypeCell=isRel?sel([['','— Select —'],['major','Major'],['minor','Minor'],['patch','Patch'],['hotfix','Hotfix'],['infrastructure','Infrastructure']],i.releaseType||'',`inlineField('${rid}','releaseType',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
-      const releaseStatusCell=isRel?sel([['','— Select —'],['building','Building'],['ready','Ready'],['testing','Testing'],['released','Released'],['shipped','Shipped'],['cancelled','Cancelled']],i.releaseStatus||'',`inlineField('${rid}','releaseStatus',this.value)`):'<span style="color:var(--txt3);font-size:11px">—</span>';
       const modulesCell=inp(modules.join(', '),`inlineModulesField('${rid}','${moduleField}',this.value)`,'Modules...');
-      const testCell=sel([['','— Test —'],['testing','Testing'],['passed','Passed'],['failed','Failed'],['blocked','Blocked'],['notrequired','Not Required']],i.testResult||'',`inlineField('${rid}','testResult',this.value)`);
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${rid}')">
         <td onclick="event.stopPropagation()" style="text-align:center"><input type="checkbox" class="rel-row-chk" data-id="${rid}" ${selectedIds.has(rid)?'checked':''} onclick="event.stopPropagation();toggleSelect('${rid}',this.checked)" style="accent-color:var(--teal);width:14px;height:14px;cursor:pointer"></td>
         <td onclick="event.stopPropagation()" style="min-width:70px">${verCell}</td>
@@ -13518,9 +13427,7 @@ function renderListDetail(){
         <td onclick="event.stopPropagation()">${completeCell}</td>
         <td style="min-width:180px" onclick="event.stopPropagation()">${notesCell}</td>
         <td onclick="event.stopPropagation()">${releaseTypeCell}</td>
-        <td onclick="event.stopPropagation()">${releaseStatusCell}</td>
         <td style="min-width:160px" onclick="event.stopPropagation()">${modulesCell}</td>
-        <td onclick="event.stopPropagation()">${testCell}</td>
         <td style="text-align:center">${linkedDot}</td>
         <td onclick="event.stopPropagation()"><button class="btn xs ghost" onclick="openModal(null,null,null,'${rid}')" title="Full edit">&#9998;</button></td>
       </tr>`;
@@ -13568,9 +13475,7 @@ function renderListDetail(){
         <th ${th('complete')} onclick="ldSort('complete')">Completed ${thA('complete')}</th>
         <th style="min-width:180px">Notes</th>
         <th>Release Type</th>
-        <th>Release Status</th>
         <th>Modules Impacted</th>
-        <th>Test Results</th>
         <th style="width:50px">Linked</th>
         <th style="width:36px"></th>`
   const releaseBulkBar=S.activeList==='releases'?`<div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap"><button class="btn xs" onclick="openBulkFromSelection()">⚡ Update Selected</button><button class="btn xs ghost" onclick="clearReleaseSelection()">Clear Selection</button><span style="font-size:10px;color:var(--txt3)">Select release rows with the checkboxes, then update them together.</span></div>`:'';
@@ -13651,7 +13556,7 @@ function printActionItemsFields(i){
     // Change
     ['Change Type',i.changeType],['Change Status',i.changeStatus],['Change Priority',i.changePriority],
     // Release
-    ['Release Version',i.releaseVersion],['Release Type',i.releaseType],['Release Status',i.releaseStatus],['Release Changelog',i.releaseChangelog],
+    ['Release Version',i.releaseVersion],['Release Type',i.releaseType],['Release Modules',(i.releaseModules||[]).join(', ')],['Release Changelog',i.releaseChangelog],['Release Notes',i.releaseNotes],
     // Content
     ['Content Type',i.contentType],['Content Stage',i.contentStage],['Publish Date',i.publishDate],['Series',i.series],
     // Course
@@ -30014,7 +29919,7 @@ const V368_TYPE_DEFS={
  course:{courseSemester:{k:'courseSemester',l:'Semester',t:'select',o:['Fall','Spring','Summer']}},
  workflow:{wfOwner:{k:'wfOwner',l:'Workflow Owner',t:'select',o:['Internal','Client']}}
 };
-const V368_BU_CONTROL_MAP={releaseType:'bu-release-type',releaseStatus:'bu-release-status',testResult:'bu-testresult',changeType:'bu-change-type',changeStatus:'bu-change-status',changePriority:'bu-change-priority',contentType:'bu-content-type',contentStage:'bu-content-stage',contentPurpose:'bu-content-purpose',contentPillar:'bu-content-pillar',contentCampaign:'bu-content-campaign',contentAudience:'bu-content-audience',productStatus:'bu-product-status',productCategory:'bu-product-category',productBrand:'bu-product-brand',productType:'bu-product-type',productFormat:'bu-product-format'};
+const V368_BU_CONTROL_MAP={releaseType:'bu-release-type',testResult:'bu-testresult',changeType:'bu-change-type',changeStatus:'bu-change-status',changePriority:'bu-change-priority',contentType:'bu-content-type',contentStage:'bu-content-stage',contentPurpose:'bu-content-purpose',contentPillar:'bu-content-pillar',contentCampaign:'bu-content-campaign',contentAudience:'bu-content-audience',productStatus:'bu-product-status',productCategory:'bu-product-category',productBrand:'bu-product-brand',productType:'bu-product-type',productFormat:'bu-product-format'};
 function v368GuideDef(type,key){return (V368_FIELD_GUIDE_META[type]||{})[key]||null}
 function v368SelectOptionsFromControl(key){const id=V368_BU_CONTROL_MAP[key],el=id&&document.getElementById(id);if(!el||el.tagName!=='SELECT')return null;const a=Array.from(el.options).filter(o=>o.value!==''&&o.value!=='__clear__').map(o=>({v:o.value,l:o.textContent.trim()}));return a.length?a:null}
 function v368FieldDef(type,key){
@@ -30029,12 +29934,7 @@ const _v368OrigCatalog=schema2FieldCatalog;
 schema2FieldCatalog=function(type){
   // v390 source fix — Release bulk editing uses the actual Release field set from the current Field Guide.
   // Do not mix unrelated generic/stored properties into the Release-specific editor.
-  if(type==='release')return [
-    'releaseVersion','releaseType','releaseStatus','releaseFileName','releaseDate','releaseChangelog','releaseNotes','testResult',
-    'releaseTargetShipDate','releaseReadinessOverride','releaseOverrideReason','releaseMigrationStatus','releaseVerificationStatus',
-    'releaseRollbackRequired','releaseRollbackDate','releaseRolledBackTo','releaseSummary','releaseUserGuide','releaseTechnicalNotes',
-    'releaseTestingStatus','releaseBackupStatus','releaseChangelogComplete','releaseUserGuideComplete','releaseModules'
-  ];
+  if(type==='release')return ['releaseVersion','releaseType','releaseModules','releaseChangelog','releaseNotes'];
   const a=_v368OrigCatalog(type),g=Object.keys(V368_FIELD_GUIDE_META[type]||{}),extra=['duration','durationUnit','tags','focusPeriods','checkinDate','sprint','rotationWeek','func','cadence','knowledgeType','maintType'];
   return [...new Set([...a,...g,...extra])].filter(k=>!['id','createdAt','updatedAt','listNums'].includes(k)).sort((x,y)=>v368FieldDef(type,x).l.localeCompare(v368FieldDef(type,y).l));
 };
@@ -31044,6 +30944,21 @@ html,body{height:100%;min-height:100%;margin:0;overflow:hidden}
 <!-- CHANGE LOG: v390 correction — Corrected Master Plan Business-list filtering; expanded dedicated Release bulk fields; reconciled Complete Bulk Editor with Release bulk completion; terminal Release Status now sets Done/Completed Date/100% when close validation passes and is rejected when it does not. -->
 <!-- RELEASE NOTES: v390 correction — Same v390 release; no new version/Release record. No new Action Item type or schema field. -->
 <!-- RELEASE NOTES: v390 source-fix — Business-list filtering is enforced in the actual Master Plan source helper; Inventory room persistence uses Room record IDs/names without the legacy v383 overwrite; terminal Release bulk updates close historical releases from either bulk editor; Release dashboard/list surfaces exclude completed releases; and global content bottom padding was reduced to remove the artificial blank band. -->
+
+<script id="lcc-v390-release-core-status-simplification">
+(function(){
+ const REMOVED=['releaseStatus','testResult','releaseFileName','releaseDate','releaseTargetShipDate','releaseTestingStatus','releaseBackupStatus','releaseChangelogComplete','releaseUserGuideComplete','releaseVerificationStatus','releaseMigrationStatus','releaseReadinessOverride','releaseOverrideReason','releaseRollbackRequired','releaseRollbackDate','releaseRolledBackTo','releaseSummary','releaseUserGuide','releaseTechnicalNotes','releaseActualDate'];
+ function clean(){
+   if(!window.S||!Array.isArray(S.items))return;
+   let changed=false;
+   S.items.forEach(i=>{if(i&&i.type==='release'){REMOVED.forEach(k=>{if(Object.prototype.hasOwnProperty.call(i,k)){delete i[k];changed=true;}});}});
+   if(changed){try{save();}catch(e){}}
+ }
+ const oldLoad=window.load; if(typeof oldLoad==='function')window.load=function(){const r=oldLoad.apply(this,arguments);clean();return r;};
+ const oldDrive=window.loadFromDriveData; if(typeof oldDrive==='function')window.loadFromDriveData=function(){const r=oldDrive.apply(this,arguments);clean();return r;};
+ setTimeout(clean,0);
+})();
+</script>
 </body>
 </html>
 
