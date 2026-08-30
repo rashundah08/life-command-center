@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v399</title>
+<title>LCC v400</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -7174,7 +7174,12 @@ function ipPrint(id){
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
     '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>'+
-    '</body></html>';
+    '
+<!-- USER GUIDE: v400 — Digital Library now has three distinct user-facing tools: Digital Filing Assistant, Digital Registry, and Naming Guide. The Filing Assistant is a dedicated tab and is no longer hidden inside the Registry form. -->
+<!-- CHANGE LOG: v400 — Fixed missing Filing Assistant navigation. Renamed user-facing Archive Registry to Digital Registry. Added standalone Generate Recommendation / Save to Digital Registry workflow with filename, NAS folder, and tag recommendations. Removed generic Archive wording from the feature. -->
+<!-- RELEASE NOTES: v400 — Navigation/rendering fix for the Digital Filing Assistant. Existing Digital Library and registry data remain intact. -->
+
+</body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
@@ -30223,6 +30228,166 @@ RELEASE NOTES: v393 — Release-count correction only. Existing Release records 
 })();
 </script>
 
+<script id="lcc-v400-filing-assistant-ui">
+(function(){
+  function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+  function field(id,label,placeholder,type){
+    type=type||'text';
+    return `<label style="display:block;margin-bottom:10px"><div style="font-size:11px;color:var(--txt3);margin-bottom:4px">${label}</div><input id="${id}" type="${type}" placeholder="${esc(placeholder||'')}" style="width:100%"></label>`;
+  }
+
+  window.dlRenderFilingAssistant=function(){
+    return `
+      <div class="panel">
+        <div class="panel-h">
+          <div>
+            <div class="panel-title">🗂️ Digital Filing Assistant</div>
+            <div class="muted">Enter what you know once. LCC will generate a standardized name, recommend one permanent NAS folder, suggest useful tags, and save the item into the Digital Registry.</div>
+          </div>
+        </div>
+        <div class="panel-b">
+          <div class="da399-assist" style="margin-bottom:14px">
+            <b>How it works</b>
+            <div class="da399-hint">Identify → Name → Recommend Folder → Recommend Tags → Save to Digital Registry</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+            ${field('dfa-owner','Person / Owner','Rashunda, Ravyn, Jacoby, Household, Joint')}
+            ${field('dfa-type','Item Type','Tax Return, Passport, Warranty, Photo, Course, Contract...')}
+            ${field('dfa-category','Category','Financial, Education, Home, Business...')}
+            ${field('dfa-subcategory','Subcategory','Taxes, Grade 12, Appliances...')}
+            ${field('dfa-name','Document / Item / Event Name','2026 Federal Tax Return')}
+            ${field('dfa-org','Organization / Source','IRS, University, Samsung...')}
+            ${field('dfa-date','Document / Event Date','YYYY-MM-DD','date')}
+            ${field('dfa-ext','File Extension','pdf')}
+            ${field('dfa-source','Original Storage Source','Google Drive, iCloud, Computer...')}
+            ${field('dfa-desc','Description','Optional detail')}
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px">
+            <div class="da399-assist">
+              <b>Recommended Filename</b>
+              <div id="dfa-filename" class="da399-path" style="margin-top:6px">Enter item details above.</div>
+            </div>
+            <div class="da399-assist">
+              <b>Recommended NAS Folder</b>
+              <div id="dfa-path" class="da399-path" style="margin-top:6px">Enter item details above.</div>
+            </div>
+            <div class="da399-assist">
+              <b>Recommended Tags</b>
+              <div id="dfa-tags" style="margin-top:6px">Enter item details above.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+            <button class="btn" onclick="dfaGenerate()">Generate Recommendation</button>
+            <button class="btn pri" onclick="dfaSaveToRegistry()">Save to Digital Registry</button>
+            <button class="btn" onclick="dfaClear()">Clear</button>
+          </div>
+
+          <div class="da399-hint" style="margin-top:10px">No generic Archive destination is used. If an item cannot be confidently classified, it should route to 00 INBOX & REVIEW for a decision—not to an archive bucket.</div>
+        </div>
+      </div>`;
+  };
+
+  function val(id){const e=document.getElementById(id);return e?e.value.trim():''}
+  function payload(){
+    return {
+      owner:val('dfa-owner'),
+      itemType:val('dfa-type'),
+      category:val('dfa-category'),
+      subcategory:val('dfa-subcategory'),
+      itemName:val('dfa-name'),
+      organization:val('dfa-org'),
+      documentDate:val('dfa-date'),
+      extension:val('dfa-ext').replace(/^\./,''),
+      originalSource:val('dfa-source'),
+      description:val('dfa-desc')
+    };
+  }
+  function filename(x){
+    const bits=[];
+    if(x.documentDate) bits.push(x.documentDate);
+    if(x.organization) bits.push(x.organization);
+    if(x.itemName) bits.push(x.itemName);
+    else if(x.itemType) bits.push(x.itemType);
+    let base=bits.filter(Boolean).join(' - ') || 'Untitled Item';
+    base=base.replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,' ').trim();
+    return base + (x.extension ? '.'+x.extension : '');
+  }
+  function tags(x){
+    const out=[];
+    const hay=[x.itemType,x.category,x.subcategory,x.itemName,x.description].join(' ').toLowerCase();
+    if(/tax|irs/.test(hay)) out.push('Tax');
+    if(/legal|contract|court|will|trust|power of attorney/.test(hay)) out.push('Legal');
+    if(/warranty|manual|appliance/.test(hay)) out.push('Warranty');
+    if(/genealog|census|ancestor|probate/.test(hay)) out.push('Genealogy Source');
+    if(/review|unknown|missing/.test(hay)) out.push('Review');
+    if(/passport|birth certificate|social security|deed|will|trust/.test(hay)) out.push('Keep Forever');
+    if(!out.length) out.push('Important');
+    return [...new Set(out)];
+  }
+
+  window.dfaGenerate=function(){
+    const x=payload();
+    const p=window.da399Recommend?window.da399Recommend(x):'';
+    const fn=filename(x), tg=tags(x);
+    const fe=document.getElementById('dfa-filename'), pe=document.getElementById('dfa-path'), te=document.getElementById('dfa-tags');
+    if(fe)fe.textContent=fn;
+    if(pe)pe.textContent=p||'00 INBOX & REVIEW / 01 New / Unfiled';
+    if(te)te.textContent=tg.join(' • ');
+    window.dfaLast={...x,filename:fn,path:p||'00 INBOX & REVIEW / 01 New / Unfiled',tags:tg};
+  };
+
+  window.dfaClear=function(){
+    ['dfa-owner','dfa-type','dfa-category','dfa-subcategory','dfa-name','dfa-org','dfa-date','dfa-ext','dfa-source','dfa-desc'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+    ['dfa-filename','dfa-path','dfa-tags'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='Enter item details above.'});
+    window.dfaLast=null;
+  };
+
+  window.dfaSaveToRegistry=function(){
+    dfaGenerate();
+    const x=window.dfaLast||{};
+    try{
+      if(!window.S) return alert('LCC data store is not available.');
+      if(!S.digitalLibrary) S.digitalLibrary={};
+      if(!Array.isArray(S.digitalLibrary.archiveRecords)) S.digitalLibrary.archiveRecords=[];
+      const rec={
+        id:'DAR-'+Date.now(),
+        registryLevel:'Individual Record',
+        itemType:x.itemType||'',
+        category:x.category||'',
+        subcategory:x.subcategory||'',
+        owner:x.owner||'',
+        nameOnRecord:x.owner||'',
+        organization:x.organization||'',
+        documentDate:x.documentDate||'',
+        datePrecision:x.documentDate?'Exact':'Unknown',
+        itemName:x.itemName||x.itemType||'',
+        description:x.description||'',
+        versionLabel:'',
+        fileExtension:x.extension||'',
+        originalSource:x.originalSource||'',
+        itemCount:1,
+        nasFolder:x.path||'',
+        nasTags:(x.tags||[]).join('; '),
+        notes:'',
+        located:false,copied:false,standardized:true,filed:false,verified:false,backedUp:false,deleteEligible:false,
+        generatedFilename:x.filename||''
+      };
+      S.digitalLibrary.archiveRecords.push(rec);
+      if(typeof save==='function') save();
+      alert('Saved to Digital Registry.');
+      if(typeof render==='function') render();
+    }catch(err){
+      console.error(err);
+      alert('Could not save to Digital Registry: '+err.message);
+    }
+  };
+})();
+</script>
+
+
 <script id="lcc-v398-digital-archive-registry">
 (function(){
   if(window.__LCC_V398_DA__)return; window.__LCC_V398_DA__=true;
@@ -30251,18 +30416,18 @@ RELEASE NOTES: v393 — Release-count correction only. Existing Release records 
   function tagsArr(x){return Array.isArray(x.nasTags)?x.nasTags:String(x.nasTags||'').split(/[;,]/).map(s=>s.trim()).filter(Boolean)}
   function recalc(x){x.generatedFilename=daFilename(x);x.fullPath=daFullPath(x);x.updatedAt=new Date().toISOString();return x}
   const _tabs=window.dlTabs||dlTabs;
-  window.dlTabs=dlTabs=function(){let h=_tabs();if(!h.includes("dlTab('registry')"))h=h.replace("<button class=\"dl361-tab",`<button class="dl361-tab${DL_TAB==='registry'?' active':''}" onclick="dlTab('registry')">Archive Registry</button><button class="dl361-tab${DL_TAB==='naming'?' active':''}" onclick="dlTab('naming')">Naming Guide</button><button class="dl361-tab`);return h};
+  window.dlTabs=dlTabs=function(){let h=_tabs();if(!h.includes("dlTab('registry')"))h=h.replace("<button class=\"dl361-tab",`<button class="dl361-tab${DL_TAB==='registry'?' active':''}" onclick="dlTab('registry')">Digital Registry</button><button class="dl361-tab${DL_TAB==='naming'?' active':''}" onclick="dlTab('naming')">Naming Guide</button><button class="dl361-tab`);return h};
   const _render=window.renderDigitalLibrary||renderDigitalLibrary;
   window.renderDigitalLibrary=renderDigitalLibrary=function(){if(DL_TAB!=='registry'&&DL_TAB!=='naming')return _render();const el=document.getElementById('digital-body');if(!el)return;const d=dlRecalc();el.innerHTML=dlHero(d)+dlTabs()+'<div id="dl361-view"></div>';const v=document.getElementById('dl361-view');if(DL_TAB==='registry')daRenderRegistry(v,d);else daRenderGuide(v,d)};
   function daStats(d){const a=d.archiveRecords||[];return {total:a.length,individual:a.filter(x=>x.recordLevel==='Individual Record').length,collections:a.filter(x=>x.recordLevel==='Collection').length,filed:a.filter(x=>x.filed).length,verified:a.filter(x=>x.verified).length,backed:a.filter(x=>x.backedUp).length}}
   window.DA398_FILTER={q:'',cat:'',owner:'',status:''};
   function filtered(d){const f=window.DA398_FILTER,q=f.q.toLowerCase();return (d.archiveRecords||[]).filter(x=>(!q||[x.generatedFilename,x.itemName,x.description,x.organization,x.owner,x.nasFolder,x.originalSource,tagsArr(x).join(' ')].join(' ').toLowerCase().includes(q))&&(!f.cat||x.category===f.cat)&&(!f.owner||x.owner===f.owner)&&(!f.status||(f.status==='Filed'?x.filed:f.status==='Verified'?x.verified:f.status==='Backed Up'?x.backedUp:!x.filed))).sort((a,b)=>String(b.documentDate||b.createdAt||'').localeCompare(String(a.documentDate||a.createdAt||'')))}
   function daRenderRegistry(v,d){const s=daStats(d),owners=[...new Set((d.archiveRecords||[]).map(x=>x.owner).filter(Boolean))].sort(),a=filtered(d);v.innerHTML=`<div class="da398-tools"><button class="btn primary" onclick="daOpen()">+ Archive Record</button><button class="btn" onclick="daBulkImport()">📥 Bulk Add CSV</button><button class="btn" onclick="daDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="daExportCsv()">⬇ Export Registry</button></div><div class="da398-grid" style="margin-bottom:12px"><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.total}</b><div class="dl361-small">Registry records</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.filed}</b><div class="dl361-small">Filed to NAS</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.verified}</b><div class="dl361-small">Verified</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.backed}</b><div class="dl361-small">Backed up</div></div></div><div class="da398-tools"><input class="da398-filter" style="min-width:220px;flex:1" placeholder="Search filename, person, source, folder, tag…" value="${E(DA398_FILTER.q)}" oninput="DA398_FILTER.q=this.value;renderDigitalLibrary()"><select class="da398-filter" onchange="DA398_FILTER.cat=this.value;renderDigitalLibrary()"><option value="">All folders</option>${DA_CATS.map(c=>`<option ${DA398_FILTER.cat===c?'selected':''}>${E(c)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.owner=this.value;renderDigitalLibrary()"><option value="">All owners</option>${owners.map(o=>`<option ${DA398_FILTER.owner===o?'selected':''}>${E(o)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.status=this.value;renderDigitalLibrary()"><option value="">All statuses</option>${['Needs Filing','Filed','Verified','Backed Up'].map(o=>`<option ${DA398_FILTER.status===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="da398-table-wrap"><table class="da398-table"><thead><tr><th>Generated Filename</th><th>Level</th><th>Item Type</th><th>Owner</th><th>Source</th><th>NAS Folder</th><th>Original Source</th><th>Items</th><th>Tags</th><th>Lifecycle</th><th></th></tr></thead><tbody>${a.map(x=>`<tr><td class="da398-name">${E(x.generatedFilename||daFilename(x))}</td><td>${E(x.recordLevel||'')}</td><td>${E(x.itemType||'')}</td><td>${E(x.owner||'')}</td><td>${E(x.organization||'')}</td><td class="da398-path">${E(x.nasFolder||'')}</td><td>${E(x.originalSource||'')}</td><td>${Number(x.itemCount||1).toLocaleString()}</td><td>${tagsArr(x).map(t=>`<span class="da398-badge">${E(t)}</span>`).join('')}</td><td>${x.located?'📍':''}${x.copiedToNas?' 📥':''}${x.named?' 🏷️':''}${x.filed?' 📁':''}${x.verified?' ✅':''}${x.backedUp?' ☁️':''}</td><td><button class="btn xs" onclick="daOpen('${x.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="11"><div class="dl361-empty">No archive records yet. Add an individual record or collection, or use Bulk Add CSV.</div></td></tr>'}</tbody></table></div>`}
-  function daRenderGuide(v,d){v.innerHTML=`<div class="da398-grid"><div class="da398-card da398-s12"><h3 style="font-size:17px;color:var(--navy);margin-bottom:5px">NAS Naming Convention · One-Page Guide</h3><div class="dl361-small">The Archive Registry uses these same rules automatically, so the guide and the data log stay aligned.</div></div><div class="da398-card da398-s12 da398-guide"><div><h3>Documents & Records</h3><p><b>YYYY-MM-DD - Organization - Item - Description.ext</b></p><p>Use the most precise date you can verify. If only month/year is known, the generator shortens the date instead of inventing one.</p></div><div><h3>Medical</h3><p><b>YYYY-MM-DD - Person - Provider - Record Type - Description.ext</b></p><p>Person comes before provider so records stay distinguishable when family members share providers.</p></div><div><h3>Photos & Home Videos</h3><p><b>YYYY-MM-DD - Event - Location or Description.ext</b></p><p>Log large sets as a Collection instead of creating one LCC record per photo.</p></div><div><h3>Receipts & Purchases</h3><p><b>YYYY-MM-DD - Merchant - Item - Description.ext</b></p><p>Add Warranty as a NAS tag when applicable rather than duplicating the file.</p></div><div><h3>Versions</h3><p>Use <b>Signed</b>, <b>Final</b>, or <b>v2</b> only when multiple legitimate versions must be retained. Do not add “final-final.”</p></div><div><h3>Registry Levels</h3><ul style="padding-left:18px"><li><b>Individual Record:</b> one important file = one record.</li><li><b>Collection:</b> one event/batch/album = one record plus item count.</li><li><b>Media Inventory:</b> movies/books/media that benefit from title-level tracking.</li></ul></div><div><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div><div><h3>Single Source of Truth</h3><p>Store the master file once. Use folders, NAS tags, and the LCC registry to find it instead of creating duplicates in multiple categories.</p></div></div></div>`}
+  function daRenderGuide(v,d){v.innerHTML=`<div class="da398-grid"><div class="da398-card da398-s12"><h3 style="font-size:17px;color:var(--navy);margin-bottom:5px">NAS Naming Convention · One-Page Guide</h3><div class="dl361-small">The Digital Registry uses these same rules automatically, so the guide and the data log stay aligned.</div></div><div class="da398-card da398-s12 da398-guide"><div><h3>Documents & Records</h3><p><b>YYYY-MM-DD - Organization - Item - Description.ext</b></p><p>Use the most precise date you can verify. If only month/year is known, the generator shortens the date instead of inventing one.</p></div><div><h3>Medical</h3><p><b>YYYY-MM-DD - Person - Provider - Record Type - Description.ext</b></p><p>Person comes before provider so records stay distinguishable when family members share providers.</p></div><div><h3>Photos & Home Videos</h3><p><b>YYYY-MM-DD - Event - Location or Description.ext</b></p><p>Log large sets as a Collection instead of creating one LCC record per photo.</p></div><div><h3>Receipts & Purchases</h3><p><b>YYYY-MM-DD - Merchant - Item - Description.ext</b></p><p>Add Warranty as a NAS tag when applicable rather than duplicating the file.</p></div><div><h3>Versions</h3><p>Use <b>Signed</b>, <b>Final</b>, or <b>v2</b> only when multiple legitimate versions must be retained. Do not add “final-final.”</p></div><div><h3>Registry Levels</h3><ul style="padding-left:18px"><li><b>Individual Record:</b> one important file = one record.</li><li><b>Collection:</b> one event/batch/album = one record plus item count.</li><li><b>Media Inventory:</b> movies/books/media that benefit from title-level tracking.</li></ul></div><div><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div><div><h3>Single Source of Truth</h3><p>Store the master file once. Use folders, NAS tags, and the LCC registry to find it instead of creating duplicates in multiple categories.</p></div></div></div>`}
   function fld(id,l,val='',type='text',opts=null,full=false){return `<div class="field${full?' full':''}"><label>${E(l)}</label>${opts?`<select id="da-${id}">${opts.map(o=>`<option value="${E(o)}"${String(val)===String(o)?' selected':''}>${E(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea id="da-${id}">${E(val)}</textarea>`:`<input id="da-${id}" type="${type}" value="${E(val)}">`}</div>`}
   function ck(id,l,v){return `<label class="dl361-check"><input id="da-${id}" type="checkbox" ${v?'checked':''}> ${E(l)}</label>`}
   function formHtml(x){const tagv=tagsArr(x).join('; ');return fld('recordLevel','Registry Level',x.recordLevel||'Individual Record','text',DA_LEVELS)+fld('itemType','Item Type',x.itemType||'Document / Record','text',DA_TYPES)+fld('category','Top-Level NAS Category',x.category||'01. Identification & Vital Records','text',DA_CATS)+fld('subcategory','Subcategory / Folder Detail',x.subcategory)+fld('owner','Person / Owner',x.owner)+fld('organization','Organization / Source',x.organization)+fld('documentDate','Document / Event Date',x.documentDate,'date')+fld('datePrecision','Date Precision',x.datePrecision||'Exact Date','text',DA_PREC)+fld('itemName','Document / Item / Event Name',x.itemName)+fld('description','Description / Distinguishing Detail',x.description)+fld('versionLabel','Version Label',x.versionLabel)+fld('fileExtension','File Extension',x.fileExtension||'pdf','text',DA_EXT)+fld('originalSource','Original Storage Source',x.originalSource)+fld('itemCount','Item Count',x.itemCount||1,'number')+fld('nasFolder','NAS Folder Path',x.nasFolder,'text',null,true)+fld('nasTags','NAS Tags (; separated)',tagv,'text',null,true)+`<div class="field full"><label>Generated Filename</label><div id="da-preview-name" class="da398-preview">${E(x.generatedFilename||daFilename(x))}</div><label>Full NAS Path</label><div id="da-preview-path" class="da398-preview">${E(x.fullPath||daFullPath(x))}</div></div><div class="field full"><label>Lifecycle</label><div class="da398-checks">${ck('located','Located',x.located)}${ck('copiedToNas','Copied to NAS',x.copiedToNas)}${ck('named','Filename Standardized',x.named)}${ck('filed','Filed',x.filed)}${ck('verified','Verified',x.verified)}${ck('backedUp','Backed Up',x.backedUp)}${ck('deleteEligible','Original Delete Eligible',x.deleteEligible)}</div></div>`+fld('notes','Notes',x.notes,'textarea',null,true)}
-  window.daOpen=function(id){const d=dl(),x=id?(d.archiveRecords||[]).find(r=>r.id===id):{recordLevel:'Individual Record',itemType:'Document / Record',datePrecision:'Exact Date',fileExtension:'pdf',itemCount:1,nasTags:[]};const ov=document.createElement('div');ov.className='overlay';ov.id='da398-modal';ov.innerHTML=`<div class="modal" style="max-width:820px"><div class="modal-head"><h2>${id?'Edit':'Add'} Archive Registry Record</h2><button class="xbtn" onclick="document.getElementById('da398-modal').remove()">×</button></div><div class="modal-body"><div id="da399-assistant" class="da399-assist"><b>🗂️ Filing Assistant</b><div class="da399-hint">Enter what you know below. LCC will recommend one permanent NAS home—no Archive fallback.</div><div id="da399-recommended-path" class="da399-path" style="margin-top:7px">Recommended folder will appear here.</div><button type="button" class="btn sm" style="margin-top:7px" onclick="da399UsePath()">Use Recommended Folder</button></div><div class="da398-formgrid">${formHtml(x)}</div></div><div class="modal-foot">${id?`<button class="btn danger" style="margin-right:auto" onclick="daDelete('${id}')">Delete</button>`:''}<button class="btn" onclick="document.getElementById('da398-modal').remove()">Cancel</button><button class="btn primary" onclick="daSave('${id||''}')">Save Record</button></div></div>`;document.body.appendChild(ov);ov.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',daPreview));daPreview()};
+  window.daOpen=function(id){const d=dl(),x=id?(d.archiveRecords||[]).find(r=>r.id===id):{recordLevel:'Individual Record',itemType:'Document / Record',datePrecision:'Exact Date',fileExtension:'pdf',itemCount:1,nasTags:[]};const ov=document.createElement('div');ov.className='overlay';ov.id='da398-modal';ov.innerHTML=`<div class="modal" style="max-width:820px"><div class="modal-head"><h2>${id?'Edit':'Add'} Digital Registry Record</h2><button class="xbtn" onclick="document.getElementById('da398-modal').remove()">×</button></div><div class="modal-body"><div class="da398-formgrid">${formHtml(x)}</div></div><div class="modal-foot">${id?`<button class="btn danger" style="margin-right:auto" onclick="daDelete('${id}')">Delete</button>`:''}<button class="btn" onclick="document.getElementById('da398-modal').remove()">Cancel</button><button class="btn primary" onclick="daSave('${id||''}')">Save Record</button></div></div>`;document.body.appendChild(ov);ov.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',daPreview));daPreview()};
   function val(id,check=false){const el=document.getElementById('da-'+id);return check?!!el?.checked:(el?.value??'')}
   window.daPreview=function(){const x={recordLevel:val('recordLevel'),itemType:val('itemType'),category:val('category'),subcategory:val('subcategory'),owner:val('owner'),organization:val('organization'),documentDate:val('documentDate'),datePrecision:val('datePrecision'),itemName:val('itemName'),description:val('description'),versionLabel:val('versionLabel'),fileExtension:val('fileExtension'),nasFolder:val('nasFolder')};const n=document.getElementById('da-preview-name'),p=document.getElementById('da-preview-path');if(n)n.textContent=daFilename(x);if(p){x.generatedFilename=daFilename(x);p.textContent=daFullPath(x)}};
   window.da399UsePath=function(){const p=window.da399LastPath||'';const e=document.getElementById('da-nasFolder');if(e&&p){e.value=p;daPreview();}};
@@ -30271,8 +30436,8 @@ RELEASE NOTES: v393 — Release-count correction only. Existing Release records 
     const rp=document.getElementById('da399-recommended-path');
     if(rp)rp.textContent=rec||'Recommended folder will appear here.';
     window.da399LastPath=rec;
-if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record saved');renderDigitalLibrary()};
-  window.daDelete=function(id){if(!confirm('Delete this Archive Registry record?'))return;const d=dl();d.archiveRecords=d.archiveRecords.filter(x=>x.id!==id);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record deleted');renderDigitalLibrary()};
+if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Digital Registry record saved');renderDigitalLibrary()};
+  window.daDelete=function(id){if(!confirm('Delete this Digital Registry record?'))return;const d=dl();d.archiveRecords=d.archiveRecords.filter(x=>x.id!==id);document.getElementById('da398-modal')?.remove();dlSave('Digital Registry record deleted');renderDigitalLibrary()};
   const CSV_HEADERS=['Registry Level','Item Type','Top-Level Category','Subcategory','Person/Owner','Organization/Source','Document/Event Date','Date Precision','Document/Item/Event Name','Description','Version','File Extension','Original Storage Source','Item Count','NAS Folder Path','NAS Tags','Located','Copied to NAS','Filename Standardized','Filed','Verified','Backed Up','Original Delete Eligible','Notes'];
   function q(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
   function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
@@ -30280,19 +30445,19 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
   window.daExportCsv=function(){const rows=(dl().archiveRecords||[]).map(x=>[x.recordLevel,x.itemType,x.category,x.subcategory,x.owner,x.organization,x.documentDate,x.datePrecision,x.itemName,x.description,x.versionLabel,x.fileExtension,x.originalSource,x.itemCount,x.nasFolder,tagsArr(x).join('; '),x.located?'Yes':'No',x.copiedToNas?'Yes':'No',x.named?'Yes':'No',x.filed?'Yes':'No',x.verified?'Yes':'No',x.backedUp?'Yes':'No',x.deleteEligible?'Yes':'No',x.notes]);download('LCC-Digital-Archive-Registry-'+today()+'.csv',[CSV_HEADERS.map(q).join(','),...rows.map(r=>r.map(q).join(','))].join('\n'))};
   function parse(line){const out=[];let s='',qq=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(qq&&line[i+1]==='"'){s+='"';i++}else qq=!qq}else if(c===','&&!qq){out.push(s);s=''}else s+=c}out.push(s);return out}
   function yes(v){return /^(yes|true|1|y)$/i.test(String(v||'').trim())}
-  window.daBulkImport=function(){const inp=document.createElement('input');inp.type='file';inp.accept='.csv,text/csv';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=ev=>{try{const lines=String(ev.target.result||'').split(/\r?\n/).filter(x=>x.trim());if(!lines.length)return alert('CSV is empty.');const hh=parse(lines.shift()),idx=n=>hh.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase()),d=dl();let n=0;lines.forEach(line=>{const r=parse(line),g=k=>{const i=idx(k);return i>=0?(r[i]||'').trim():''};if(!g('Document/Item/Event Name')&&!g('Description'))return;const x={id:uid(),recordLevel:g('Registry Level')||'Individual Record',itemType:g('Item Type')||'Document / Record',category:g('Top-Level Category'),subcategory:g('Subcategory'),owner:g('Person/Owner'),organization:g('Organization/Source'),documentDate:g('Document/Event Date'),datePrecision:g('Date Precision')||'Exact Date',itemName:g('Document/Item/Event Name'),description:g('Description'),versionLabel:g('Version'),fileExtension:g('File Extension')||'pdf',originalSource:g('Original Storage Source'),itemCount:Math.max(1,parseInt(g('Item Count'))||1),nasFolder:g('NAS Folder Path'),nasTags:g('NAS Tags').split(/[;,]/).map(s=>s.trim()).filter(Boolean),located:yes(g('Located')),copiedToNas:yes(g('Copied to NAS')),named:yes(g('Filename Standardized')),filed:yes(g('Filed')),verified:yes(g('Verified')),backedUp:yes(g('Backed Up')),deleteEligible:yes(g('Original Delete Eligible')),notes:g('Notes'),createdAt:new Date().toISOString()};recalc(x);d.archiveRecords.push(x);n++});dlSave('Imported '+n+' Archive Registry records');renderDigitalLibrary()}catch(err){alert('Archive Registry import failed: '+err.message)}};fr.readAsText(f)};inp.click()};
-  const _all=window.dlAllLinkable361||((typeof dlAllLinkable361==='function')?dlAllLinkable361:null);if(_all){window.dlAllLinkable361=dlAllLinkable361=function(){const out=_all();(dl().archiveRecords||[]).forEach(x=>out.push({...x,name:x.generatedFilename||x.itemName,__dlCol:'archiveRecords',__dlLabel:'Archive Registry'}));return out}}
+  window.daBulkImport=function(){const inp=document.createElement('input');inp.type='file';inp.accept='.csv,text/csv';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=ev=>{try{const lines=String(ev.target.result||'').split(/\r?\n/).filter(x=>x.trim());if(!lines.length)return alert('CSV is empty.');const hh=parse(lines.shift()),idx=n=>hh.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase()),d=dl();let n=0;lines.forEach(line=>{const r=parse(line),g=k=>{const i=idx(k);return i>=0?(r[i]||'').trim():''};if(!g('Document/Item/Event Name')&&!g('Description'))return;const x={id:uid(),recordLevel:g('Registry Level')||'Individual Record',itemType:g('Item Type')||'Document / Record',category:g('Top-Level Category'),subcategory:g('Subcategory'),owner:g('Person/Owner'),organization:g('Organization/Source'),documentDate:g('Document/Event Date'),datePrecision:g('Date Precision')||'Exact Date',itemName:g('Document/Item/Event Name'),description:g('Description'),versionLabel:g('Version'),fileExtension:g('File Extension')||'pdf',originalSource:g('Original Storage Source'),itemCount:Math.max(1,parseInt(g('Item Count'))||1),nasFolder:g('NAS Folder Path'),nasTags:g('NAS Tags').split(/[;,]/).map(s=>s.trim()).filter(Boolean),located:yes(g('Located')),copiedToNas:yes(g('Copied to NAS')),named:yes(g('Filename Standardized')),filed:yes(g('Filed')),verified:yes(g('Verified')),backedUp:yes(g('Backed Up')),deleteEligible:yes(g('Original Delete Eligible')),notes:g('Notes'),createdAt:new Date().toISOString()};recalc(x);d.archiveRecords.push(x);n++});dlSave('Imported '+n+' Digital Registry records');renderDigitalLibrary()}catch(err){alert('Digital Registry import failed: '+err.message)}};fr.readAsText(f)};inp.click()};
+  const _all=window.dlAllLinkable361||((typeof dlAllLinkable361==='function')?dlAllLinkable361:null);if(_all){window.dlAllLinkable361=dlAllLinkable361=function(){const out=_all();(dl().archiveRecords||[]).forEach(x=>out.push({...x,name:x.generatedFilename||x.itemName,__dlCol:'archiveRecords',__dlLabel:'Digital Registry'}));return out}}
   const _open=window.dlOpenLinked361||((typeof dlOpenLinked361==='function')?dlOpenLinked361:null);if(_open){window.dlOpenLinked361=dlOpenLinked361=function(id){const x=(dl().archiveRecords||[]).find(r=>r.id===id);if(x){showPage('digital',document.getElementById('nav-digital'));DL_TAB='registry';renderDigitalLibrary();setTimeout(()=>daOpen(id),30);return}_open(id)}}
   // Add a quick-start button without disturbing the existing v361 layout.
   const _overview=window.dlOverview||((typeof dlOverview==='function')?dlOverview:null);if(_overview){window.dlOverview=dlOverview=function(v,d){_overview(v,d);const tools=v.querySelector('.dl361-tools');if(tools&&!tools.querySelector('[data-da398]'))tools.insertAdjacentHTML('afterbegin','<button data-da398 class="btn primary" onclick="DL_TAB=\'registry\';renderDigitalLibrary();setTimeout(()=>daOpen(),20)">+ Archive Record</button>')}}
-  try{dl();dlSave();}catch(e){console.warn('v398 Digital Archive Registry init',e)}
+  try{dl();dlSave();}catch(e){console.warn('v398 Digital Digital Registry init',e)}
 })();
 </script>
-<!-- USER GUIDE: v398 — Digital Library now includes an Archive Registry and Naming Guide. Archive Registry logs important individual files, collections, and media-level records; generates standardized filenames and full NAS paths from entered metadata; tracks source, folder, NAS tags, item count, and the lifecycle Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible. Use Bulk Add CSV for batches. The Naming Guide is the one-page reference for the same rules used by the generator. -->
+<!-- USER GUIDE: v398 — Digital Library now includes an Digital Registry and Naming Guide. Digital Registry logs important individual files, collections, and media-level records; generates standardized filenames and full NAS paths from entered metadata; tracks source, folder, NAS tags, item count, and the lifecycle Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible. Use Bulk Add CSV for batches. The Naming Guide is the one-page reference for the same rules used by the generator. -->
 <!-- CHANGE LOG: v398 — Extended the existing v361 Digital Library domain module rather than adding a new Action Item type or duplicate data store. Added S.digitalLibrary.archiveRecords, Registry/Naming tabs, automatic filename/path generation, registry search/filters/status counters, CSV template/import/export, and Digital Library link support for registry records. -->
-<!-- RELEASE NOTES: v398 — Digital Archive Registry & NAS Naming Convention. Existing Digital Library data remains intact. No Release Action Item is auto-created; Release records remain manual. -->
-<!-- USER GUIDE: v399 — Archive Registry now doubles as the NAS Filing Assistant. Enter item metadata once; LCC generates the standardized filename, recommends one permanent folder from the agreed hierarchy, and saves the same information as the searchable Registry record. Inbox and review are one intake concept. No generic Archive destination is used. Personal folders are Rashunda, Ravyn, and Jacoby; household/family, photos/videos, media, family/genealogy, technology/systems, reference, and business are distinct roots. -->
-<!-- CHANGE LOG: v399 — Added metadata-driven NAS folder recommendations and one-click Use Recommended Folder to the v398 Archive Registry. Added business ownership rules for Savvy Foundations, RLA, Savvy Structure, Mocha Sky Travel, and Notary Business; employer-per-job, college-per-institution, grade-level education logic, and no generic archive fallback. -->
+<!-- RELEASE NOTES: v398 — Digital Digital Registry & NAS Naming Convention. Existing Digital Library data remains intact. No Release Action Item is auto-created; Release records remain manual. -->
+<!-- USER GUIDE: v399 — Digital Registry now doubles as the NAS Filing Assistant. Enter item metadata once; LCC generates the standardized filename, recommends one permanent folder from the agreed hierarchy, and saves the same information as the searchable Registry record. Inbox and review are one intake concept. No generic Archive destination is used. Personal folders are Rashunda, Ravyn, and Jacoby; household/family, photos/videos, media, family/genealogy, technology/systems, reference, and business are distinct roots. -->
+<!-- CHANGE LOG: v399 — Added metadata-driven NAS folder recommendations and one-click Use Recommended Folder to the v398 Digital Registry. Added business ownership rules for Savvy Foundations, RLA, Savvy Structure, Mocha Sky Travel, and Notary Business; employer-per-job, college-per-institution, grade-level education logic, and no generic archive fallback. -->
 <!-- RELEASE NOTES: v399 — Digital Filing Assistant + Registry integration. Existing v398 registry records and all prior Digital Library data remain intact. -->
 
 </body>
