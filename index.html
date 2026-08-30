@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v392</title>
+<title>LCC v399</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -39,9 +39,9 @@
 .tb-automation{background:#EDE9FE;color:#5B21B6}
 .tb-transaction{background:#ECFDF5;color:#047857}
 .tb-recurringexpense{background:#FFF7ED;color:#C2410C}
-html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.app{display:flex;height:100vh;overflow:hidden;width:100%}
-.sidebar{width:232px;min-width:232px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto}
+html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{position:fixed;inset:0;display:flex;width:auto;height:auto;min-width:0;min-height:0;overflow:hidden}
+.sidebar{width:232px;min-width:232px;height:100%;min-height:0;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto}
 .sb-logo{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
 .sb-eye{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px}
 .sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff}
@@ -59,7 +59,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .ld{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .lc{margin-left:auto;font-size:10px;color:rgba(255,255,255,.28);background:rgba(255,255,255,.07);padding:1px 5px;border-radius:7px}
 .sb-foot{margin-top:auto;padding:10px 8px;border-top:1px solid rgba(255,255,255,.06)}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.main{flex:1;height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{background:var(--card);border-bottom:1px solid var(--bdr);padding:0 18px;height:52px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);flex:1}
 .content{flex:1;min-height:0;overflow-y:auto;overflow-x:auto;padding:18px 20px 18px;position:relative;background:var(--bg)}
@@ -925,7 +925,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v392</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v397</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1502,7 +1502,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v392</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v397</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -5906,7 +5906,6 @@ function parkingFixCategory(id,cat){
 function parkingFixField(id,field,val){
   const i=getItem(id);if(!i)return;
   if(field==='name'&&!(val||'').trim()){toast('Name cannot be empty');return;}
-  if(field==='releaseStatus'&&val==='released'&&(!(i.releaseNotes||'').trim()||i.testResult!=='pass')){alert('Add Release Notes and set Test Result = Pass before marking this Released.');renderParking();return;} // 0410 (v263)
   i[field]=val;
   recalc();save();renderParking();renderSb();
 }
@@ -5914,7 +5913,6 @@ function parkingFixField(id,field,val){
 // missingFields() emits; `key` is a quote-safe slug for collapse/paging/onclick; `control(i)`
 // renders the inline editor for that field so it can be fixed right in the row.
 const _EFF_OPTS=[['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)'],['mythic','⚡ Mythic (30pts)'],['elite','💎 Elite (40pts)'],['master','🛡️ Master (50pts)'],['titan','🐉 Titan (60pts)'],['cosmic','🌌 Cosmic (70pts)'],['immortal','👑 Immortal (80pts)'],['ascended','🚀 Ascended (90pts)'],['transcendent','🏆 Transcend (100pts)']];
-const _RELSTATUS_OPTS=[['planning','📋 Planning'],['building','🔧 Building'],['testing','🧪 Testing'],['ready','✅ Ready to Ship'],['shipped','🚀 Shipped'],['verified','🔎 Verified'],['closed','✔️ Closed'],['onhold','⏸️ On Hold'],['cancelled','❌ Cancelled'],['rollback','↩️ Rolled Back']];
 const _CHGTYPE_OPTS=[['enhancement','✨ Enhancement'],['bugfix','🐛 Bug Fix'],['newfeature','🆕 New Feature'],['refactor','🔧 Refactor / Tech Debt'],['ui','🎨 UI Improvement'],['datastructure','🗄️ Data Structure'],['automation','⚡ Automation']];
 const _CHGSTATUS_OPTS=[['requested','📥 Requested'],['approved','✅ Approved'],['planned','📋 Planned'],['building','🔧 Building'],['testing','🧪 Testing'],['ready','📦 Ready for Release'],['released','🚀 Released'],['verified','🔎 Verified'],['closed','✔️ Closed'],['onhold','⏸️ On Hold'],['rejected','🚫 Rejected'],['cancelled','❌ Cancelled']];
 const _SLOT_OPTS=[['Open','Open'],['Reserved','Reserved'],['Filled','Filled'],['Active','Active'],['Delivered','Delivered'],['Delayed','Delayed'],['Cancelled','Cancelled']];
@@ -5935,7 +5933,6 @@ const PARKING_SECTION_DEFS=[
   {key:'estmins',mf:'Est. Minutes',label:'⏲️ Needs Est. Minutes',sub:'Estimated minutes to complete this task',color:'#0369A1',control:i=>_pcNum(i.id,'estimatedMins',i.estimatedMins,'min',64)},
   {key:'onhold',mf:'On Hold Reason',label:'⏸️ Needs On Hold Reason',sub:'On Hold — record why it\'s paused',color:'#92600C',control:i=>_pcSel(i.id,'onHoldReason',ON_HOLD_REASON_OPTS.filter(o=>o[0]),i.onHoldReason||'')},
   {key:'version',mf:'Version',label:'🏷️ Needs Version',sub:'Release version missing',color:'#4338CA',control:i=>_pcText(i.id,'releaseVersion',i.releaseVersion,'e.g. v1.2')},
-  {key:'relstatus',mf:'Release Status',label:'🚀 Needs Release Status',sub:'Release status missing',color:'#4338CA',control:i=>_pcSel(i.id,'releaseStatus',_RELSTATUS_OPTS,i.releaseStatus||'')},
   {key:'changetype',mf:'Change Type',label:'🔧 Needs Change Type',sub:'Change type missing',color:'#0F766E',control:i=>_pcSel(i.id,'changeType',_CHGTYPE_OPTS,i.changeType||'')},
   {key:'changestatus',mf:'Change Status',label:'🔧 Needs Change Status',sub:'Change status missing',color:'#0F766E',control:i=>_pcSel(i.id,'changeStatus',_CHGSTATUS_OPTS,i.changeStatus||'')},
   {key:'industry',mf:'Industry',label:'🏢 Needs Industry',sub:'Industry missing',color:'#B45309',control:i=>_pcText(i.id,'industry',i.industry,'Industry')},
@@ -6390,16 +6387,10 @@ function makeItem(o){
     releaseVersion:o.releaseVersion||'',
     releaseSprint:o.releaseSprint||'',
     releaseType:o.releaseType||'',
-    releaseStatus:o.releaseStatus||'',
-    releasePlannedStart:o.releasePlannedStart||'',
-    releasePlannedDate:o.releasePlannedDate||'',
-    releaseActualDate:o.releaseActualDate||'',
     releaseModules:o.releaseModules||[],
     releaseChangelog:o.releaseChangelog||'',
     releaseNotes:o.releaseNotes||'',
-    releaseInstructions:o.releaseInstructions||'',
-    releaseFileName:o.releaseFileName||'',
-    testResult:o.testResult||'', // 0649 (v244) — Pass/Fail (needs-fix) on Changes & Releases
+    testResult:o.testResult||'', // Change Management testing result
     // Change fields
     changeType:o.changeType||'',
     changeStatus:o.changeStatus||'',
@@ -9199,7 +9190,7 @@ function showLDD(type,q){
   const results=S.items.filter(i=>
     (type==='any'||i.type===type)&&
     (type!=='habit'||habitIsMaster(i))&& // 0186 (v213) — only the master habit is linkable, never its occurrences
-    !(i.type==='release'&&document.getElementById('m-change-type')&&(i.releaseStatus==='released'||i.releaseStatus==='archived'))&& // 0418 (v224)/0648 (v248) — from a Change, hide already-shipped releases (now also in 'any' search)
+    !(i.type==='release'&&document.getElementById('m-change-type')&&(i.status==='done'||i.status==='cancelled'))&& // from a Change, hide completed/cancelled releases using core status
     i.id!==S.editId&&
     !existing.includes(i.id)&&
     i.status!=='placeholder'&&
@@ -11010,7 +11001,6 @@ function saveBulk(){
     const baBudget=document.getElementById('ba-budget')?.value||'';
     const baTags=document.getElementById('ba-tags')?.value||'';
     const baReleaseType=document.getElementById('ba-release-type')?.value||'';
-    const baReleaseStatus=document.getElementById('ba-release-status')?.value||'';
     const baChangeType=document.getElementById('ba-change-type')?.value||'';
     const baChangeStatus=document.getElementById('ba-change-status')?.value||'';
     const baChangePriority=document.getElementById('ba-change-priority')?.value||'';
@@ -11137,7 +11127,7 @@ function saveBulk(){
         askWho:baAskWho,askType:baAskType,askChannel:baAskCh,askCategory:baAskCat,
         patchDifficulty:baPDiff,patchCategory:baPCat,
         courseNum:baCourseNum,courseHours:baCourseHrs,courseSemester:baCourseSem,courseYear:baCourseYear,courseInstitution:baCourseInst,courseGrade:baCourseGrade,courseProctored:baCourseProc,courseStatus:baCourseStatus,
-        releaseType:baReleaseType,releaseStatus:baReleaseStatus,changeType:baChangeType,changeStatus:baChangeStatus,changePriority:baChangePriority
+        releaseType:baReleaseType,changeType:baChangeType,changeStatus:baChangeStatus,changePriority:baChangePriority
       });
       Object.assign(item,schema2BulkValues('ba',rowType));
       if(row.estimatedMins!==''&&row.estimatedMins!=null)item.estimatedMins=parseInt(row.estimatedMins)||0;
@@ -11410,7 +11400,6 @@ function saveBulk(){
     ids.forEach(id=>{
       const item=getItem(id);if(!item)return;
       const _s2OldStatus=item.status;
-      const _s2OldReleaseStatus=item.releaseStatus;
       updated++;
       Object.assign(item,schema2BulkValues('bu',type||item.type));
       if(buName)item.name=buName;
@@ -12512,10 +12501,6 @@ function openListDetail(listId){
   let li=listId==='nos'
     ? S.items.filter(i=>i.type==='ask'&&i.status!=='placeholder')
     : S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));
-  if(listId==='releases'){
-    const terminalRelease390=new Set(['released','shipped','verified','closed','cancelled','archived']);
-    li=li.filter(i=>i.type!=='release'||(i.status!=='done'&&i.status!=='cancelled'&&!i.completedDate));
-  }
   document.getElementById('ld-title').textContent=l.name+' ('+li.length+')';
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
   const cnt=f=>applyFilter(li,f).length;
@@ -12610,15 +12595,15 @@ function setLdMode(mode){
 function renderLdChangeLog(){
   const el=document.getElementById('ld-changelog');if(!el)return;
   let rels=S.items.filter(i=>i&&i.type==='release'&&(i.listIds||[]).includes('releases'));
-  rels=rels.filter(r=>r.status==='done'||r.releaseStatus==='released'); // 0663 (v263) — shipped only
+  rels=rels.filter(r=>r.status==='done'); // completed releases use core status
   const sort=window.ldClogSort||'ver';
   rels.sort((a,b)=>{
     if(sort==='name')return String(a.name||'').localeCompare(String(b.name||''));
     if(sort==='date'){const da=a.completedDate||a.releaseActualDate||a.date||'',db=b.completedDate||b.releaseActualDate||b.date||'';return db.localeCompare(da);}
     return String(b.releaseVersion||'').localeCompare(String(a.releaseVersion||''),undefined,{numeric:true}); // default: release #
   });
-  const bar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span style="background:var(--pink);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">${rels.length} release${rels.length===1?'':'s'}</span><span style="font-size:11px;color:var(--txt3)">shipped only</span><select onchange="ldClogSort=this.value;renderLdChangeLog()" style="margin-left:auto;font-size:11px;color:var(--txt2);border:1px solid var(--bdr);background:#fff;border-radius:6px;padding:4px 9px"><option value="ver"${sort==='ver'?' selected':''}>Sort: Release #</option><option value="name"${sort==='name'?' selected':''}>Name</option><option value="date"${sort==='date'?' selected':''}>Release date</option></select></div>`;
-  if(!rels.length){el.innerHTML=bar+'<div style="text-align:center;padding:30px;color:var(--txt3);font-size:13px">No shipped releases yet — the change log fills in as you ship releases.</div>';return;}
+  const bar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span style="background:var(--pink);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">${rels.length} release${rels.length===1?'':'s'}</span><span style="font-size:11px;color:var(--txt3)">completed only</span><select onchange="ldClogSort=this.value;renderLdChangeLog()" style="margin-left:auto;font-size:11px;color:var(--txt2);border:1px solid var(--bdr);background:#fff;border-radius:6px;padding:4px 9px"><option value="ver"${sort==='ver'?' selected':''}>Sort: Release #</option><option value="name"${sort==='name'?' selected':''}>Name</option><option value="date"${sort==='date'?' selected':''}>Release date</option></select></div>`;
+  if(!rels.length){el.innerHTML=bar+'<div style="text-align:center;padding:30px;color:var(--txt3);font-size:13px">No completed releases yet — the change log fills in as releases are completed.</div>';return;}
   el.innerHTML=bar+rels.map(r=>{
     const ver=r.releaseVersion||'';
     const dt=r.completedDate||r.releaseActualDate||r.date||'';
@@ -16082,23 +16067,25 @@ function setHubPeriod(period,btn){
   document.querySelectorAll('#mp-lens-pills .mp-lens-pill').forEach(b=>b.classList.toggle('active',b.dataset.period===hubPeriod));
   renderHubPeriodLens();
 }
+function isMasterPlanBusinessItem(item){
+  if(!item)return false;
+  const norm=v=>String(v==null?'':v).trim().toLowerCase();
+  const refs=[];
+  const add=v=>{if(v==null||v==='')return;if(Array.isArray(v)){v.forEach(add);return;}if(typeof v==='object'){add(v.id);add(v.name);add(v.label);return;}refs.push(v)};
+  ['listIds','lists','listId','list','listName'].forEach(k=>add(item[k]));
+  return refs.some(ref=>{
+    const raw=norm(ref);
+    if(raw==='biz-main'||raw==='business')return true;
+    const list=(S.lists||[]).find(l=>norm(l.id)===raw||norm(l.name)===raw);
+    return !!(list&&(norm(list.id)==='biz-main'||norm(list.name)==='business'));
+  });
+}
 function masterPlanItems(){
   const all=(S&&Array.isArray(S.items))?S.items:[];
-  const keys=new Set(['business','biz-main','rla','sf','ss','savvy foundations','savvy structure']);
-  const norm=v=>String(v==null?'':v).trim().toLowerCase();
-  const businessAssigned=item=>{
-    if(!item)return false;
-    const refs=[];
-    const add=v=>{if(v==null||v==='')return;if(Array.isArray(v)){v.forEach(add);return;}if(typeof v==='object'){add(v.id);add(v.name);add(v.label);return;}refs.push(v)};
-    ['listIds','lists','listId','list','listName'].forEach(k=>add(item[k]));
-    return refs.some(ref=>{
-      const raw=norm(ref);if(keys.has(raw))return true;
-      const l=(S.lists||[]).find(x=>norm(x.id)===raw||norm(x.name)===raw);
-      return !!(l&&(keys.has(norm(l.id))||keys.has(norm(l.name))));
-    });
-  };
-  return all.filter(i=>!businessAssigned(i));
+  return all.filter(i=>!isMasterPlanBusinessItem(i));
 }
+window.isMasterPlanBusinessItem=isMasterPlanBusinessItem;
+window.isBCCMasterPlanItem=isMasterPlanBusinessItem;
 
 function renderHubPeriodLens(){
   const metrics=document.getElementById('mp-lens-metrics'),view=document.getElementById('mp-period-view');if(!metrics||!view)return;
@@ -16277,7 +16264,8 @@ function renderHubSprintWidget(){
   const sprint=ALL_SPRINTS[getCurrentSprintIdx()];
   if(!sprint){el.innerHTML='<div style="font-size:12px;color:var(--txt3);font-style:italic">No active sprint found.</div>';return;}
   const cap=calcSprintCapacity(sprint),meta=getSprintMeta(sprint.num);
-  const tasks=getSprintTasks(sprint).filter(i=>!window.isBCCMasterPlanItem||!window.isBCCMasterPlanItem(i)); // v377 — Master Plan-only personal view; Sprint Planner source remains unchanged
+  const allowedIds=new Set(masterPlanItems().map(i=>i.id));
+  const tasks=getSprintTasks(sprint).filter(i=>allowedIds.has(i.id)); // v394 — Master Plan uses the canonical Business-list exclusion source
   const committed=tasks.filter(i=>i.planningStage==='ready'&&i.status!=='onhold');
   const committedMins=committed.reduce((sum,i)=>sum+(Number(i.estimatedMins)||0),0),capacityMins=Math.round(cap.hrsPerSprint*60);
   const barPct=capacityMins?Math.min(100,Math.round(committedMins/capacityMins*100)):0;
@@ -20902,8 +20890,6 @@ function renderChangeTypeTotals(sprint){
 }
 function renderReleaseSprintTable(sprint){
   const rels=getSprintReleases(sprint);
-  const stColors={backlog:'#9B59B6',planned:'#185FA5',indev:'#185FA5',testing:'#EF9F27',ready:'#0EA5A8',released:'#63C76C',archived:'#9CA3AF'};
-  const stLabels={backlog:'📥 Backlog',planned:'📋 Planned',indev:'🔧 In Development',testing:'🧪 Testing',ready:'✅ Ready for Release',released:'🚀 Released',archived:'📦 Archived'};
   const chColors={idea:'#9B59B6',approved:'#0EA5A8',planned:'#185FA5',inprogress:'#185FA5',testing:'#EF9F27',complete:'#63C76C',deferred:'#9CA3AF',cancelled:'var(--pink)'};
   const chLabels={idea:'💡 Idea',approved:'✅ Approved',planned:'📋 Planned',inprogress:'🔧 In Progress',testing:'🧪 Testing',complete:'✔️ Complete',deferred:'⏸️ Deferred',cancelled:'❌ Cancelled'};
   if(!rels.length)return `<div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)">
@@ -20913,7 +20899,7 @@ function renderReleaseSprintTable(sprint){
     <div style="font-size:12px;color:var(--txt3);font-style:italic;padding:8px 0;text-align:center">No releases scheduled for this sprint.</div>
   </div>`;
   const groups=rels.map(r=>{
-    const stCol=stColors[r.releaseStatus]||'#9B59B6';
+    const stCol=({notstarted:'#9B59B6','not-started':'#9B59B6',inprogress:'#185FA5','in-progress':'#185FA5',behind:'#EF9F27',done:'#63C76C',cancelled:'#9CA3AF'}[String(r.status||'').toLowerCase()]||'#9B59B6');
     const changes=(r.linkedChanges||[]).map(cid=>getItem(cid)).filter(Boolean)
       .sort((a,b)=>{const da=a.changeStatus==='complete'||a.changeStatus==='cancelled'?1:0;const db=b.changeStatus==='complete'||b.changeStatus==='cancelled'?1:0;return da-db;});
     const changeRows=changes.length?changes.map(c=>{
@@ -20931,7 +20917,7 @@ function renderReleaseSprintTable(sprint){
     }).join(''):`<tr><td colspan="6" style="padding:8px 6px;font-size:11px;color:var(--txt3);font-style:italic">No changes linked to this release yet</td></tr>`;
     return `<div style="margin-bottom:16px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap">
-        <div style="cursor:pointer" onclick="openModal(null,null,null,'${r.id}')"><strong style="color:var(--navy);font-size:13px">${esc(r.name||r.releaseName)}</strong> ${r.releaseVersion?`<span style="font-size:11px;color:var(--txt3)">${esc(r.releaseVersion)}</span>`:''} <span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${stCol}22;color:${stCol};font-weight:600;margin-left:6px">${esc(stLabels[r.releaseStatus]||r.releaseStatus||'—')}</span></div>
+        <div style="cursor:pointer" onclick="openModal(null,null,null,'${r.id}')"><strong style="color:var(--navy);font-size:13px">${esc(r.name||r.releaseName)}</strong> ${r.releaseVersion?`<span style="font-size:11px;color:var(--txt3)">${esc(r.releaseVersion)}</span>`:''} <span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${stCol}22;color:${stCol};font-weight:600;margin-left:6px">${esc(({notstarted:'Not Started','not-started':'Not Started',inprogress:'In Progress','in-progress':'In Progress',behind:'Behind',done:'Done',cancelled:'Cancelled'}[String(r.status||'').toLowerCase()]||r.status||'—'))}</span></div>
         <button onclick="event.stopPropagation();exportReleaseDocx('${r.id}')" class="btn sm ghost" style="font-size:10px;padding:3px 8px">📄 Export Report</button>
         <button onclick="event.stopPropagation();exportReleaseCSV('${r.id}')" class="btn sm ghost" style="font-size:10px;padding:3px 8px">📄 CSV</button>
         <button onclick="event.stopPropagation();exportReleaseXLSX('${r.id}')" class="btn sm ghost" style="font-size:10px;padding:3px 8px">📊 XLSX</button>
@@ -28581,15 +28567,11 @@ USER GUIDE: Master Plan habit occurrences are actionable in place. Today's and u
 <!-- USER GUIDE: v340 — Focus Linked Planning & Bulk Editing. Focus View linked-item tables now show Planning Stage inline. Multi-select bulk editing now supports Type, Status, Planning Stage, Effort, Start Date, Target Date, Duration and Duration Unit, with shared duration/date synchronization and normal completion validation. -->
 <!-- USER GUIDE: v341 — My Arc Start-Date Boundary Fix. My Arc now uses the browser's local calendar date for program day calculations and does not show Today’s Check-In activities before the program Start Date. -->
 <!-- USER GUIDE: v342 — Date Synchronization Invalid-Time Fix. Shared Start Date / Duration / Target Completion Date calculations now safely accept ISO and MM/DD/YYYY date values. Same-day Duration 0 records save normally instead of failing with “Invalid time value.” -->
-
 <!-- USER GUIDE: v344 — v343 Script Placement Repair. Corrected an internal script-placement error that caused raw code/template text to render on screen. The Master Plan Active Now hierarchy restoration from v343 remains in place. -->
 <!-- USER GUIDE: v345 — Required-Field Validation Alignment. Required-for-close and attention validation now follows each action-item type's current fields and lifecycle status. Release records use the current Test Result, Changelog, and Release Notes fields and no longer request retired release gate fields. -->
-
 <!-- USER GUIDE: v346 — Validation & Sprint View Alignment. Needs Attention now uses the current validation gates for every action-item type instead of legacy duplicate requirements. Master Plan Sprint and Sprint Planner use the same canonical sprint task source, and inline edits made in All Action Items refresh sprint views immediately. -->
 <!-- v347 — Validation Field Reconciliation -->
-
 <!-- v348 — All Action Item Validation Audit -->
-
 <style>
 /* v349 — Implementation Scorecard */
 .imp349-hero{background:linear-gradient(135deg,var(--navy),#334155);color:white;border-radius:18px;padding:22px;margin-bottom:16px}.imp349-kicker{font-size:10px;letter-spacing:2.4px;text-transform:uppercase;opacity:.68}.imp349-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;margin:3px 0}.imp349-sub{font-size:12px;line-height:1.6;opacity:.8;max-width:780px}.imp349-metrics{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:10px;margin-top:18px}.imp349-metric{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.imp349-metric b{display:block;font-size:21px}.imp349-metric span{font-size:10px;opacity:.7}.imp349-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}.imp349-toolbar select,.imp349-toolbar input{font:inherit;font-size:11px;border:1px solid var(--bdr2);background:var(--card);color:var(--txt);border-radius:8px;padding:7px 9px}.imp349-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden}.imp349-parent{display:grid;grid-template-columns:minmax(210px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;align-items:center;padding:11px 12px}.imp349-parent:hover{background:var(--soft)}.imp349-name{font-size:12px;font-weight:700}.imp349-kind{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}.imp349-score{border:1px solid var(--bdr2);border-radius:8px;padding:6px 4px;text-align:center;font-size:10px;cursor:pointer;background:var(--soft);color:var(--txt);min-width:0}.imp349-score.s0{opacity:.55}.imp349-score.s1{background:#fee2e2;color:#991b1b}.imp349-score.s2{background:#fef3c7;color:#92400e}.imp349-score.s3{background:#dcfce7;color:#166534}.imp349-pct{font-size:12px;font-weight:800;text-align:center}.imp349-review{font-size:9px;color:var(--txt3);text-align:center;line-height:1.35}.imp349-children{border-top:1px solid var(--bdr);padding:8px 12px 10px 28px;background:var(--soft)}.imp349-child{display:grid;grid-template-columns:minmax(190px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;align-items:center;padding:5px 0}.imp349-child .imp349-name{font-weight:600;font-size:11px}.imp349-head{display:grid;grid-template-columns:minmax(210px,1.7fr) repeat(8,minmax(76px,.65fr)) 80px 110px;gap:6px;padding:0 12px 6px;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;text-align:center}.imp349-head div:first-child{text-align:left}.imp349-queue{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;margin-top:8px}.imp349-q{border:1px solid var(--bdr);background:var(--card);border-radius:10px;padding:10px}.imp349-q b{font-size:11px}.imp349-q div{font-size:10px;color:var(--txt2);margin-top:4px}.imp349-cr{font-size:10px;text-align:center;cursor:pointer;text-decoration:underline;text-decoration-style:dotted}@media(max-width:1100px){.imp349-metrics{grid-template-columns:repeat(2,1fr)}.imp349-head{display:none}.imp349-parent,.imp349-child{grid-template-columns:minmax(180px,1.4fr) repeat(4,70px) 70px}.imp349-parent>*:nth-child(n+6):nth-child(-n+9),.imp349-child>*:nth-child(n+6):nth-child(-n+9),.imp349-review{display:none}}
@@ -29589,50 +29571,12 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();v369DecorateSF()
 <!-- USER GUIDE: v376 — Knowledge Type reveals specialized fields; Topic supports reusable + Create New Topic; Bulk Add accepts CSV upload or paste; one superset CSV supports all types. -->
 <!-- CHANGE LOG: v376 — Added expanded Knowledge Types, type-specific fields, extensible Topics, CSV file upload, and superset Knowledge import/export. -->
 <!-- RELEASE NOTES: v376 — Knowledge Hub schema/workflow expansion. Existing Knowledge records remain compatible. -->
-<script id="lcc-v377-master-plan-bcc-separation">
-/* v377 — Master Plan is personal-only. Business-scoped BCC records remain in LCC data but are excluded from Master Plan rendering only. */
-(function(){
- const BUSINESS_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
- const BCC_TYPES=new Set(['goal','ask','change','clientbuild','content','industryprofile','product','phase','release','task','workflow']);
- const norm=v=>String(v||'').trim().toLowerCase();
- function listName(id){const l=(S.lists||[]).find(x=>String(x.id)===String(id));return norm(l&&l.name)}
- function refName(v){if(v&&typeof v==='object')return norm(v.name||v.label||v.id);return norm(v)}
- function isBCCMasterPlanItem(i){
-   if(!i)return false;
-   const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
-   if(refs.some(v=>BUSINESS_NAMES.has(refName(v))||BUSINESS_NAMES.has(listName(v&&typeof v==='object'?v.id:v))))return true;
-   const cats=(Array.isArray(i.categories)?i.categories:[]).map(norm);
-   if(cats.some(c=>c==='business'||c.includes('business, career')||c.includes('business & career')))return true;
-   const brand=norm(i.productBrand||i.ipBrand||i.brand);
-   return brand==='rla'||brand.includes('savvy foundations')||brand.includes('savvy structure');
- }
- window.isBCCMasterPlanItem=isBCCMasterPlanItem;
- function personalOnly(fn){
-   if(typeof fn!=='function'||fn.__v377PersonalOnly)return fn;
-   function wrapped(){
-     if(!window.S||!Array.isArray(S.items))return fn.apply(this,arguments);
-     const all=S.items; S.items=all.filter(i=>!isBCCMasterPlanItem(i));
-     try{return fn.apply(this,arguments)}finally{S.items=all}
-   }
-   wrapped.__v377PersonalOnly=true;return wrapped;
- }
- ['renderHub','renderHubPeriodLens','renderHubFocus','renderHubActiveNow','renderHubSprintWidget','renderHubFocusItems','renderHubMonthly','renderHubGoals','renderHubHabitsToday','renderHubHabitsDue'].forEach(n=>{if(typeof window[n]==='function')window[n]=personalOnly(window[n])});
-
-})();
-</script>
 <!-- USER GUIDE: v377 — The Master Plan is now personal-only. BCC-owned Action Items associated with Business, RLA, Savvy Foundations or Savvy Structure are hidden from Master Plan views without being deleted or removed from other LCC pages. -->
 <!-- CHANGE LOG: v377 — Added and hardened a Master Plan-only BCC scope filter across period lenses, Today’s Focus, Active Now, Sprint, focus-period, monthly, goal and habit rendering. Master Plan now reads through a canonical personal-only item source and recognizes current/legacy List storage shapes. Updated tab title and Master Plan hero/sidebar to v377. -->
 <!-- RELEASE NOTES: v377 — View-separation patch. Business/BCC records remain intact in LCC data and other LCC views; only Master Plan presentation is filtered. -->
 <!-- USER GUIDE: v378 — Release completion/lifecycle changes are preserved across later versions. Missing coded post-v360 Release Action Items are repaired once when absent. Master Plan is personal-only and excludes BCC-scoped work automatically. -->
 <!-- CHANGE LOG: v378 — Made release registries create/backfill-only instead of overwriting user state; repaired post-v360 Release continuity; fixed remaining direct Master Plan reads that bypassed BCC filtering; hardened business-scope matching. -->
 <!-- RELEASE NOTES: v378 — Persistence and Master Plan separation hotfix. No new Action Item type, field, module, or linkable object. -->
-<script id="lcc-v379-release-continuity-master-plan-widget-isolation">
-/* v379 — refresh Master Plan after personal-only wrappers are installed so startup widgets cannot retain pre-filter business counts/cards. */
-(function(){
- function refresh379(){try{if(typeof recalc==='function')recalc();if(document.getElementById('pg-hub')&&typeof renderHub==='function')renderHub();}catch(e){console.warn('v379 refresh',e)}}
- setTimeout(refresh379,0);setTimeout(refresh379,600);
-})();
-</script>
 <!-- USER GUIDE: v379 — Release Management creates any missing coded Release Action Items v361-v379 during local or Drive data load without changing existing release statuses. Master Plan Today, Weekly, Monthly, Quarterly and Sprint tabs/widgets use personal-only data and exclude anything associated with Business, RLA, Savvy Foundations or Savvy Structure. -->
 <!-- CHANGE LOG: v379 — Moved post-v360 Release continuity into both persisted-data load paths before render; removed the BCC-type prerequisite from Master Plan business filtering; refreshed Master Plan after filter installation so period widgets cannot retain stale business counts/cards. -->
 <!-- RELEASE NOTES: v379 — Release continuity and Master Plan widget isolation hotfix. No new Action Item type, field, module, or linkable object. -->
@@ -29851,7 +29795,6 @@ function q(id){return document.getElementById(id)}
  }
  const oldOpen=window.openInvModal;window.openInvModal=function(id){const r=oldOpen.apply(this,arguments);setTimeout(()=>{organize383()},20);return r};
  // Inventory-only hard-coded room save. Room action items no longer control Inventory options.
- const oldSave=window.saveInvItem;window.saveInvItem=function(){return oldSave.apply(this,arguments)};
  function ensureCardOption(){const s=q('inv-view');if(s&&!Array.from(s.options).some(o=>o.value==='card'))s.insertAdjacentHTML('beforeend','<option value="card">Card</option>')}
  function cardView(items,cont){cont.innerHTML='<div class="inv383-cardgrid">'+items.map(i=>{const m=missing383(i),photo=i.invCover?`<div style="height:125px;background:#f3f3f3 url(\'${esc383(i.invCover)}\') center/cover no-repeat"></div>`:`<div style="height:125px;background:linear-gradient(135deg,#0E7490,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:36px">${INV_CAT_EMOJI[i.cat]||'📦'}</div>`;return `<div class="inv383-card" onclick="openInvModal('${i.id}')">${photo}<div class="inv383-cardbody"><div class="inv383-cardtop"><div class="inv383-cardname">${esc383(i.name||'Untitled')}</div><span class="inv383-missing ${m.length?'':'inv383-complete'}">${m.length?'⚠ '+m.length+' missing':'✓ Complete'}</span></div><div class="inv383-meta">${esc383(i.cat||'No category')} · ${esc383(i.subcategory||'No subcategory')}<br>📍 ${esc383(i.location||'Unassigned')} · ${qty383(i)} ${esc383(i.unit||'')}</div>${m.length?`<div class="inv383-missinglist"><b>Missing:</b> ${m.slice(0,6).map(esc383).join(' · ')}${m.length>6?' · +'+(m.length-6)+' more':''}</div>`:''}</div></div>`}).join('')+'</div>'}
  const priorRender=window.renderInventory;window.renderInventory=function(){ensureCardOption();const s=q('inv-view');if(s&&s.value==='card'){const desired='card';s.value='grid';const r=priorRender.apply(this,arguments);s.value=desired;let items=loadInv();const search=(q('inv-search')?.value||'').toLowerCase(),cat=q('inv-cat-filter')?.value||'',stat=q('inv-status-filter')?.value||'',rid=q('inv-room-filter')?.value||'',brand=q('inv-brand-filter')?.value||'',miss=q('inv-missing-filter')?.value||'';items=items.filter(i=>{const hay=JSON.stringify(i).toLowerCase();if(search&&!hay.includes(search))return false;if(cat&&i.cat!==cat)return false;if(stat&&i.invStatus!==stat)return false;if(rid&&i.location!==rid)return false;if(brand&&i.brand!==brand)return false;if(miss==='missing'&&!missing383(i).length)return false;if(miss==='complete'&&missing383(i).length)return false;return true});cardView(items,q('inv-content'));if(q('inv-count'))q('inv-count').textContent=items.length+' records';return r}return priorRender.apply(this,arguments)};
@@ -29894,22 +29837,7 @@ function q(id){return document.getElementById(id)}
 <script id="lcc-v386-release-master-plan-stability">
 (function(){
  const V='386';
- const BUSINESS_NAMES=new Set(['business','rla','savvy foundations','savvy structure']);
- const norm=v=>String(v||'').trim().toLowerCase();
- function listObj(v){const id=v&&typeof v==='object'?v.id:v;return (S.lists||[]).find(x=>String(x.id)===String(id))||null}
- function listName(v){const l=listObj(v);return norm(l&&l.name)}
- function refName(v){return norm(v&&typeof v==='object'?(v.name||v.label||v.id):v)}
- function isBusiness(i){
-  if(!i)return false;
-  const refs=[...(Array.isArray(i.listIds)?i.listIds:[]),...(Array.isArray(i.lists)?i.lists:[]),i.listId].filter(Boolean);
-  if(refs.some(v=>{const rn=refName(v),l=listObj(v),ln=norm(l&&l.name),lc=norm(l&&l.category);return BUSINESS_NAMES.has(rn)||BUSINESS_NAMES.has(ln)||rn==='biz-main'||rn.startsWith('bizop-')||rn==='sf'||rn==='ss'||rn==='rla'||lc.includes('business')||ln.includes('savvy foundations')||ln.includes('savvy structure')}))return true;
-  const cats=(Array.isArray(i.categories)?i.categories:[]).map(norm);
-  if(cats.some(c=>c==='business'||c.includes('business, career')||c.includes('business & career')))return true;
-  const vals=[i.productBrand,i.contentBrand,i.ipBrand,i.brand,i.wfPrefix].map(norm);
-  return vals.some(v=>v==='rla'||v==='sf'||v==='ss'||v.includes('savvy foundations')||v.includes('savvy structure'));
- }
- window.isBCCMasterPlanItem=isBusiness;
- window.masterPlanItems=function(){return (S.items||[]).filter(i=>!isBusiness(i))};
+
  // Remove obsolete system-mode controls/containers from the list-detail UI without touching generic list logic.
  function cleanReleaseUI(){
   ['ld-tab-systemdash','ld-tab-systemwork','ld-system-dashboard','ld-system-workspace'].forEach(id=>{const e=document.getElementById(id);if(e)e.remove()});
@@ -30036,11 +29964,6 @@ function q(id){return document.getElementById(id)}
    const status=q('inv-status');if(status&&!status.dataset.v389){status.dataset.v389='1';status.addEventListener('change',()=>{const loc=fieldNode('inv-location');if(loc){const optional=exemptRoom(status.value);const l=loc.querySelector('label');if(l)l.innerHTML='Room / Storage Location'+(optional?' <span style="font-size:8px;color:var(--txt3)">(optional for this status)</span>':' <span class="req">*</span>')}});status.dispatchEvent(new Event('change'))}
  }
  const oldOpen=window.openInvModal;if(typeof oldOpen==='function')window.openInvModal=function(){const r=oldOpen.apply(this,arguments);setTimeout(organize,120);return r};
- function all(){return typeof loadInv==='function'?loadInv():[]}
- 
- 
-  
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&q('inv-command-dashboard')){clearInterval(t)}else if(++n>80)clearInterval(t)},200);
 })();
 </script>
 <!-- USER GUIDE: v389 — Inventory Add/Edit starts with Core Inventory Fields. Item Name, Category, Inventory Method and Item Status are universal requirements; Room is conditional. Logging Points/Effort stays visible while generic LCC metadata is hidden. All Inventory has live Search, Category, Room, Item Status and Completeness filters. -->
@@ -30078,64 +30001,10 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v390 — Inventory earns 3 points when the four Core Inventory Fields are complete and 10 total points when the full applicable record is complete. Room is optional for normal entry and required only when saving a scanned item. Inventory points appear in Rewards Bank History and do not depend on Action Item status. -->
 <!-- CHANGE LOG: v390 — Fixed false Inventory Method validation; removed normal Room requirement; changed Inventory from effort/status scoring to automatic 3/10-point completeness scoring; integrated Inventory earnings into Rewards history. -->
 <!-- RELEASE NOTES: v390 — Inventory validation/rewards patch. No new Action Item type or schema field; existing integrations remain compatible. -->
-<style id="lcc-v390-inventory-layout-cleanup">
-/* v390 spot-fix: keep the desktop shell/sidebar full-height and remove the obsolete top Inventory filter panel. */
-html,body{height:100%;min-height:100%;margin:0;overflow:hidden}
-.app{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:100dvh!important;overflow:hidden!important}
-.sidebar{height:auto!important;min-height:0!important;align-self:stretch!important}
-.main{height:100%!important;min-height:0!important;overflow:hidden!important}
-</style>
-<!-- USER GUIDE: v390 spot-fix — The obsolete Inventory Filters — Core Fields panel has been removed. Use the Inventory Workspace views and table/search controls below it. The LCC shell/sidebar now fills the full browser height. -->
-<!-- CHANGE LOG: v390 spot-fix — Removed the non-working top Inventory filter panel and fixed the desktop full-height/sidebar layout that left a white gap at the bottom. -->
-<!-- RELEASE NOTES: v390 spot-fix — Same v390 release; no new version or Release record created. Inventory data, rewards scoring, saved views, and table drilldowns are unchanged. -->
-<script id="lcc-v390-four-issue-corrections">
-(function(){
- 
- function refreshCurrentSurfaces(){
-   try{if(window.S?.activeList==='releases'){window.renderListDetail?.();window.renderLdDashboard?.()}}catch(_){}
-   try{if(document.getElementById('pg-hub')?.style.display!=='none')window.renderHub?.()}catch(_){}
- }
- 
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){refreshCurrentSurfaces();clearInterval(t)}else if(++n>80)clearInterval(t)},150);
- 
-})();
-</script>
 <!-- USER GUIDE: v390 correction — Inventory room changes now save to the record being edited; completed/terminal Releases disappear from active Release Workspace/current-sprint views; Master Plan excludes Business Operations/RLA/Savvy Foundations/Savvy Structure associations; and the LCC shell is locked to the full browser viewport. -->
 <!-- CHANGE LOG: v390 correction — Fixed Inventory location persistence, active Release completion visibility, global bottom white-space regression, and Master Plan business leakage. Also completes the previously requested removal of the remaining Inventory filter bar. -->
 <!-- RELEASE NOTES: v390 correction — Same v390 release; no new version or Release record created. No Action Item type/schema change. -->
-<script id="lcc-v390-business-list-bulk-release-final-correction">
-(function(){
- const norm=v=>String(v==null?'':v).trim().toLowerCase();
- const BUSINESS_LIST_KEYS=new Set(['business','biz-main','rla','sf','ss','savvy foundations','savvy structure']);
- function addRef(out,v){
-   if(v==null||v==='')return;
-   if(Array.isArray(v)){v.forEach(x=>addRef(out,x));return;}
-   if(typeof v==='object'){addRef(out,v.id);addRef(out,v.name);addRef(out,v.label);return;}
-   out.push(v);
- }
- function hasBusinessList(item){
-   if(!item)return false;
-   const refs=[];['listIds','lists','listId','list','listName'].forEach(k=>addRef(refs,item[k]));
-   return refs.some(ref=>{
-     const raw=norm(ref);
-     if(BUSINESS_LIST_KEYS.has(raw))return true;
-     const l=(S.lists||[]).find(x=>norm(x.id)===raw||norm(x.name)===raw);
-     return !!(l&&BUSINESS_LIST_KEYS.has(norm(l.id))||l&&BUSINESS_LIST_KEYS.has(norm(l.name)));
-   });
- }
- // Master Plan rule is now explicit: records assigned to the Business/RLA/SF/SS lists are excluded.
- window.isBCCMasterPlanItem=hasBusinessList;
- window.masterPlanItems=function(){return (S.items||[]).filter(i=>!hasBusinessList(i));};
- // Guarantee the Master Plan renderer receives the same list-scoped source, including older render paths.
- const priorHub=window.renderHub;
- if(typeof priorHub==='function'&&!priorHub.__v390BusinessListGate){
-   const wrapped=function(){const all=S.items;S.items=(all||[]).filter(i=>!hasBusinessList(i));try{return priorHub.apply(this,arguments)}finally{S.items=all}};
-   wrapped.__v390BusinessListGate=true;window.renderHub=wrapped;
- }
- 
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){clearInterval(t)}else if(++n>80)clearInterval(t)},150);
-})();
-</script>
+
 <!-- USER GUIDE: v390 release simplification — Release completion uses the normal Core Status only. Set Status = Done when a version is finished. Release-specific Status and Test Result are retired. -->
 <!-- CHANGE LOG: v390 release simplification — Removed Release Status/Test Result lifecycle validation and automation. Release entry now requires Version and Release Type; completion is controlled only by Core Status. -->
 <!-- RELEASE NOTES: v390 correction — Same v390 release; no new version/Release record. No new Action Item type or schema field. -->
@@ -30158,9 +30027,274 @@ html,body{height:100%;min-height:100%;margin:0;overflow:hidden}
 
 
 
-USER GUIDE: v392 — Release records remain fully manual. Retired automatic Release seed/update code and obsolete Inventory filter/migration code were physically removed rather than disabled.
-CHANGE LOG: v392 — Dead-code cleanup: removed historical automatic Release seeders and their startup hooks, removed the v391 release kill-switch, removed superseded Inventory filter generations/hide-only cleanup, and removed retired Inventory room-reset migration stubs.
-RELEASE NOTES: v392 — Cleanup-only release. No Release record is auto-created. Functional Release records are user-managed; current data is preserved.
+USER GUIDE: v393 — Release Management counts now use the complete Release Management list. The All and Releases chips count the same historical Release records shown in the Workspace; Hide Done/Cancelled remains the user-controlled visibility option. Release records remain fully manual.
+CHANGE LOG: v393 — Removed the obsolete pre-render Release filter in openListDetail that excluded Done/completed Release records before Release Management counts were calculated. No Release records, statuses, filters, or persistence behavior were changed.
+RELEASE NOTES: v393 — Release-count correction only. Existing Release records are preserved and no Release record is auto-created.
+
+<!-- USER GUIDE: v394 — Master Plan excludes every Action Item assigned to the Business list. The Business list remains available elsewhere in LCC; only Master Plan is personal-only. -->
+<!-- CHANGE LOG: v394 — Moved Business-list exclusion into the canonical masterPlanItems() source, removed obsolete v377/v390 wrapper gates and duplicate v386 business classifier, and made the Master Plan Sprint widget use the same canonical source. -->
+<!-- RELEASE NOTES: v394 — Master Plan Business-list isolation cleanup. No Release Action Item is auto-created; Release records remain manual. -->
+
+<!-- USER GUIDE: v395 — The LCC shell now uses one viewport rule at the base layout: the app is fixed to all four browser edges, while the sidebar and main workspace stretch to that shell. This removes the old duplicate v390 viewport override and prevents a white strip from being created below the application. -->
+<!-- CHANGE LOG: v395 — Repaired the global shell at its source: replaced 100vh sizing with fixed inset sizing, made sidebar/main explicitly fill the shell, and physically removed the obsolete v390 layout override instead of stacking another patch. -->
+<!-- RELEASE NOTES: v395 — Global layout/white-space stabilization only. No Release Action Item is auto-created; Release records remain manual. -->
+
+<!-- USER GUIDE: v397 — Dead-code cleanup only. Removed obsolete refresh-only compatibility scripts and no-op Inventory wrappers/helpers that no longer perform any user-facing function. No features, records, or saved data were intentionally changed. -->
+<!-- CHANGE LOG: v397 — Physically removed the retired v379 Master Plan refresh shim, retired v390 four-issue refresh shim, the v383 no-op Inventory save wrapper, and unused/no-op v389 Inventory helper/timer. -->
+<!-- RELEASE NOTES: v397 — Controlled dead-code audit pass. Release records remain fully manual and no Release Action Item is auto-created. -->
+
+<script id="lcc-v397-regression-cleanup">
+/* v397 — regression stabilization. Release lifecycle is core-status-only.
+   Removed remaining Release Status/Test Result dependencies from parking, linking, bulk add,
+   completed-release changelog, sprint display, and legacy record normalization. */
+</script>
+<style id="lcc-v398-digital-archive-style">
+.da399-assist{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin:0 0 12px}.da399-path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.45;word-break:break-word}.da399-hint{font-size:10px;color:var(--txt3);margin-top:4px}
+.da398-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.da398-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px;box-shadow:var(--sh)}.da398-s3{grid-column:span 3}.da398-s4{grid-column:span 4}.da398-s6{grid-column:span 6}.da398-s12{grid-column:1/-1}.da398-tools{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center}.da398-table-wrap{overflow:auto;border:1px solid var(--bdr);border-radius:var(--rl);background:var(--card)}.da398-table{width:100%;border-collapse:collapse;font-size:11px;min-width:1280px}.da398-table th,.da398-table td{padding:8px;border-bottom:1px solid var(--bdr);text-align:left;vertical-align:top}.da398-table th{background:var(--soft);font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:var(--txt2);position:sticky;top:0}.da398-path,.da398-name{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:10.5px;word-break:break-all}.da398-name{font-weight:700;color:var(--navy)}.da398-badge{display:inline-block;padding:2px 7px;border-radius:12px;background:var(--soft);color:var(--txt2);font-size:9px;margin:1px 2px 1px 0}.da398-ok{background:#E1F5EE;color:#0A5E47}.da398-warn{background:#FEF3C7;color:#92400E}.da398-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.da398-guide h3{font-size:13px;color:var(--navy);margin-bottom:5px}.da398-guide p,.da398-guide li{font-size:11px;color:var(--txt2);line-height:1.55}.da398-preview{background:#F8F5FF;border:1px solid #D8CBE6;border-radius:var(--r);padding:10px 12px;margin:5px 0 12px;font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all;color:var(--navy)}.da398-formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.da398-formgrid .full{grid-column:1/-1}.da398-checks{display:flex;gap:12px;flex-wrap:wrap;padding:8px 0}.da398-filter{padding:7px 9px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--card);font:inherit;color:var(--txt)}@media(max-width:760px){.da398-s3,.da398-s4,.da398-s6{grid-column:1/-1}.da398-guide,.da398-formgrid{grid-template-columns:1fr}.da398-formgrid .full{grid-column:auto}}
+</style>
+
+<script id="lcc-v399-filing-assistant">
+(function(){
+  const ROOTS=['00 INBOX & REVIEW','01 RASHUNDA','02 RAVYN','03 JACOBY','04 HOUSEHOLD & FAMILY','05 PHOTOS & VIDEOS','06 MEDIA LIBRARY','07 FAMILY & GENEALOGY','08 TECHNOLOGY & SYSTEMS','09 REFERENCE LIBRARY','10 BUSINESS'];
+
+  const PERSONAL={
+    'Identification & Vital Records':['Birth Certificate','Social Security','Driver License & State ID','Passport','Marriage Records','Name Change Records','Maiden Name Records','Voter Records','Certified Copies','Other Identification'],
+    'Medical & Health':['Medical History','Primary Care','Specialists','Dental','Vision','Prescriptions','Labs','Imaging','Procedures & Surgeries','Hospital & ER','Vaccinations','Therapy & Mental Wellness','Medical Devices','Health Tracking','Provider Records'],
+    'Financial':['Banking','Credit Cards','Loans & Debt','Taxes','Retirement','Investments','Income','Credit','Savings','Receipts & Purchase Records','Financial Planning','Closed Accounts'],
+    'Insurance':['Health','Dental','Vision','Life','Disability','Supplemental'],
+    'Legal & Estate':['Estate Planning','Contracts & Agreements','Court Records','Attorney Correspondence','Settlements','Notarized Documents','Legal Notices','Intellectual Property','Closed Matters'],
+    'Employment & Career':['Employers','Resume & CV','Cover Letters','Professional Bio','Portfolio','Certifications','Continuing Education','Professional Development','Job Searches','References','Networking'],
+    'Education':['Elementary School','Middle School','High School','Colleges & Universities','Certifications & Licenses','Personal Curriculum'],
+    'Vehicles & Transportation':['Current Vehicles','Previous Vehicles','Driver Records','Toll Records'],
+    'Creative & Personal Projects':['Active Projects','Canva','Digital Planner','Printables & Stickers','Crafts','Writing','Design Assets','Ideas & Inspiration','Completed Projects'],
+    'Personal Records & Life History':['Journals','Planners','Calendars','Goals','Annual Reviews','Personal Development','Spirituality','Hobbies & Interests','Memberships','Organizations','Awards & Recognition','Correspondence','Personal Writing','Bucket Lists & Life Lists','Life Timeline','Keepsakes - Digital']
+  };
+
+  const BUSINESS=['Savvy Foundations','RLA','Savvy Structure','Mocha Sky Travel','Notary Business','Previous Businesses'];
+  const BUSINESS_SECTIONS=['Formation & Legal','Finance & Accounting','Taxes','Insurance','Banking','Brand','Offers & Services','Products','Clients','Contracts','Marketing','Content','Sales','Operations','SOPs','Technology','Vendors','Analytics','Projects'];
+  const EMPLOYER_SECTIONS=['Offer & Hiring','Job Description','Compensation','Benefits','Performance Reviews','Promotions','Training','Certifications','Awards & Recognition','PTO','Payroll & Pay Statements','Correspondence','Separation'];
+  const COLLEGE_SECTIONS=['Admissions','Financial Aid','Registration','Degree Program','Courses','Grades','Transcripts','Billing & Payments','Academic Advising','Correspondence','Graduation','Other Records'];
+  const GRADE_SECTIONS=['Report Cards','Testing','Activities & Clubs','Awards & Achievements','Schoolwork & Projects','Other Records'];
+
+  function norm(s){return String(s||'').trim().toLowerCase()}
+  function ownerRoot(owner){
+    const o=norm(owner);
+    if(o.includes('ravyn')) return '02 RAVYN';
+    if(o.includes('jacoby')) return '03 JACOBY';
+    if(o.includes('house')||o.includes('family')||o.includes('joint')) return '04 HOUSEHOLD & FAMILY';
+    return '01 RASHUNDA';
+  }
+  function containsAny(s,arr){s=norm(s);return arr.some(x=>s.includes(x))}
+  function recommend(x){
+    const hay=[x.itemType,x.category,x.subcategory,x.itemName,x.description,x.organization].join(' ').toLowerCase();
+    let root=ownerRoot(x.owner), parts=[];
+
+    if(containsAny(hay,['photo','picture','image','video','home movie'])){
+      root='05 PHOTOS & VIDEOS';
+      const year=(x.documentDate||'').slice(0,4)||'YEAR';
+      parts=['01 Master Photo Archive',year];
+      return [root,...parts].join(' / ');
+    }
+    if(containsAny(hay,['movie','tv show','television','music','ebook','audiobook','book','podcast'])){
+      root='06 MEDIA LIBRARY';
+      if(containsAny(hay,['movie'])) parts=['01 Movies'];
+      else if(containsAny(hay,['tv show','television'])) parts=['02 TV Shows'];
+      else if(containsAny(hay,['music'])) parts=['03 Music'];
+      else if(containsAny(hay,['book','ebook','audiobook'])) parts=['04 Books'];
+      else parts=['05 Podcasts & Audio'];
+      return [root,...parts].join(' / ');
+    }
+    if(containsAny(hay,['genealogy','ancestor','census','cemetery','burial','dna match','probate','family tree','oral history'])){
+      root='07 FAMILY & GENEALOGY';
+      if(hay.includes('census')) parts=['03 Census Records'];
+      else if(containsAny(hay,['cemetery','burial'])) parts=['04 Cemetery & Burial'];
+      else if(hay.includes('dna')) parts=['07 DNA & Matches'];
+      else if(hay.includes('oral history')) parts=['08 Oral Histories'];
+      else if(hay.includes('family tree')) parts=['01 Family Trees'];
+      else parts=['14 Source Documents'];
+      return [root,...parts].join(' / ');
+    }
+    if(containsAny(hay,['nas','router','wi-fi','wifi','computer','phone backup','tablet','smart home','software license','icloud','cloud storage','device backup','lcc'])){
+      root='08 TECHNOLOGY & SYSTEMS';
+      if(hay.includes('nas')) parts=['01 NAS'];
+      else if(hay.includes('computer')) parts=['02 Computers'];
+      else if(hay.includes('phone')) parts=['03 Phones'];
+      else if(hay.includes('tablet')) parts=['04 Tablets'];
+      else if(hay.includes('smart home')) parts=['05 Smart Home'];
+      else if(containsAny(hay,['router','wi-fi','wifi','network'])) parts=['06 Networking'];
+      else if(containsAny(hay,['software','license'])) parts=['07 Software & Licenses'];
+      else if(containsAny(hay,['icloud','cloud storage'])) parts=['09 Cloud Storage Records'];
+      else if(hay.includes('backup')) parts=['11 Device Backups'];
+      else if(hay.includes('lcc')) parts=['12 LCC'];
+      else parts=[];
+      return [root,...parts].join(' / ');
+    }
+    if(containsAny(hay,['savvy foundations','rla','savvy structure','mocha sky','notary business'])){
+      root='10 BUSINESS';
+      let biz=BUSINESS.find(b=>hay.includes(b.toLowerCase()))||'Savvy Foundations';
+      let sec=BUSINESS_SECTIONS.find(s=>hay.includes(s.toLowerCase()));
+      return [root,biz,sec].filter(Boolean).join(' / ');
+    }
+
+    if(root==='04 HOUSEHOLD & FAMILY'){
+      if(containsAny(hay,['mortgage','deed','property','home','hoa','utility','appliance','warranty','contractor','renovation','repair','pest','floor plan'])){
+        parts=['01 Home & Property','Current Home'];
+        if(hay.includes('mortgage')) parts.push('Mortgage');
+        else if(containsAny(hay,['deed','property record'])) parts.push('Deed & Property Records');
+        else if(hay.includes('hoa')) parts.push('HOA');
+        else if(hay.includes('utility')) parts.push('Utilities');
+        else if(hay.includes('appliance')) parts.push('Appliances');
+        else if(hay.includes('warranty')) parts.push('Warranties');
+        else if(hay.includes('contractor')) parts.push('Contractors');
+        else if(hay.includes('renovation')) parts.push('Renovations');
+        else if(hay.includes('repair')) parts.push('Repairs & Maintenance');
+      } else if(containsAny(hay,['homeowners','umbrella','auto insurance'])) parts=['03 Household Insurance'];
+      else if(containsAny(hay,['family recipe','cookbook'])) parts=[hay.includes('cookbook')?'08 Family Cookbook':'07 Family Recipes'];
+      else if(containsAny(hay,['trip','travel','cruise','flight','hotel','itinerary','reservation','ticket'])) parts=['10 Family Travel & Experiences'];
+      else parts=['05 Family Administration'];
+      return [root,...parts].join(' / ');
+    }
+
+    if(containsAny(hay,['birth certificate','social security','driver license','state id','passport','marriage record','name change','maiden','voter'])){
+      parts=['01 Identification & Vital Records'];
+      if(hay.includes('birth certificate')) parts.push('Birth Certificate');
+      else if(hay.includes('social security')) parts.push('Social Security');
+      else if(containsAny(hay,['driver license','state id'])) parts.push('Driver License & State ID');
+      else if(hay.includes('passport')) parts.push('Passport');
+      else if(hay.includes('marriage')) parts.push('Marriage Records');
+      else if(hay.includes('name change')) parts.push('Name Change Records');
+      else if(hay.includes('maiden')) parts.push('Maiden Name Records');
+      else if(hay.includes('voter')) parts.push('Voter Records');
+    } else if(containsAny(hay,['medical','doctor','provider','lab','imaging','surgery','hospital','dental','vision','prescription','vaccination','therapy'])){
+      parts=['02 Medical & Health'];
+      if(hay.includes('lab')) parts.push('Labs');
+      else if(hay.includes('imaging')) parts.push('Imaging');
+      else if(containsAny(hay,['surgery','procedure'])) parts.push('Procedures & Surgeries');
+      else if(hay.includes('hospital')) parts.push('Hospital & ER');
+      else if(hay.includes('dental')) parts.push('Dental');
+      else if(hay.includes('vision')) parts.push('Vision');
+      else if(hay.includes('prescription')) parts.push('Prescriptions');
+      else if(hay.includes('vaccination')) parts.push('Vaccinations');
+      else if(hay.includes('therapy')) parts.push('Therapy & Mental Wellness');
+      else parts.push('Provider Records');
+    } else if(containsAny(hay,['tax','bank','credit card','loan','retirement','401k','ira','investment','w-2','1099','credit report','savings'])){
+      parts=['03 Financial'];
+      if(hay.includes('tax')) parts.push('Taxes');
+      else if(hay.includes('bank')) parts.push('Banking');
+      else if(hay.includes('credit card')) parts.push('Credit Cards');
+      else if(hay.includes('loan')) parts.push('Loans & Debt');
+      else if(containsAny(hay,['401k','ira','retirement'])) parts.push('Retirement');
+      else if(hay.includes('investment')) parts.push('Investments');
+      else if(containsAny(hay,['w-2','1099'])) parts.push('Income');
+      else if(hay.includes('credit report')) parts.push('Credit');
+      else if(hay.includes('savings')) parts.push('Savings');
+    } else if(containsAny(hay,['insurance','policy','claim','beneficiary'])){
+      parts=['04 Insurance'];
+      if(hay.includes('health')) parts.push('Health');
+      else if(hay.includes('dental')) parts.push('Dental');
+      else if(hay.includes('vision')) parts.push('Vision');
+      else if(hay.includes('life')) parts.push('Life');
+    } else if(containsAny(hay,['will','trust','power of attorney','legal','court','attorney','settlement','notarized'])){
+      parts=['05 Legal & Estate'];
+    } else if(containsAny(hay,['employer','employment','job','resume','performance review','promotion','pay statement','payroll','pto','offer letter'])){
+      parts=['06 Employment & Career'];
+      if(x.organization) parts.push('Employers',x.organization);
+    } else if(containsAny(hay,['school','education','grade ','report card','transcript','college','university','fafsa','scholarship','diploma','degree','course'])){
+      parts=['07 Education'];
+      if(containsAny(hay,['college','university','degree','course']) && x.organization) parts.push('Colleges & Universities',x.organization);
+      else if(containsAny(hay,['grade 12','senior'])) parts.push('High School','Grade 12 - Senior');
+      else if(containsAny(hay,['grade 11','junior'])) parts.push('High School','Grade 11 - Junior');
+      else if(containsAny(hay,['grade 10','sophomore'])) parts.push('High School','Grade 10 - Sophomore');
+      else if(containsAny(hay,['grade 09','grade 9','freshman'])) parts.push('High School','Grade 09 - Freshman');
+    } else if(containsAny(hay,['vehicle','car','registration','title','toll','tire','inspection'])){
+      parts=['08 Vehicles & Transportation'];
+    } else {
+      parts=['11 Personal Records & Life History'];
+    }
+    return [root,...parts].join(' / ');
+  }
+
+  window.da399Recommend=recommend;
+  window.da399Roots=ROOTS;
+  window.da399Personal=PERSONAL;
+  window.da399EmployerSections=EMPLOYER_SECTIONS;
+  window.da399CollegeSections=COLLEGE_SECTIONS;
+  window.da399GradeSections=GRADE_SECTIONS;
+})();
+</script>
+
+<script id="lcc-v398-digital-archive-registry">
+(function(){
+  if(window.__LCC_V398_DA__)return; window.__LCC_V398_DA__=true;
+  const DA_CATS=['00. Inbox','01. Identification & Vital Records','02. Medical & Health','03. Financial','04. Insurance','05. Legal & Estate','06. Home & Property','07. Employment & Career','08. Education','09. Family','10. Business','11. Digital Assets & Technology','12. Vehicles & Transportation','13. Photos & Videos','14. Media Library','15. Travel & Experiences','16. Genealogy & Family History','17. Creative & Personal Projects','18. Personal Records & Life History','19. Reference Library','90. Archive','99. To Review'];
+  const DA_TYPES=['Document / Record','Statement','Receipt / Purchase','Medical Record','Legal Document','Education Record','Photo Collection','Video / Home Movie','Project File','Letter / Correspondence','Manual / Warranty','Archive / Export','Other'];
+  const DA_LEVELS=['Individual Record','Collection','Media Inventory'];
+  const DA_PREC=['Exact Date','Month Known','Year Known','No Useful Date'];
+  const DA_EXT=['pdf','jpg','jpeg','png','heic','docx','xlsx','csv','txt','zip','mp4','mov','mkv','epub','m4b','other'];
+  const DA_TAGS=['Critical','Action Needed','Review','Verified','Backed Up','Keep Forever','Important','Temporary','Tax','Warranty','Legal','Genealogy Source','Family History','LCC Reference'];
+  const _dl=window.dl||dl;
+  window.dl=dl=function(){const d=_dl();if(!Array.isArray(d.archiveRecords))d.archiveRecords=[];return d};
+  function E(v){return typeof dle==='function'?dle(v):String(v??'').replace(/[&<>\"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[s]||s))}
+  function uid(){return 'ARC-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,6)}
+  function today(){return new Date().toISOString().slice(0,10)}
+  function clean(s){return String(s||'').trim().replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ')}
+  function datePart(x){const d=String(x.documentDate||'');if(x.datePrecision==='Exact Date')return d;if(x.datePrecision==='Month Known')return d.slice(0,7);if(x.datePrecision==='Year Known')return d.slice(0,4);return ''}
+  function daFilename(x){
+    const dt=datePart(x), owner=clean(x.owner), org=clean(x.organization), item=clean(x.itemName||x.documentType||'Item'), desc=clean(x.description), ver=clean(x.versionLabel), ext=clean(x.fileExtension||'pdf').replace(/^\./,'')||'pdf';
+    let p=[];
+    if(x.itemType==='Photo Collection'||x.itemType==='Video / Home Movie')p=[dt,item,org||desc,org&&desc?desc:'',owner,ver];
+    else if(x.itemType==='Medical Record')p=[dt,owner,org,item,desc,ver];
+    else p=[dt,org,item,desc,owner,ver];
+    p=p.filter(Boolean);return (p.length?p.join(' - '):'Untitled')+'.'+ext;
+  }
+  function daFullPath(x){const folder=String(x.nasFolder||'').trim().replace(/[\\]+/g,'/').replace(/\/+$/,'');return (folder?folder+'/':'')+(x.generatedFilename||daFilename(x))}
+  function tagsArr(x){return Array.isArray(x.nasTags)?x.nasTags:String(x.nasTags||'').split(/[;,]/).map(s=>s.trim()).filter(Boolean)}
+  function recalc(x){x.generatedFilename=daFilename(x);x.fullPath=daFullPath(x);x.updatedAt=new Date().toISOString();return x}
+  const _tabs=window.dlTabs||dlTabs;
+  window.dlTabs=dlTabs=function(){let h=_tabs();if(!h.includes("dlTab('registry')"))h=h.replace("<button class=\"dl361-tab",`<button class="dl361-tab${DL_TAB==='registry'?' active':''}" onclick="dlTab('registry')">Archive Registry</button><button class="dl361-tab${DL_TAB==='naming'?' active':''}" onclick="dlTab('naming')">Naming Guide</button><button class="dl361-tab`);return h};
+  const _render=window.renderDigitalLibrary||renderDigitalLibrary;
+  window.renderDigitalLibrary=renderDigitalLibrary=function(){if(DL_TAB!=='registry'&&DL_TAB!=='naming')return _render();const el=document.getElementById('digital-body');if(!el)return;const d=dlRecalc();el.innerHTML=dlHero(d)+dlTabs()+'<div id="dl361-view"></div>';const v=document.getElementById('dl361-view');if(DL_TAB==='registry')daRenderRegistry(v,d);else daRenderGuide(v,d)};
+  function daStats(d){const a=d.archiveRecords||[];return {total:a.length,individual:a.filter(x=>x.recordLevel==='Individual Record').length,collections:a.filter(x=>x.recordLevel==='Collection').length,filed:a.filter(x=>x.filed).length,verified:a.filter(x=>x.verified).length,backed:a.filter(x=>x.backedUp).length}}
+  window.DA398_FILTER={q:'',cat:'',owner:'',status:''};
+  function filtered(d){const f=window.DA398_FILTER,q=f.q.toLowerCase();return (d.archiveRecords||[]).filter(x=>(!q||[x.generatedFilename,x.itemName,x.description,x.organization,x.owner,x.nasFolder,x.originalSource,tagsArr(x).join(' ')].join(' ').toLowerCase().includes(q))&&(!f.cat||x.category===f.cat)&&(!f.owner||x.owner===f.owner)&&(!f.status||(f.status==='Filed'?x.filed:f.status==='Verified'?x.verified:f.status==='Backed Up'?x.backedUp:!x.filed))).sort((a,b)=>String(b.documentDate||b.createdAt||'').localeCompare(String(a.documentDate||a.createdAt||'')))}
+  function daRenderRegistry(v,d){const s=daStats(d),owners=[...new Set((d.archiveRecords||[]).map(x=>x.owner).filter(Boolean))].sort(),a=filtered(d);v.innerHTML=`<div class="da398-tools"><button class="btn primary" onclick="daOpen()">+ Archive Record</button><button class="btn" onclick="daBulkImport()">📥 Bulk Add CSV</button><button class="btn" onclick="daDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="daExportCsv()">⬇ Export Registry</button></div><div class="da398-grid" style="margin-bottom:12px"><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.total}</b><div class="dl361-small">Registry records</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.filed}</b><div class="dl361-small">Filed to NAS</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.verified}</b><div class="dl361-small">Verified</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.backed}</b><div class="dl361-small">Backed up</div></div></div><div class="da398-tools"><input class="da398-filter" style="min-width:220px;flex:1" placeholder="Search filename, person, source, folder, tag…" value="${E(DA398_FILTER.q)}" oninput="DA398_FILTER.q=this.value;renderDigitalLibrary()"><select class="da398-filter" onchange="DA398_FILTER.cat=this.value;renderDigitalLibrary()"><option value="">All folders</option>${DA_CATS.map(c=>`<option ${DA398_FILTER.cat===c?'selected':''}>${E(c)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.owner=this.value;renderDigitalLibrary()"><option value="">All owners</option>${owners.map(o=>`<option ${DA398_FILTER.owner===o?'selected':''}>${E(o)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.status=this.value;renderDigitalLibrary()"><option value="">All statuses</option>${['Needs Filing','Filed','Verified','Backed Up'].map(o=>`<option ${DA398_FILTER.status===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="da398-table-wrap"><table class="da398-table"><thead><tr><th>Generated Filename</th><th>Level</th><th>Item Type</th><th>Owner</th><th>Source</th><th>NAS Folder</th><th>Original Source</th><th>Items</th><th>Tags</th><th>Lifecycle</th><th></th></tr></thead><tbody>${a.map(x=>`<tr><td class="da398-name">${E(x.generatedFilename||daFilename(x))}</td><td>${E(x.recordLevel||'')}</td><td>${E(x.itemType||'')}</td><td>${E(x.owner||'')}</td><td>${E(x.organization||'')}</td><td class="da398-path">${E(x.nasFolder||'')}</td><td>${E(x.originalSource||'')}</td><td>${Number(x.itemCount||1).toLocaleString()}</td><td>${tagsArr(x).map(t=>`<span class="da398-badge">${E(t)}</span>`).join('')}</td><td>${x.located?'📍':''}${x.copiedToNas?' 📥':''}${x.named?' 🏷️':''}${x.filed?' 📁':''}${x.verified?' ✅':''}${x.backedUp?' ☁️':''}</td><td><button class="btn xs" onclick="daOpen('${x.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="11"><div class="dl361-empty">No archive records yet. Add an individual record or collection, or use Bulk Add CSV.</div></td></tr>'}</tbody></table></div>`}
+  function daRenderGuide(v,d){v.innerHTML=`<div class="da398-grid"><div class="da398-card da398-s12"><h3 style="font-size:17px;color:var(--navy);margin-bottom:5px">NAS Naming Convention · One-Page Guide</h3><div class="dl361-small">The Archive Registry uses these same rules automatically, so the guide and the data log stay aligned.</div></div><div class="da398-card da398-s12 da398-guide"><div><h3>Documents & Records</h3><p><b>YYYY-MM-DD - Organization - Item - Description.ext</b></p><p>Use the most precise date you can verify. If only month/year is known, the generator shortens the date instead of inventing one.</p></div><div><h3>Medical</h3><p><b>YYYY-MM-DD - Person - Provider - Record Type - Description.ext</b></p><p>Person comes before provider so records stay distinguishable when family members share providers.</p></div><div><h3>Photos & Home Videos</h3><p><b>YYYY-MM-DD - Event - Location or Description.ext</b></p><p>Log large sets as a Collection instead of creating one LCC record per photo.</p></div><div><h3>Receipts & Purchases</h3><p><b>YYYY-MM-DD - Merchant - Item - Description.ext</b></p><p>Add Warranty as a NAS tag when applicable rather than duplicating the file.</p></div><div><h3>Versions</h3><p>Use <b>Signed</b>, <b>Final</b>, or <b>v2</b> only when multiple legitimate versions must be retained. Do not add “final-final.”</p></div><div><h3>Registry Levels</h3><ul style="padding-left:18px"><li><b>Individual Record:</b> one important file = one record.</li><li><b>Collection:</b> one event/batch/album = one record plus item count.</li><li><b>Media Inventory:</b> movies/books/media that benefit from title-level tracking.</li></ul></div><div><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div><div><h3>Single Source of Truth</h3><p>Store the master file once. Use folders, NAS tags, and the LCC registry to find it instead of creating duplicates in multiple categories.</p></div></div></div>`}
+  function fld(id,l,val='',type='text',opts=null,full=false){return `<div class="field${full?' full':''}"><label>${E(l)}</label>${opts?`<select id="da-${id}">${opts.map(o=>`<option value="${E(o)}"${String(val)===String(o)?' selected':''}>${E(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea id="da-${id}">${E(val)}</textarea>`:`<input id="da-${id}" type="${type}" value="${E(val)}">`}</div>`}
+  function ck(id,l,v){return `<label class="dl361-check"><input id="da-${id}" type="checkbox" ${v?'checked':''}> ${E(l)}</label>`}
+  function formHtml(x){const tagv=tagsArr(x).join('; ');return fld('recordLevel','Registry Level',x.recordLevel||'Individual Record','text',DA_LEVELS)+fld('itemType','Item Type',x.itemType||'Document / Record','text',DA_TYPES)+fld('category','Top-Level NAS Category',x.category||'01. Identification & Vital Records','text',DA_CATS)+fld('subcategory','Subcategory / Folder Detail',x.subcategory)+fld('owner','Person / Owner',x.owner)+fld('organization','Organization / Source',x.organization)+fld('documentDate','Document / Event Date',x.documentDate,'date')+fld('datePrecision','Date Precision',x.datePrecision||'Exact Date','text',DA_PREC)+fld('itemName','Document / Item / Event Name',x.itemName)+fld('description','Description / Distinguishing Detail',x.description)+fld('versionLabel','Version Label',x.versionLabel)+fld('fileExtension','File Extension',x.fileExtension||'pdf','text',DA_EXT)+fld('originalSource','Original Storage Source',x.originalSource)+fld('itemCount','Item Count',x.itemCount||1,'number')+fld('nasFolder','NAS Folder Path',x.nasFolder,'text',null,true)+fld('nasTags','NAS Tags (; separated)',tagv,'text',null,true)+`<div class="field full"><label>Generated Filename</label><div id="da-preview-name" class="da398-preview">${E(x.generatedFilename||daFilename(x))}</div><label>Full NAS Path</label><div id="da-preview-path" class="da398-preview">${E(x.fullPath||daFullPath(x))}</div></div><div class="field full"><label>Lifecycle</label><div class="da398-checks">${ck('located','Located',x.located)}${ck('copiedToNas','Copied to NAS',x.copiedToNas)}${ck('named','Filename Standardized',x.named)}${ck('filed','Filed',x.filed)}${ck('verified','Verified',x.verified)}${ck('backedUp','Backed Up',x.backedUp)}${ck('deleteEligible','Original Delete Eligible',x.deleteEligible)}</div></div>`+fld('notes','Notes',x.notes,'textarea',null,true)}
+  window.daOpen=function(id){const d=dl(),x=id?(d.archiveRecords||[]).find(r=>r.id===id):{recordLevel:'Individual Record',itemType:'Document / Record',datePrecision:'Exact Date',fileExtension:'pdf',itemCount:1,nasTags:[]};const ov=document.createElement('div');ov.className='overlay';ov.id='da398-modal';ov.innerHTML=`<div class="modal" style="max-width:820px"><div class="modal-head"><h2>${id?'Edit':'Add'} Archive Registry Record</h2><button class="xbtn" onclick="document.getElementById('da398-modal').remove()">×</button></div><div class="modal-body"><div id="da399-assistant" class="da399-assist"><b>🗂️ Filing Assistant</b><div class="da399-hint">Enter what you know below. LCC will recommend one permanent NAS home—no Archive fallback.</div><div id="da399-recommended-path" class="da399-path" style="margin-top:7px">Recommended folder will appear here.</div><button type="button" class="btn sm" style="margin-top:7px" onclick="da399UsePath()">Use Recommended Folder</button></div><div class="da398-formgrid">${formHtml(x)}</div></div><div class="modal-foot">${id?`<button class="btn danger" style="margin-right:auto" onclick="daDelete('${id}')">Delete</button>`:''}<button class="btn" onclick="document.getElementById('da398-modal').remove()">Cancel</button><button class="btn primary" onclick="daSave('${id||''}')">Save Record</button></div></div>`;document.body.appendChild(ov);ov.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',daPreview));daPreview()};
+  function val(id,check=false){const el=document.getElementById('da-'+id);return check?!!el?.checked:(el?.value??'')}
+  window.daPreview=function(){const x={recordLevel:val('recordLevel'),itemType:val('itemType'),category:val('category'),subcategory:val('subcategory'),owner:val('owner'),organization:val('organization'),documentDate:val('documentDate'),datePrecision:val('datePrecision'),itemName:val('itemName'),description:val('description'),versionLabel:val('versionLabel'),fileExtension:val('fileExtension'),nasFolder:val('nasFolder')};const n=document.getElementById('da-preview-name'),p=document.getElementById('da-preview-path');if(n)n.textContent=daFilename(x);if(p){x.generatedFilename=daFilename(x);p.textContent=daFullPath(x)}};
+  window.da399UsePath=function(){const p=window.da399LastPath||'';const e=document.getElementById('da-nasFolder');if(e&&p){e.value=p;daPreview();}};
+  window.daSave=function(id){const d=dl(),a=d.archiveRecords,x=id?a.find(r=>r.id===id):{id:uid(),createdAt:new Date().toISOString()};['recordLevel','itemType','category','subcategory','owner','organization','documentDate','datePrecision','itemName','description','versionLabel','fileExtension','originalSource','nasFolder','notes'].forEach(k=>x[k]=val(k));x.itemCount=Math.max(1,parseInt(val('itemCount'))||1);x.nasTags=String(val('nasTags')).split(/[;,]/).map(s=>s.trim()).filter(Boolean);['located','copiedToNas','named','filed','verified','backedUp','deleteEligible'].forEach(k=>x[k]=val(k,true));recalc(x);
+    const rec=(window.da399Recommend?window.da399Recommend(x):'');
+    const rp=document.getElementById('da399-recommended-path');
+    if(rp)rp.textContent=rec||'Recommended folder will appear here.';
+    window.da399LastPath=rec;
+if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record saved');renderDigitalLibrary()};
+  window.daDelete=function(id){if(!confirm('Delete this Archive Registry record?'))return;const d=dl();d.archiveRecords=d.archiveRecords.filter(x=>x.id!==id);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record deleted');renderDigitalLibrary()};
+  const CSV_HEADERS=['Registry Level','Item Type','Top-Level Category','Subcategory','Person/Owner','Organization/Source','Document/Event Date','Date Precision','Document/Item/Event Name','Description','Version','File Extension','Original Storage Source','Item Count','NAS Folder Path','NAS Tags','Located','Copied to NAS','Filename Standardized','Filed','Verified','Backed Up','Original Delete Eligible','Notes'];
+  function q(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+  function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+  window.daDownloadTemplate=function(){download('LCC-Digital-Archive-Registry-Bulk-Add-v398.csv',CSV_HEADERS.map(q).join(',')+'\n')};
+  window.daExportCsv=function(){const rows=(dl().archiveRecords||[]).map(x=>[x.recordLevel,x.itemType,x.category,x.subcategory,x.owner,x.organization,x.documentDate,x.datePrecision,x.itemName,x.description,x.versionLabel,x.fileExtension,x.originalSource,x.itemCount,x.nasFolder,tagsArr(x).join('; '),x.located?'Yes':'No',x.copiedToNas?'Yes':'No',x.named?'Yes':'No',x.filed?'Yes':'No',x.verified?'Yes':'No',x.backedUp?'Yes':'No',x.deleteEligible?'Yes':'No',x.notes]);download('LCC-Digital-Archive-Registry-'+today()+'.csv',[CSV_HEADERS.map(q).join(','),...rows.map(r=>r.map(q).join(','))].join('\n'))};
+  function parse(line){const out=[];let s='',qq=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(qq&&line[i+1]==='"'){s+='"';i++}else qq=!qq}else if(c===','&&!qq){out.push(s);s=''}else s+=c}out.push(s);return out}
+  function yes(v){return /^(yes|true|1|y)$/i.test(String(v||'').trim())}
+  window.daBulkImport=function(){const inp=document.createElement('input');inp.type='file';inp.accept='.csv,text/csv';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=ev=>{try{const lines=String(ev.target.result||'').split(/\r?\n/).filter(x=>x.trim());if(!lines.length)return alert('CSV is empty.');const hh=parse(lines.shift()),idx=n=>hh.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase()),d=dl();let n=0;lines.forEach(line=>{const r=parse(line),g=k=>{const i=idx(k);return i>=0?(r[i]||'').trim():''};if(!g('Document/Item/Event Name')&&!g('Description'))return;const x={id:uid(),recordLevel:g('Registry Level')||'Individual Record',itemType:g('Item Type')||'Document / Record',category:g('Top-Level Category'),subcategory:g('Subcategory'),owner:g('Person/Owner'),organization:g('Organization/Source'),documentDate:g('Document/Event Date'),datePrecision:g('Date Precision')||'Exact Date',itemName:g('Document/Item/Event Name'),description:g('Description'),versionLabel:g('Version'),fileExtension:g('File Extension')||'pdf',originalSource:g('Original Storage Source'),itemCount:Math.max(1,parseInt(g('Item Count'))||1),nasFolder:g('NAS Folder Path'),nasTags:g('NAS Tags').split(/[;,]/).map(s=>s.trim()).filter(Boolean),located:yes(g('Located')),copiedToNas:yes(g('Copied to NAS')),named:yes(g('Filename Standardized')),filed:yes(g('Filed')),verified:yes(g('Verified')),backedUp:yes(g('Backed Up')),deleteEligible:yes(g('Original Delete Eligible')),notes:g('Notes'),createdAt:new Date().toISOString()};recalc(x);d.archiveRecords.push(x);n++});dlSave('Imported '+n+' Archive Registry records');renderDigitalLibrary()}catch(err){alert('Archive Registry import failed: '+err.message)}};fr.readAsText(f)};inp.click()};
+  const _all=window.dlAllLinkable361||((typeof dlAllLinkable361==='function')?dlAllLinkable361:null);if(_all){window.dlAllLinkable361=dlAllLinkable361=function(){const out=_all();(dl().archiveRecords||[]).forEach(x=>out.push({...x,name:x.generatedFilename||x.itemName,__dlCol:'archiveRecords',__dlLabel:'Archive Registry'}));return out}}
+  const _open=window.dlOpenLinked361||((typeof dlOpenLinked361==='function')?dlOpenLinked361:null);if(_open){window.dlOpenLinked361=dlOpenLinked361=function(id){const x=(dl().archiveRecords||[]).find(r=>r.id===id);if(x){showPage('digital',document.getElementById('nav-digital'));DL_TAB='registry';renderDigitalLibrary();setTimeout(()=>daOpen(id),30);return}_open(id)}}
+  // Add a quick-start button without disturbing the existing v361 layout.
+  const _overview=window.dlOverview||((typeof dlOverview==='function')?dlOverview:null);if(_overview){window.dlOverview=dlOverview=function(v,d){_overview(v,d);const tools=v.querySelector('.dl361-tools');if(tools&&!tools.querySelector('[data-da398]'))tools.insertAdjacentHTML('afterbegin','<button data-da398 class="btn primary" onclick="DL_TAB=\'registry\';renderDigitalLibrary();setTimeout(()=>daOpen(),20)">+ Archive Record</button>')}}
+  try{dl();dlSave();}catch(e){console.warn('v398 Digital Archive Registry init',e)}
+})();
+</script>
+<!-- USER GUIDE: v398 — Digital Library now includes an Archive Registry and Naming Guide. Archive Registry logs important individual files, collections, and media-level records; generates standardized filenames and full NAS paths from entered metadata; tracks source, folder, NAS tags, item count, and the lifecycle Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible. Use Bulk Add CSV for batches. The Naming Guide is the one-page reference for the same rules used by the generator. -->
+<!-- CHANGE LOG: v398 — Extended the existing v361 Digital Library domain module rather than adding a new Action Item type or duplicate data store. Added S.digitalLibrary.archiveRecords, Registry/Naming tabs, automatic filename/path generation, registry search/filters/status counters, CSV template/import/export, and Digital Library link support for registry records. -->
+<!-- RELEASE NOTES: v398 — Digital Archive Registry & NAS Naming Convention. Existing Digital Library data remains intact. No Release Action Item is auto-created; Release records remain manual. -->
+<!-- USER GUIDE: v399 — Archive Registry now doubles as the NAS Filing Assistant. Enter item metadata once; LCC generates the standardized filename, recommends one permanent folder from the agreed hierarchy, and saves the same information as the searchable Registry record. Inbox and review are one intake concept. No generic Archive destination is used. Personal folders are Rashunda, Ravyn, and Jacoby; household/family, photos/videos, media, family/genealogy, technology/systems, reference, and business are distinct roots. -->
+<!-- CHANGE LOG: v399 — Added metadata-driven NAS folder recommendations and one-click Use Recommended Folder to the v398 Archive Registry. Added business ownership rules for Savvy Foundations, RLA, Savvy Structure, Mocha Sky Travel, and Notary Business; employer-per-job, college-per-institution, grade-level education logic, and no generic archive fallback. -->
+<!-- RELEASE NOTES: v399 — Digital Filing Assistant + Registry integration. Existing v398 registry records and all prior Digital Library data remain intact. -->
+
 </body>
 </html>
 <!-- USER GUIDE: v364 — Knowledge Category is now Topic. Topic is selected from: Astrology, Health, Senior Year, Home, Finance, Business, Content, Travel, Style & Beauty, or Recipes. Source is a controlled dropdown for where the knowledge came from, including TikTok, Book, Website, YouTube, Personal Experience, Podcast, Course/Class, Social Media, Article, and Other. Use Source Link / Reference for the URL, book title/page, creator, episode, or other citation detail. -->
