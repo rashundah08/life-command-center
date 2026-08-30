@@ -920,6 +920,8 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 </style>
 </head>
 <body>
+<!-- v400 FIX 5 — Archive Registry and Naming Guide now route through the original v398 renderer instead of calling private functions outside their IIFE scope. Bulk Add CSV remains inside Archive Registry. -->
+
 <!-- v400 FIX 4 — Permanent Digital Library controller: self-healing tabs for Digital Filing Assistant, Archive Registry, and Naming Guide; direct rendering no longer depends on wrapper order. -->
 
 <!-- v400 FIX 3 — Restored the user-facing Archive Registry name. Digital Filing Assistant, Archive Registry, and Naming Guide are separate Digital Library tabs. Internal registry storage remains unchanged. -->
@@ -30532,10 +30534,10 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
 </script>
 
 
-<script id="lcc-v400-fix4-digital-library-controller">
+<script id="lcc-v400-fix5-digital-library-controller">
 (function(){
-  if(window.__LCC_V400_FIX4__) return;
-  window.__LCC_V400_FIX4__ = true;
+  if(window.__LCC_V400_FIX5__) return;
+  window.__LCC_V400_FIX5__ = true;
 
   const EXTRA_TABS = [
     ['assistant','Digital Filing Assistant'],
@@ -30543,10 +30545,18 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
     ['naming','Naming Guide']
   ];
 
-  function getData(){
-    try { return typeof dlRecalc==='function' ? dlRecalc() : (typeof dl==='function' ? dl() : {}); }
-    catch(e){ console.error('Digital Library data error', e); return {}; }
-  }
+  // IMPORTANT: capture the fully-built Digital Library renderer BEFORE this
+  // controller changes navigation. That renderer already knows how to draw
+  // Archive Registry and Naming Guide from the v398 code.
+  const priorRenderDigitalLibrary =
+    (typeof window.renderDigitalLibrary === 'function')
+      ? window.renderDigitalLibrary
+      : ((typeof renderDigitalLibrary === 'function') ? renderDigitalLibrary : null);
+
+  const priorDlTab =
+    (typeof window.dlTab === 'function')
+      ? window.dlTab
+      : ((typeof dlTab === 'function') ? dlTab : null);
 
   function ensureExtraTabs(){
     const tabs = document.querySelector('#digital-body .dl361-tabs');
@@ -30561,7 +30571,7 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
         btn.textContent = label;
         btn.addEventListener('click', function(){
           window.DL_TAB = DL_TAB = key;
-          renderV400View(key);
+          routeV400View(key);
         });
         tabs.appendChild(btn);
       }
@@ -30569,83 +30579,106 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
     });
   }
 
-  function drawShell(){
+  function renderAssistant(){
     const el=document.getElementById('digital-body');
-    if(!el) return null;
-    const d=getData();
+    if(!el) return;
 
-    // Reuse the original hero and original tabs for the shell.
-    // The MutationObserver/ensureExtraTabs step then appends our three permanent tabs.
-    let hero = '';
-    let tabs = '';
-    try { hero = typeof dlHero==='function' ? dlHero(d) : ''; } catch(e){ console.error(e); }
-    try {
-      // Call the original v361 tab function directly if the wrappers failed.
-      const base = window.__LCC_V400_BASE_TABS__;
-      tabs = base ? base() : (typeof dlTabs==='function' ? dlTabs() : '<div class="dl361-tabs"></div>');
-    } catch(e){
-      console.error(e);
-      tabs='<div class="dl361-tabs"></div>';
+    let d={};
+    try{
+      d = (typeof dlRecalc==='function') ? dlRecalc() :
+          ((typeof dl==='function') ? dl() : {});
+    }catch(e){
+      console.error('Digital Library data error',e);
     }
+
+    let hero='';
+    let tabs='';
+    try{ hero = (typeof dlHero==='function') ? dlHero(d) : ''; }catch(e){ console.error(e); }
+    try{ tabs = (typeof dlTabs==='function') ? dlTabs() : '<div class="dl361-tabs"></div>'; }
+    catch(e){ console.error(e); tabs='<div class="dl361-tabs"></div>'; }
 
     el.innerHTML = hero + tabs + '<div id="dl361-view"></div>';
     ensureExtraTabs();
-    return {view:document.getElementById('dl361-view'), data:d};
-  }
 
-  // Capture the pristine built-in tabs function from the source text on first execution
-  // only when available. This is a fallback, not the primary navigation mechanism.
-  if(!window.__LCC_V400_BASE_TABS__ && typeof dlTabs==='function'){
-    window.__LCC_V400_BASE_TABS__ = dlTabs;
-  }
+    const v=document.getElementById('dl361-view');
+    if(!v) return;
 
-  window.renderV400View = function(key){
-    const shell=drawShell();
-    if(!shell || !shell.view) return;
-
-    try{
-      if(key==='assistant'){
-        shell.view.innerHTML = typeof dlRenderFilingAssistant==='function'
-          ? dlRenderFilingAssistant()
-          : '<div class="panel"><div class="panel-b">Digital Filing Assistant could not initialize.</div></div>';
-      }else if(key==='registry'){
-        if(typeof window.daRenderRegistry==='function') window.daRenderRegistry(shell.view,shell.data);
-        else shell.view.innerHTML='<div class="panel"><div class="panel-b">Archive Registry could not initialize.</div></div>';
-      }else if(key==='naming'){
-        if(typeof window.daRenderGuide==='function') window.daRenderGuide(shell.view,shell.data);
-        else shell.view.innerHTML='<div class="panel"><div class="panel-b">Naming Guide could not initialize.</div></div>';
+    if(typeof dlRenderFilingAssistant==='function'){
+      try{
+        v.innerHTML=dlRenderFilingAssistant();
+      }catch(err){
+        console.error('Digital Filing Assistant render error',err);
+        v.innerHTML='<div class="panel"><div class="panel-b"><b>Digital Filing Assistant error:</b> '+String(err.message||err)+'</div></div>';
       }
-    }catch(err){
-      console.error('v400 Digital Library view error',err);
-      shell.view.innerHTML='<div class="panel"><div class="panel-b"><b>Digital Library view error:</b> '+String(err.message||err)+'</div></div>';
+    }else{
+      v.innerHTML='<div class="panel"><div class="panel-b">Digital Filing Assistant could not initialize.</div></div>';
     }
-    ensureExtraTabs();
-  };
+  }
 
-  // Wrap navigation once more, but this time route our three views directly.
-  const priorDlTab = typeof window.dlTab==='function' ? window.dlTab : (typeof dlTab==='function' ? dlTab : null);
+  function routeV400View(key){
+    window.DL_TAB = DL_TAB = key;
+
+    // Registry + Naming Guide are rendered by the v398 renderer itself.
+    // This avoids trying to call private IIFE functions from outside their scope.
+    if(key==='registry' || key==='naming'){
+      if(priorRenderDigitalLibrary){
+        try{
+          priorRenderDigitalLibrary();
+          setTimeout(ensureExtraTabs,0);
+          setTimeout(ensureExtraTabs,50);
+          return;
+        }catch(err){
+          console.error('Archive Registry/Naming Guide render error',err);
+        }
+      }
+    }
+
+    if(key==='assistant'){
+      renderAssistant();
+      return;
+    }
+
+    // Normal built-in Digital Library tabs continue using the original route.
+    if(priorDlTab){
+      try{
+        priorDlTab(key);
+        setTimeout(ensureExtraTabs,0);
+        return;
+      }catch(err){
+        console.error('Digital Library tab route error',err);
+      }
+    }
+
+    if(priorRenderDigitalLibrary){
+      try{ priorRenderDigitalLibrary(); }catch(e){ console.error(e); }
+    }
+    setTimeout(ensureExtraTabs,0);
+  }
+
+  window.routeV400View = routeV400View;
+
+  // Preserve existing behavior for all built-in tabs while intercepting only
+  // the three new v400 tabs.
   window.dlTab = dlTab = function(key){
     if(EXTRA_TABS.some(x=>x[0]===key)){
-      window.DL_TAB = DL_TAB = key;
-      return window.renderV400View(key);
+      return routeV400View(key);
     }
-    window.DL_TAB = DL_TAB = key;
-    if(priorDlTab) {
-      const result = priorDlTab(key);
+    if(priorDlTab){
+      const result=priorDlTab(key);
       setTimeout(ensureExtraTabs,0);
       return result;
     }
-    if(typeof renderDigitalLibrary==='function') renderDigitalLibrary();
+    window.DL_TAB = DL_TAB = key;
+    if(priorRenderDigitalLibrary) priorRenderDigitalLibrary();
     setTimeout(ensureExtraTabs,0);
   };
 
-  // Mutation observer makes the three tabs self-healing after ANY Digital Library rerender.
+  // Re-add the three tabs after ANY Digital Library rerender.
   const observer = new MutationObserver(function(){
     if(document.querySelector('#digital-body .dl361-tabs')) ensureExtraTabs();
   });
   observer.observe(document.documentElement,{childList:true,subtree:true});
 
-  // Also inject immediately if Digital Library is already open.
   setTimeout(ensureExtraTabs,0);
   setTimeout(ensureExtraTabs,250);
   setTimeout(ensureExtraTabs,1000);
