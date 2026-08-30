@@ -920,6 +920,10 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 </style>
 </head>
 <body>
+<!-- USER GUIDE: v400 — Digital Library includes Digital Filing Assistant, Digital Registry, and Naming Guide. -->
+<!-- CHANGE LOG: v400 FIX 2 — Corrected a JavaScript syntax error caused by release-note comments being inserted inside a printable HTML string. -->
+<!-- RELEASE NOTES: v400 FIX 2 — Restores normal LCC rendering while retaining the Digital Filing Assistant changes. -->
+
 <div class="app">
 <div class="sidebar" id="sidebar">
 <div class="sb-logo">
@@ -7174,12 +7178,7 @@ function ipPrint(id){
     '<h2>10. Recommended Packages & Pricing</h2><div class="pf"><b>Hosting Plan:</b> '+prod(o.ipHostingProduct)+'</div>'+fld('Credits Note',o.ipCreditsNote)+'<h4>Add-On Services</h4>'+addonsT+'<h4>SS DFY Build Pricing</h4>'+dfyT+
     '<h2>11. Growth Intelligence</h2><h4>Social Media Angles</h4>'+bl(o.ipSocialAngles)+'<h4>Email Subject Lines</h4>'+emailsT+'<h4>Referral & Partnership Opportunities</h4>'+refT+'<h4>Seasonal & Cyclical Triggers</h4>'+seaT+
     '<div class="foot">'+ipEsc(o.ipBrand||'Savvy')+' · Internal Operations Guide · '+ipEsc(o.name||'')+' · '+new Date().toLocaleDateString()+'</div>'+
-    '
-<!-- USER GUIDE: v400 — Digital Library now has three distinct user-facing tools: Digital Filing Assistant, Digital Registry, and Naming Guide. The Filing Assistant is a dedicated tab and is no longer hidden inside the Registry form. -->
-<!-- CHANGE LOG: v400 — Fixed missing Filing Assistant navigation. Renamed user-facing Archive Registry to Digital Registry. Added standalone Generate Recommendation / Save to Digital Registry workflow with filename, NAS folder, and tag recommendations. Removed generic Archive wording from the feature. -->
-<!-- RELEASE NOTES: v400 — Navigation/rendering fix for the Digital Filing Assistant. Existing Digital Library and registry data remain intact. -->
-
-</body></html>';
+    '</body></html>';
   var w=window.open('','_blank');
   if(!w){toast&&toast('Enable pop-ups to print');return;}
   w.document.write(html);w.document.close();setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
