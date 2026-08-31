@@ -920,6 +920,8 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 </style>
 </head>
 <body>
+<!-- v400 FIX 7 — Archive Registry/Naming Guide now use the original v398 closure-preserving exported renderers, restoring access to registry helpers, filters, CSV import, naming rules, and lifecycle data. -->
+
 <!-- v400 FIX 6 — Registry/Naming renderer functions are now exported into global scope and invoked directly by the tabs. -->
 
 <!-- v400 FIX 5 — Archive Registry and Naming Guide now route through the original v398 renderer instead of calling private functions outside their IIFE scope. Bulk Add CSV remains inside Archive Registry. -->
@@ -30464,10 +30466,6 @@ if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archiv
   try{dl();dlSave();}catch(e){console.warn('v398 Archive Registry init',e)}
 })();
 </script>
-<script id="lcc-v400-fix6-global-renderers">
-window.daRenderRegistryGlobal = function(v,d){const s=daStats(d),owners=[...new Set((d.archiveRecords||[]).map(x=>x.owner).filter(Boolean))].sort(),a=filtered(d);v.innerHTML=`<div class="da398-tools"><button class="btn primary" onclick="daOpen()">+ Add Registry Record</button><button class="btn" onclick="daBulkImport()">📥 Bulk Add CSV</button><button class="btn" onclick="daDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="daExportCsv()">⬇ Export Registry</button></div><div class="da398-grid" style="margin-bottom:12px"><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.total}</b><div class="dl361-small">Registry records</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.filed}</b><div class="dl361-small">Filed to NAS</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.verified}</b><div class="dl361-small">Verified</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.backed}</b><div class="dl361-small">Backed up</div></div></div><div class="da398-tools"><input class="da398-filter" style="min-width:220px;flex:1" placeholder="Search filename, person, source, folder, tag…" value="${E(DA398_FILTER.q)}" oninput="DA398_FILTER.q=this.value;renderDigitalLibrary()"><select class="da398-filter" onchange="DA398_FILTER.cat=this.value;renderDigitalLibrary()"><option value="">All folders</option>${DA_CATS.map(c=>`<option ${DA398_FILTER.cat===c?'selected':''}>${E(c)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.owner=this.value;renderDigitalLibrary()"><option value="">All owners</option>${owners.map(o=>`<option ${DA398_FILTER.owner===o?'selected':''}>${E(o)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.status=this.value;renderDigitalLibrary()"><option value="">All statuses</option>${['Needs Filing','Filed','Verified','Backed Up'].map(o=>`<option ${DA398_FILTER.status===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="da398-table-wrap"><table class="da398-table"><thead><tr><th>Generated Filename</th><th>Level</th><th>Item Type</th><th>Owner</th><th>Source</th><th>NAS Folder</th><th>Original Source</th><th>Items</th><th>Tags</th><th>Lifecycle</th><th></th></tr></thead><tbody>${a.map(x=>`<tr><td class="da398-name">${E(x.generatedFilename||daFilename(x))}</td><td>${E(x.recordLevel||'')}</td><td>${E(x.itemType||'')}</td><td>${E(x.owner||'')}</td><td>${E(x.organization||'')}</td><td class="da398-path">${E(x.nasFolder||'')}</td><td>${E(x.originalSource||'')}</td><td>${Number(x.itemCount||1).toLocaleString()}</td><td>${tagsArr(x).map(t=>`<span class="da398-badge">${E(t)}</span>`).join('')}</td><td>${x.located?'📍':''}${x.copiedToNas?' 📥':''}${x.named?' 🏷️':''}${x.filed?' 📁':''}${x.verified?' ✅':''}${x.backedUp?' ☁️':''}</td><td><button class="btn xs" onclick="daOpen('${x.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="11"><div class="dl361-empty">No archive records yet. Add an individual record or collection, or use Bulk Add CSV.</div></td></tr>'}</tbody></table></div>`};
-window.daRenderGuideGlobal = function(v,d){v.innerHTML=`<div class="da398-grid"><div class="da398-card da398-s12"><h3 style="font-size:17px;color:var(--navy);margin-bottom:5px">NAS Naming Convention · One-Page Guide</h3><div class="dl361-small">The Archive Registry uses these same rules automatically, so the guide and the data log stay aligned.</div></div><div class="da398-card da398-s12 da398-guide"><div><h3>Documents & Records</h3><p><b>YYYY-MM-DD - Organization - Item - Description.ext</b></p><p>Use the most precise date you can verify. If only month/year is known, the generator shortens the date instead of inventing one.</p></div><div><h3>Medical</h3><p><b>YYYY-MM-DD - Person - Provider - Record Type - Description.ext</b></p><p>Person comes before provider so records stay distinguishable when family members share providers.</p></div><div><h3>Photos & Home Videos</h3><p><b>YYYY-MM-DD - Event - Location or Description.ext</b></p><p>Log large sets as a Collection instead of creating one LCC record per photo.</p></div><div><h3>Receipts & Purchases</h3><p><b>YYYY-MM-DD - Merchant - Item - Description.ext</b></p><p>Add Warranty as a NAS tag when applicable rather than duplicating the file.</p></div><div><h3>Versions</h3><p>Use <b>Signed</b>, <b>Final</b>, or <b>v2</b> only when multiple legitimate versions must be retained. Do not add “final-final.”</p></div><div><h3>Registry Levels</h3><ul style="padding-left:18px"><li><b>Individual Record:</b> one important file = one record.</li><li><b>Collection:</b> one event/batch/album = one record plus item count.</li><li><b>Media Inventory:</b> movies/books/media that benefit from title-level tracking.</li></ul></div><div><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div><div><h3>Single Source of Truth</h3><p>Store the master file once. Use folders, NAS tags, and the LCC registry to find it instead of creating duplicates in multiple categories.</p></div></div></div>`};
-</script>
 
 
 <script id="lcc-v400-digital-library-final-override">
@@ -30541,10 +30539,10 @@ window.daRenderGuideGlobal = function(v,d){v.innerHTML=`<div class="da398-grid">
 </script>
 
 
-<script id="lcc-v400-fix6-digital-library-controller">
+<script id="lcc-v400-fix7-digital-library-controller">
 (function(){
-  if(window.__LCC_V400_FIX6__) return;
-  window.__LCC_V400_FIX6__ = true;
+  if(window.__LCC_V400_FIX7__) return;
+  window.__LCC_V400_FIX7__ = true;
 
   const EXTRA_TABS = [
     ['assistant','Digital Filing Assistant'],
@@ -30552,30 +30550,24 @@ window.daRenderGuideGlobal = function(v,d){v.innerHTML=`<div class="da398-grid">
     ['naming','Naming Guide']
   ];
 
-  const originalRender = (typeof renderDigitalLibrary==='function') ? renderDigitalLibrary : null;
-  const originalDlTab = (typeof dlTab==='function') ? dlTab : null;
+  const originalDlTab =
+    (typeof window.dlTab==='function') ? window.dlTab :
+    ((typeof dlTab==='function') ? dlTab : null);
 
-  function data(){
+  function getData(){
     try{
-      return typeof dlRecalc==='function' ? dlRecalc() : (typeof dl==='function' ? dl() : {});
-    }catch(e){ console.error(e); return {}; }
-  }
-
-  function shell(){
-    const el=document.getElementById('digital-body');
-    if(!el) return null;
-    const d=data();
-    let hero='', tabs='';
-    try{ hero=typeof dlHero==='function'?dlHero(d):''; }catch(e){console.error(e);}
-    try{ tabs=typeof dlTabs==='function'?dlTabs():'<div class="dl361-tabs"></div>'; }catch(e){console.error(e);tabs='<div class="dl361-tabs"></div>';}
-    el.innerHTML=hero+tabs+'<div id="dl361-view"></div>';
-    ensureTabs();
-    return {v:document.getElementById('dl361-view'),d};
+      return (typeof dlRecalc==='function') ? dlRecalc() :
+             ((typeof dl==='function') ? dl() : {});
+    }catch(e){
+      console.error('Digital Library data error',e);
+      return {};
+    }
   }
 
   function ensureTabs(){
     const tabs=document.querySelector('#digital-body .dl361-tabs');
     if(!tabs)return;
+
     EXTRA_TABS.forEach(([key,label])=>{
       let b=tabs.querySelector(`[data-v400-tab="${key}"]`);
       if(!b){
@@ -30596,45 +30588,81 @@ window.daRenderGuideGlobal = function(v,d){v.innerHTML=`<div class="da398-grid">
     });
   }
 
+  function buildShell(){
+    const el=document.getElementById('digital-body');
+    if(!el)return null;
+
+    const d=getData();
+    let hero='',tabs='';
+    try{hero=(typeof dlHero==='function')?dlHero(d):'';}catch(e){console.error(e);}
+    try{tabs=(typeof dlTabs==='function')?dlTabs():'<div class="dl361-tabs"></div>';}
+    catch(e){console.error(e);tabs='<div class="dl361-tabs"></div>';}
+
+    el.innerHTML=hero+tabs+'<div id="dl361-view"></div>';
+    ensureTabs();
+    return {v:document.getElementById('dl361-view'),d};
+  }
+
   function renderExtra(key){
     window.DL_TAB=DL_TAB=key;
-    const s=shell();
+    const s=buildShell();
     if(!s||!s.v)return;
+
     try{
       if(key==='assistant'){
-        if(typeof dlRenderFilingAssistant==='function') s.v.innerHTML=dlRenderFilingAssistant();
-        else s.v.innerHTML='<div class="panel"><div class="panel-b">Digital Filing Assistant could not initialize.</div></div>';
+        if(typeof dlRenderFilingAssistant==='function'){
+          s.v.innerHTML=dlRenderFilingAssistant();
+        }else{
+          s.v.innerHTML='<div class="panel"><div class="panel-b">Digital Filing Assistant could not initialize.</div></div>';
+        }
       }else if(key==='registry'){
-        if(typeof window.daRenderRegistryGlobal==='function') window.daRenderRegistryGlobal(s.v,s.d);
-        else s.v.innerHTML='<div class="panel"><div class="panel-b">Archive Registry renderer is unavailable.</div></div>';
+        // IMPORTANT: this function was exported FROM INSIDE the v398 IIFE,
+        // so it keeps access to all private helpers/constants via closure.
+        if(typeof window.daRenderRegistry==='function'){
+          window.daRenderRegistry(s.v,s.d);
+        }else{
+          s.v.innerHTML='<div class="panel"><div class="panel-b">Archive Registry renderer is unavailable.</div></div>';
+        }
       }else if(key==='naming'){
-        if(typeof window.daRenderGuideGlobal==='function') window.daRenderGuideGlobal(s.v,s.d);
-        else s.v.innerHTML='<div class="panel"><div class="panel-b">Naming Guide renderer is unavailable.</div></div>';
+        if(typeof window.daRenderGuide==='function'){
+          window.daRenderGuide(s.v,s.d);
+        }else{
+          s.v.innerHTML='<div class="panel"><div class="panel-b">Naming Guide renderer is unavailable.</div></div>';
+        }
       }
     }catch(err){
       console.error('v400 extra tab error',err);
       s.v.innerHTML='<div class="panel"><div class="panel-b"><b>Error:</b> '+String(err.message||err)+'</div></div>';
     }
+
     ensureTabs();
   }
 
-  // Intercept the new tabs directly; preserve built-in tabs unchanged.
+  // Only intercept the 3 added tabs. Built-in Digital Library tabs continue
+  // through the existing navigation path.
   window.dlTab=dlTab=function(key){
-    if(EXTRA_TABS.some(x=>x[0]===key)) return renderExtra(key);
-    window.DL_TAB=DL_TAB=key;
-    if(originalDlTab) {
-      const r=originalDlTab(key);
-      setTimeout(ensureTabs,0);
-      return r;
+    if(EXTRA_TABS.some(x=>x[0]===key)){
+      return renderExtra(key);
     }
-    if(originalRender) originalRender();
+
+    window.DL_TAB=DL_TAB=key;
+    if(originalDlTab){
+      const result=originalDlTab(key);
+      setTimeout(ensureTabs,0);
+      return result;
+    }
+
+    if(typeof renderDigitalLibrary==='function')renderDigitalLibrary();
     setTimeout(ensureTabs,0);
   };
 
-  const mo=new MutationObserver(()=>ensureTabs());
-  mo.observe(document.documentElement,{childList:true,subtree:true});
+  const observer=new MutationObserver(function(){
+    if(document.querySelector('#digital-body .dl361-tabs'))ensureTabs();
+  });
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+
   setTimeout(ensureTabs,0);
-  setTimeout(ensureTabs,300);
+  setTimeout(ensureTabs,250);
   setTimeout(ensureTabs,1000);
 })();
 </script>
