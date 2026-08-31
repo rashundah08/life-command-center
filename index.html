@@ -920,19 +920,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 </style>
 </head>
 <body>
-<!-- v400 FIX 7 — Archive Registry/Naming Guide now use the original v398 closure-preserving exported renderers, restoring access to registry helpers, filters, CSV import, naming rules, and lifecycle data. -->
-
-<!-- v400 FIX 6 — Registry/Naming renderer functions are now exported into global scope and invoked directly by the tabs. -->
-
-<!-- v400 FIX 5 — Archive Registry and Naming Guide now route through the original v398 renderer instead of calling private functions outside their IIFE scope. Bulk Add CSV remains inside Archive Registry. -->
-
-<!-- v400 FIX 4 — Permanent Digital Library controller: self-healing tabs for Digital Filing Assistant, Archive Registry, and Naming Guide; direct rendering no longer depends on wrapper order. -->
-
-<!-- v400 FIX 3 — Restored the user-facing Archive Registry name. Digital Filing Assistant, Archive Registry, and Naming Guide are separate Digital Library tabs. Internal registry storage remains unchanged. -->
-
-<!-- USER GUIDE: v400 — Digital Library includes Digital Filing Assistant, Digital Registry, and Naming Guide. -->
-<!-- CHANGE LOG: v400 FIX 2 — Corrected a JavaScript syntax error caused by release-note comments being inserted inside a printable HTML string. -->
-<!-- RELEASE NOTES: v400 FIX 2 — Restores normal LCC rendering while retaining the Digital Filing Assistant changes. -->
+<!-- v400 CLEAN — Rebuilt from stable v397. Digital Filing Assistant, Archive Registry, and Naming Guide are integrated directly into the native Digital Library tab list and renderer. No wrapper chaining or inherited v398/v399/v400 patch stack. -->
 
 <div class="app">
 <div class="sidebar" id="sidebar">
@@ -29099,8 +29087,8 @@ const DEFAULT_REQS=[
  {id:'dreq_tax',name:'Federal Tax Return',category:'Taxes',frequency:'Annual',physicalRequired:false,digitalRequired:true},
  {id:'dreq_taxsupport',name:'Tax Supporting Documents',category:'Taxes',frequency:'Annual',physicalRequired:false,digitalRequired:true}
 ];
-function dlBlank(){return {version:1,config:{nasName:'HOME-CLOUD',nasCapacityTB:8,driveCount:1,driveSizeTB:8,redundancy:'Single Drive — No Disk Redundancy',freeReservePct:20,quarantineDays:30,householdPeople:''},sources:[],migrations:[],photoCollections:[],photoItems:[],requirements:DEFAULT_REQS.map(x=>({...x})),documents:[],media:[],tvShows:[],tvEpisodes:[],books:[],devices:[],backups:[],users:[],assets:[],exceptions:[],inbox:[]};}
-function dl(){if(!S.digitalLibrary||typeof S.digitalLibrary!=='object')S.digitalLibrary=dlBlank();(S.items||[]).forEach(i=>{if(i&&i.type==='inventory'&&typeof i.digitalLibraryIds==='string')i.digitalLibraryIds=i.digitalLibraryIds.split(';').map(x=>x.trim()).filter(Boolean);if(i&&typeof i.linkedDigital==='string')i.linkedDigital=i.linkedDigital.split(';').map(x=>x.trim()).filter(Boolean);else if(i&&!Array.isArray(i.linkedDigital))i.linkedDigital=[]});const d=S.digitalLibrary;['sources','migrations','photoCollections','photoItems','requirements','documents','media','tvShows','tvEpisodes','books','devices','backups','users','assets','exceptions','inbox'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!d.config)d.config=dlBlank().config;if(!d.requirements.length)d.requirements=DEFAULT_REQS.map(x=>({...x}));return d;}
+function dlBlank(){return {version:1,config:{nasName:'HOME-CLOUD',nasCapacityTB:8,driveCount:1,driveSizeTB:8,redundancy:'Single Drive — No Disk Redundancy',freeReservePct:20,quarantineDays:30,householdPeople:''},sources:[],migrations:[],photoCollections:[],photoItems:[],requirements:DEFAULT_REQS.map(x=>({...x})),documents:[],media:[],tvShows:[],tvEpisodes:[],books:[],devices:[],backups:[],users:[],assets:[],exceptions:[],inbox:[],archiveRecords:[]};}
+function dl(){if(!S.digitalLibrary||typeof S.digitalLibrary!=='object')S.digitalLibrary=dlBlank();(S.items||[]).forEach(i=>{if(i&&i.type==='inventory'&&typeof i.digitalLibraryIds==='string')i.digitalLibraryIds=i.digitalLibraryIds.split(';').map(x=>x.trim()).filter(Boolean);if(i&&typeof i.linkedDigital==='string')i.linkedDigital=i.linkedDigital.split(';').map(x=>x.trim()).filter(Boolean);else if(i&&!Array.isArray(i.linkedDigital))i.linkedDigital=[]});const d=S.digitalLibrary;['sources','migrations','photoCollections','photoItems','requirements','documents','media','tvShows','tvEpisodes','books','devices','backups','users','assets','exceptions','inbox','archiveRecords'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!d.config)d.config=dlBlank().config;if(!d.requirements.length)d.requirements=DEFAULT_REQS.map(x=>({...x}));return d;}
 function dlUid(p){return p+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,6)}
 function dlNow(){return new Date().toISOString()}
 function dlToday(){return typeof today==='function'?today():new Date().toISOString().slice(0,10)}
@@ -29129,9 +29117,387 @@ function dlInjectShell(){
 }
 function dlTab(t){DL_TAB=t;renderDigitalLibrary()}
 function dlHero(d){const allGB=[...d.photoCollections,...d.media,...d.books,...d.assets].reduce((s,x)=>s+dlNum(x.sizeGB||x.fileSizeGB),0),mig=d.migrations.length?Math.round(d.migrations.filter(x=>x.status==='Complete').length/d.migrations.length*100):0,docs=dlDocStats(),att=dlNeeds().length,photos=d.photoItems.length,movies=d.media.filter(x=>x.mediaType==='Movie').length;return `<div class="dl361-hero"><div class="dl361-kicker">Home Cloud · Digital Life Source of Truth</div><div class="dl361-title">💾 Digital Library</div><div class="dl361-sub">Inventory what exists, migrate it safely, organize it consistently, track what is missing, and protect the digital copy without turning every file into an Action Item.</div><div class="dl361-mets"><div class="dl361-met"><b>${d.config.nasCapacityTB||8} TB</b><span>NAS Capacity</span></div><div class="dl361-met"><b>${allGB>=1024?(allGB/1024).toFixed(1)+' TB':Math.round(allGB)+' GB'}</b><span>Cataloged Size</span></div><div class="dl361-met"><b>${mig}%</b><span>Migration Complete</span></div><div class="dl361-met"><b>${photos.toLocaleString()}</b><span>Photo Items</span></div><div class="dl361-met"><b>${movies}</b><span>Digital Movies</span></div><div class="dl361-met"><b>${att}</b><span>Needs Attention</span></div></div><div style="margin-top:10px;font-size:10px;opacity:.85">${d.config.driveCount<2?'⚠️ '+dle(d.config.redundancy||'Single Drive — No Disk Redundancy'):'🟢 '+dle(d.config.redundancy||'Redundancy Active')} · Important documents ${docs.complete}/${docs.expected} expected records satisfied</div></div>`}
-function dlTabs(){const t=[['overview','Overview'],['sources','Sources'],['migration','Migration'],['photos','Photos & Memories'],['documents','Important Documents'],['media','Media'],['books','Books & Reading'],['devices','Devices & Backups'],['family','Family Access'],['assets','Digital Assets'],['inbox','Inbox'],['attention','Needs Attention'],['settings','Settings']];return `<div class="dl361-tabs">${t.map(x=>`<button class="dl361-tab${DL_TAB===x[0]?' active':''}" onclick="dlTab('${x[0]}')">${x[1]}</button>`).join('')}</div>`}
-function renderDigitalLibrary(){const el=document.getElementById('digital-body');if(!el)return;const d=dlRecalc();el.innerHTML=dlHero(d)+dlTabs()+`<div id="dl361-view"></div>`;const v=document.getElementById('dl361-view');({overview:dlOverview,sources:dlSources,migration:dlMigrations,photos:dlPhotos,documents:dlDocuments,media:dlMedia,books:dlBooks,devices:dlDevices,family:dlFamily,assets:dlAssets,inbox:dlInbox,attention:dlAttention,settings:dlSettings}[DL_TAB]||dlOverview)(v,d)}
-function dlOverview(v,d){const docs=dlDocStats(),src=d.sources.slice(0,6),att=dlNeeds().slice(0,8),photoDone=d.photoCollections.filter(x=>x.progress===100).length,del=d.migrations.filter(x=>x.deleteEligible&&!x.sourceDeleted).length,backup=d.migrations.filter(x=>x.backedUp).length;v.innerHTML=`<div class="dl361-grid"><div class="dl361-card dl361-s3"><h3>Migration</h3><div class="dl361-big">${d.migrations.filter(x=>x.status==='Complete').length}/${d.migrations.length}</div><div class="dl361-small">collections complete · ${del} delete eligible</div></div><div class="dl361-card dl361-s3"><h3>Photos</h3><div class="dl361-big">${photoDone}/${d.photoCollections.length}</div><div class="dl361-small">collections reconciled</div></div><div class="dl361-card dl361-s3"><h3>Documents</h3><div class="dl361-big">${docs.pct}%</div><div class="dl361-small">expected requirements satisfied</div></div><div class="dl361-card dl361-s3"><h3>Protection</h3><div class="dl361-big">${backup}</div><div class="dl361-small">migration collections backed up</div></div><div class="dl361-card dl361-s6"><h3>Sources</h3>${src.length?src.map(s=>`<div class="dl361-row"><div class="dl361-main"><div class="dl361-name">${dle(s.name)}</div><div class="dl361-meta">${dle(s.sourceType||'')} · ${dlNum(s.estimatedSizeGB)} GB · ${dlNum(s.itemCount).toLocaleString()} items</div><div class="dl361-progress"><i style="width:${s.progress||0}%"></i></div></div><span class="dl361-pill ${s.cleared?'ok':'purple'}">${s.progress||0}%</span></div>`).join(''):'<div class="dl361-empty">No sources inventoried yet.</div>'}</div><div class="dl361-card dl361-s6"><h3>Needs Attention</h3>${att.length?att.map(a=>`<div class="dl361-row dl361-attn"><div class="dl361-main"><div class="dl361-name">${dle(a.name)}</div><div class="dl361-meta">${dle(a.why)}</div></div><button class="btn xs" onclick="dlOpenRecord('${a.kind}','${a.id}')">Open</button><button class="btn xs" onclick="dlCreateTask('${a.kind}','${a.id}')">Create Task</button></div>`).join(''):'<div class="dl361-empty">Nothing currently needs attention. 🎉</div>'}</div><div class="dl361-card dl361-s12"><h3>Quick Start</h3><div class="dl361-tools"><button class="btn primary" onclick="dlOpenForm('source')">+ Source</button><button class="btn" onclick="dlOpenForm('photo')">+ Photo Collection</button><button class="btn" onclick="dlOpenForm('document')">+ Important Document</button><button class="btn" onclick="dlOpenForm('movie')">+ Digital Movie</button><button class="btn" onclick="dlOpenForm('book')">+ Digital Book</button><button class="btn" onclick="dlDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="dlExportExcel()">📊 Export Excel</button></div></div></div>`}
+function dlTabs(){const t=[['overview','Overview'],['sources','Sources'],['migration','Migration'],['photos','Photos & Memories'],['documents','Important Documents'],['media','Media'],['books','Books & Reading'],['devices','Devices & Backups'],['family','Family Access'],['assets','Digital Assets'],['inbox','Inbox'],['attention','Needs Attention'],['settings','Settings'],['assistant','Digital Filing Assistant'],['registry','Archive Registry'],['naming','Naming Guide']];return `<div class="dl361-tabs">${t.map(x=>`<button class="dl361-tab${DL_TAB===x[0]?' active':''}" onclick="dlTab('${x[0]}')">${x[1]}</button>`).join('')}</div>`}
+function renderDigitalLibrary(){const el=document.getElementById('digital-body');if(!el)return;const d=dlRecalc();el.innerHTML=dlHero(d)+dlTabs()+`<div id="dl361-view"></div>`;const v=document.getElementById('dl361-view');({overview:dlOverview,sources:dlSources,migration:dlMigrations,photos:dlPhotos,documents:dlDocuments,media:dlMedia,books:dlBooks,devices:dlDevices,family:dlFamily,assets:dlAssets,inbox:dlInbox,attention:dlAttention,settings:dlSettings,assistant:v400FilingAssistant,registry:v400ArchiveRegistry,naming:v400NamingGuide}[DL_TAB]||dlOverview)(v,d)}
+
+/* =========================================================
+   v400 CLEAN DIGITAL LIBRARY EXTENSIONS
+   Built directly into v397 base. No wrapper chaining.
+   ========================================================= */
+
+const V400_ROOTS=[
+'00 INBOX & REVIEW','01 RASHUNDA','02 RAVYN','03 JACOBY',
+'04 HOUSEHOLD & FAMILY','05 PHOTOS & VIDEOS','06 MEDIA LIBRARY',
+'07 FAMILY & GENEALOGY','08 TECHNOLOGY & SYSTEMS',
+'09 REFERENCE LIBRARY','10 BUSINESS'
+];
+const V400_LEVELS=['Individual Record','Collection','Media Inventory'];
+const V400_TYPES=['Document / Record','Statement','Receipt / Purchase','Medical Record','Legal Document','Education Record','Photo Collection','Video / Home Movie','Project File','Letter / Correspondence','Manual / Warranty','Data Export','Other'];
+
+function v400Esc(v){return dle(v??'')}
+function v400Yes(v){return /^(yes|true|1|y)$/i.test(String(v||'').trim())}
+function v400CsvQ(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+
+function v400Filename(x){
+  const parts=[];
+  if(x.documentDate)parts.push(x.documentDate);
+  if(x.organization)parts.push(x.organization);
+  if(x.owner && !parts.includes(x.owner))parts.push(x.owner);
+  parts.push(x.itemName||x.description||'Untitled');
+  if(x.versionLabel)parts.push(x.versionLabel);
+  let base=parts.filter(Boolean).join(' - ').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim();
+  const ext=String(x.fileExtension||'').replace(/^\./,'').trim();
+  return base+(ext?'.'+ext:'');
+}
+function v400RecommendedFolder(x){
+  const t=(x.itemType||'').toLowerCase();
+  const o=(x.owner||'').toLowerCase();
+  const org=(x.organization||'').toLowerCase();
+  const cat=(x.category||'').toLowerCase();
+  const n=(x.itemName||'').toLowerCase();
+  const src=(x.originalSource||'').toLowerCase();
+
+  if(cat.includes('business')||org.includes('savvy')||org.includes('rla')||org.includes('notary')||org.includes('mocha sky'))return '10 BUSINESS';
+  if(t.includes('photo')||t.includes('video')||cat.includes('photo'))return '05 PHOTOS & VIDEOS';
+  if(t.includes('media')||cat.includes('media')||cat.includes('movie')||cat.includes('book'))return '06 MEDIA LIBRARY';
+  if(cat.includes('genealogy')||n.includes('genealogy')||n.includes('family tree'))return '07 FAMILY & GENEALOGY';
+  if(cat.includes('household')||cat.includes('home')||cat.includes('property')||cat.includes('family'))return '04 HOUSEHOLD & FAMILY';
+  if(o.includes('ravyn'))return '02 RAVYN';
+  if(o.includes('jacoby')||o.includes('coby'))return '03 JACOBY';
+  if(o.includes('rashunda'))return '01 RASHUNDA';
+  if(cat.includes('technology')||src.includes('icloud')||src.includes('google drive export')||cat.includes('device'))return '08 TECHNOLOGY & SYSTEMS';
+  if(cat.includes('reference')||t.includes('manual'))return '09 REFERENCE LIBRARY';
+  return '00 INBOX & REVIEW/01 New - Unfiled';
+}
+function v400RecommendedTags(x){
+  const out=[];
+  const s=((x.itemName||'')+' '+(x.description||'')+' '+(x.category||'')).toLowerCase();
+  if(s.includes('tax'))out.push('Tax');
+  if(s.includes('warranty'))out.push('Warranty');
+  if(s.includes('legal')||s.includes('will')||s.includes('estate'))out.push('Legal');
+  if(s.includes('genealogy')||s.includes('family tree'))out.push('Genealogy Source');
+  if(x.verified)out.push('Verified');
+  if(x.backedUp)out.push('Backed Up');
+  return [...new Set(out)];
+}
+function v400Life(x){
+  return [
+    x.located?'Located':null,
+    x.copiedToNas?'Copied':null,
+    x.named?'Named':null,
+    x.filed?'Filed':null,
+    x.verified?'Verified':null,
+    x.backedUp?'Backed Up':null,
+    x.deleteEligible?'Delete Eligible':null
+  ].filter(Boolean).join(' → ')||'Not Started';
+}
+function v400Stats(d){
+  const a=d.archiveRecords||[];
+  return {
+    total:a.length,
+    filed:a.filter(x=>x.filed).length,
+    verified:a.filter(x=>x.verified).length,
+    backed:a.filter(x=>x.backedUp).length
+  };
+}
+
+/* ---------- Filing Assistant ---------- */
+function v400FilingAssistant(v,d){
+  v.innerHTML=`<div class="dl361-grid">
+    <div class="dl361-card dl361-s12">
+      <h3>Digital Filing Assistant</h3>
+      <div class="dl361-small">Identify → Generate Name → Recommend Folder → Recommend Tags → Save to Archive Registry</div>
+    </div>
+    <div class="dl361-card dl361-s6">
+      <label class="dl361-small">Item Type</label>
+      <select id="v400-fa-type" class="input">${V400_TYPES.map(x=>`<option>${v400Esc(x)}</option>`).join('')}</select>
+      <label class="dl361-small">Owner / Person</label>
+      <input id="v400-fa-owner" class="input" placeholder="Rashunda, Ravyn, Jacoby, Household">
+      <label class="dl361-small">Organization / Source</label>
+      <input id="v400-fa-org" class="input" placeholder="Employer, school, bank, provider, etc.">
+      <label class="dl361-small">Date</label>
+      <input id="v400-fa-date" type="date" class="input">
+      <label class="dl361-small">Item Name</label>
+      <input id="v400-fa-name" class="input" placeholder="What is this file?">
+      <label class="dl361-small">Description</label>
+      <input id="v400-fa-desc" class="input" placeholder="Optional extra detail">
+      <label class="dl361-small">Category / Context</label>
+      <input id="v400-fa-cat" class="input" placeholder="Taxes, Education, Home, Business, etc.">
+      <label class="dl361-small">Extension</label>
+      <input id="v400-fa-ext" class="input" value="pdf">
+      <div style="margin-top:12px"><button class="btn primary" onclick="v400GenerateRecommendation()">Generate Recommendation</button></div>
+    </div>
+    <div class="dl361-card dl361-s6">
+      <h3>Recommendation</h3>
+      <div class="dl361-small">Filename</div><div id="v400-fa-out-name" class="dl361-path">—</div>
+      <div class="dl361-small" style="margin-top:12px">NAS Folder</div><div id="v400-fa-out-folder" class="dl361-path">—</div>
+      <div class="dl361-small" style="margin-top:12px">Tags</div><div id="v400-fa-out-tags">—</div>
+      <div style="margin-top:16px"><button class="btn primary" onclick="v400SaveAssistant()">Save to Archive Registry</button> <button class="btn" onclick="v400ClearAssistant()">Clear</button></div>
+    </div>
+  </div>`;
+}
+function v400AssistantData(){
+  return {
+    recordLevel:'Individual Record',
+    itemType:document.getElementById('v400-fa-type')?.value||'Document / Record',
+    owner:document.getElementById('v400-fa-owner')?.value||'',
+    organization:document.getElementById('v400-fa-org')?.value||'',
+    documentDate:document.getElementById('v400-fa-date')?.value||'',
+    itemName:document.getElementById('v400-fa-name')?.value||'',
+    description:document.getElementById('v400-fa-desc')?.value||'',
+    category:document.getElementById('v400-fa-cat')?.value||'',
+    fileExtension:document.getElementById('v400-fa-ext')?.value||'pdf',
+    itemCount:1,
+    originalSource:'',
+    located:false,copiedToNas:false,named:true,filed:false,verified:false,backedUp:false,deleteEligible:false
+  };
+}
+function v400GenerateRecommendation(){
+  const x=v400AssistantData();
+  x.generatedFilename=v400Filename(x);
+  x.nasFolder=v400RecommendedFolder(x);
+  x.nasTags=v400RecommendedTags(x);
+  const a=document.getElementById('v400-fa-out-name'),b=document.getElementById('v400-fa-out-folder'),c=document.getElementById('v400-fa-out-tags');
+  if(a)a.textContent=x.generatedFilename;
+  if(b)b.textContent=x.nasFolder;
+  if(c)c.textContent=x.nasTags.join(', ')||'None';
+  window.V400_LAST_ASSIST=x;
+}
+function v400SaveAssistant(){
+  if(!window.V400_LAST_ASSIST)v400GenerateRecommendation();
+  const x={...(window.V400_LAST_ASSIST||v400AssistantData())};
+  x.id=dlUid('arc');
+  x.createdAt=dlNow();
+  dl().archiveRecords.push(x);
+  dlSave('Saved to Archive Registry');
+  DL_TAB='registry';
+  renderDigitalLibrary();
+}
+function v400ClearAssistant(){DL_TAB='assistant';renderDigitalLibrary()}
+
+/* ---------- Archive Registry ---------- */
+let V400_REG_Q='',V400_REG_ROOT='',V400_REG_STATUS='';
+
+function v400ArchiveRegistry(v,d){
+  const a=(d.archiveRecords||[]).filter(x=>{
+    const q=V400_REG_Q.trim().toLowerCase();
+    const hay=[x.generatedFilename,x.itemName,x.description,x.owner,x.organization,x.nasFolder,x.originalSource,(x.nasTags||[]).join(' ')].join(' ').toLowerCase();
+    if(q&&!hay.includes(q))return false;
+    if(V400_REG_ROOT&&String(x.nasFolder||'').split('/')[0]!==V400_REG_ROOT)return false;
+    if(V400_REG_STATUS==='Filed'&&!x.filed)return false;
+    if(V400_REG_STATUS==='Verified'&&!x.verified)return false;
+    if(V400_REG_STATUS==='Backed Up'&&!x.backedUp)return false;
+    if(V400_REG_STATUS==='Needs Filing'&&x.filed)return false;
+    return true;
+  });
+  const s=v400Stats(d);
+
+  v.innerHTML=`
+    <div class="dl361-tools">
+      <button class="btn primary" onclick="v400OpenRecord()">+ Add Registry Record</button>
+      <button class="btn" onclick="v400BulkImport()">📥 Bulk Add CSV</button>
+      <button class="btn" onclick="v400DownloadTemplate()">⬇ CSV Template</button>
+      <button class="btn" onclick="v400ExportRegistry()">⬇ Export Registry</button>
+    </div>
+    <div class="dl361-grid" style="margin-bottom:12px">
+      <div class="dl361-card dl361-s3"><h3>Registry Records</h3><div class="dl361-big">${s.total}</div></div>
+      <div class="dl361-card dl361-s3"><h3>Filed to NAS</h3><div class="dl361-big">${s.filed}</div></div>
+      <div class="dl361-card dl361-s3"><h3>Verified</h3><div class="dl361-big">${s.verified}</div></div>
+      <div class="dl361-card dl361-s3"><h3>Backed Up</h3><div class="dl361-big">${s.backed}</div></div>
+    </div>
+    <div class="dl361-tools">
+      <input class="input" style="min-width:220px" placeholder="Search registry…" value="${v400Esc(V400_REG_Q)}" oninput="V400_REG_Q=this.value;v400RefreshRegistry()">
+      <select class="input" onchange="V400_REG_ROOT=this.value;v400RefreshRegistry()"><option value="">All folders</option>${V400_ROOTS.map(x=>`<option ${V400_REG_ROOT===x?'selected':''}>${v400Esc(x)}</option>`).join('')}</select>
+      <select class="input" onchange="V400_REG_STATUS=this.value;v400RefreshRegistry()"><option value="">All statuses</option>${['Needs Filing','Filed','Verified','Backed Up'].map(x=>`<option ${V400_REG_STATUS===x?'selected':''}>${x}</option>`).join('')}</select>
+    </div>
+    <div class="dl361-table-wrap"><table class="dl361-table">
+      <thead><tr><th>Generated Filename</th><th>Level</th><th>Type</th><th>Owner</th><th>Organization</th><th>NAS Folder</th><th>Original Source</th><th>Items</th><th>Tags</th><th>Lifecycle</th><th></th></tr></thead>
+      <tbody>${a.length?a.map(x=>`<tr>
+        <td><b>${v400Esc(x.generatedFilename||v400Filename(x))}</b></td>
+        <td>${v400Esc(x.recordLevel||'')}</td><td>${v400Esc(x.itemType||'')}</td><td>${v400Esc(x.owner||'')}</td>
+        <td>${v400Esc(x.organization||'')}</td><td><span class="dl361-path">${v400Esc(x.nasFolder||'')}</span></td>
+        <td>${v400Esc(x.originalSource||'')}</td><td>${Number(x.itemCount||1).toLocaleString()}</td>
+        <td>${(x.nasTags||[]).map(t=>`<span class="dl361-pill purple">${v400Esc(t)}</span>`).join(' ')}</td>
+        <td>${v400Esc(v400Life(x))}</td><td><button class="btn xs" onclick="v400OpenRecord('${x.id}')">Edit</button></td>
+      </tr>`).join(''):'<tr><td colspan="11"><div class="dl361-empty">No Archive Registry records yet. Add one manually or use Bulk Add CSV.</div></td></tr>'}</tbody>
+    </table></div>`;
+}
+function v400RefreshRegistry(){const v=document.getElementById('dl361-view');if(v)v400ArchiveRegistry(v,dlRecalc())}
+
+function v400OpenRecord(id){
+  const d=dl(),old=(d.archiveRecords||[]).find(x=>x.id===id);
+  const x=old?{...old}:{id:dlUid('arc'),recordLevel:'Individual Record',itemType:'Document / Record',fileExtension:'pdf',itemCount:1,nasTags:[],located:false,copiedToNas:false,named:false,filed:false,verified:false,backedUp:false,deleteEligible:false};
+  const ov=document.createElement('div');ov.className='overlay';ov.id='v400-reg-modal';
+  ov.innerHTML=`<div class="modal" style="max-width:820px"><div class="modal-head"><h2>${old?'Edit':'Add'} Archive Registry Record</h2><button class="xbtn" onclick="document.getElementById('v400-reg-modal').remove()">×</button></div>
+  <div class="modal-body"><div class="form-grid">
+    <label>Registry Level<select id="v400-r-level" class="input">${V400_LEVELS.map(o=>`<option ${x.recordLevel===o?'selected':''}>${o}</option>`).join('')}</select></label>
+    <label>Item Type<select id="v400-r-type" class="input">${V400_TYPES.map(o=>`<option ${x.itemType===o?'selected':''}>${o}</option>`).join('')}</select></label>
+    <label>Owner / Person<input id="v400-r-owner" class="input" value="${v400Esc(x.owner||'')}"></label>
+    <label>Organization / Source<input id="v400-r-org" class="input" value="${v400Esc(x.organization||'')}"></label>
+    <label>Date<input id="v400-r-date" type="date" class="input" value="${v400Esc(x.documentDate||'')}"></label>
+    <label>Item Name<input id="v400-r-name" class="input" value="${v400Esc(x.itemName||'')}"></label>
+    <label>Description<input id="v400-r-desc" class="input" value="${v400Esc(x.description||'')}"></label>
+    <label>Category / Context<input id="v400-r-cat" class="input" value="${v400Esc(x.category||'')}"></label>
+    <label>File Extension<input id="v400-r-ext" class="input" value="${v400Esc(x.fileExtension||'pdf')}"></label>
+    <label>Original Storage Source<input id="v400-r-source" class="input" value="${v400Esc(x.originalSource||'')}"></label>
+    <label>Item Count<input id="v400-r-count" type="number" min="1" class="input" value="${Number(x.itemCount||1)}"></label>
+    <label>NAS Folder Path<input id="v400-r-folder" class="input" value="${v400Esc(x.nasFolder||'')}"></label>
+    <label style="grid-column:1/-1">NAS Tags<input id="v400-r-tags" class="input" value="${v400Esc((x.nasTags||[]).join('; '))}" placeholder="Separate with semicolons"></label>
+    <label><input id="v400-r-located" type="checkbox" ${x.located?'checked':''}> Located</label>
+    <label><input id="v400-r-copied" type="checkbox" ${x.copiedToNas?'checked':''}> Copied to NAS</label>
+    <label><input id="v400-r-named" type="checkbox" ${x.named?'checked':''}> Filename Standardized</label>
+    <label><input id="v400-r-filed" type="checkbox" ${x.filed?'checked':''}> Filed</label>
+    <label><input id="v400-r-verified" type="checkbox" ${x.verified?'checked':''}> Verified</label>
+    <label><input id="v400-r-backed" type="checkbox" ${x.backedUp?'checked':''}> Backed Up</label>
+    <label><input id="v400-r-delete" type="checkbox" ${x.deleteEligible?'checked':''}> Original Delete Eligible</label>
+  </div></div>
+  <div class="modal-foot">${old?`<button class="btn danger" style="margin-right:auto" onclick="v400DeleteRecord('${x.id}')">Delete</button>`:''}<button class="btn" onclick="document.getElementById('v400-reg-modal').remove()">Cancel</button><button class="btn primary" onclick="v400SaveRecord('${old?x.id:''}')">Save Record</button></div></div>`;
+  document.body.appendChild(ov);
+}
+function v400Field(id){return document.getElementById(id)}
+function v400SaveRecord(id){
+  const d=dl(),old=id?d.archiveRecords.find(x=>x.id===id):null;
+  const x=old||{id:dlUid('arc'),createdAt:dlNow()};
+  x.recordLevel=v400Field('v400-r-level').value;
+  x.itemType=v400Field('v400-r-type').value;
+  x.owner=v400Field('v400-r-owner').value.trim();
+  x.organization=v400Field('v400-r-org').value.trim();
+  x.documentDate=v400Field('v400-r-date').value;
+  x.itemName=v400Field('v400-r-name').value.trim();
+  x.description=v400Field('v400-r-desc').value.trim();
+  x.category=v400Field('v400-r-cat').value.trim();
+  x.fileExtension=v400Field('v400-r-ext').value.trim();
+  x.originalSource=v400Field('v400-r-source').value.trim();
+  x.itemCount=Math.max(1,parseInt(v400Field('v400-r-count').value)||1);
+  x.nasFolder=v400Field('v400-r-folder').value.trim()||v400RecommendedFolder(x);
+  x.nasTags=v400Field('v400-r-tags').value.split(/[;,]/).map(s=>s.trim()).filter(Boolean);
+  x.located=v400Field('v400-r-located').checked;
+  x.copiedToNas=v400Field('v400-r-copied').checked;
+  x.named=v400Field('v400-r-named').checked;
+  x.filed=v400Field('v400-r-filed').checked;
+  x.verified=v400Field('v400-r-verified').checked;
+  x.backedUp=v400Field('v400-r-backed').checked;
+  x.deleteEligible=v400Field('v400-r-delete').checked;
+  x.generatedFilename=v400Filename(x);
+  if(!old)d.archiveRecords.push(x);
+  document.getElementById('v400-reg-modal')?.remove();
+  dlSave('Archive Registry record saved');
+  renderDigitalLibrary();
+}
+function v400DeleteRecord(id){
+  if(!confirm('Delete this Archive Registry record?'))return;
+  const d=dl();d.archiveRecords=d.archiveRecords.filter(x=>x.id!==id);
+  document.getElementById('v400-reg-modal')?.remove();
+  dlSave('Archive Registry record deleted');
+  renderDigitalLibrary();
+}
+
+/* ---------- CSV ---------- */
+const V400_CSV_HEADERS=['Registry Level','Item Type','Top-Level Category','Subcategory','Person/Owner','Organization/Source','Document/Event Date','Date Precision','Document/Item/Event Name','Description','Version','File Extension','Original Storage Source','Item Count','NAS Folder Path','NAS Tags','Located','Copied to NAS','Filename Standardized','Filed','Verified','Backed Up','Original Delete Eligible','Notes'];
+function v400Download(name,text){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type:'text/csv'}));
+  a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function v400DownloadTemplate(){v400Download('LCC-Archive-Registry-Bulk-Add-v400.csv',V400_CSV_HEADERS.map(v400CsvQ).join(',')+'\n')}
+function v400ParseCsv(text){
+  const rows=[];let row=[],cell='',q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i],n=text[i+1];
+    if(c==='"'){
+      if(q&&n==='"'){cell+='"';i++}else q=!q;
+    }else if(c===','&&!q){row.push(cell);cell='';}
+    else if((c==='\n'||c==='\r')&&!q){
+      if(c==='\r'&&n==='\n')i++;
+      row.push(cell);cell='';
+      if(row.some(x=>String(x).trim()!==''))rows.push(row);
+      row=[];
+    }else cell+=c;
+  }
+  if(cell||row.length){row.push(cell);if(row.some(x=>String(x).trim()!==''))rows.push(row);}
+  return rows;
+}
+function v400BulkImport(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.csv,text/csv';
+  inp.onchange=e=>{
+    const f=e.target.files?.[0];if(!f)return;
+    const fr=new FileReader();
+    fr.onload=ev=>{
+      try{
+        const rows=v400ParseCsv(String(ev.target.result||''));
+        if(rows.length<2)return alert('CSV has no data rows.');
+        const h=rows.shift().map(x=>x.trim().toLowerCase());
+        const ix=n=>h.indexOf(n.toLowerCase());
+        const g=(r,n)=>{const i=ix(n);return i>=0?String(r[i]??'').trim():''};
+        const d=dl();let count=0;
+        rows.forEach(r=>{
+          const itemName=g(r,'Document/Item/Event Name'),desc=g(r,'Description');
+          if(!itemName&&!desc)return;
+          const x={
+            id:dlUid('arc'),createdAt:dlNow(),
+            recordLevel:g(r,'Registry Level')||'Individual Record',
+            itemType:g(r,'Item Type')||'Document / Record',
+            category:g(r,'Top-Level Category'),
+            subcategory:g(r,'Subcategory'),
+            owner:g(r,'Person/Owner'),
+            organization:g(r,'Organization/Source'),
+            documentDate:g(r,'Document/Event Date'),
+            datePrecision:g(r,'Date Precision')||'Exact Date',
+            itemName,description:desc,
+            versionLabel:g(r,'Version'),
+            fileExtension:g(r,'File Extension')||'pdf',
+            originalSource:g(r,'Original Storage Source'),
+            itemCount:Math.max(1,parseInt(g(r,'Item Count'))||1),
+            nasFolder:g(r,'NAS Folder Path'),
+            nasTags:g(r,'NAS Tags').split(/[;,]/).map(s=>s.trim()).filter(Boolean),
+            located:v400Yes(g(r,'Located')),
+            copiedToNas:v400Yes(g(r,'Copied to NAS')),
+            named:v400Yes(g(r,'Filename Standardized')),
+            filed:v400Yes(g(r,'Filed')),
+            verified:v400Yes(g(r,'Verified')),
+            backedUp:v400Yes(g(r,'Backed Up')),
+            deleteEligible:v400Yes(g(r,'Original Delete Eligible')),
+            notes:g(r,'Notes')
+          };
+          if(!x.nasFolder)x.nasFolder=v400RecommendedFolder(x);
+          if(!x.nasTags.length)x.nasTags=v400RecommendedTags(x);
+          x.generatedFilename=v400Filename(x);
+          d.archiveRecords.push(x);count++;
+        });
+        dlSave('Imported '+count+' Archive Registry records');
+        renderDigitalLibrary();
+      }catch(err){alert('Archive Registry import failed: '+err.message)}
+    };
+    fr.readAsText(f);
+  };
+  inp.click();
+}
+function v400ExportRegistry(){
+  const rows=(dl().archiveRecords||[]).map(x=>[
+    x.recordLevel,x.itemType,x.category,x.subcategory,x.owner,x.organization,x.documentDate,x.datePrecision,
+    x.itemName,x.description,x.versionLabel,x.fileExtension,x.originalSource,x.itemCount,x.nasFolder,
+    (x.nasTags||[]).join('; '),x.located?'Yes':'No',x.copiedToNas?'Yes':'No',x.named?'Yes':'No',
+    x.filed?'Yes':'No',x.verified?'Yes':'No',x.backedUp?'Yes':'No',x.deleteEligible?'Yes':'No',x.notes
+  ]);
+  v400Download('LCC-Archive-Registry-'+dlToday()+'.csv',[V400_CSV_HEADERS,...rows].map(r=>r.map(v400CsvQ).join(',')).join('\n'));
+}
+
+/* ---------- Naming Guide ---------- */
+function v400NamingGuide(v,d){
+  v.innerHTML=`<div class="dl361-grid">
+    <div class="dl361-card dl361-s12"><h3>NAS Naming Guide</h3><div class="dl361-small">These are the same rules used by the Digital Filing Assistant and Archive Registry.</div></div>
+    <div class="dl361-card dl361-s6"><h3>Documents & Records</h3><div class="dl361-path">YYYY-MM-DD - Organization - Item - Description.ext</div><p class="dl361-small">Use the most precise verified date. Do not invent missing dates.</p></div>
+    <div class="dl361-card dl361-s6"><h3>Medical</h3><div class="dl361-path">YYYY-MM-DD - Person - Provider - Record Type - Description.ext</div></div>
+    <div class="dl361-card dl361-s6"><h3>Photos & Home Videos</h3><div class="dl361-path">YYYY-MM-DD - Event - Location or Description.ext</div><p class="dl361-small">Large sets should be logged as Collections rather than one record per image.</p></div>
+    <div class="dl361-card dl361-s6"><h3>Receipts & Purchases</h3><div class="dl361-path">YYYY-MM-DD - Merchant - Item - Description.ext</div><p class="dl361-small">Use Warranty as a tag when applicable.</p></div>
+    <div class="dl361-card dl361-s6"><h3>Registry Levels</h3><p><b>Individual Record</b> — one important file.<br><b>Collection</b> — one batch/event/folder plus item count.<br><b>Media Inventory</b> — title-level media tracking.</p></div>
+    <div class="dl361-card dl361-s6"><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div>
+    <div class="dl361-card dl361-s12"><h3>Folder Rule</h3><p>Store the master file once. Use the NAS hierarchy, tags, and Archive Registry to find it rather than creating duplicate copies.</p></div>
+  </div>`;
+}
+/* END v400 CLEAN DIGITAL LIBRARY EXTENSIONS */
+
+function dlOverview(v,d){const docs=dlDocStats(),src=d.sources.slice(0,6),att=dlNeeds().slice(0,8),photoDone=d.photoCollections.filter(x=>x.progress===100).length,del=d.migrations.filter(x=>x.deleteEligible&&!x.sourceDeleted).length,backup=d.migrations.filter(x=>x.backedUp).length;v.innerHTML=`<div class="dl361-grid"><div class="dl361-card dl361-s3"><h3>Migration</h3><div class="dl361-big">${d.migrations.filter(x=>x.status==='Complete').length}/${d.migrations.length}</div><div class="dl361-small">collections complete · ${del} delete eligible</div></div><div class="dl361-card dl361-s3"><h3>Photos</h3><div class="dl361-big">${photoDone}/${d.photoCollections.length}</div><div class="dl361-small">collections reconciled</div></div><div class="dl361-card dl361-s3"><h3>Documents</h3><div class="dl361-big">${docs.pct}%</div><div class="dl361-small">expected requirements satisfied</div></div><div class="dl361-card dl361-s3"><h3>Protection</h3><div class="dl361-big">${backup}</div><div class="dl361-small">migration collections backed up</div></div><div class="dl361-card dl361-s6"><h3>Sources</h3>${src.length?src.map(s=>`<div class="dl361-row"><div class="dl361-main"><div class="dl361-name">${dle(s.name)}</div><div class="dl361-meta">${dle(s.sourceType||'')} · ${dlNum(s.estimatedSizeGB)} GB · ${dlNum(s.itemCount).toLocaleString()} items</div><div class="dl361-progress"><i style="width:${s.progress||0}%"></i></div></div><span class="dl361-pill ${s.cleared?'ok':'purple'}">${s.progress||0}%</span></div>`).join(''):'<div class="dl361-empty">No sources inventoried yet.</div>'}</div><div class="dl361-card dl361-s6"><h3>Needs Attention</h3>${att.length?att.map(a=>`<div class="dl361-row dl361-attn"><div class="dl361-main"><div class="dl361-name">${dle(a.name)}</div><div class="dl361-meta">${dle(a.why)}</div></div><button class="btn xs" onclick="dlOpenRecord('${a.kind}','${a.id}')">Open</button><button class="btn xs" onclick="dlCreateTask('${a.kind}','${a.id}')">Create Task</button></div>`).join(''):'<div class="dl361-empty">Nothing currently needs attention. 🎉</div>'}</div><div class="dl361-card dl361-s12"><h3>Quick Start</h3><div class="dl361-tools"><button class="btn primary" onclick="DL_TAB='assistant';renderDigitalLibrary()">🗂️ Filing Assistant</button><button class="btn" onclick="DL_TAB='registry';renderDigitalLibrary()">Archive Registry</button><button class="btn primary" onclick="dlOpenForm('source')">+ Source</button><button class="btn" onclick="dlOpenForm('photo')">+ Photo Collection</button><button class="btn" onclick="dlOpenForm('document')">+ Important Document</button><button class="btn" onclick="dlOpenForm('movie')">+ Digital Movie</button><button class="btn" onclick="dlOpenForm('book')">+ Digital Book</button><button class="btn" onclick="dlDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="dlExportExcel()">📊 Export Excel</button></div></div></div>`}
 function dlSources(v,d){v.innerHTML=dlListToolbar('source','Source','sources')+`<div class="dl361-grid">${d.sources.length?d.sources.map(s=>`<div class="dl361-card dl361-s4"><div style="display:flex;justify-content:space-between;gap:8px"><div><h3>${dle(s.sourceType||'Source')}</h3><div class="dl361-name">${dle(s.name)}</div></div><span class="dl361-pill ${s.cleared?'ok':'purple'}">${s.cleared?'Cleared':(s.progress||0)+'%'}</span></div><div class="dl361-meta" style="margin-top:8px">${dlNum(s.estimatedSizeGB)} GB · ${dlNum(s.itemCount).toLocaleString()} items · ${dle(s.dateRange||'No date range')}</div><div class="dl361-progress"><i style="width:${s.progress||0}%"></i></div><div style="margin-top:9px"><button class="btn xs" onclick="dlOpenForm('source','${s.id}')">Edit</button> <button class="btn xs" onclick="dlOpenForm('migration',null,{sourceId:'${s.id}'})">+ Migration</button></div></div>`).join(''):`<div class="dl361-card dl361-s12"><div class="dl361-empty">Add Google Photos, Google Drive, devices, physical albums, external drives, DVDs, and other sources here.</div></div>`}</div>`}
 function dlListToolbar(kind,label,tab){return `<div class="dl361-tools"><button class="btn primary" onclick="dlOpenForm('${kind}')">+ ${label}</button><button class="btn" onclick="dlBulkImport('${tab}')">📥 Bulk Import CSV</button><button class="btn" onclick="dlDownloadTemplate('${tab}')">⬇ Template</button><button class="btn" onclick="dlExportExcel()">📊 Export Excel</button></div>`}
 function dlMigrations(v,d){v.innerHTML=dlListToolbar('migration','Migration','migrations')+`<div class="dl361-table-wrap"><table class="dl361-table"><thead><tr><th>ID</th><th>Source</th><th>Collection</th><th>Type</th><th>Expected</th><th>Destination</th><th>Copied</th><th>Verified</th><th>Backup</th><th>Delete</th><th>Status</th><th></th></tr></thead><tbody>${d.migrations.map(m=>`<tr><td>${dle(m.id)}</td><td>${dle(dlSourceName(m.sourceId))}</td><td><b>${dle(m.name)}</b><br><small>${dle(m.dateRange||'')}</small></td><td>${dle(m.contentType||'')}</td><td>${dlNum(m.expectedCount)} / ${dlNum(m.destinationCount)}</td><td><span class="dl361-path">${dle(m.destination||'')}</span></td><td>${m.copied?'✅':'⬜'}</td><td>${m.verified?'✅':'⬜'}</td><td>${m.backedUp?'✅':'⬜'}</td><td>${m.deleteEligible?'🟢 Eligible':'🔴 Keep'}</td><td><span class="dl361-pill ${m.status==='Complete'?'ok':m.deleteEligible?'warn':'purple'}">${dle(m.status)}</span></td><td><button class="btn xs" onclick="dlOpenForm('migration','${m.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="12"><div class="dl361-empty">No migration collections yet.</div></td></tr>'}</tbody></table></div>`}
@@ -30053,630 +30419,15 @@ RELEASE NOTES: v393 — Release-count correction only. Existing Release records 
 <!-- CHANGE LOG: v395 — Repaired the global shell at its source: replaced 100vh sizing with fixed inset sizing, made sidebar/main explicitly fill the shell, and physically removed the obsolete v390 layout override instead of stacking another patch. -->
 <!-- RELEASE NOTES: v395 — Global layout/white-space stabilization only. No Release Action Item is auto-created; Release records remain manual. -->
 
-<!-- USER GUIDE: v397 — Dead-code cleanup only. Removed obsolete refresh-only compatibility scripts and no-op Inventory wrappers/helpers that no longer perform any user-facing function. No features, records, or saved data were intentionally changed. -->
-<!-- CHANGE LOG: v397 — Physically removed the retired v379 Master Plan refresh shim, retired v390 four-issue refresh shim, the v383 no-op Inventory save wrapper, and unused/no-op v389 Inventory helper/timer. -->
-<!-- RELEASE NOTES: v397 — Controlled dead-code audit pass. Release records remain fully manual and no Release Action Item is auto-created. -->
+<!-- USER GUIDE: v400 — Dead-code cleanup only. Removed obsolete refresh-only compatibility scripts and no-op Inventory wrappers/helpers that no longer perform any user-facing function. No features, records, or saved data were intentionally changed. -->
+<!-- CHANGE LOG: v400 — Physically removed the retired v379 Master Plan refresh shim, retired v390 four-issue refresh shim, the v383 no-op Inventory save wrapper, and unused/no-op v389 Inventory helper/timer. -->
+<!-- RELEASE NOTES: v400 — Controlled dead-code audit pass. Release records remain fully manual and no Release Action Item is auto-created. -->
 
-<script id="lcc-v397-regression-cleanup">
-/* v397 — regression stabilization. Release lifecycle is core-status-only.
+<script id="lcc-v400-regression-cleanup">
+/* v400 — regression stabilization. Release lifecycle is core-status-only.
    Removed remaining Release Status/Test Result dependencies from parking, linking, bulk add,
    completed-release changelog, sprint display, and legacy record normalization. */
 </script>
-<style id="lcc-v398-digital-archive-style">
-.da399-assist{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin:0 0 12px}.da399-path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.45;word-break:break-word}.da399-hint{font-size:10px;color:var(--txt3);margin-top:4px}
-.da398-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.da398-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px;box-shadow:var(--sh)}.da398-s3{grid-column:span 3}.da398-s4{grid-column:span 4}.da398-s6{grid-column:span 6}.da398-s12{grid-column:1/-1}.da398-tools{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center}.da398-table-wrap{overflow:auto;border:1px solid var(--bdr);border-radius:var(--rl);background:var(--card)}.da398-table{width:100%;border-collapse:collapse;font-size:11px;min-width:1280px}.da398-table th,.da398-table td{padding:8px;border-bottom:1px solid var(--bdr);text-align:left;vertical-align:top}.da398-table th{background:var(--soft);font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:var(--txt2);position:sticky;top:0}.da398-path,.da398-name{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:10.5px;word-break:break-all}.da398-name{font-weight:700;color:var(--navy)}.da398-badge{display:inline-block;padding:2px 7px;border-radius:12px;background:var(--soft);color:var(--txt2);font-size:9px;margin:1px 2px 1px 0}.da398-ok{background:#E1F5EE;color:#0A5E47}.da398-warn{background:#FEF3C7;color:#92400E}.da398-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.da398-guide h3{font-size:13px;color:var(--navy);margin-bottom:5px}.da398-guide p,.da398-guide li{font-size:11px;color:var(--txt2);line-height:1.55}.da398-preview{background:#F8F5FF;border:1px solid #D8CBE6;border-radius:var(--r);padding:10px 12px;margin:5px 0 12px;font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all;color:var(--navy)}.da398-formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.da398-formgrid .full{grid-column:1/-1}.da398-checks{display:flex;gap:12px;flex-wrap:wrap;padding:8px 0}.da398-filter{padding:7px 9px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--card);font:inherit;color:var(--txt)}@media(max-width:760px){.da398-s3,.da398-s4,.da398-s6{grid-column:1/-1}.da398-guide,.da398-formgrid{grid-template-columns:1fr}.da398-formgrid .full{grid-column:auto}}
-</style>
-
-<script id="lcc-v399-filing-assistant">
-(function(){
-  const ROOTS=['00 INBOX & REVIEW','01 RASHUNDA','02 RAVYN','03 JACOBY','04 HOUSEHOLD & FAMILY','05 PHOTOS & VIDEOS','06 MEDIA LIBRARY','07 FAMILY & GENEALOGY','08 TECHNOLOGY & SYSTEMS','09 REFERENCE LIBRARY','10 BUSINESS'];
-
-  const PERSONAL={
-    'Identification & Vital Records':['Birth Certificate','Social Security','Driver License & State ID','Passport','Marriage Records','Name Change Records','Maiden Name Records','Voter Records','Certified Copies','Other Identification'],
-    'Medical & Health':['Medical History','Primary Care','Specialists','Dental','Vision','Prescriptions','Labs','Imaging','Procedures & Surgeries','Hospital & ER','Vaccinations','Therapy & Mental Wellness','Medical Devices','Health Tracking','Provider Records'],
-    'Financial':['Banking','Credit Cards','Loans & Debt','Taxes','Retirement','Investments','Income','Credit','Savings','Receipts & Purchase Records','Financial Planning','Closed Accounts'],
-    'Insurance':['Health','Dental','Vision','Life','Disability','Supplemental'],
-    'Legal & Estate':['Estate Planning','Contracts & Agreements','Court Records','Attorney Correspondence','Settlements','Notarized Documents','Legal Notices','Intellectual Property','Closed Matters'],
-    'Employment & Career':['Employers','Resume & CV','Cover Letters','Professional Bio','Portfolio','Certifications','Continuing Education','Professional Development','Job Searches','References','Networking'],
-    'Education':['Elementary School','Middle School','High School','Colleges & Universities','Certifications & Licenses','Personal Curriculum'],
-    'Vehicles & Transportation':['Current Vehicles','Previous Vehicles','Driver Records','Toll Records'],
-    'Creative & Personal Projects':['Active Projects','Canva','Digital Planner','Printables & Stickers','Crafts','Writing','Design Assets','Ideas & Inspiration','Completed Projects'],
-    'Personal Records & Life History':['Journals','Planners','Calendars','Goals','Annual Reviews','Personal Development','Spirituality','Hobbies & Interests','Memberships','Organizations','Awards & Recognition','Correspondence','Personal Writing','Bucket Lists & Life Lists','Life Timeline','Keepsakes - Digital']
-  };
-
-  const BUSINESS=['Savvy Foundations','RLA','Savvy Structure','Mocha Sky Travel','Notary Business','Previous Businesses'];
-  const BUSINESS_SECTIONS=['Formation & Legal','Finance & Accounting','Taxes','Insurance','Banking','Brand','Offers & Services','Products','Clients','Contracts','Marketing','Content','Sales','Operations','SOPs','Technology','Vendors','Analytics','Projects'];
-  const EMPLOYER_SECTIONS=['Offer & Hiring','Job Description','Compensation','Benefits','Performance Reviews','Promotions','Training','Certifications','Awards & Recognition','PTO','Payroll & Pay Statements','Correspondence','Separation'];
-  const COLLEGE_SECTIONS=['Admissions','Financial Aid','Registration','Degree Program','Courses','Grades','Transcripts','Billing & Payments','Academic Advising','Correspondence','Graduation','Other Records'];
-  const GRADE_SECTIONS=['Report Cards','Testing','Activities & Clubs','Awards & Achievements','Schoolwork & Projects','Other Records'];
-
-  function norm(s){return String(s||'').trim().toLowerCase()}
-  function ownerRoot(owner){
-    const o=norm(owner);
-    if(o.includes('ravyn')) return '02 RAVYN';
-    if(o.includes('jacoby')) return '03 JACOBY';
-    if(o.includes('house')||o.includes('family')||o.includes('joint')) return '04 HOUSEHOLD & FAMILY';
-    return '01 RASHUNDA';
-  }
-  function containsAny(s,arr){s=norm(s);return arr.some(x=>s.includes(x))}
-  function recommend(x){
-    const hay=[x.itemType,x.category,x.subcategory,x.itemName,x.description,x.organization].join(' ').toLowerCase();
-    let root=ownerRoot(x.owner), parts=[];
-
-    if(containsAny(hay,['photo','picture','image','video','home movie'])){
-      root='05 PHOTOS & VIDEOS';
-      const year=(x.documentDate||'').slice(0,4)||'YEAR';
-      parts=['01 Master Photo Archive',year];
-      return [root,...parts].join(' / ');
-    }
-    if(containsAny(hay,['movie','tv show','television','music','ebook','audiobook','book','podcast'])){
-      root='06 MEDIA LIBRARY';
-      if(containsAny(hay,['movie'])) parts=['01 Movies'];
-      else if(containsAny(hay,['tv show','television'])) parts=['02 TV Shows'];
-      else if(containsAny(hay,['music'])) parts=['03 Music'];
-      else if(containsAny(hay,['book','ebook','audiobook'])) parts=['04 Books'];
-      else parts=['05 Podcasts & Audio'];
-      return [root,...parts].join(' / ');
-    }
-    if(containsAny(hay,['genealogy','ancestor','census','cemetery','burial','dna match','probate','family tree','oral history'])){
-      root='07 FAMILY & GENEALOGY';
-      if(hay.includes('census')) parts=['03 Census Records'];
-      else if(containsAny(hay,['cemetery','burial'])) parts=['04 Cemetery & Burial'];
-      else if(hay.includes('dna')) parts=['07 DNA & Matches'];
-      else if(hay.includes('oral history')) parts=['08 Oral Histories'];
-      else if(hay.includes('family tree')) parts=['01 Family Trees'];
-      else parts=['14 Source Documents'];
-      return [root,...parts].join(' / ');
-    }
-    if(containsAny(hay,['nas','router','wi-fi','wifi','computer','phone backup','tablet','smart home','software license','icloud','cloud storage','device backup','lcc'])){
-      root='08 TECHNOLOGY & SYSTEMS';
-      if(hay.includes('nas')) parts=['01 NAS'];
-      else if(hay.includes('computer')) parts=['02 Computers'];
-      else if(hay.includes('phone')) parts=['03 Phones'];
-      else if(hay.includes('tablet')) parts=['04 Tablets'];
-      else if(hay.includes('smart home')) parts=['05 Smart Home'];
-      else if(containsAny(hay,['router','wi-fi','wifi','network'])) parts=['06 Networking'];
-      else if(containsAny(hay,['software','license'])) parts=['07 Software & Licenses'];
-      else if(containsAny(hay,['icloud','cloud storage'])) parts=['09 Cloud Storage Records'];
-      else if(hay.includes('backup')) parts=['11 Device Backups'];
-      else if(hay.includes('lcc')) parts=['12 LCC'];
-      else parts=[];
-      return [root,...parts].join(' / ');
-    }
-    if(containsAny(hay,['savvy foundations','rla','savvy structure','mocha sky','notary business'])){
-      root='10 BUSINESS';
-      let biz=BUSINESS.find(b=>hay.includes(b.toLowerCase()))||'Savvy Foundations';
-      let sec=BUSINESS_SECTIONS.find(s=>hay.includes(s.toLowerCase()));
-      return [root,biz,sec].filter(Boolean).join(' / ');
-    }
-
-    if(root==='04 HOUSEHOLD & FAMILY'){
-      if(containsAny(hay,['mortgage','deed','property','home','hoa','utility','appliance','warranty','contractor','renovation','repair','pest','floor plan'])){
-        parts=['01 Home & Property','Current Home'];
-        if(hay.includes('mortgage')) parts.push('Mortgage');
-        else if(containsAny(hay,['deed','property record'])) parts.push('Deed & Property Records');
-        else if(hay.includes('hoa')) parts.push('HOA');
-        else if(hay.includes('utility')) parts.push('Utilities');
-        else if(hay.includes('appliance')) parts.push('Appliances');
-        else if(hay.includes('warranty')) parts.push('Warranties');
-        else if(hay.includes('contractor')) parts.push('Contractors');
-        else if(hay.includes('renovation')) parts.push('Renovations');
-        else if(hay.includes('repair')) parts.push('Repairs & Maintenance');
-      } else if(containsAny(hay,['homeowners','umbrella','auto insurance'])) parts=['03 Household Insurance'];
-      else if(containsAny(hay,['family recipe','cookbook'])) parts=[hay.includes('cookbook')?'08 Family Cookbook':'07 Family Recipes'];
-      else if(containsAny(hay,['trip','travel','cruise','flight','hotel','itinerary','reservation','ticket'])) parts=['10 Family Travel & Experiences'];
-      else parts=['05 Family Administration'];
-      return [root,...parts].join(' / ');
-    }
-
-    if(containsAny(hay,['birth certificate','social security','driver license','state id','passport','marriage record','name change','maiden','voter'])){
-      parts=['01 Identification & Vital Records'];
-      if(hay.includes('birth certificate')) parts.push('Birth Certificate');
-      else if(hay.includes('social security')) parts.push('Social Security');
-      else if(containsAny(hay,['driver license','state id'])) parts.push('Driver License & State ID');
-      else if(hay.includes('passport')) parts.push('Passport');
-      else if(hay.includes('marriage')) parts.push('Marriage Records');
-      else if(hay.includes('name change')) parts.push('Name Change Records');
-      else if(hay.includes('maiden')) parts.push('Maiden Name Records');
-      else if(hay.includes('voter')) parts.push('Voter Records');
-    } else if(containsAny(hay,['medical','doctor','provider','lab','imaging','surgery','hospital','dental','vision','prescription','vaccination','therapy'])){
-      parts=['02 Medical & Health'];
-      if(hay.includes('lab')) parts.push('Labs');
-      else if(hay.includes('imaging')) parts.push('Imaging');
-      else if(containsAny(hay,['surgery','procedure'])) parts.push('Procedures & Surgeries');
-      else if(hay.includes('hospital')) parts.push('Hospital & ER');
-      else if(hay.includes('dental')) parts.push('Dental');
-      else if(hay.includes('vision')) parts.push('Vision');
-      else if(hay.includes('prescription')) parts.push('Prescriptions');
-      else if(hay.includes('vaccination')) parts.push('Vaccinations');
-      else if(hay.includes('therapy')) parts.push('Therapy & Mental Wellness');
-      else parts.push('Provider Records');
-    } else if(containsAny(hay,['tax','bank','credit card','loan','retirement','401k','ira','investment','w-2','1099','credit report','savings'])){
-      parts=['03 Financial'];
-      if(hay.includes('tax')) parts.push('Taxes');
-      else if(hay.includes('bank')) parts.push('Banking');
-      else if(hay.includes('credit card')) parts.push('Credit Cards');
-      else if(hay.includes('loan')) parts.push('Loans & Debt');
-      else if(containsAny(hay,['401k','ira','retirement'])) parts.push('Retirement');
-      else if(hay.includes('investment')) parts.push('Investments');
-      else if(containsAny(hay,['w-2','1099'])) parts.push('Income');
-      else if(hay.includes('credit report')) parts.push('Credit');
-      else if(hay.includes('savings')) parts.push('Savings');
-    } else if(containsAny(hay,['insurance','policy','claim','beneficiary'])){
-      parts=['04 Insurance'];
-      if(hay.includes('health')) parts.push('Health');
-      else if(hay.includes('dental')) parts.push('Dental');
-      else if(hay.includes('vision')) parts.push('Vision');
-      else if(hay.includes('life')) parts.push('Life');
-    } else if(containsAny(hay,['will','trust','power of attorney','legal','court','attorney','settlement','notarized'])){
-      parts=['05 Legal & Estate'];
-    } else if(containsAny(hay,['employer','employment','job','resume','performance review','promotion','pay statement','payroll','pto','offer letter'])){
-      parts=['06 Employment & Career'];
-      if(x.organization) parts.push('Employers',x.organization);
-    } else if(containsAny(hay,['school','education','grade ','report card','transcript','college','university','fafsa','scholarship','diploma','degree','course'])){
-      parts=['07 Education'];
-      if(containsAny(hay,['college','university','degree','course']) && x.organization) parts.push('Colleges & Universities',x.organization);
-      else if(containsAny(hay,['grade 12','senior'])) parts.push('High School','Grade 12 - Senior');
-      else if(containsAny(hay,['grade 11','junior'])) parts.push('High School','Grade 11 - Junior');
-      else if(containsAny(hay,['grade 10','sophomore'])) parts.push('High School','Grade 10 - Sophomore');
-      else if(containsAny(hay,['grade 09','grade 9','freshman'])) parts.push('High School','Grade 09 - Freshman');
-    } else if(containsAny(hay,['vehicle','car','registration','title','toll','tire','inspection'])){
-      parts=['08 Vehicles & Transportation'];
-    } else {
-      parts=['11 Personal Records & Life History'];
-    }
-    return [root,...parts].join(' / ');
-  }
-
-  window.da399Recommend=recommend;
-  window.da399Roots=ROOTS;
-  window.da399Personal=PERSONAL;
-  window.da399EmployerSections=EMPLOYER_SECTIONS;
-  window.da399CollegeSections=COLLEGE_SECTIONS;
-  window.da399GradeSections=GRADE_SECTIONS;
-})();
-</script>
-
-<script id="lcc-v400-filing-assistant-ui">
-(function(){
-  function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-  function field(id,label,placeholder,type){
-    type=type||'text';
-    return `<label style="display:block;margin-bottom:10px"><div style="font-size:11px;color:var(--txt3);margin-bottom:4px">${label}</div><input id="${id}" type="${type}" placeholder="${esc(placeholder||'')}" style="width:100%"></label>`;
-  }
-
-  window.dlRenderFilingAssistant=function(){
-    return `
-      <div class="panel">
-        <div class="panel-h">
-          <div>
-            <div class="panel-title">🗂️ Digital Filing Assistant</div>
-            <div class="muted">Enter what you know once. LCC will generate a standardized name, recommend one permanent NAS folder, suggest useful tags, and save the item into the Archive Registry.</div>
-          </div>
-        </div>
-        <div class="panel-b">
-          <div class="da399-assist" style="margin-bottom:14px">
-            <b>How it works</b>
-            <div class="da399-hint">Identify → Name → Recommend Folder → Recommend Tags → Save to Archive Registry</div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
-            ${field('dfa-owner','Person / Owner','Rashunda, Ravyn, Jacoby, Household, Joint')}
-            ${field('dfa-type','Item Type','Tax Return, Passport, Warranty, Photo, Course, Contract...')}
-            ${field('dfa-category','Category','Financial, Education, Home, Business...')}
-            ${field('dfa-subcategory','Subcategory','Taxes, Grade 12, Appliances...')}
-            ${field('dfa-name','Document / Item / Event Name','2026 Federal Tax Return')}
-            ${field('dfa-org','Organization / Source','IRS, University, Samsung...')}
-            ${field('dfa-date','Document / Event Date','YYYY-MM-DD','date')}
-            ${field('dfa-ext','File Extension','pdf')}
-            ${field('dfa-source','Original Storage Source','Google Drive, iCloud, Computer...')}
-            ${field('dfa-desc','Description','Optional detail')}
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px">
-            <div class="da399-assist">
-              <b>Recommended Filename</b>
-              <div id="dfa-filename" class="da399-path" style="margin-top:6px">Enter item details above.</div>
-            </div>
-            <div class="da399-assist">
-              <b>Recommended NAS Folder</b>
-              <div id="dfa-path" class="da399-path" style="margin-top:6px">Enter item details above.</div>
-            </div>
-            <div class="da399-assist">
-              <b>Recommended Tags</b>
-              <div id="dfa-tags" style="margin-top:6px">Enter item details above.</div>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
-            <button class="btn" onclick="dfaGenerate()">Generate Recommendation</button>
-            <button class="btn pri" onclick="dfaSaveToRegistry()">Save to Archive Registry</button>
-            <button class="btn" onclick="dfaClear()">Clear</button>
-          </div>
-
-          <div class="da399-hint" style="margin-top:10px">No generic Archive destination is used. If an item cannot be confidently classified, it should route to 00 INBOX & REVIEW for a decision—not to an archive bucket.</div>
-        </div>
-      </div>`;
-  };
-
-  function val(id){const e=document.getElementById(id);return e?e.value.trim():''}
-  function payload(){
-    return {
-      owner:val('dfa-owner'),
-      itemType:val('dfa-type'),
-      category:val('dfa-category'),
-      subcategory:val('dfa-subcategory'),
-      itemName:val('dfa-name'),
-      organization:val('dfa-org'),
-      documentDate:val('dfa-date'),
-      extension:val('dfa-ext').replace(/^\./,''),
-      originalSource:val('dfa-source'),
-      description:val('dfa-desc')
-    };
-  }
-  function filename(x){
-    const bits=[];
-    if(x.documentDate) bits.push(x.documentDate);
-    if(x.organization) bits.push(x.organization);
-    if(x.itemName) bits.push(x.itemName);
-    else if(x.itemType) bits.push(x.itemType);
-    let base=bits.filter(Boolean).join(' - ') || 'Untitled Item';
-    base=base.replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,' ').trim();
-    return base + (x.extension ? '.'+x.extension : '');
-  }
-  function tags(x){
-    const out=[];
-    const hay=[x.itemType,x.category,x.subcategory,x.itemName,x.description].join(' ').toLowerCase();
-    if(/tax|irs/.test(hay)) out.push('Tax');
-    if(/legal|contract|court|will|trust|power of attorney/.test(hay)) out.push('Legal');
-    if(/warranty|manual|appliance/.test(hay)) out.push('Warranty');
-    if(/genealog|census|ancestor|probate/.test(hay)) out.push('Genealogy Source');
-    if(/review|unknown|missing/.test(hay)) out.push('Review');
-    if(/passport|birth certificate|social security|deed|will|trust/.test(hay)) out.push('Keep Forever');
-    if(!out.length) out.push('Important');
-    return [...new Set(out)];
-  }
-
-  window.dfaGenerate=function(){
-    const x=payload();
-    const p=window.da399Recommend?window.da399Recommend(x):'';
-    const fn=filename(x), tg=tags(x);
-    const fe=document.getElementById('dfa-filename'), pe=document.getElementById('dfa-path'), te=document.getElementById('dfa-tags');
-    if(fe)fe.textContent=fn;
-    if(pe)pe.textContent=p||'00 INBOX & REVIEW / 01 New / Unfiled';
-    if(te)te.textContent=tg.join(' • ');
-    window.dfaLast={...x,filename:fn,path:p||'00 INBOX & REVIEW / 01 New / Unfiled',tags:tg};
-  };
-
-  window.dfaClear=function(){
-    ['dfa-owner','dfa-type','dfa-category','dfa-subcategory','dfa-name','dfa-org','dfa-date','dfa-ext','dfa-source','dfa-desc'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
-    ['dfa-filename','dfa-path','dfa-tags'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='Enter item details above.'});
-    window.dfaLast=null;
-  };
-
-  window.dfaSaveToRegistry=function(){
-    dfaGenerate();
-    const x=window.dfaLast||{};
-    try{
-      if(!window.S) return alert('LCC data store is not available.');
-      if(!S.digitalLibrary) S.digitalLibrary={};
-      if(!Array.isArray(S.digitalLibrary.archiveRecords)) S.digitalLibrary.archiveRecords=[];
-      const rec={
-        id:'DAR-'+Date.now(),
-        registryLevel:'Individual Record',
-        itemType:x.itemType||'',
-        category:x.category||'',
-        subcategory:x.subcategory||'',
-        owner:x.owner||'',
-        nameOnRecord:x.owner||'',
-        organization:x.organization||'',
-        documentDate:x.documentDate||'',
-        datePrecision:x.documentDate?'Exact':'Unknown',
-        itemName:x.itemName||x.itemType||'',
-        description:x.description||'',
-        versionLabel:'',
-        fileExtension:x.extension||'',
-        originalSource:x.originalSource||'',
-        itemCount:1,
-        nasFolder:x.path||'',
-        nasTags:(x.tags||[]),
-        notes:'',
-        located:false,copiedToNas:false,named:true,filed:false,verified:false,backedUp:false,deleteEligible:false,
-        generatedFilename:x.filename||''
-      };
-      S.digitalLibrary.archiveRecords.push(rec);
-      if(typeof save==='function') save();
-      alert('Saved to Archive Registry.');
-      if(typeof render==='function') render();
-    }catch(err){
-      console.error(err);
-      alert('Could not save to Archive Registry: '+err.message);
-    }
-  };
-})();
-</script>
-
-
-<script id="lcc-v398-digital-archive-registry">
-(function(){
-  if(window.__LCC_V398_DA__)return; window.__LCC_V398_DA__=true;
-  const DA_CATS=['00 INBOX & REVIEW','01 RASHUNDA','02 RAVYN','03 JACOBY','04 HOUSEHOLD & FAMILY','05 PHOTOS & VIDEOS','06 MEDIA LIBRARY','07 FAMILY & GENEALOGY','08 TECHNOLOGY & SYSTEMS','09 REFERENCE LIBRARY','10 BUSINESS'];
-  const DA_TYPES=['Document / Record','Statement','Receipt / Purchase','Medical Record','Legal Document','Education Record','Photo Collection','Video / Home Movie','Project File','Letter / Correspondence','Manual / Warranty','Data Export','Other'];
-  const DA_LEVELS=['Individual Record','Collection','Media Inventory'];
-  const DA_PREC=['Exact Date','Month Known','Year Known','No Useful Date'];
-  const DA_EXT=['pdf','jpg','jpeg','png','heic','docx','xlsx','csv','txt','zip','mp4','mov','mkv','epub','m4b','other'];
-  const DA_TAGS=['Critical','Action Needed','Review','Verified','Backed Up','Keep Forever','Important','Temporary','Tax','Warranty','Legal','Genealogy Source','Family History','LCC Reference'];
-  const _dl=window.dl||dl;
-  window.dl=dl=function(){const d=_dl();if(!Array.isArray(d.archiveRecords))d.archiveRecords=[];return d};
-  function E(v){return typeof dle==='function'?dle(v):String(v??'').replace(/[&<>\"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[s]||s))}
-  function uid(){return 'ARC-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,6)}
-  function today(){return new Date().toISOString().slice(0,10)}
-  function clean(s){return String(s||'').trim().replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ')}
-  function datePart(x){const d=String(x.documentDate||'');if(x.datePrecision==='Exact Date')return d;if(x.datePrecision==='Month Known')return d.slice(0,7);if(x.datePrecision==='Year Known')return d.slice(0,4);return ''}
-  function daFilename(x){
-    const dt=datePart(x), owner=clean(x.owner), org=clean(x.organization), item=clean(x.itemName||x.documentType||'Item'), desc=clean(x.description), ver=clean(x.versionLabel), ext=clean(x.fileExtension||'pdf').replace(/^\./,'')||'pdf';
-    let p=[];
-    if(x.itemType==='Photo Collection'||x.itemType==='Video / Home Movie')p=[dt,item,org||desc,org&&desc?desc:'',owner,ver];
-    else if(x.itemType==='Medical Record')p=[dt,owner,org,item,desc,ver];
-    else p=[dt,org,item,desc,owner,ver];
-    p=p.filter(Boolean);return (p.length?p.join(' - '):'Untitled')+'.'+ext;
-  }
-  function daFullPath(x){const folder=String(x.nasFolder||'').trim().replace(/[\\]+/g,'/').replace(/\/+$/,'');return (folder?folder+'/':'')+(x.generatedFilename||daFilename(x))}
-  function tagsArr(x){return Array.isArray(x.nasTags)?x.nasTags:String(x.nasTags||'').split(/[;,]/).map(s=>s.trim()).filter(Boolean)}
-  function recalc(x){x.generatedFilename=daFilename(x);x.fullPath=daFullPath(x);x.updatedAt=new Date().toISOString();return x}
-  const _tabs=window.dlTabs||dlTabs;
-  window.dlTabs=dlTabs=function(){let h=_tabs();if(!h.includes("dlTab('registry')"))h=h.replace("<button class=\"dl361-tab",`<button class="dl361-tab${DL_TAB==='registry'?' active':''}" onclick="dlTab('registry')">Archive Registry</button><button class="dl361-tab${DL_TAB==='naming'?' active':''}" onclick="dlTab('naming')">Naming Guide</button><button class="dl361-tab`);return h};
-  const _render=window.renderDigitalLibrary||renderDigitalLibrary;
-  window.renderDigitalLibrary=renderDigitalLibrary=function(){if(DL_TAB!=='registry'&&DL_TAB!=='naming')return _render();const el=document.getElementById('digital-body');if(!el)return;const d=dlRecalc();el.innerHTML=dlHero(d)+dlTabs()+'<div id="dl361-view"></div>';const v=document.getElementById('dl361-view');if(DL_TAB==='registry')daRenderRegistry(v,d);else daRenderGuide(v,d)};
-  function daStats(d){const a=d.archiveRecords||[];return {total:a.length,individual:a.filter(x=>x.recordLevel==='Individual Record').length,collections:a.filter(x=>x.recordLevel==='Collection').length,filed:a.filter(x=>x.filed).length,verified:a.filter(x=>x.verified).length,backed:a.filter(x=>x.backedUp).length}}
-  window.DA398_FILTER={q:'',cat:'',owner:'',status:''};
-  function filtered(d){const f=window.DA398_FILTER,q=f.q.toLowerCase();return (d.archiveRecords||[]).filter(x=>(!q||[x.generatedFilename,x.itemName,x.description,x.organization,x.owner,x.nasFolder,x.originalSource,tagsArr(x).join(' ')].join(' ').toLowerCase().includes(q))&&(!f.cat||x.category===f.cat)&&(!f.owner||x.owner===f.owner)&&(!f.status||(f.status==='Filed'?x.filed:f.status==='Verified'?x.verified:f.status==='Backed Up'?x.backedUp:!x.filed))).sort((a,b)=>String(b.documentDate||b.createdAt||'').localeCompare(String(a.documentDate||a.createdAt||'')))}
-  function daRenderRegistry(v,d){const s=daStats(d),owners=[...new Set((d.archiveRecords||[]).map(x=>x.owner).filter(Boolean))].sort(),a=filtered(d);v.innerHTML=`<div class="da398-tools"><button class="btn primary" onclick="daOpen()">+ Add Registry Record</button><button class="btn" onclick="daBulkImport()">📥 Bulk Add CSV</button><button class="btn" onclick="daDownloadTemplate()">⬇ CSV Template</button><button class="btn" onclick="daExportCsv()">⬇ Export Registry</button></div><div class="da398-grid" style="margin-bottom:12px"><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.total}</b><div class="dl361-small">Registry records</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.filed}</b><div class="dl361-small">Filed to NAS</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.verified}</b><div class="dl361-small">Verified</div></div><div class="da398-card da398-s3"><b style="font-size:24px;color:var(--navy)">${s.backed}</b><div class="dl361-small">Backed up</div></div></div><div class="da398-tools"><input class="da398-filter" style="min-width:220px;flex:1" placeholder="Search filename, person, source, folder, tag…" value="${E(DA398_FILTER.q)}" oninput="DA398_FILTER.q=this.value;renderDigitalLibrary()"><select class="da398-filter" onchange="DA398_FILTER.cat=this.value;renderDigitalLibrary()"><option value="">All folders</option>${DA_CATS.map(c=>`<option ${DA398_FILTER.cat===c?'selected':''}>${E(c)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.owner=this.value;renderDigitalLibrary()"><option value="">All owners</option>${owners.map(o=>`<option ${DA398_FILTER.owner===o?'selected':''}>${E(o)}</option>`).join('')}</select><select class="da398-filter" onchange="DA398_FILTER.status=this.value;renderDigitalLibrary()"><option value="">All statuses</option>${['Needs Filing','Filed','Verified','Backed Up'].map(o=>`<option ${DA398_FILTER.status===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="da398-table-wrap"><table class="da398-table"><thead><tr><th>Generated Filename</th><th>Level</th><th>Item Type</th><th>Owner</th><th>Source</th><th>NAS Folder</th><th>Original Source</th><th>Items</th><th>Tags</th><th>Lifecycle</th><th></th></tr></thead><tbody>${a.map(x=>`<tr><td class="da398-name">${E(x.generatedFilename||daFilename(x))}</td><td>${E(x.recordLevel||'')}</td><td>${E(x.itemType||'')}</td><td>${E(x.owner||'')}</td><td>${E(x.organization||'')}</td><td class="da398-path">${E(x.nasFolder||'')}</td><td>${E(x.originalSource||'')}</td><td>${Number(x.itemCount||1).toLocaleString()}</td><td>${tagsArr(x).map(t=>`<span class="da398-badge">${E(t)}</span>`).join('')}</td><td>${x.located?'📍':''}${x.copiedToNas?' 📥':''}${x.named?' 🏷️':''}${x.filed?' 📁':''}${x.verified?' ✅':''}${x.backedUp?' ☁️':''}</td><td><button class="btn xs" onclick="daOpen('${x.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="11"><div class="dl361-empty">No archive records yet. Add an individual record or collection, or use Bulk Add CSV.</div></td></tr>'}</tbody></table></div>`}
-  function daRenderGuide(v,d){v.innerHTML=`<div class="da398-grid"><div class="da398-card da398-s12"><h3 style="font-size:17px;color:var(--navy);margin-bottom:5px">NAS Naming Convention · One-Page Guide</h3><div class="dl361-small">The Archive Registry uses these same rules automatically, so the guide and the data log stay aligned.</div></div><div class="da398-card da398-s12 da398-guide"><div><h3>Documents & Records</h3><p><b>YYYY-MM-DD - Organization - Item - Description.ext</b></p><p>Use the most precise date you can verify. If only month/year is known, the generator shortens the date instead of inventing one.</p></div><div><h3>Medical</h3><p><b>YYYY-MM-DD - Person - Provider - Record Type - Description.ext</b></p><p>Person comes before provider so records stay distinguishable when family members share providers.</p></div><div><h3>Photos & Home Videos</h3><p><b>YYYY-MM-DD - Event - Location or Description.ext</b></p><p>Log large sets as a Collection instead of creating one LCC record per photo.</p></div><div><h3>Receipts & Purchases</h3><p><b>YYYY-MM-DD - Merchant - Item - Description.ext</b></p><p>Add Warranty as a NAS tag when applicable rather than duplicating the file.</p></div><div><h3>Versions</h3><p>Use <b>Signed</b>, <b>Final</b>, or <b>v2</b> only when multiple legitimate versions must be retained. Do not add “final-final.”</p></div><div><h3>Registry Levels</h3><ul style="padding-left:18px"><li><b>Individual Record:</b> one important file = one record.</li><li><b>Collection:</b> one event/batch/album = one record plus item count.</li><li><b>Media Inventory:</b> movies/books/media that benefit from title-level tracking.</li></ul></div><div><h3>Lifecycle</h3><p>Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible.</p></div><div><h3>Single Source of Truth</h3><p>Store the master file once. Use folders, NAS tags, and the LCC registry to find it instead of creating duplicates in multiple categories.</p></div></div></div>`}
-  function fld(id,l,val='',type='text',opts=null,full=false){return `<div class="field${full?' full':''}"><label>${E(l)}</label>${opts?`<select id="da-${id}">${opts.map(o=>`<option value="${E(o)}"${String(val)===String(o)?' selected':''}>${E(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea id="da-${id}">${E(val)}</textarea>`:`<input id="da-${id}" type="${type}" value="${E(val)}">`}</div>`}
-  function ck(id,l,v){return `<label class="dl361-check"><input id="da-${id}" type="checkbox" ${v?'checked':''}> ${E(l)}</label>`}
-  function formHtml(x){const tagv=tagsArr(x).join('; ');return fld('recordLevel','Registry Level',x.recordLevel||'Individual Record','text',DA_LEVELS)+fld('itemType','Item Type',x.itemType||'Document / Record','text',DA_TYPES)+fld('category','Top-Level NAS Category',x.category||'01. Identification & Vital Records','text',DA_CATS)+fld('subcategory','Subcategory / Folder Detail',x.subcategory)+fld('owner','Person / Owner',x.owner)+fld('organization','Organization / Source',x.organization)+fld('documentDate','Document / Event Date',x.documentDate,'date')+fld('datePrecision','Date Precision',x.datePrecision||'Exact Date','text',DA_PREC)+fld('itemName','Document / Item / Event Name',x.itemName)+fld('description','Description / Distinguishing Detail',x.description)+fld('versionLabel','Version Label',x.versionLabel)+fld('fileExtension','File Extension',x.fileExtension||'pdf','text',DA_EXT)+fld('originalSource','Original Storage Source',x.originalSource)+fld('itemCount','Item Count',x.itemCount||1,'number')+fld('nasFolder','NAS Folder Path',x.nasFolder,'text',null,true)+fld('nasTags','NAS Tags (; separated)',tagv,'text',null,true)+`<div class="field full"><label>Generated Filename</label><div id="da-preview-name" class="da398-preview">${E(x.generatedFilename||daFilename(x))}</div><label>Full NAS Path</label><div id="da-preview-path" class="da398-preview">${E(x.fullPath||daFullPath(x))}</div></div><div class="field full"><label>Lifecycle</label><div class="da398-checks">${ck('located','Located',x.located)}${ck('copiedToNas','Copied to NAS',x.copiedToNas)}${ck('named','Filename Standardized',x.named)}${ck('filed','Filed',x.filed)}${ck('verified','Verified',x.verified)}${ck('backedUp','Backed Up',x.backedUp)}${ck('deleteEligible','Original Delete Eligible',x.deleteEligible)}</div></div>`+fld('notes','Notes',x.notes,'textarea',null,true)}
-  window.daOpen=function(id){const d=dl(),x=id?(d.archiveRecords||[]).find(r=>r.id===id):{recordLevel:'Individual Record',itemType:'Document / Record',datePrecision:'Exact Date',fileExtension:'pdf',itemCount:1,nasTags:[]};const ov=document.createElement('div');ov.className='overlay';ov.id='da398-modal';ov.innerHTML=`<div class="modal" style="max-width:820px"><div class="modal-head"><h2>${id?'Edit':'Add'} Archive Registry Record</h2><button class="xbtn" onclick="document.getElementById('da398-modal').remove()">×</button></div><div class="modal-body"><div class="da398-formgrid">${formHtml(x)}</div></div><div class="modal-foot">${id?`<button class="btn danger" style="margin-right:auto" onclick="daDelete('${id}')">Delete</button>`:''}<button class="btn" onclick="document.getElementById('da398-modal').remove()">Cancel</button><button class="btn primary" onclick="daSave('${id||''}')">Save Record</button></div></div>`;document.body.appendChild(ov);ov.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',daPreview));daPreview()};
-  function val(id,check=false){const el=document.getElementById('da-'+id);return check?!!el?.checked:(el?.value??'')}
-  window.daPreview=function(){const x={recordLevel:val('recordLevel'),itemType:val('itemType'),category:val('category'),subcategory:val('subcategory'),owner:val('owner'),organization:val('organization'),documentDate:val('documentDate'),datePrecision:val('datePrecision'),itemName:val('itemName'),description:val('description'),versionLabel:val('versionLabel'),fileExtension:val('fileExtension'),nasFolder:val('nasFolder')};const n=document.getElementById('da-preview-name'),p=document.getElementById('da-preview-path');if(n)n.textContent=daFilename(x);if(p){x.generatedFilename=daFilename(x);p.textContent=daFullPath(x)}};
-  window.da399UsePath=function(){const p=window.da399LastPath||'';const e=document.getElementById('da-nasFolder');if(e&&p){e.value=p;daPreview();}};
-  window.daSave=function(id){const d=dl(),a=d.archiveRecords,x=id?a.find(r=>r.id===id):{id:uid(),createdAt:new Date().toISOString()};['recordLevel','itemType','category','subcategory','owner','organization','documentDate','datePrecision','itemName','description','versionLabel','fileExtension','originalSource','nasFolder','notes'].forEach(k=>x[k]=val(k));x.itemCount=Math.max(1,parseInt(val('itemCount'))||1);x.nasTags=String(val('nasTags')).split(/[;,]/).map(s=>s.trim()).filter(Boolean);['located','copiedToNas','named','filed','verified','backedUp','deleteEligible'].forEach(k=>x[k]=val(k,true));recalc(x);
-    const rec=(window.da399Recommend?window.da399Recommend(x):'');
-    const rp=document.getElementById('da399-recommended-path');
-    if(rp)rp.textContent=rec||'Recommended folder will appear here.';
-    window.da399LastPath=rec;
-if(!id)a.push(x);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record saved');renderDigitalLibrary()};
-  window.daDelete=function(id){if(!confirm('Delete this Archive Registry record?'))return;const d=dl();d.archiveRecords=d.archiveRecords.filter(x=>x.id!==id);document.getElementById('da398-modal')?.remove();dlSave('Archive Registry record deleted');renderDigitalLibrary()};
-  const CSV_HEADERS=['Registry Level','Item Type','Top-Level Category','Subcategory','Person/Owner','Organization/Source','Document/Event Date','Date Precision','Document/Item/Event Name','Description','Version','File Extension','Original Storage Source','Item Count','NAS Folder Path','NAS Tags','Located','Copied to NAS','Filename Standardized','Filed','Verified','Backed Up','Original Delete Eligible','Notes'];
-  function q(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
-  function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-  window.daDownloadTemplate=function(){download('LCC-Digital-Registry-Bulk-Add-v400.csv',CSV_HEADERS.map(q).join(',')+'\n')};
-  window.daExportCsv=function(){const rows=(dl().archiveRecords||[]).map(x=>[x.recordLevel,x.itemType,x.category,x.subcategory,x.owner,x.organization,x.documentDate,x.datePrecision,x.itemName,x.description,x.versionLabel,x.fileExtension,x.originalSource,x.itemCount,x.nasFolder,tagsArr(x).join('; '),x.located?'Yes':'No',x.copiedToNas?'Yes':'No',x.named?'Yes':'No',x.filed?'Yes':'No',x.verified?'Yes':'No',x.backedUp?'Yes':'No',x.deleteEligible?'Yes':'No',x.notes]);download('LCC-Digital-Registry-'+today()+'.csv',[CSV_HEADERS.map(q).join(','),...rows.map(r=>r.map(q).join(','))].join('\n'))};
-  function parse(line){const out=[];let s='',qq=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(qq&&line[i+1]==='"'){s+='"';i++}else qq=!qq}else if(c===','&&!qq){out.push(s);s=''}else s+=c}out.push(s);return out}
-  function yes(v){return /^(yes|true|1|y)$/i.test(String(v||'').trim())}
-  window.daBulkImport=function(){const inp=document.createElement('input');inp.type='file';inp.accept='.csv,text/csv';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=ev=>{try{const lines=String(ev.target.result||'').split(/\r?\n/).filter(x=>x.trim());if(!lines.length)return alert('CSV is empty.');const hh=parse(lines.shift()),idx=n=>hh.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase()),d=dl();let n=0;lines.forEach(line=>{const r=parse(line),g=k=>{const i=idx(k);return i>=0?(r[i]||'').trim():''};if(!g('Document/Item/Event Name')&&!g('Description'))return;const x={id:uid(),recordLevel:g('Registry Level')||'Individual Record',itemType:g('Item Type')||'Document / Record',category:g('Top-Level Category'),subcategory:g('Subcategory'),owner:g('Person/Owner'),organization:g('Organization/Source'),documentDate:g('Document/Event Date'),datePrecision:g('Date Precision')||'Exact Date',itemName:g('Document/Item/Event Name'),description:g('Description'),versionLabel:g('Version'),fileExtension:g('File Extension')||'pdf',originalSource:g('Original Storage Source'),itemCount:Math.max(1,parseInt(g('Item Count'))||1),nasFolder:g('NAS Folder Path'),nasTags:g('NAS Tags').split(/[;,]/).map(s=>s.trim()).filter(Boolean),located:yes(g('Located')),copiedToNas:yes(g('Copied to NAS')),named:yes(g('Filename Standardized')),filed:yes(g('Filed')),verified:yes(g('Verified')),backedUp:yes(g('Backed Up')),deleteEligible:yes(g('Original Delete Eligible')),notes:g('Notes'),createdAt:new Date().toISOString()};recalc(x);d.archiveRecords.push(x);n++});dlSave('Imported '+n+' Archive Registry records');renderDigitalLibrary()}catch(err){alert('Archive Registry import failed: '+err.message)}};fr.readAsText(f)};inp.click()};
-  const _all=window.dlAllLinkable361||((typeof dlAllLinkable361==='function')?dlAllLinkable361:null);if(_all){window.dlAllLinkable361=dlAllLinkable361=function(){const out=_all();(dl().archiveRecords||[]).forEach(x=>out.push({...x,name:x.generatedFilename||x.itemName,__dlCol:'archiveRecords',__dlLabel:'Archive Registry'}));return out}}
-  const _open=window.dlOpenLinked361||((typeof dlOpenLinked361==='function')?dlOpenLinked361:null);if(_open){window.dlOpenLinked361=dlOpenLinked361=function(id){const x=(dl().archiveRecords||[]).find(r=>r.id===id);if(x){showPage('digital',document.getElementById('nav-digital'));DL_TAB='registry';renderDigitalLibrary();setTimeout(()=>daOpen(id),30);return}_open(id)}}
-  // Add a quick-start button without disturbing the existing v361 layout.
-  const _overview=window.dlOverview||((typeof dlOverview==='function')?dlOverview:null);if(_overview){window.dlOverview=dlOverview=function(v,d){_overview(v,d);const tools=v.querySelector('.dl361-tools');if(tools&&!tools.querySelector('[data-da398]'))tools.insertAdjacentHTML('afterbegin','<button data-da398 class="btn primary" onclick="DL_TAB=\'registry\';renderDigitalLibrary();setTimeout(()=>daOpen(),20)">+ Add Registry Record</button>')}}
-  window.daRenderRegistry = daRenderRegistry;
-  window.daRenderGuide = daRenderGuide;
-  window.daOpen = daOpen;
-  window.daNew = daNew;
-  try{dl();dlSave();}catch(e){console.warn('v398 Archive Registry init',e)}
-})();
-</script>
-
-
-<script id="lcc-v400-digital-library-final-override">
-(function(){
-  if(window.__LCC_V400_DL_FINAL__) return;
-  window.__LCC_V400_DL_FINAL__=true;
-
-  // At this point v361 + v398 + v399 are already loaded.
-  // This final wrapper intentionally runs last so it cannot be overwritten.
-  const baseTabs = window.dlTabs || (typeof dlTabs==='function' ? dlTabs : null);
-  const baseRender = window.renderDigitalLibrary || (typeof renderDigitalLibrary==='function' ? renderDigitalLibrary : null);
-
-  if(baseTabs){
-    window.dlTabs = dlTabs = function(){
-      let h = baseTabs();
-      // Avoid duplicates if the page rerenders repeatedly.
-      if(!h.includes("dlTab('assistant')")){
-        const first = '<button class="dl361-tab';
-        const assistant = `<button class="dl361-tab${DL_TAB==='assistant'?' active':''}" onclick="dlTab('assistant')">Digital Filing Assistant</button>`;
-        h = h.replace(first, assistant + first);
-      }
-      // v398 already supplies Registry/Naming; normalize labels if needed.
-      h = h.replace(/>Archive Registry</g,'>Archive Registry<');
-      return h;
-    };
-  }
-
-  if(baseRender){
-    window.renderDigitalLibrary = renderDigitalLibrary = function(){
-      if(DL_TAB==='assistant'){
-        const el=document.getElementById('digital-body');
-        if(!el)return;
-        const d=(typeof dlRecalc==='function')?dlRecalc():((typeof dl==='function')?dl():{});
-        el.innerHTML=(typeof dlHero==='function'?dlHero(d):'') +
-                     (typeof dlTabs==='function'?dlTabs():'') +
-                     '<div id="dl361-view"></div>';
-        const v=document.getElementById('dl361-view');
-        if(v && typeof dlRenderFilingAssistant==='function') {
-          v.innerHTML=dlRenderFilingAssistant();
-        } else if(v) {
-          v.innerHTML='<div class="dl361-card"><b>Digital Filing Assistant could not initialize.</b></div>';
-        }
-        return;
-      }
-      return baseRender();
-    };
-  }
-
-  // Put a direct quick-start button on Digital Library Overview.
-  const baseOverview = window.dlOverview || (typeof dlOverview==='function' ? dlOverview : null);
-  if(baseOverview){
-    window.dlOverview = dlOverview = function(v,d){
-      baseOverview(v,d);
-      const tools=v.querySelector('.dl361-tools');
-      if(tools && !tools.querySelector('[data-v400-assistant]')){
-        tools.insertAdjacentHTML(
-          'afterbegin',
-          `<button data-v400-assistant class="btn primary" onclick="DL_TAB='assistant';renderDigitalLibrary()">🗂️ Digital Filing Assistant</button>`
-        );
-      }
-    };
-  }
-
-  // Keep the legacy registry quick-start wording clean.
-  setTimeout(()=>{
-    document.querySelectorAll('button').forEach(b=>{
-      if(b.textContent.trim()==='+ Archive Record') b.textContent='+ Add Registry Record';
-    });
-  },0);
-})();
-</script>
-
-
-<script id="lcc-v400-fix7-digital-library-controller">
-(function(){
-  if(window.__LCC_V400_FIX7__) return;
-  window.__LCC_V400_FIX7__ = true;
-
-  const EXTRA_TABS = [
-    ['assistant','Digital Filing Assistant'],
-    ['registry','Archive Registry'],
-    ['naming','Naming Guide']
-  ];
-
-  const originalDlTab =
-    (typeof window.dlTab==='function') ? window.dlTab :
-    ((typeof dlTab==='function') ? dlTab : null);
-
-  function getData(){
-    try{
-      return (typeof dlRecalc==='function') ? dlRecalc() :
-             ((typeof dl==='function') ? dl() : {});
-    }catch(e){
-      console.error('Digital Library data error',e);
-      return {};
-    }
-  }
-
-  function ensureTabs(){
-    const tabs=document.querySelector('#digital-body .dl361-tabs');
-    if(!tabs)return;
-
-    EXTRA_TABS.forEach(([key,label])=>{
-      let b=tabs.querySelector(`[data-v400-tab="${key}"]`);
-      if(!b){
-        b=document.createElement('button');
-        b.className='dl361-tab';
-        b.dataset.v400Tab=key;
-        b.textContent=label;
-        b.onclick=function(ev){
-          ev.preventDefault();
-          ev.stopPropagation();
-          window.DL_TAB=DL_TAB=key;
-          renderExtra(key);
-          return false;
-        };
-        tabs.appendChild(b);
-      }
-      b.classList.toggle('active',typeof DL_TAB!=='undefined'&&DL_TAB===key);
-    });
-  }
-
-  function buildShell(){
-    const el=document.getElementById('digital-body');
-    if(!el)return null;
-
-    const d=getData();
-    let hero='',tabs='';
-    try{hero=(typeof dlHero==='function')?dlHero(d):'';}catch(e){console.error(e);}
-    try{tabs=(typeof dlTabs==='function')?dlTabs():'<div class="dl361-tabs"></div>';}
-    catch(e){console.error(e);tabs='<div class="dl361-tabs"></div>';}
-
-    el.innerHTML=hero+tabs+'<div id="dl361-view"></div>';
-    ensureTabs();
-    return {v:document.getElementById('dl361-view'),d};
-  }
-
-  function renderExtra(key){
-    window.DL_TAB=DL_TAB=key;
-    const s=buildShell();
-    if(!s||!s.v)return;
-
-    try{
-      if(key==='assistant'){
-        if(typeof dlRenderFilingAssistant==='function'){
-          s.v.innerHTML=dlRenderFilingAssistant();
-        }else{
-          s.v.innerHTML='<div class="panel"><div class="panel-b">Digital Filing Assistant could not initialize.</div></div>';
-        }
-      }else if(key==='registry'){
-        // IMPORTANT: this function was exported FROM INSIDE the v398 IIFE,
-        // so it keeps access to all private helpers/constants via closure.
-        if(typeof window.daRenderRegistry==='function'){
-          window.daRenderRegistry(s.v,s.d);
-        }else{
-          s.v.innerHTML='<div class="panel"><div class="panel-b">Archive Registry renderer is unavailable.</div></div>';
-        }
-      }else if(key==='naming'){
-        if(typeof window.daRenderGuide==='function'){
-          window.daRenderGuide(s.v,s.d);
-        }else{
-          s.v.innerHTML='<div class="panel"><div class="panel-b">Naming Guide renderer is unavailable.</div></div>';
-        }
-      }
-    }catch(err){
-      console.error('v400 extra tab error',err);
-      s.v.innerHTML='<div class="panel"><div class="panel-b"><b>Error:</b> '+String(err.message||err)+'</div></div>';
-    }
-
-    ensureTabs();
-  }
-
-  // Only intercept the 3 added tabs. Built-in Digital Library tabs continue
-  // through the existing navigation path.
-  window.dlTab=dlTab=function(key){
-    if(EXTRA_TABS.some(x=>x[0]===key)){
-      return renderExtra(key);
-    }
-
-    window.DL_TAB=DL_TAB=key;
-    if(originalDlTab){
-      const result=originalDlTab(key);
-      setTimeout(ensureTabs,0);
-      return result;
-    }
-
-    if(typeof renderDigitalLibrary==='function')renderDigitalLibrary();
-    setTimeout(ensureTabs,0);
-  };
-
-  const observer=new MutationObserver(function(){
-    if(document.querySelector('#digital-body .dl361-tabs'))ensureTabs();
-  });
-  observer.observe(document.documentElement,{childList:true,subtree:true});
-
-  setTimeout(ensureTabs,0);
-  setTimeout(ensureTabs,250);
-  setTimeout(ensureTabs,1000);
-})();
-</script>
-
-<!-- USER GUIDE: v398 — Digital Library now includes an Digital Registry and Naming Guide. Archive Registry logs important individual files, collections, and media-level records; generates standardized filenames and full NAS paths from entered metadata; tracks source, folder, NAS tags, item count, and the lifecycle Located → Copied to NAS → Named → Filed → Verified → Backed Up → Original Delete Eligible. Use Bulk Add CSV for batches. The Naming Guide is the one-page reference for the same rules used by the generator. -->
-<!-- CHANGE LOG: v398 — Extended the existing v361 Digital Library domain module rather than adding a new Action Item type or duplicate data store. Added S.digitalLibrary.archiveRecords, Registry/Naming tabs, automatic filename/path generation, registry search/filters/status counters, CSV template/import/export, and Digital Library link support for registry records. -->
-<!-- RELEASE NOTES: v398 — Archive Registry & NAS Naming Convention. Existing Digital Library data remains intact. No Release Action Item is auto-created; Release records remain manual. -->
-<!-- USER GUIDE: v399 — Archive Registry now works alongside the NAS Filing Assistant. Enter item metadata once; LCC generates the standardized filename, recommends one permanent folder from the agreed hierarchy, and saves the same information as the searchable Registry record. Inbox and review are one intake concept. No generic Archive destination is used. Personal folders are Rashunda, Ravyn, and Jacoby; household/family, photos/videos, media, family/genealogy, technology/systems, reference, and business are distinct roots. -->
-<!-- CHANGE LOG: v399 — Added metadata-driven NAS folder recommendations and one-click Use Recommended Folder to the v398 Digital Registry. Added business ownership rules for Savvy Foundations, RLA, Savvy Structure, Mocha Sky Travel, and Notary Business; employer-per-job, college-per-institution, grade-level education logic, and no generic archive fallback. -->
-<!-- RELEASE NOTES: v399 — Digital Filing Assistant + Registry integration. Existing v398 registry records and all prior Digital Library data remain intact. -->
-
-
-<!-- v400 CORRECTION — Fixed runtime override order. The dedicated Digital Filing Assistant wrapper now loads after v398/v399, so the tab cannot be overwritten. Updated visible version badges from v397 to v400 and aligned registry fields/labels with the current no-archive structure. -->
-
 </body>
 </html>
 <!-- USER GUIDE: v364 — Knowledge Category is now Topic. Topic is selected from: Astrology, Health, Senior Year, Home, Finance, Business, Content, Travel, Style & Beauty, or Recipes. Source is a controlled dropdown for where the knowledge came from, including TikTok, Book, Website, YouTube, Personal Experience, Podcast, Course/Class, Social Media, Article, and Other. Use Source Link / Reference for the URL, book title/page, creator, episode, or other citation detail. -->
