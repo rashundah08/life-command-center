@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v405</title>
+<title>LCC v414</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v405</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v414</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1403,7 +1403,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v405</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v414</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3447,73 +3447,7 @@ const LIST_CATEGORIES=[
   {name:'Knowledge Operations',color:'#16A085'},
   {name:'Maintenance Operations',color:'#6B7280'}
 ];
-// 0150-0155 — new lists seeded one time (idempotent by id) via seedOperationsLists() in runSchemaMigration()
-const OPERATIONS_LISTS=[
-  // 0150 — Personal Operations
-  {id:'perop-health',name:'Health Operations',category:'Personal Operations',color:'#63C76C',description:'Exercise, appointments, medications, labs, weight, wellness routines'},
-  {id:'perop-home',name:'Home Operations',category:'Personal Operations',color:'#63C76C',description:'Cleaning, maintenance, inventory, warranties, renovations'},
-  {id:'perop-finance',name:'Finance Operations',category:'Personal Operations',color:'#63C76C',description:'Budget, debt payoff, taxes, savings, investments'},
-  {id:'perop-lifeadmin',name:'Life Administration',category:'Personal Operations',color:'#63C76C',description:'IDs, insurance, subscriptions, passwords, legal documents'},
-  {id:'perop-family',name:'Family Operations',category:'Personal Operations',color:'#63C76C',description:'Ravyn, Jacoby, birthdays, traditions, vacations'},
-  {id:'perop-growth',name:'Personal Growth',category:'Personal Operations',color:'#63C76C',description:'Reading, education, habits, routines, continuing education'},
-  // 0151 — Business Operations
-  {id:'bizop-marketing',name:'Marketing Operations',category:'Business Operations',color:'#185FA5',description:'Content, campaigns, social media, newsletters'},
-  {id:'bizop-sales',name:'Sales Operations',category:'Business Operations',color:'#185FA5',description:'Leads, offers, discovery calls, proposals'},
-  {id:'bizop-client',name:'Client Operations',category:'Business Operations',color:'#185FA5',description:'Onboarding, fulfillment, offboarding, support'},
-  {id:'bizop-product',name:'Product Operations',category:'Business Operations',color:'#185FA5',description:'Build, maintain, improve products'},
-  {id:'bizop-financial',name:'Financial Operations',category:'Business Operations',color:'#185FA5',description:'Revenue, expenses, payroll, taxes'},
-  {id:'bizop-crm',name:'CRM Operations',category:'Business Operations',color:'#185FA5',description:'Pipelines, automations, snapshots, maintenance'},
-  // 0152 — Life Command Center Operations
-  {id:'lccop-roadmap',name:'Product Roadmap',category:'Life Command Center Operations',color:'#9B59B6',description:'Long-term vision for the LCC'},
-  {id:'lccop-change',name:'Change Management',category:'Life Command Center Operations',color:'#9B59B6',description:'Track enhancements and bugs'},
-  {id:'lccop-qa',name:'Quality Assurance',category:'Life Command Center Operations',color:'#9B59B6',description:'Test features before release'},
-  {id:'lccop-docs',name:'Documentation',category:'Life Command Center Operations',color:'#9B59B6',description:'Update guides, prompts, instructions'},
-  {id:'lccop-data',name:'Data Management',category:'Life Command Center Operations',color:'#9B59B6',description:'Imports, exports, backups, cleanup'},
-  // 0153 — Planning Operations
-  {id:'planop-annual',name:'Annual Planning',category:'Planning Operations',color:'#EF9F27',description:'Yearly goals and vision'},
-  {id:'planop-quarterly',name:'Quarterly Planning',category:'Planning Operations',color:'#EF9F27',description:'13-week planning'},
-  {id:'planop-sprint',name:'Sprint Planning',category:'Planning Operations',color:'#EF9F27',description:'Every two weeks'},
-  {id:'planop-weekly',name:'Weekly Reset',category:'Planning Operations',color:'#EF9F27',description:'Weekly planning session'},
-  {id:'planop-daily',name:'Daily Planning',category:'Planning Operations',color:'#EF9F27',description:'Daily priorities'},
-  {id:'planop-reviews',name:'Reviews & Reflection',category:'Planning Operations',color:'#EF9F27',description:'Monthly and quarterly reviews'},
-  // 0154 — Knowledge Operations
-  {id:'knowop-sop',name:'SOP Library',category:'Knowledge Operations',color:'#16A085',description:'Standard operating procedures'},
-  {id:'knowop-prompt',name:'Prompt Library',category:'Knowledge Operations',color:'#16A085',description:'AI prompts'},
-  {id:'knowop-templates',name:'Templates',category:'Knowledge Operations',color:'#16A085',description:'Emails, contracts, graphics'},
-  {id:'knowop-research',name:'Research Library',category:'Knowledge Operations',color:'#16A085',description:'Ideas and references'},
-  {id:'knowop-decision',name:'Decision Log',category:'Knowledge Operations',color:'#16A085',description:'Why major decisions were made'},
-  {id:'knowop-lessons',name:'Lessons Learned',category:'Knowledge Operations',color:'#16A085',description:'Improvements for the future'},
-  // 0155 — Maintenance Operations
-  {id:'maintop-inbox',name:'Inbox Processing',category:'Maintenance Operations',color:'#6B7280',description:'Brain Dump, Parking Lot'},
-  {id:'maintop-archive',name:'Archive Management',category:'Maintenance Operations',color:'#6B7280',description:'Archive completed items'},
-  {id:'maintop-datacleanup',name:'Data Cleanup',category:'Maintenance Operations',color:'#6B7280',description:'Remove duplicates and old data'},
-  {id:'maintop-backup',name:'Backup Management',category:'Maintenance Operations',color:'#6B7280',description:'Verify exports and backups'},
-  {id:'maintop-audit',name:'System Audit',category:'Maintenance Operations',color:'#6B7280',description:'Check formulas, relationships, views'},
-  {id:'maintop-security',name:'Security Review',category:'Maintenance Operations',color:'#6B7280',description:'Passwords, permissions, recovery information'}
-].map(l=>({...l,system:false,numbered:false,maxNum:null}));
-// v261 (0694) — keeper lists: never deletable, always re-seeded. Everything else is
-// deletable; once deleted its id is tombstoned in S.deletedLists so the seeders below
-// don't resurrect it on reload. IDs verified against DEFAULT/OPERATIONS/FINAL list defs.
-const PROTECTED_LIST_IDS=['uncat','parking','biz-main','planning-main','knowledge-hub','maintenance-main','releases','lccop-change','perop-home','perop-health','perop-finance','perop-lifeadmin','perop-family','perop-growth'];
-function seedOperationsLists(){
-  let changed=false;
-  OPERATIONS_LISTS.forEach(def=>{
-    if(!S.lists.find(l=>l.id===def.id)&&!(S.deletedLists||[]).includes(def.id)){S.lists.push({...def});changed=true;} // v261 (0694) tombstone-aware
-  });
-  if(changed)invalidateItemIndex();
-}
 // v252 - final consolidated lists (Business, Planning, Knowledge Hub, Maintenance) each carrying a list-scoped field
-const FINAL_LISTS_V252=[
-  {id:'biz-main',name:'Business',category:'Business Operations',color:'#185FA5'},
-  {id:'planning-main',name:'Planning',category:'Planning Operations',color:'#EF9F27'},
-  {id:'knowledge-hub',name:'Knowledge Hub',category:'Knowledge Operations',color:'#16A085'},
-  {id:'maintenance-main',name:'Maintenance',category:'Maintenance Operations',color:'#6B7280'}
-].map(l=>({...l,system:false,numbered:false,maxNum:null}));
-function seedFinalListsV252(){
-  let changed=false;
-  FINAL_LISTS_V252.forEach(def=>{if(!S.lists.find(l=>l&&l.id===def.id)&&!(S.deletedLists||[]).includes(def.id)){S.lists.push({...def});changed=true;}}); // v261 (0694) tombstone-aware
-  if(changed)invalidateItemIndex();
-}
 // v305 — exact keeper-list set requested by user. No other lists are retained.
 const V305_KEEPER_LISTS=[
   {id:'biz-main',name:'Business',category:'Business Operations',color:'#185FA5'},
@@ -3953,17 +3887,13 @@ function loadFromDriveData(p){
   if(p.tagLibrary)S.tagLibrary=p.tagLibrary;
   if(p.itemTags)S.itemTags=p.itemTags; // v254
   if(p.fieldLibrary)S.fieldLibrary=p.fieldLibrary; // v197
-  if(p.sfScore)S.sfScore=p.sfScore; // v200 — SF Scorecard entries
   if(p.dreamFund)S.dreamFund=p.dreamFund; // v201 — Dream Life Fund
   if(p.digitalLibrary)S.digitalLibrary=p.digitalLibrary; // v361 — Digital Library
-      if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;
+      if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;if(p.wfV194Migrated)S.wfV194Migrated=p.wfV194Migrated;if(p.v203Migrated)S.v203Migrated=p.v203Migrated;
       if(p.financeTxV283Migrated)S.financeTxV283Migrated=p.financeTxV283Migrated;
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
-  if(typeof window.ensureRetroReleaseHistory==='function')window.ensureRetroReleaseHistory();
-  if(typeof window.ensureRelease335==='function')window.ensureRelease335();
-  if(typeof window.ensureRelease336==='function')window.ensureRelease336();
   const _v379ReleaseAdded=
   recalc();
   renderAll();
@@ -4085,7 +4015,7 @@ function driveSaveDebounced(){
 
 // Manual backup - downloads data as JSON file
 function backupToFile(){
-  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,contentV191Migrated:S.contentV191Migrated,financeTxV283Migrated:S.financeTxV283Migrated,financeRecurringV284Migrated:S.financeRecurringV284Migrated,digitalLibrary:S.digitalLibrary,lastSaved:Date.now()},null,2);
+  const payload=JSON.stringify({lists:S.lists,items:S.items,sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,financeRecurringV284Migrated:S.financeRecurringV284Migrated,digitalLibrary:S.digitalLibrary,lastSaved:Date.now()},null,2);
   const blob=new Blob([payload],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -4165,10 +4095,9 @@ async function load(){
       if(p.tagLibrary)S.tagLibrary=p.tagLibrary;
       if(p.itemTags)S.itemTags=p.itemTags; // v254
   if(p.fieldLibrary)S.fieldLibrary=p.fieldLibrary; // v197
-  if(p.sfScore)S.sfScore=p.sfScore; // v200 — SF Scorecard entries
   if(p.dreamFund)S.dreamFund=p.dreamFund; // v201 — Dream Life Fund
   if(p.digitalLibrary)S.digitalLibrary=p.digitalLibrary; // v361 — Digital Library
-      if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;
+      if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;if(p.wfV194Migrated)S.wfV194Migrated=p.wfV194Migrated;if(p.v203Migrated)S.v203Migrated=p.v203Migrated;
       if(p.companySops)S.companySops=p.companySops; // v156 — Company SOP link registry
       // v324 — init() performs the single post-migration recalc.
       if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
@@ -4279,7 +4208,7 @@ function exportItemsExcel(){
     toast('Export failed: '+e.message,4000);
   }
 }
-function exportData(){const b=new Blob([JSON.stringify({lists:S.lists,items:S.items,knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],catalogSettings:S.catalogSettings,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,sfScore:S.sfScore,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='lcc-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);toast('Exported!');}
+function exportData(){const b=new Blob([JSON.stringify({lists:S.lists,items:S.items,knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],catalogSettings:S.catalogSettings,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='lcc-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);toast('Exported!');}
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);S.lists=d.lists||S.lists;S.items=d.items||S.items;if(d.sot)S.sot=d.sot;if(d.rewards)S.rewards=d.rewards;if(d.rewardHistory)S.rewardHistory=d.rewardHistory;if(d.catalogSettings)S.catalogSettings=d.catalogSettings;if(d.dreamFund)S.dreamFund=d.dreamFund;if(d.digitalLibrary)S.digitalLibrary=d.digitalLibrary;
   // Run migrations
   S.items.forEach(i=>{if(!i.listIds||!i.listIds.length){if(i.listId)i.listIds=[i.listId];else i.listIds=['uncat'];}if(!i.categories)i.categories=i.category?[i.category]:[];});
@@ -6119,7 +6048,7 @@ function stripEmptyFields(item){
   return out;
 }
 function buildSavePayload(){
-  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,sfScore:S.sfScore,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
+  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
 }
 function makeItem(o){
   const tcd=o.date||'';
@@ -8690,19 +8619,6 @@ function updateSprintDisplay(){
 function ensureReleasesListAndCat(){
   if(!S.lists.find(l=>l.id==='releases'))S.lists.push({id:'releases',name:'Releases',color:'#166534',system:true,numbered:false,maxNum:null});
   if(!CATS.includes('💻 Technology'))CATS.push('💻 Technology');
-}
-// 0258 (v240) — generalize the Releases self-heal to EVERY built-in list. Previously
-// only 'releases' was re-added if missing, so if any other default (e.g. the Savvy
-// Structure 'ss' list) was dropped from saved data it was gone for good and its
-// sidebar entry disappeared with no way back. Re-add any DEFAULT_LISTS entry that is
-// missing by id, preserving the user's existing copy whenever one is present.
-function ensureSystemLists(){
-  if(!Array.isArray(S.lists))S.lists=[];
-  let added=0;
-  DEFAULT_LISTS.forEach(def=>{
-    if(!S.lists.find(l=>l&&l.id===def.id)&&!(S.deletedLists||[]).includes(def.id)){S.lists.push(Object.assign({},def));added++;} // v261 (0694) tombstone-aware
-  });
-  return added;
 }
 // 0299/0300 (v246) — Path A: the special Release view is wired to list id 'releases',
 // so we keep that id but rename the list to "Release Management", pull any items from
@@ -14453,7 +14369,7 @@ function showPage(page,btn){
   if(page==='sprints')renderSprints();
   if(page==='content')renderContentPlanner();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
-  // v405 — canonical late-page hooks formerly stacked by v369.
+  // v414 — canonical late-page hooks formerly stacked by v369.
   setTimeout(()=>{
     if(page==='hub'){if(typeof v369MoveGoals==='function')v369MoveGoals();if(typeof v369LensDescriptions==='function')v369LensDescriptions();}
     if(page==='implementation'&&typeof v369ImplementationCollapse==='function')v369ImplementationCollapse();
@@ -17916,8 +17832,6 @@ const CATALOG_SECTIONS=[
 ];
 function renderCatalogSettings(){
   const host=document.getElementById('catalog-body');if(!host)return;
-  seedCatalogDefaults();
-  try{seedFieldCatalogs();}catch(_e){console.warn('seedFieldCatalogs skipped:',_e);} // 0380/0106 (v226)
   const titles={};CATALOG_LISTS.forEach(([k,t,h])=>{titles[k]=[t,h];});
   host.innerHTML=CATALOG_SECTIONS.map(([name,keys])=>{
     const open=CATSEC_OPEN[name]?' open':'';
@@ -19979,9 +19893,6 @@ function migrateSelfCareTagsV273(){ // v273 (0709) — seed 3 tags + tag existin
 }
 function runSchemaMigration(){
   if(typeof dfEnsure==='function')dfEnsure(); // v201 — Dream Life Fund defaults
-  if(!S.sfScore||typeof S.sfScore!=='object')S.sfScore={launchDate:'2026-08-08',months:{},occasional:{}}; // v200 — SF Scorecard
-  if(!S.sfScore.months||typeof S.sfScore.months!=='object')S.sfScore.months={};
-  if(!S.sfScore.occasional||typeof S.sfScore.occasional!=='object')S.sfScore.occasional={};
   if(!Array.isArray(S.tagLibrary))S.tagLibrary=[]; // v185 — Tag Library (GHL tag reference database)
   if(!Array.isArray(S.fieldLibrary))S.fieldLibrary=[]; // v197 — Field Catalog (GHL field reference database)
   migrateContentV191(); // v191 — content families, planning fields, Series -> Campaign
@@ -20010,11 +19921,7 @@ function runSchemaMigration(){
   migrateSelfCareTagsV273(); // v273 (0709) seed Self Care/Cleaning/Meal Planning tags + tag existing items
   normalizeCoreCategoriesV313(); // v313 — enforce the 12 approved core categories
   migrateSotAreaTagsV275(); // v275 (0009) seed SOT-area grouping tags
-  seedOperationsLists(); // 0150-0155: seed the 36 Operations lists (idempotent by id)
-  seedFinalListsV252(); // v252 - seed Business/Planning/Knowledge Hub/Maintenance consolidated lists
-  enforceV305KeeperLists(); // v305 — remove all non-approved lists and obsolete list assignments
   try{migrateInitiativeListsToTagsV297();}catch(_e){console.warn('v300 initiative-tag migration skipped:',_e);}
-  ensureSystemLists(); // 0258 (v240) — re-add any built-in list (Savvy Structure, etc.) missing from saved data
   migrateReleaseManagement(); // 0299/0300 (v246) — rename Releases -> Release Management, absorb + retire the old ops list
   dedupeReleasesList();
   invalidateItemIndex(); // make sure getItem() reflects current S.items before the O(n) backfill below
@@ -20022,7 +19929,7 @@ function runSchemaMigration(){
   try{migrateRoomsV249();}catch(_e){console.warn('migrateRoomsV249 skipped:',_e);} // v249 Rooms Stage A — create Room records from distinct inventory locations
   try{migrateInvRoomLinksV250();}catch(_e){console.warn('migrateInvRoomLinksV250 skipped:',_e);} // v250 Stage B — back-fill inventory roomId links from location strings
   backfillAllLinksOnce(); // backfill any one-directional links (e.g. Change→Release that never wrote back Release→Change)
-  enforceV305KeeperLists(); // v313 — final list lock after all legacy seeders/migrations
+  enforceV305KeeperLists(); // v413 — single authoritative final list lock after legacy list/tag migrations
   // v126: re-home mis-filed links from past type changes. If an item's type was
   // changed before this version, other items still hold its id in the OLD type's
   // array (e.g. a now-project still listed under linkedTasks). Single O(n) pass:
@@ -20079,18 +19986,6 @@ function runSchemaMigration(){
   if(unNumbered.length){
     let nextNum=(()=>{const used=masterPlanItems().filter(i=>i.type==='change'&&i.seqNum).map(i=>parseInt(i.seqNum,10)).filter(n=>!isNaN(n));return used.length?Math.max(...used)+1:1;})();
     unNumbered.forEach(i=>{i.seqNum=String(nextNum).padStart(4,'0');nextNum++;});
-  }
-  // Queue the known list-view duration/target-date bug as a Change item, once
-  if(!S.items.find(i=>i.type==='change'&&i.name==='Target date not saving in list view when using duration')){
-    const seedSprint=ALL_SPRINTS[getCurrentSprintIdx()];
-    const seeded=makeItem({
-      type:'change',name:'Target date not saving in list view when using duration',
-      changeType:'bugfix',changeStatus:'idea',changePriority:'medium',
-      listIds:['releases'],categories:['💻 Technology'],effort:'elite',duration:1,
-      startDate:seedSprint?seedSprint.start:''
-    });
-    seeded.sprint=sprintNumForDate(seeded.startDate||'');
-    S.items.push(seeded);
   }
 }
 // ══════════════════════════════════════════════════════════════════════════
@@ -21017,18 +20912,7 @@ function todayStr(){return new Date().toISOString().slice(0,10);}
 
 
 /* v359 — release registry continuity. Reconcile every coded release after v336 after persisted/Drive data loads. */
-(function(){
-  const V354_RELEASES=[{"releaseVersion": "337", "name": "Duration & Target Date Synchronization", "releaseType": "patch", "startDate": "2026-08-16", "releaseModules": ["Bulk Add", "Bulk Update", "Import", "Core Action Item Module", "Release Management"], "releaseChangelog": "Centralized Start Date + Duration and Target Completion Date + Duration synchronization so missing endpoints are derived before Behind-status logic runs.", "releaseNotes": "Fixed records created or updated with Start Date and Duration leaving Target Completion Date blank; the same date rule applies across bulk add, import, bulk update, release records, restored data, and edit paths."}, {"releaseVersion": "338", "name": "Active Now Type Filter & Metadata Cleanup", "releaseType": "patch", "startDate": "2026-08-16", "releaseModules": ["Master Plan", "Tags", "Lists", "Core Action Item Module", "Release Management"], "releaseChangelog": "Stopped category normalization from creating redundant Tags and added a Type filter to Master Plan Active Now.", "releaseNotes": "Active Now can be filtered by action-item type; Categories and Lists remain the organizational source without duplicate Tags."}, {"releaseVersion": "339", "name": "Master Plan Loading & Focus Planning Stage Fix", "releaseType": "patch", "startDate": "2026-08-16", "releaseModules": ["Master Plan", "Focus View", "Planning Queue", "Sprint Planner", "Release Management"], "releaseChangelog": "Fixed the Active Now runtime error that stopped Active Now and Current Sprint rendering and added editable Planning Stage to Focus Panel.", "releaseNotes": "Active Now and Current Sprint load normally; Planning Stage can be changed from Focus Panel."}, {"releaseVersion": "340", "name": "Focus Linked Planning & Bulk Editing", "releaseType": "minor", "startDate": "2026-08-16", "releaseModules": ["Focus View", "Bulk Update", "Planning Queue", "Core Action Item Module", "Release Management"], "releaseChangelog": "Added Planning Stage to linked items in Focus View and expanded Focus multi-select bulk updates for visible planning fields.", "releaseNotes": "Linked items expose Planning Stage and selected linked items can be bulk updated for scheduling/classification fields."}, {"releaseVersion": "341", "name": "My Arc Start-Date Boundary Fix", "releaseType": "patch", "startDate": "2026-08-16", "releaseModules": ["My Arc", "Habits & Routines", "Release Management"], "releaseChangelog": "Changed My Arc program-day calculations to local calendar date and suppressed Today’s Check-In before Start Date.", "releaseNotes": "Upcoming programs no longer show Day 1 or future habit occurrences during the prior local evening."}, {"releaseVersion": "342", "name": "Date Synchronization Invalid-Time Fix", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["Action Items", "Bulk Add", "Bulk Update", "Imports", "Release Management"], "releaseChangelog": "Hardened shared date arithmetic to accept ISO and displayed MM/DD/YYYY values without Invalid time value errors.", "releaseNotes": "Same-day Duration 0 records save normally and date synchronization safely handles supported display formats."}, {"releaseVersion": "343", "name": "Master Plan Active Now Hierarchy Restoration", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["Master Plan", "Hierarchy"], "releaseChangelog": "Restored Active Now nesting from the canonical Hierarchy parent-child relationships and included ancestor containers for active descendants.", "releaseNotes": "Active Now displays Project/Phase ancestry and nested linked work instead of flattening qualifying tasks."}, {"releaseVersion": "344", "name": "v343 Script Placement Repair", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["Master Plan", "Hierarchy", "Industry Profiles"], "releaseChangelog": "Repaired v343 release-script placement that had been inserted inside the Industry Profile print-template string.", "releaseNotes": "Normal page rendering was restored while retaining the v343 Active Now hierarchy logic."}, {"releaseVersion": "345", "name": "Required-Field Validation Alignment", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["All Action Items", "Release Management", "Core Action Item Module"], "releaseChangelog": "Aligned close validation to fields that currently exist and removed retired Release gate-field requirements.", "releaseNotes": "Required-field and attention flags use the current action-item schema and type-specific terminal states."}, {"releaseVersion": "346", "name": "Validation & Sprint View Alignment", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["All Action Items", "Master Plan", "Sprint Planner", "Core Action Item Module"], "releaseChangelog": "Reconciled Needs Attention validation and aligned Master Plan Sprint with Sprint Planner using the same canonical sprint source.", "releaseNotes": "All Action Items and Master Plan Sprint use aligned validation/task sets and inline edits refresh sprint-derived surfaces."}, {"releaseVersion": "347", "name": "Validation Field Reconciliation", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["Core Action Item Module", "Change Management", "Release Management"], "releaseChangelog": "Removed legacy validation wrappers that required retired Change/Release fields; Change close validation uses the current Test Result control.", "releaseNotes": "Validation requirements are reconciled to fields that exist in the current UI."}, {"releaseVersion": "348", "name": "All Action Item Validation Audit", "releaseType": "patch", "startDate": "2026-08-17", "releaseModules": ["Core Action Item Module"], "releaseChangelog": "Audited every current action-item type against fields actually rendered/stored and removed stale validation references; added Challenge to shared work validation.", "releaseNotes": "Required-field checks reference current fields only across all action-item types."}, {"releaseVersion": "349", "name": "Implementation Scorecard Workspace", "releaseType": "minor", "startDate": "2026-08-17", "releaseModules": ["Implementation Scorecard", "System Governance", "Change Management"], "releaseChangelog": "Added the visual Implementation Scorecard for modules/workspaces/lists across Purpose, Configuration, Data, Views, Automation/Logic, Testing, Documentation, and Adoption.", "releaseNotes": "Added health metrics, nested view scoring, review version/date, implementation queue, and Change Management visibility."}, {"releaseVersion": "350", "name": "Implementation Control Center — Live Work Progress", "releaseType": "minor", "startDate": "2026-08-18", "releaseModules": ["Implementation Scorecard", "All Action Items", "Progress Rollups", "System Governance"], "releaseChangelog": "Reworked the scorecard into an Implementation Control Center with live hierarchy, Attention Needed, and calcProg-based work completion.", "releaseNotes": "Implementation Health remains a separate quality review while actual LCC work completion updates from linked action items."}, {"releaseVersion": "351", "name": "Implementation Scorecard Render Fix", "releaseType": "patch", "startDate": "2026-08-18", "releaseModules": ["Implementation Scorecard"], "releaseChangelog": "Fixed the scorecard blank-screen failure caused by v350 stylesheet/script placement.", "releaseNotes": "Implementation Health, All Action Items, and Attention Needed render instead of a blank workspace."}, {"releaseVersion": "352", "name": "Implementation Control Center Script Closure Fix", "releaseType": "patch", "startDate": "2026-08-18", "releaseModules": ["Implementation Scorecard"], "releaseChangelog": "Corrected the remaining scorecard script boundary error by closing JavaScript before the User Guide HTML comment.", "releaseNotes": "The scorecard renderer parses and executes normally."}, {"releaseVersion": "353", "name": "Implementation Scorecard Project Scope", "releaseType": "patch", "startDate": "2026-08-18", "releaseModules": ["Implementation Scorecard"], "releaseChangelog": "Scoped scorecard work views to the LCC Implementation Project and linked descendants; renamed the work tab Implementation Plan.", "releaseNotes": "Implementation Plan and Attention Needed no longer pull the entire LCC action-item universe."}, {"releaseVersion": "354", "name": "Release Registry Continuity & Bulk Template Alignment", "releaseType": "infrastructure", "startDate": "2026-08-18", "releaseModules": ["Release Management", "Bulk Add", "Import", "Implementation Scorecard"], "releaseChangelog": "Added a persistent release-registry reconciler for every coded version v337–v354 and aligned the implementation-plan bulk-add output to the current v329 project template.", "releaseNotes": "Release Management now restores all coded releases after v336, including versions previously missing from persisted data. The implementation plan uses the current project Bulk Add schema and 15-minutes-per-day task duration rule."}, {"releaseVersion": "355", "name": "Release Registry Startup Ordering Fix", "releaseType": "hotfix", "startDate": "2026-08-18", "releaseModules": ["Release Management", "Core Action Item Module", "Drive"], "releaseChangelog": "Moved the post-v336 Release registry reconciler ahead of application initialization and invoked it synchronously immediately after persisted data loads, before migrations, recalculation, or first render.", "releaseNotes": "Release records v337–v355 are now inserted into the active LCC data store during startup rather than relying on a late timer after the application has already initialized."}];
-  // v359 — repair post-v355 release continuity at startup. These are only the releases that were coded after the original v355 startup registry stopped.
-  const V359_RELEASE_REPAIR=[
-    {"releaseVersion":"356","name":"90-Day Lock-In Money Challenge","releaseType":"minor","startDate":"2026-08-18","releaseModules":["My Arc","Finance Tracker","Release Management"],"releaseChangelog":"Added a 90-day Lock-In money challenge to My Arc with a unique daily make/save prompt, $44.44 deposit tracking, actual money made/saved, Reality Check reflection, Money Score, and on-time Lock-In Score.","releaseNotes":"My Arc now includes a 90-day money practice designed to create or save the daily $44.44. Late catch-up deposits improve the Money Score but do not retroactively restore an on-time Lock-In day."},
-    {"releaseVersion":"357","name":"Lock-In Payday Alignment & Daily Log Tasks","releaseType":"minor","startDate":"2026-08-18","releaseModules":["My Arc","Master Plan","Finance Operations","Release Management"],"releaseChangelog":"Moved the 90-Day Lock-In Challenge start to 08/29/2026 and end to 11/26/2026; changed Actual Saved to calculate directly from deposited amounts; retained Challenge Savings as a separate avoided-spend measure; added one 5-minute Log Lock-In task for each of the 90 challenge days.","releaseNotes":"The Lock-In challenge now begins on 08/29/2026. Each challenge day has a dated LCC task reminding the user to log My Arc, and Actual Saved is derived from Amount Deposited."},
-    {"releaseVersion":"358","name":"2026.17 Change Set — Catalog & Operations Reconciliation","releaseType":"minor","startDate":"2026-08-19","releaseModules":["Catalog Settings","Task Module","Project Module","Habits & Routines","Automation","Change Management","Content Module","Home Inventory","Rooms","Industry Profile Module","Master Plan","Planning Queue","Release Management","Rewards Bank","Who I Am Becoming","Workflow Module","Implementation Scorecard"],"releaseChangelog":"Implemented the 35 requests in change set 2026.17, including field-catalog mappings, habit recurrence repair, automation routing, Change/Release Management reconciliation, Funnel Page content type, inventory/room improvements, Master Plan and Planning Queue updates, rewards recurrence, and linked editor behavior.","releaseNotes":"v358 reconciles the 2026.17 change list across Catalog Settings, Habits, Change/Release Management, Inventory/Rooms, Master Plan/Planning, Rewards and related modules."},
-    {"releaseVersion":"359","name":"Post-v355 Release Registry Continuity Fix","releaseType":"hotfix","startDate":"2026-08-19","releaseModules":["Release Management","Core Action Item Module","Startup/Load"],"releaseChangelog":"Extended the synchronous startup release registry to reconcile the coded Release records for v356, v357, v358, and the new v359 record before migration, recalculation, and first render.","releaseNotes":"Release Management now restores the missing post-v355 Release action items during startup instead of depending on late timer-based per-version seeders. Existing Release records are reconciled rather than duplicated."}
-  ];
-  let tries=0;const timer=setInterval(()=>{tries++;if(tries>300)clearInterval(timer)},100);
-  
-})();
+
 
 init();
 // initPatches() called below after PATCH_DATA loads
@@ -28897,7 +28781,7 @@ function dlBulkImport(tab){const inp=document.createElement('input');inp.type='f
 function dlParseCsv(line){const a=[];let s='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){s+='"';i++}else q=!q}else if(c===','&&!q){a.push(s);s=''}else s+=c}a.push(s);return a}
 function dlExportExcel(){const d=dlRecalc();if(typeof XLSX==='undefined'){alert('Excel library is not loaded.');return}const wb=XLSX.utils.book_new(),add=(name,arr)=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(arr||[]),name.slice(0,31));add('Overview',[{NAS:d.config.nasName,CapacityTB:d.config.nasCapacityTB,DriveCount:d.config.driveCount,Redundancy:d.config.redundancy,Sources:d.sources.length,Migrations:d.migrations.length,Photos:d.photoItems.length,Documents:d.documents.length,Movies:d.media.length,Books:d.books.length,Devices:d.devices.length,NeedsAttention:dlNeeds().length}]);add('Sources',d.sources);add('Migration',d.migrations);add('Photo Collections',d.photoCollections);add('Photo Items',d.photoItems);add('Document Requirements',d.requirements);add('Important Documents',d.documents);add('Movies',d.media);add('TV Shows',d.tvShows);add('TV Episodes',d.tvEpisodes);add('Books',d.books);add('Devices',d.devices);add('Backups',d.backups);add('Family Access',d.users);add('Digital Assets',d.assets);add('Inbox',d.inbox);add('Exceptions',d.exceptions);XLSX.writeFile(wb,'LCC-Digital-Library-v361-'+dlToday()+'.xlsx')}
 window.renderDigitalLibrary=renderDigitalLibrary;window.dlTab=dlTab;window.dlOpenForm=dlOpenForm;window.dlSaveForm=dlSaveForm;window.dlDeleteRecord=dlDeleteRecord;window.dlPhotoManifest=dlPhotoManifest;window.dlPhotoItem=dlPhotoItem;window.dlPhotoMark=dlPhotoMark;window.dlOpenRecord=dlOpenRecord;window.dlCreateTask=dlCreateTask;window.dlSaveSettings=dlSaveSettings;window.dlAddFromInventory=dlAddFromInventory;window.dlOpenLinkedFromInventory=dlOpenLinkedFromInventory;window.dlDownloadTemplate=dlDownloadTemplate;window.dlBulkImport=dlBulkImport;window.dlExportExcel=dlExportExcel;
-// Navigation: Digital Library remains a domain module, not a new Action Item type. v405 routes it through the canonical showPage/renderAll functions.
+// Navigation: Digital Library remains a domain module, not a new Action Item type. v414 routes it through the canonical showPage/renderAll functions.
 // Home Inventory physical → digital bridge. Physical records remain authoritative for location/value/condition.
 const oldInvOpen361=window.openInvModal;window.openInvModal=function(id){const r=oldInvOpen361&&oldInvOpen361.apply(this,arguments);setTimeout(()=>{const item=id?getItem(id):null,modal=document.getElementById('inventory-modal');if(!modal||!item)return;let box=document.getElementById('v361-dl-inventory');if(!box){box=document.createElement('div');box.id='v361-dl-inventory';box.style.cssText='margin:12px 0;padding:10px;border:1px solid #D8CBE6;border-radius:var(--r);background:#F8F5FF';modal.querySelector('.modal-body')?.appendChild(box)}dlInventoryBox(item,box)},0);return r};
 // v361 — Canonical Linked Items integration for Digital Library records.
@@ -29138,7 +29022,7 @@ if(typeof window.renderHubPeriodLens==='function'){const _lens369=window.renderH
 // #0763-0766 widget counts: refresh after every save/recalc and add exact count descriptions.
 function v369LensDescriptions(){const m=document.getElementById('mp-lens-metrics');if(!m)return;let note=document.getElementById('v369-lens-note');if(!note){note=document.createElement('div');note.id='v369-lens-note';note.style.cssText='font-size:10px;color:var(--txt3);margin:-4px 0 12px';m.insertAdjacentElement('afterend',note)}const p=window.hubPeriod||'today';const txt={today:'Today counts actionable items due today; Overdue uses the same visible-focus eligibility and excludes Done, Cancelled, On Hold, Goals, Habits and reference records.',week:'This Week uses Active Now-style hierarchy for actionable work whose working window overlaps the current week; Habits and completed/cancelled/on-hold records are excluded.',sprint:'Sprint mirrors the current Sprint Planner and current Planning Stage values in real time.',month:'Month uses Active Now-style hierarchy for actionable work overlapping the current month; Goals, Habits and completed/cancelled/on-hold records are excluded.',quarter:'Quarter uses Active Now-style hierarchy for actionable work overlapping the current quarter; Habits and completed/cancelled/on-hold records are excluded; Goals are included in quarter metrics.'};note.textContent=txt[p]||''}
 const _save369=window.save;if(typeof _save369==='function')window.save=function(){const r=_save369.apply(this,arguments);setTimeout(()=>{if(document.getElementById('pg-hub')?.style.display!=='none'&&typeof renderHubPeriodLens==='function'){renderHubPeriodLens();v369LensDescriptions()}},0);return r};
-// v405 — showPage wrapper removed; these hooks now run from the canonical showPage function.
+// v414 — showPage wrapper removed; these hooks now run from the canonical showPage function.
 // Release record for this actual repair release only.
 
 setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();if(typeof recalc==='function')recalc()}catch(e){console.warn('v369 init',e)}},300);
@@ -29170,7 +29054,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();if(typeof recalc
      const items=qualifiedItems.map(i=>cleanLinks(JSON.parse(JSON.stringify(i)),qualified));
      const used=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
      const lists=(S.lists||[]).filter(l=>used.has(String(l.id))||BUSINESS_NAMES.has(norm(l.name)));
-     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v374',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v414',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' strictly business-scoped Action Items for BCC');
    }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
  };
@@ -29334,10 +29218,7 @@ function q(id){return document.getElementById(id)}
 
   
 
-  let tries=0,t=setInterval(function(){
-    if(window.S&&Array.isArray(S.items)){if(q('inv-command-dashboard')&&(window.inv381View||'overview')==='overview')renderOverview382();clearInterval(t)}
-    else if(++tries>80)clearInterval(t);
-  },250);
+  
 })();
 </script>
 <style id="lcc-v383-home-inventory-refinement-css">
@@ -29397,7 +29278,7 @@ function q(id){return document.getElementById(id)}
  document.addEventListener('click',e=>{const b=e.target.closest?.('#inv381-tabs button');if(b)setTimeout(refresh383,30)});
  window.__inv403Render383Refresh=function(){setTimeout(refresh383,30)};
  
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){setTimeout(()=>{renderInventory();refresh383()},80);clearInterval(t)}else if(++n>80)clearInterval(t)},250);
+ 
 })();
 </script>
 <!-- v384 — Inventory Core Filters + Category/Subcategory Options -->
@@ -29429,7 +29310,6 @@ function q(id){return document.getElementById(id)}
 </script>
 <!-- v385 — Home Inventory Module Foundation Stabilization -->
 <style id="lcc-v385-inventory-stable-css">
-.inv385-fgrid{padding:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}.inv385-fgrid label{display:block;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3);margin-bottom:3px}.inv385-fgrid input,.inv385-fgrid select{width:100%;padding:6px 7px;border:1px solid var(--bdr2);border-radius:8px;background:var(--soft);font-size:10px;color:var(--txt)}
 .inv385-cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:11px}.inv385-card{border:1px solid var(--bdr);border-radius:13px;background:var(--card);overflow:hidden;cursor:pointer;box-shadow:var(--sh)}.inv385-card:hover{border-color:var(--teal);transform:translateY(-1px)}.inv385-photo{height:115px;background:linear-gradient(135deg,#0E7490,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:34px}.inv385-cbody{padding:11px}.inv385-name{font-size:12px;font-weight:800;color:var(--navy)}.inv385-meta{font-size:9.5px;color:var(--txt3);line-height:1.55;margin-top:5px}.inv385-flag{display:inline-block;border-radius:12px;padding:3px 7px;font-size:8.5px;font-weight:800;background:#FCE7F3;color:#9F1239}.inv385-ok{background:#DCFCE7;color:#166534}.inv385-missing{margin-top:6px;font-size:9px;color:#9F1239;line-height:1.45}
 .inv385-table{width:100%;border-collapse:collapse;min-width:950px}.inv385-table th{padding:7px;background:var(--navy);color:#fff;text-align:left;font-size:9px;position:sticky;top:0}.inv385-table td{padding:6px;border-bottom:1px solid var(--bdr);font-size:10px;vertical-align:top}.inv385-table input,.inv385-table select{font-size:10px;padding:4px 5px;border:1px solid var(--bdr2);border-radius:6px;background:var(--card);color:var(--txt)}
 #inv-modal #inv383-sections>.inv383-section{margin:9px 0}#inv-modal #inv383-sections>.inv383-section:not([open]) .inv383-body{display:none}#inv-modal #inv383-sections>.inv383-section>summary{min-height:38px;align-items:center}
@@ -29465,7 +29345,7 @@ function q(id){return document.getElementById(id)}
  window.__inv403Open385=function(){setTimeout(modal,60)};
  window.__inv403Render385=function(){setTimeout(()=>{setupControls();tabs();wireTabs();renderOverview();if((window.inv381View||'overview')==='inventory')renderInventoryView()},50)};
  
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&q('inv-command-dashboard')){setupControls();tabs();wireTabs();renderOverview();const b=q('inv381-tabs button[data-v=overview]');if(b)activate('overview',b);clearInterval(t)}else if(++n>100)clearInterval(t)},200);
+ 
 })();
 </script>
 <!-- v388 — Notion-style Home Inventory Workspace -->
@@ -29495,7 +29375,7 @@ function q(id){return document.getElementById(id)}
  window.inv388Units=()=>showOnly(inv().filter(i=>qty(i)>0),'Records With Physical Quantity');window.inv388Value=()=>showOnly(inv().filter(i=>Number(i.currentValue||i.price)>0),'Items With Documented Value');window.inv388Unassigned=()=>showOnly(inv().filter(i=>!i.location),'Missing Room');
  window.inv388View=function(v){window.inv388Current=v;ensureTabs();q('inv388-tabs')?.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));[q('inv-command-dashboard'),q('inv-asset-insights'),q('inv381-view'),q('inv-content')].forEach(x=>{if(x)x.style.display='none'});if(v==='overview')return overview();if(v==='all'){return showOnly(inv(),'All Inventory')}if(v==='room')return grouped(room,'Inventory by Room');if(v==='category')return grouped(cat,'Inventory by Category');if(v==='containers')return containers();if(v==='attention')return showOnly(inv().filter(i=>miss(i).length),'Needs Attention');if(v==='buy')return showOnly(inv().filter(i=>['Need to Buy','Out of Stock'].includes(i.invStatus)),'To Buy');if(v==='disposition')return showOnly(inv().filter(i=>['Donate','Sell','Gift','Recycle','Trash','Ready to Exit','Exited'].includes(i.declutterStatus)||['Donated','Trashed','Sold','Gifted'].includes(i.invStatus)),'Disposition')};
  
- function init(){ensureTabs();setTimeout(()=>inv388View('overview'),80)}let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)&&q('inv-command-dashboard')){init();clearInterval(t)}else if(++n>100)clearInterval(t)},200);
+ function init(){ensureTabs();setTimeout(()=>inv388View('overview'),80)}
  window.__inv403Render388=function(){setTimeout(()=>{ensureTabs();inv388View(window.inv388Current||'overview')},100)};
 })();
 </script>
@@ -29557,7 +29437,7 @@ function q(id){return document.getElementById(id)}
  // Make v389/v385 completeness filters agree with the new core requirement model when their helpers are reachable.
  window.inv390CoreComplete=i=>!coreMissing(i).length;
  
- let n=0,t=setInterval(()=>{if(window.S&&Array.isArray(S.items)){clearInterval(t)}else if(++n>80)clearInterval(t)},200);
+ 
 })();
 </script>
 <script id="lcc-v403-inventory-canonical-hooks">
@@ -29579,34 +29459,35 @@ function q(id){return document.getElementById(id)}
     if(typeof window.__inv403Validate390==='function'&&!window.__inv403Validate390())return;
     return typeof window.__inv403Save381==='function'?window.__inv403Save381(baseSave,this,arguments):baseSave.apply(this,arguments);
   };
-})();
-</script>
-<script id="lcc-v390-release-core-status-simplification">
-(function(){
- const REMOVED=['releaseStatus','testResult','releaseFileName','releaseDate','releaseTargetShipDate','releaseTestingStatus','releaseBackupStatus','releaseChangelogComplete','releaseUserGuideComplete','releaseVerificationStatus','releaseMigrationStatus','releaseReadinessOverride','releaseOverrideReason','releaseRollbackRequired','releaseRollbackDate','releaseRolledBackTo','releaseSummary','releaseUserGuide','releaseTechnicalNotes','releaseActualDate'];
- function clean(){
-   if(!window.S||!Array.isArray(S.items))return;
-   let changed=false;
-   S.items.forEach(i=>{if(i&&i.type==='release'){REMOVED.forEach(k=>{if(Object.prototype.hasOwnProperty.call(i,k)){delete i[k];changed=true;}});}});
-   if(changed){try{save();}catch(e){}}
- }
- const oldLoad=window.load; if(typeof oldLoad==='function')window.load=function(){const r=oldLoad.apply(this,arguments);clean();return r;};
- const oldDrive=window.loadFromDriveData; if(typeof oldDrive==='function')window.loadFromDriveData=function(){const r=oldDrive.apply(this,arguments);clean();return r;};
- setTimeout(clean,0);
+  // v413 — one late readiness poll replaces the five historical Inventory patch polls.
+  let _v413Tries=0,_v413Ready=setInterval(()=>{
+    if(window.S&&Array.isArray(S.items)&&document.getElementById('inv-command-dashboard')){
+      clearInterval(_v413Ready);
+      try{window.renderInventory?.();}catch(e){console.warn('v413 inventory init',e);}
+    }else if(++_v413Tries>100)clearInterval(_v413Ready);
+  },200);
 })();
 </script>
 
 
 
 
-USER GUIDE: v393 — Release Management counts now use the complete Release Management list. The All and Releases chips count the same historical Release records shown in the Workspace; Hide Done/Cancelled remains the user-controlled visibility option. Release records remain fully manual.
-CHANGE LOG: v393 — Removed the obsolete pre-render Release filter in openListDetail that excluded Done/completed Release records before Release Management counts were calculated. No Release records, statuses, filters, or persistence behavior were changed.
-RELEASE NOTES: v393 — Release-count correction only. Existing Release records are preserved and no Release record is auto-created.
 
 
-<!-- USER GUIDE: v405 — Runtime behavior is unchanged. Historical inline User Guide, Change Log, and Release Notes comments from prior versions were removed from the live HTML so the file carries only the current release documentation. -->
-<!-- CHANGE LOG: v405 — Physically removed historical inline USER GUIDE / CHANGE LOG / RELEASE NOTES HTML comments from prior versions and updated current version labels to v405. No executable JavaScript, CSS rules, schemas, records, navigation, validation, calculations, linking, Bulk Add/Bulk Update, or export behavior was intentionally changed. -->
-<!-- RELEASE NOTES: v405 — Historical documentation/comment cleanup only. No new Action Item type, field, module, or linkable object. Release records remain manual and no Release Action Item is auto-created. -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- USER GUIDE: v414 — Retired UI residue cleanup removed one orphaned Home Inventory filter-grid style that no current renderer produces. Current Inventory cards, filters, workspace, modal, rewards, and overview styling remain intact. Historical v393 Release documentation that had been left as plain text in the live HTML was also removed. -->
+<!-- CHANGE LOG: v414 — Audited the versioned Inventory CSS blocks against live HTML/JavaScript consumers. Physically removed only the unused .inv385-fgrid, .inv385-fgrid label, and .inv385-fgrid input/select rules; retained all v383/v385/v388/v390 selectors still emitted by active Inventory renderers. Removed the stray non-comment v393 User Guide/Change Log/Release Notes text from the document body. -->
+<!-- RELEASE NOTES: v414 — Retired CSS/UI residue cleanup only. No Action Item type, field, module, linkable object, current Inventory behavior, or existing record was changed. Release records remain manual and no Release Action Item is auto-created. -->
 </body>
 
 </html>
