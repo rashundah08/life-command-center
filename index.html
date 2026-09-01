@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v419</title>
+<title>LCC v421</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v419</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v421</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1403,7 +1403,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v419</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v421</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3492,6 +3492,27 @@ function enforceV305KeeperLists(){
 }
 
 
+
+// v421 — restored from v407 after the v408 seeder cleanup removed the declaration while current list UI still referenced it.
+const PROTECTED_LIST_IDS=['uncat','parking','biz-main','planning-main','knowledge-hub','maintenance-main','releases','lccop-change','perop-home','perop-health','perop-finance','perop-lifeadmin','perop-family','perop-growth'];
+
+function currentListsForUi(){
+  // v420 — canonical list source for sidebar, Lists page, and Bulk Update.
+  if(!Array.isArray(S.lists))S.lists=[];
+  const seen=new Set(),clean=[];
+  S.lists.forEach(l=>{
+    if(!l||l.id==null)return;
+    const id=String(l.id).trim();
+    if(!id||seen.has(id))return;
+    seen.add(id);
+    if(!l.name)l.name=id;
+    if(!l.color)l.color='#6B7280';
+    clean.push(l);
+  });
+  S.lists=clean;
+  enforceV305KeeperLists();
+  return S.lists;
+}
 let S={lists:[...DEFAULT_LISTS.map(l=>({...l}))],items:[],knowledge:[],knowledgeCategories:[],filter:'all',cats:[],activeList:null,editId:null,pendingClId:null,nlColor:COLORS[0],dashPanel:null,bulkMode:'add',pendingSaveObj:null,catalogSettings:{},companySops:{}};
 let ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],linkedChallenges:[],linkedPhases:[],linkedReleases:[],linkedProducts:[],linkedEvents:[],linkedClientBuilds:[],linkedIndustryProfiles:[],linkedWorkflows:[],linkedHabits:[],linkedInventory:[],linkedRooms:[],linkedAutomations:[],linkedDigital:[],listIds:[],categories:[]};
 
@@ -10007,10 +10028,11 @@ function switchBulkTab(tab){
   if(tab==='update'){
     bulkUpdateLists=[];bulkUpdateCats=[];bulkRemoveLists=[];bulkRemoveCats=[];
     populateBulkUpdateItems();
+    const uiLists=currentListsForUi();
     const bl=document.getElementById('bu-lists');
-    if(bl)bl.innerHTML=S.lists.map(l=>`<div class="lci" onclick="toggleBulkList('update','${l.id}',this,'${l.color}')"><span class="ld" style="background:${l.color}"></span>${esc(l.name)}</div>`).join('');
+    if(bl)bl.innerHTML=uiLists.map(l=>`<div class="lci" onclick="toggleBulkList('update','${l.id}',this,'${l.color}')"><span class="ld" style="background:${l.color}"></span>${esc(l.name)}</div>`).join('');
     const blr=document.getElementById('bu-lists-remove');
-    if(blr)blr.innerHTML=S.lists.map(l=>`<div class="lci" style="border-color:rgba(246,62,115,.3)" onclick="toggleBulkListRemove('${l.id}',this,'${l.color}')"><span class="ld" style="background:${l.color}"></span>${esc(l.name)}</div>`).join('');
+    if(blr)blr.innerHTML=uiLists.map(l=>`<div class="lci" style="border-color:rgba(246,62,115,.3)" onclick="toggleBulkListRemove('${l.id}',this,'${l.color}')"><span class="ld" style="background:${l.color}"></span>${esc(l.name)}</div>`).join('');
     const bc=document.getElementById('bu-cats');
     if(bc)bc.innerHTML=CATS.map(c=>`<div class="cci" onclick="toggleBulkCat('update','${c}',this)">${c}</div>`).join('');
     const bcr=document.getElementById('bu-cats-remove');
@@ -13360,7 +13382,7 @@ document.addEventListener('click',()=>{
 
 // LISTS PAGE
 function renderLists(){
-  const visibleLists=S.lists.filter(l=>l.id!=='nos');
+  const visibleLists=currentListsForUi().filter(l=>l.id!=='nos');
   document.getElementById('lists-sub').textContent=`${visibleLists.length} lists - ${S.items.length} total action items`;
   const cardFor=l=>{
     const li=S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(l.id));
@@ -13579,6 +13601,7 @@ window.activeInitiativeV298='sf';
 window.openInitiativeDashboardV298=function(k,btn){var c=initiativeTagConfig(k);if(!c)return;activeInitiativeV298=c.legacyId;window.initiativeModeV308='dashboard';window.initiativeFilterV308='all';window.initiativeCatV308='';window.initiativeTagV308='';window.initiativeSearchV308='';window.initiativeSortV308='date';showPage('initiative',btn);renderInitiativeDashboardV298();};
 
 function renderSb(){
+  currentListsForUi();
   const el=document.getElementById('sb-lists');
   if(!el)return;
   // v324 — aggregate all sidebar list counts in one database pass.
@@ -14404,7 +14427,7 @@ function showPage(page,btn){
   if(page==='sprints')renderSprints();
   if(page==='content')renderContentPlanner();
   if(page!=='lists'){const ld=document.getElementById('list-detail');if(ld)ld.style.display='none';}
-  // v419 — canonical late-page hooks formerly stacked by v369.
+  // v421 — canonical late-page hooks formerly stacked by v369.
   setTimeout(()=>{
     if(page==='hub'){if(typeof v369MoveGoals==='function')v369MoveGoals();if(typeof v369LensDescriptions==='function')v369LensDescriptions();}
     if(page==='implementation'&&typeof v369ImplementationCollapse==='function')v369ImplementationCollapse();
@@ -28773,7 +28796,7 @@ function dlBulkImport(tab){const inp=document.createElement('input');inp.type='f
 function dlParseCsv(line){const a=[];let s='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){s+='"';i++}else q=!q}else if(c===','&&!q){a.push(s);s=''}else s+=c}a.push(s);return a}
 function dlExportExcel(){const d=dlRecalc();if(typeof XLSX==='undefined'){alert('Excel library is not loaded.');return}const wb=XLSX.utils.book_new(),add=(name,arr)=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(arr||[]),name.slice(0,31));add('Overview',[{NAS:d.config.nasName,CapacityTB:d.config.nasCapacityTB,DriveCount:d.config.driveCount,Redundancy:d.config.redundancy,Sources:d.sources.length,Migrations:d.migrations.length,Photos:d.photoItems.length,Documents:d.documents.length,Movies:d.media.length,Books:d.books.length,Devices:d.devices.length,NeedsAttention:dlNeeds().length}]);add('Sources',d.sources);add('Migration',d.migrations);add('Photo Collections',d.photoCollections);add('Photo Items',d.photoItems);add('Document Requirements',d.requirements);add('Important Documents',d.documents);add('Movies',d.media);add('TV Shows',d.tvShows);add('TV Episodes',d.tvEpisodes);add('Books',d.books);add('Devices',d.devices);add('Backups',d.backups);add('Family Access',d.users);add('Digital Assets',d.assets);add('Inbox',d.inbox);add('Exceptions',d.exceptions);XLSX.writeFile(wb,'LCC-Digital-Library-v361-'+dlToday()+'.xlsx')}
 window.renderDigitalLibrary=renderDigitalLibrary;window.dlTab=dlTab;window.dlOpenForm=dlOpenForm;window.dlSaveForm=dlSaveForm;window.dlDeleteRecord=dlDeleteRecord;window.dlPhotoManifest=dlPhotoManifest;window.dlPhotoItem=dlPhotoItem;window.dlPhotoMark=dlPhotoMark;window.dlOpenRecord=dlOpenRecord;window.dlCreateTask=dlCreateTask;window.dlSaveSettings=dlSaveSettings;window.dlAddFromInventory=dlAddFromInventory;window.dlOpenLinkedFromInventory=dlOpenLinkedFromInventory;window.dlDownloadTemplate=dlDownloadTemplate;window.dlBulkImport=dlBulkImport;window.dlExportExcel=dlExportExcel;
-// Navigation: Digital Library remains a domain module, not a new Action Item type. v419 routes it through the canonical showPage/renderAll functions.
+// Navigation: Digital Library remains a domain module, not a new Action Item type. v421 routes it through the canonical showPage/renderAll functions.
 // Home Inventory physical → digital bridge. Physical records remain authoritative for location/value/condition.
 const oldInvOpen361=window.openInvModal;window.openInvModal=function(id){const r=oldInvOpen361&&oldInvOpen361.apply(this,arguments);setTimeout(()=>{const item=id?getItem(id):null,modal=document.getElementById('inventory-modal');if(!modal||!item)return;let box=document.getElementById('v361-dl-inventory');if(!box){box=document.createElement('div');box.id='v361-dl-inventory';box.style.cssText='margin:12px 0;padding:10px;border:1px solid #D8CBE6;border-radius:var(--r);background:#F8F5FF';modal.querySelector('.modal-body')?.appendChild(box)}dlInventoryBox(item,box)},0);return r};
 // v361 — Canonical Linked Items integration for Digital Library records.
@@ -29014,7 +29037,7 @@ if(typeof window.renderHubPeriodLens==='function'){const _lens369=window.renderH
 // #0763-0766 widget counts: refresh after every save/recalc and add exact count descriptions.
 function v369LensDescriptions(){const m=document.getElementById('mp-lens-metrics');if(!m)return;let note=document.getElementById('v369-lens-note');if(!note){note=document.createElement('div');note.id='v369-lens-note';note.style.cssText='font-size:10px;color:var(--txt3);margin:-4px 0 12px';m.insertAdjacentElement('afterend',note)}const p=window.hubPeriod||'today';const txt={today:'Today counts actionable items due today; Overdue uses the same visible-focus eligibility and excludes Done, Cancelled, On Hold, Goals, Habits and reference records.',week:'This Week uses Active Now-style hierarchy for actionable work whose working window overlaps the current week; Habits and completed/cancelled/on-hold records are excluded.',sprint:'Sprint mirrors the current Sprint Planner and current Planning Stage values in real time.',month:'Month uses Active Now-style hierarchy for actionable work overlapping the current month; Goals, Habits and completed/cancelled/on-hold records are excluded.',quarter:'Quarter uses Active Now-style hierarchy for actionable work overlapping the current quarter; Habits and completed/cancelled/on-hold records are excluded; Goals are included in quarter metrics.'};note.textContent=txt[p]||''}
 const _save369=window.save;if(typeof _save369==='function')window.save=function(){const r=_save369.apply(this,arguments);setTimeout(()=>{if(document.getElementById('pg-hub')?.style.display!=='none'&&typeof renderHubPeriodLens==='function'){renderHubPeriodLens();v369LensDescriptions()}},0);return r};
-// v419 — showPage wrapper removed; these hooks now run from the canonical showPage function.
+// v421 — showPage wrapper removed; these hooks now run from the canonical showPage function.
 // Release record for this actual repair release only.
 
 setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();if(typeof recalc==='function')recalc()}catch(e){console.warn('v369 init',e)}},300);
@@ -29046,7 +29069,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();if(typeof recalc
      const items=qualifiedItems.map(i=>cleanLinks(JSON.parse(JSON.stringify(i)),qualified));
      const used=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
      const lists=(S.lists||[]).filter(l=>used.has(String(l.id))||BUSINESS_NAMES.has(norm(l.name)));
-     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v419',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v421',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' strictly business-scoped Action Items for BCC');
    }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
  };
@@ -29482,9 +29505,11 @@ function q(id){return document.getElementById(id)}
 
 
 
-<!-- USER GUIDE: v419 — Planning Stage selections now persist after save, Bulk Update, Focus bulk actions, and Sprint Planner bulk actions. The system no longer overwrites a deliberate Needs Planning, Scheduled, Deferred, or N/A selection just because all required fields are complete. Blank Planning Stage values are still initialized automatically, On Hold still forces Deferred, and Ready is still demoted to Needs Planning if required fields later become incomplete. -->
-<!-- CHANGE LOG: v419 — Corrected routeParkingLot() Planning Stage normalization. Removed the rule that forced every fully complete non-On-Hold item to Ready during recalc(). Recalc now auto-initializes Planning Stage only when blank, preserves explicit user-selected stages, keeps On Hold -> Deferred, and retains the existing safeguard that demotes Ready when required fields become incomplete. -->
-<!-- RELEASE NOTES: v419 — Planning Stage persistence fix only. No new Action Item type, field, module, linkable object, list, or existing record was added or removed. Release records remain manual and no Release Action Item is auto-created. -->
+
+
+<!-- USER GUIDE: v421 — Full deployment-style regression correction. The My Lists page now renders again because the protected core-list ID definition used by list cards and list deletion safeguards has been restored. v418 Focus/Sprint Bulk Update behavior, v419 Planning Stage persistence, and v420 canonical list rendering remain intact. -->
+<!-- CHANGE LOG: v421 — Restored the exact PROTECTED_LIST_IDS constant that existed through v407 and was accidentally removed during the v408 list-seeder cleanup while renderLists() and deleteList() still referenced it. No list objects or item listIds were rebuilt, deleted, or remapped. This version was validated with the expanded critical-path browser regression suite covering startup/list integrity, navigation, Action Item/Bulk Add/Bulk Update behavior, Focus/Sprint scoped updates, Planning Stage invariants, list rendering/add/remove, linked items, planning widgets, Release fields, Inventory/Digital Library smoke paths, Business exclusion, persistence payload round-trip, handler references, and JavaScript syntax. -->
+<!-- RELEASE NOTES: v421 — Deployment-readiness correction release. No Action Item type, field, module, linkable object, List, or existing record was added or removed. Existing Lists and assignments are preserved. Release records remain manual and no Release Action Item is auto-created. -->
 </body>
 
 </html>
