@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v428</title>
+<title>LCC v429</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v428</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v429</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1403,7 +1403,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v428</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v429</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4188,6 +4188,16 @@ function ensureReleaseV428(){
   return true;
 }
 
+
+// v429 — Digital Library initialization recovery. Add only this coded version's Release record.
+function ensureReleaseV429(){
+  if(!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.type==='release'&&String(i.releaseVersion||'')==='429'))return false;
+  const now=new Date().toISOString(),day=typeof dlToday==='function'?dlToday():new Date().toISOString().slice(0,10);
+  S.items.push({id:'release-lcc-v429',name:'LCC v429 — Digital Library Initialization Recovery',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',releaseVersion:'429',releaseType:'patch',releaseModules:['Digital Library','Initialization','Data Compatibility','Performance'],releaseChangelog:'Hardened Digital Library initialization against legacy or malformed persisted config values. Replaced eager per-item mutation during module initialization with lightweight structural validation, restored safe defaults for missing config, folder hierarchy, naming rules, inbox, sources, and requirements, and preserved v428 lazy rendering.',releaseNotes:'v429 fixes the Digital Library Initialization Error shown after v428 by making startup tolerant of older saved Digital Library data shapes without changing user records.',notes:'User Guide: No workflow changes. Reload the LCC and open Digital Library. The module should recover older Digital Library configuration automatically and render Overview first; Inbox filtering, pagination, bulk update, and bulk delete remain available.',completedDate:day,date:day,createdAt:now,updatedAt:now});
+  return true;
+}
+
 async function load(){
   try{
     const{payload:raw,migrated,fromAncient}=await loadDataStore();
@@ -4214,7 +4224,7 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
-  ensureReleaseV428();
+  ensureReleaseV429();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -28429,7 +28439,7 @@ const DEFAULT_REQS=[
  {id:'dreq_taxsupport',name:'Tax Supporting Documents',category:'Taxes',frequency:'Annual',physicalRequired:false,digitalRequired:true}
 ];
 function dlBlank(){return {version:1,config:{nasName:'HOME-CLOUD',nasCapacityTB:8,driveCount:1,driveSizeTB:8,redundancy:'Single Drive — No Disk Redundancy',freeReservePct:20,quarantineDays:30,householdPeople:''},sources:[],migrations:[],photoCollections:[],photoItems:[],requirements:DEFAULT_REQS.map(x=>({...x})),documents:[],media:[],tvShows:[],tvEpisodes:[],books:[],devices:[],backups:[],users:[],assets:[],exceptions:[],inbox:[],archiveRecords:[]};}
-let _dlNormItemsRef=null,_dlNormItemsLen=-1;function dl(){if(!S.digitalLibrary||typeof S.digitalLibrary!=='object')S.digitalLibrary=dlBlank();const items=S.items||[];if(_dlNormItemsRef!==items||_dlNormItemsLen!==items.length){items.forEach(i=>{if(i&&i.type==='inventory'&&typeof i.digitalLibraryIds==='string')i.digitalLibraryIds=i.digitalLibraryIds.split(';').map(x=>x.trim()).filter(Boolean);if(i&&typeof i.linkedDigital==='string')i.linkedDigital=i.linkedDigital.split(';').map(x=>x.trim()).filter(Boolean);else if(i&&!Array.isArray(i.linkedDigital))i.linkedDigital=[]});_dlNormItemsRef=items;_dlNormItemsLen=items.length;}const d=S.digitalLibrary;['sources','migrations','photoCollections','photoItems','requirements','documents','media','tvShows','tvEpisodes','books','devices','backups','users','assets','exceptions','inbox','archiveRecords'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!d.config)d.config=dlBlank().config;if(!d.requirements.length)d.requirements=DEFAULT_REQS.map(x=>({...x}));return d;}
+let _dlNormItemsRef=null,_dlNormItemsLen=-1;function dl(){if(!S.digitalLibrary||typeof S.digitalLibrary!=='object')S.digitalLibrary=dlBlank();const items=S.items||[];if(_dlNormItemsRef!==items||_dlNormItemsLen!==items.length){items.forEach(i=>{if(i&&i.type==='inventory'&&typeof i.digitalLibraryIds==='string')i.digitalLibraryIds=i.digitalLibraryIds.split(';').map(x=>x.trim()).filter(Boolean);if(i&&typeof i.linkedDigital==='string')i.linkedDigital=i.linkedDigital.split(';').map(x=>x.trim()).filter(Boolean);else if(i&&!Array.isArray(i.linkedDigital))i.linkedDigital=[]});_dlNormItemsRef=items;_dlNormItemsLen=items.length;}const d=S.digitalLibrary;['sources','migrations','photoCollections','photoItems','requirements','documents','media','tvShows','tvEpisodes','books','devices','backups','users','assets','exceptions','inbox','archiveRecords'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!d.config||typeof d.config!=='object'||Array.isArray(d.config))d.config=dlBlank().config;if(!Array.isArray(d.requirements))d.requirements=[];if(!d.requirements.length)d.requirements=DEFAULT_REQS.map(x=>({...x}));return d;}
 function dlUid(p){return p+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,6)}
 function dlNow(){return new Date().toISOString()}
 function dlToday(){return typeof today==='function'?today():new Date().toISOString().slice(0,10)}
@@ -28896,7 +28906,7 @@ const DL424_DEFAULT_NAMING={
  'Device Backup':'{date} - {name}'
 };
 let DL424_LIB_AREA='',DL424_LIB_MAIN='',DL424_LIB_SUB='';
-function dl424Ensure(d0){const d=d0||dl();if(!Array.isArray(d.config.folderHierarchy)||!d.config.folderHierarchy.length)d.config.folderHierarchy=DL424_DEFAULT_FOLDERS.map(x=>({main:x.main,subs:[...x.subs]}));if(!d.config.namingRules||typeof d.config.namingRules!=='object')d.config.namingRules={...DL424_DEFAULT_NAMING};else Object.keys(DL424_DEFAULT_NAMING).forEach(k=>{if(!d.config.namingRules[k])d.config.namingRules[k]=DL424_DEFAULT_NAMING[k]});d.inbox.forEach(x=>{if(x.nasCategory&&!x.nasMainFolder)x.nasMainFolder=x.nasCategory;if(!x.migrationStatus)x.migrationStatus='Not Started';if(!x.sourceFilingStatus)x.sourceFilingStatus='Needs Review';if(!x.migrationId)x.migrationId='';});return d}
+function dl424Ensure(d0){const d=(d0&&typeof d0==='object')?d0:dl();if(!d.config||typeof d.config!=='object'||Array.isArray(d.config))d.config={...dlBlank().config};if(!Array.isArray(d.config.folderHierarchy)||!d.config.folderHierarchy.length)d.config.folderHierarchy=DL424_DEFAULT_FOLDERS.map(x=>({main:x.main,subs:[...x.subs]}));if(!d.config.namingRules||typeof d.config.namingRules!=='object'||Array.isArray(d.config.namingRules))d.config.namingRules={...DL424_DEFAULT_NAMING};else Object.keys(DL424_DEFAULT_NAMING).forEach(k=>{if(!d.config.namingRules[k])d.config.namingRules[k]=DL424_DEFAULT_NAMING[k]});if(!Array.isArray(d.inbox))d.inbox=[];if(!Array.isArray(d.sources))d.sources=[];return d}
 function dl424Alpha(arr){return [...new Set((arr||[]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b)))}
 function dl424Options(arr,val,blank='Select…',ordered=false){const xs=ordered?[...new Set((arr||[]).filter(Boolean))]:dl424Alpha(arr);return `<option value="">${blank}</option>`+xs.map(x=>`<option value="${dle(x)}" ${String(val||'')===String(x)?'selected':''}>${dle(x)}</option>`).join('')}
 function dl424SourceOptions(d,val){return dl424Options((d.sources||[]).map(x=>x.name),val,'Select Source…')}
@@ -29975,6 +29985,9 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v428 — No workflow changes. Digital Library now renders its shell first and lazily renders only the selected tab. -->
 <!-- CHANGE LOG: v428 — Removed legacy dlRecalc()/dlNeeds() work from initial Digital Library navigation; added lightweight hero, lazy selected-tab rendering, guarded error recovery, and one-pass source migration aggregation on Overview. -->
 <!-- RELEASE NOTES: v428 — Stabilization patch for the blank Digital Library screen and navigation performance regression observed in v427. -->
+<!-- USER GUIDE: v429 — No workflow changes. Digital Library startup now repairs missing/legacy configuration structures before rendering. -->
+<!-- CHANGE LOG: v429 — Hardened dl()/dl424Ensure() against invalid persisted config and removed eager full-Inbox mutation from Digital Library initialization; retained v428 lazy rendering and v427 scale controls. -->
+<!-- RELEASE NOTES: v429 — Fixes the Digital Library Initialization Error while preserving existing Digital Library data. -->
 
 </body>
 
