@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v435</title>
+<title>LCC v436</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v435</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v436</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -4213,6 +4213,8 @@ function ensureReleaseV434(){if(!Array.isArray(S.items))return false;if(S.items.
 
 function ensureReleaseV435(){if(!Array.isArray(S.items))return false;if(S.items.some(i=>i&&i.type==='release'&&String(i.releaseVersion||'')==='435'))return false;const now=new Date().toISOString(),day=now.slice(0,10);S.items.push({id:'release-lcc-v435',name:'LCC v435 — Digital Library Single Renderer Recovery',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',releaseVersion:'435',releaseType:'patch',releaseModules:['Digital Library','My Digital Library','Renderer','Performance'],releaseChangelog:'Removed the separate v432 and v434 Digital Library renderer override blocks and replaced them with one final renderer. My Digital Library is now rendered by a function in the same closure as the router, eliminating the unavailable-library-renderer failure. Existing Inbox bulk tools, Source=Migration logic, NAS hierarchy, naming rules, Settings, and Needs Attention behavior remain in place.',releaseNotes:'v435 consolidates the Digital Library render path into one final implementation and removes the cross-script renderer lookup that kept failing on My Digital Library.',notes:'User Guide: Open Digital Library normally. Use Overview, Inbox, My Digital Library, Needs Attention, and Settings. My Digital Library browses retained items by library area, NAS Main Folder, and NAS Subfolder, with search and controlled filters. Inbox bulk update/delete, sorting, filtering, pagination, import, and manual entry are unchanged.',completedDate:day,date:day,createdAt:now,updatedAt:now});return true;}
 
+function ensureReleaseV436(){if(!Array.isArray(S.items))return false;if(S.items.some(i=>i&&i.type==='release'&&String(i.releaseVersion||'')==='436'))return false;const now=new Date().toISOString(),day=now.slice(0,10);S.items.push({id:'release-lcc-v436',name:'LCC v436 — Digital Library Explicit Router Recovery',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',releaseVersion:'436',releaseType:'patch',releaseModules:['Digital Library','Renderer','My Digital Library','Inbox','Settings'],releaseChangelog:'Replaced the v435 state-dependent Digital Library router with an explicit normalized router. Tab clicks now pass the requested view directly into renderDigitalLibrary(view), normalize the value to a primitive lower-case key, and render the matching view without relying on legacy DL_TAB or ambiguous window state. Unknown tab values fall back to Overview instead of throwing renderer-unavailable errors.',releaseNotes:'v436 removes the remaining ambiguous tab-routing failure that repeatedly surfaced as a Digital Library renderer unavailable error. Existing Digital Library functionality remains intact.',notes:'User Guide: Digital Library tabs work the same. Overview, Inbox, My Digital Library, Needs Attention, and Settings now route explicitly. No fields, import schema, NAS hierarchy, naming rules, Source=Migration logic, filters, sorting, pagination, bulk update, or bulk delete behavior changed.',completedDate:day,date:day,createdAt:now,updatedAt:now});return true;}
+
 async function load(){
   try{
     const{payload:raw,migrated,fromAncient}=await loadDataStore();
@@ -4239,7 +4241,7 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
-  ensureReleaseV435();
+  ensureReleaseV436();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -29949,8 +29951,8 @@ function q(id){return document.getElementById(id)}
 </script>
 
 
-<script id="lcc-v435-digital-library-single-renderer">
-/* v435 — one Digital Library renderer. No cross-script My Digital Library dependency. */
+<script id="lcc-v436-digital-library-explicit-router">
+/* v436 — explicit Digital Library router. No legacy tab-state dependency. */
 (function(){
   const TAB_KEY='__LCC_DL_TAB';
   const TABS=[['overview','Overview'],['inbox','Inbox'],['library','My Digital Library'],['attention','Needs Attention'],['settings','Settings']];
@@ -29987,7 +29989,7 @@ function q(id){return document.getElementById(id)}
     const size=gb>=1024?(gb/1024).toFixed(1)+' TB':gb>=1?gb.toFixed(1)+' GB':Math.round(gb*1024)+' MB';
     return `<div class="dl361-hero"><div class="dl361-kicker">Home Cloud · Digital Life Source of Truth</div><div class="dl361-title">💾 Digital Library</div><div class="dl361-sub">Inventory, review, organize, migrate, verify, and protect your digital files.</div><div class="dl361-mets"><div class="dl361-met"><b>${num(d.config.nasCapacityTB)||8} TB</b><span>NAS Capacity</span></div><div class="dl361-met"><b>${d.inbox.length.toLocaleString()}</b><span>Digital Items</span></div><div class="dl361-met"><b>${size}</b><span>Cataloged Size</span></div><div class="dl361-met"><b>${pct}%</b><span>Migration Complete</span></div><div class="dl361-met"><b>${review.toLocaleString()}</b><span>Needs Review</span></div></div></div>`;
   }
-  function tabs(){const a=window[TAB_KEY]||'overview';return `<div class="dl361-tabs">${TABS.map(([k,l])=>`<button class="dl361-tab${a===k?' active':''}" onclick="dlTab('${k}')">${l}</button>`).join('')}</div>`;}
+  function tabs(){const a=window[TAB_KEY]||'overview';return `<div class="dl361-tabs">${TABS.map(([k,l])=>`<button class="dl361-tab${a===k?' active':''}" onclick="renderDigitalLibrary('${k}')">${l}</button>`).join('')}</div>`;}
 
   function overview(v,d){
     let review=0,keep=0,del=0;const src={};
@@ -30025,18 +30027,40 @@ function q(id){return document.getElementById(id)}
   window.dl435LibraryRefresh=function(reset){libResults(!!reset);};
   window.dl435LibraryPage=function(delta){LIB.page+=(Number(delta)||0);libResults(false);};
   window.dl424Ensure=function(){return dlsafe();};
-  window.dlTab=function(t){window[TAB_KEY]=TABS.some(x=>x[0]===t)?t:'overview';renderDigitalLibrary();};
-  window.renderDigitalLibrary=function(){
+  function normalizeTab(t){
+    const key=String(t==null?'':t).trim().toLowerCase();
+    return TABS.some(x=>x[0]===key)?key:'overview';
+  }
+  window.dlTab=function(t){return window.renderDigitalLibrary(t);};
+  window.renderDigitalLibrary=function(requestedTab){
     const el=document.getElementById('digital-body');if(!el)return;
     try{
-      const d=dlsafe(),tab=window[TAB_KEY]||'overview';el.innerHTML=hero(d)+tabs()+'<div id="dl361-view"></div>';const v=document.getElementById('dl361-view');if(!v)throw new Error('Digital Library view container was not created');
-      if(tab==='overview')return overview(v,d);
-      if(tab==='library')return library(v,d);
-      if(tab==='attention')return attention(v,d);
-      if(tab==='inbox'&&typeof dlInbox424==='function')return dlInbox424(v,d);
-      if(tab==='settings'&&typeof dlSettings424==='function')return dlSettings424(v,d);
-      throw new Error('Digital Library renderer is unavailable for '+tab);
-    }catch(err){console.error('Digital Library v435 render error',err);const msg=String(err&&err.message||err);el.innerHTML=`<div class="dl361-card"><h3>Digital Library render error</h3><div class="dl361-small">${esc(msg)}</div><div class="dl361-tools" style="margin-top:10px"><button class="btn" onclick="window.__LCC_DL_TAB='overview';renderDigitalLibrary()">Return to Overview</button></div></div>`;}
+      const d=dlsafe();
+      const tab=requestedTab==null?normalizeTab(window[TAB_KEY]||'overview'):normalizeTab(requestedTab);
+      window[TAB_KEY]=tab;
+      el.innerHTML=hero(d)+tabs()+'<div id="dl361-view"></div>';
+      const v=document.getElementById('dl361-view');if(!v)throw new Error('Digital Library view container was not created');
+      switch(tab){
+        case 'overview': overview(v,d); break;
+        case 'library': library(v,d); break;
+        case 'attention': attention(v,d); break;
+        case 'inbox':
+          if(typeof window.dlInbox424==='function')window.dlInbox424(v,d);
+          else if(typeof dlInbox424==='function')dlInbox424(v,d);
+          else v.innerHTML='<div class="dl361-card"><h3>Inbox</h3><div class="dl361-empty">Inbox controls are unavailable.</div></div>';
+          break;
+        case 'settings':
+          if(typeof window.dlSettings424==='function')window.dlSettings424(v,d);
+          else if(typeof dlSettings424==='function')dlSettings424(v,d);
+          else v.innerHTML='<div class="dl361-card"><h3>Settings</h3><div class="dl361-empty">Digital Library settings are unavailable.</div></div>';
+          break;
+        default: overview(v,d);
+      }
+    }catch(err){
+      console.error('Digital Library v436 render error',err);
+      const msg=String(err&&err.message||err);
+      el.innerHTML=`<div class="dl361-card"><h3>Digital Library render error</h3><div class="dl361-small">${esc(msg)}</div><div class="dl361-tools" style="margin-top:10px"><button class="btn" onclick="renderDigitalLibrary('overview')">Return to Overview</button></div></div>`;
+    }
   };
 })();
 </script>
@@ -30079,6 +30103,10 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v434 — My Digital Library is a self-contained browse/search view. Open Digital Library → My Digital Library, choose Documents, Photos & Memories, Media, Books & Reading, or Digital Assets, then drill into NAS Main Folder and Subfolder. Search and Source/Owner/Migration/Source Filing filters apply to retained items. Item lists render 100 at a time. -->
 <!-- CHANGE LOG: v434 — Replaced the failing legacy My Digital Library renderer dependency with a standalone renderer inside the consolidated Digital Library path. Preserved retained-item category browsing, NAS hierarchy drill-down, search/filter controls, item opening, and page-limited rendering. No Digital Library fields, import schema, Source=Migration logic, naming conventions, NAS hierarchy records, Inbox bulk controls, or Action Item mappings changed. -->
 <!-- RELEASE NOTES: v434 — My Digital Library renderer recovery. Removes the remaining legacy renderer dependency responsible for the repeated My Digital Library render failure. -->
+
+<!-- USER GUIDE: v436 — Digital Library navigation is unchanged. Overview, Inbox, My Digital Library, Needs Attention, and Settings now route directly to the requested view. -->
+<!-- CHANGE LOG: v436 — Replaced state-dependent tab routing with explicit renderDigitalLibrary(view) routing, primitive tab normalization, and safe Overview fallback for unknown tab values. Removed the renderer-unavailable throw path. Existing Digital Library features and Action Item mappings were not changed. -->
+<!-- RELEASE NOTES: v436 — Digital Library explicit-router recovery release. Resolves the repeated renderer-unavailable routing failure without removing the previously designed library functionality. -->
 <!-- USER GUIDE: v435 — Digital Library uses one renderer for Overview, My Digital Library, and Needs Attention, while preserving the existing Inbox and Settings workflows. My Digital Library browses retained items by area → NAS Main Folder → NAS Subfolder and pages item lists 100 at a time. -->
 <!-- CHANGE LOG: v435 — Removed the separate v432 and v434 Digital Library renderer override blocks and replaced them with a single final renderer. My Digital Library is now rendered directly inside the same closure as the router, eliminating the cross-script unavailable-renderer failure. Existing Digital Library fields, import schema, naming rules, Source=Migration logic, NAS hierarchy, Inbox filters/sorting/pagination/bulk update/bulk delete, and Action Item mappings were not changed. -->
 <!-- RELEASE NOTES: v435 — Digital Library single-renderer recovery. Consolidates the renderer instead of layering another compatibility override. -->
