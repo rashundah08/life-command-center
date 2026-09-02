@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v421</title>
+<title>LCC v422</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v421</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v422</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1403,7 +1403,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v421</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v422</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3929,10 +3929,10 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
-  const _v379ReleaseAdded=
+  const _v422ReleaseAdded=ensureReleaseV422();
   recalc();
   renderAll();
-  if(_v379ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if(_v422ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4114,6 +4114,22 @@ const LCC_POST360_RELEASES_V379={
  '361':['Knowledge Hub Command Center','2026-08-24'],'362':['Knowledge Hub Field Controls & Validation','2026-08-24'],'363':['Knowledge Review Scheduling','2026-08-24'],'364':['Knowledge Topics & Sources','2026-08-24'],'365':['Knowledge Hub Render Hotfix','2026-08-24'],'366':['Digital Library Merge & Knowledge Hub Layout Fix','2026-08-24'],'367':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'368':['Bulk Update Field & Option Reconciliation','2026-08-24'],'369':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'370':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'371':['Business Command Center Structure','2026-08-25'],'372':['BCC Migration Export & Render Hotfix','2026-08-25'],'373':['BCC Migration Goals & Placeholders','2026-08-25'],'374':['Strict BCC Migration Scope','2026-08-25'],'375':['Bulk Add Permissive Capture','2026-08-25'],'376':['Knowledge Hub Types, Fields & CSV Upload','2026-08-25'],'377':['Master Plan BCC Separation','2026-08-26'],'378':['Release Persistence & Master Plan BCC Filter Repair','2026-08-27'],'379':['Release Continuity & Master Plan Widget Isolation','2026-08-27']
 };
 
+// v422 — add only this coded version's Release record; historical releases are not rebuilt.
+function ensureReleaseV422(){
+  if((S.items||[]).some(i=>i&&i.type==='release'&&String(i.releaseVersion||'').replace(/^v/i,'')==='422'))return false;
+  const now=Date.now(),day='2026-09-02';
+  S.items.push(makeItem({
+    id:'release-lcc-v422',name:'LCC v422 — Duration-Based Goal & Project Effort Enforcement',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'ultimate',
+    startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],
+    releaseVersion:'422',releaseType:'minor',releaseModules:['Goals','Projects','Planning','Effort'],
+    releaseChangelog:'Enforced Goal and Project Effort from planned duration. Added the 14-tier duration mapping, locked manual Effort editing for Goals/Projects, recalculated Effort after date/duration changes and across all save/import paths, and required Start Date for Goal/Project planning completeness.',
+    releaseNotes:'Goals and Projects now use the existing LCC Effort point scale automatically based on Start Date through Target Completion Date. Manual Effort selection is disabled for these two types; Tasks continue to derive Effort from Estimated Minutes.',
+    notes:'User Guide: For a Goal or Project, enter Start Date and Target Completion Date (or Start Date + Duration). LCC assigns Effort automatically: Easy 1–3d; Medium 4–7d; Hard 8–14d; Epic 15–30d; Legendary 31–45d; Ultimate 46–60d; Mythic 61–90d; Elite 91–120d; Master 121–180d; Titan 181–270d; Cosmic 271–365d; Immortal 366–545d; Ascended 546–730d; Transcendent 731+d. Change the dates to change Effort; do not manually score duration.',
+    createdAt:now,updatedAt:now
+  }));
+  return true;
+}
+
 async function load(){
   try{
     const{payload:raw,migrated,fromAncient}=await loadDataStore();
@@ -4140,6 +4156,7 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
+  ensureReleaseV422();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4471,7 +4488,7 @@ function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.
   else if(t==='transaction'){req(obj.transactionType,'Transaction Type');req(Number(obj.transactionAmount)>0,'Amount');req(obj.transactionDate,'Transaction Date');req(obj.transactionAccountId,'Account');req(obj.transactionPayee||obj.name,'Payee / Description');req(obj.transactionCategory,'Category');if(obj.transactionType==='transfer')req(obj.transactionToAccountId,'To Account');}
   else if(t==='recurringexpense'){req(obj.recurringPayee,'Payee / Service');req(Number(obj.recurringAmount)>0,'Expected Amount');req(obj.recurringFrequency,'Frequency');req(obj.recurringNextDue,'Next Due Date');req(obj.recurringAccountId,'Account');req(obj.recurringCategory,'Category');}
   return [...new Set(m)];}
-function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='goal')req(obj.smart_m,'M — Measurable');if(t==='phase')req(obj.startDate,'Start Date');if(t==='clientbuild'){req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
+function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(['goal','project'].includes(t))req(obj.startDate,'Start Date');if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='goal')req(obj.smart_m,'M — Measurable');if(t==='phase')req(obj.startDate,'Start Date');if(t==='clientbuild'){req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
 function schema2ExecutionMissing(obj){const m=[],req=(ok,l)=>{if(!ok)m.push(l)};if(obj.type==='task'&&obj.sprint){req(Number(obj.estimatedMins)>0,'Estimated Minutes');req(obj.effort,'Effort');}if(obj.type==='clientbuild')req(obj.cbAssetsStatus==='Received'||obj.assetsReceived,'Required Assets Received');return m;}
 function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=t==='change'?['released','verified','closed'].includes(obj.changeStatus):t==='industryprofile'?obj.ipStatus==='Verified':t==='automation'?obj.autoLifecycleStatus==='Live':t==='workflow'?obj.wfStatus==='Live':obj.status==='done';if(!terminal)return m;
   if(t==='goal')req(obj.smart_m,'M — Measurable');
@@ -5525,8 +5542,10 @@ function recalc(){
     // Prevents Start Date + Duration records from being treated as overdue merely because
     // their Target Date was never calculated by a specific bulk/import path.
     syncDurationDatesV337(i);
-    // v313 — Estimated Minutes is the source of truth for Effort.
-    if((parseInt(i.estimatedMins)||0)>0)i.effort=effortFromMins(i.estimatedMins);
+    // v313 — Estimated Minutes is the source of truth for Task Effort.
+    if(i.type==='task'&&(parseInt(i.estimatedMins)||0)>0)i.effort=effortFromMins(i.estimatedMins);
+    // v422 — Goal/Project Effort is locked to planned duration, regardless of entry path (modal, bulk, CSV, inline, or loaded data).
+    if(i.type==='goal'||i.type==='project')enforceGoalProjectEffortV422(i);
     // Auto-update status to 'behind' if target date has passed and not done/placeholder/cancelled/onhold
     // Events are excluded — a calendar event in the past simply occurred, it isn't "behind."
     // 0134 — On Hold items are intentionally paused, so a past date shouldn't flip them to 'behind'
@@ -7053,7 +7072,7 @@ function renderModalBody(type,item,prefill){
     <div class="g3" style="margin-bottom:13px">
       <div class="field" style="margin:0"><label>Type <span class="req">*</span></label><select id="m-type" onchange="switchType()">${typeOpts}</select></div>
       <div class="field" style="margin:0"><label>Status</label><select id="m-status" onchange="onStatusChg()">${statOpts}</select></div>
-      <div class="field" style="margin:0"><label>Effort Level</label><select id="m-effort">${effortOpts(item?.effort||'')}</select></div>
+      <div class="field" style="margin:0"><label>Effort Level</label><select id="m-effort" ${(type==='goal'||type==='project')?'disabled title="Auto-calculated from Start Date and Target Completion Date"':''}>${effortOpts((type==='goal'||type==='project')?effortFromDurationV422(item?.startDate||'',item?.date||''):(item?.effort||''))}</select><div id="m-effort-auto-hint" style="display:${(type==='goal'||type==='project')?'block':'none'};font-size:9.5px;color:var(--teal);margin-top:3px;line-height:1.35">🔒 Auto-calculated from planned duration. Change Start Date or Target Completion Date to change Effort.</div></div>
     </div>
     <div class="g2" style="margin-bottom:13px">
       <div class="field" style="margin:0"><label>Level <span class="req">*</span></label><select id="m-level" style="font-weight:600;color:${item?.level==='primary'?'#92400E':item?.level==='supporting'?'#3B4B5C':'inherit'}" onchange="this.style.color=this.value==='primary'?'#92400E':this.value==='supporting'?'#3B4B5C':'inherit'">
@@ -8564,6 +8583,7 @@ function onDateChg(){
     if(startEl)startEl.value=computed;
   }
   updateDurationPreview();
+  syncGoalProjectEffortModalV422();
   const _hd=document.getElementById('m-habit-desc'); // 0188 (v216) live open-ended/bounded refresh
   if(_hd)_hd.innerHTML=habitDescText(!!(document.getElementById('m-date')?.value));
 }
@@ -8582,13 +8602,14 @@ function onStartChg(){
     if(tcdEl)tcdEl.value=computed;
   }
   updateDurationPreview();
+  syncGoalProjectEffortModalV422();
   updateSprintDisplay();
 }
 function onDurationChg(){
   const durEl=document.getElementById('m-duration');
   const startEl=document.getElementById('m-start');
   const tcdEl=document.getElementById('m-date');
-  if(!durEl||durEl.value==='')return updateDurationPreview();
+  if(!durEl||durEl.value===''){updateDurationPreview();syncGoalProjectEffortModalV422();return;}
   const days=(parseInt(durEl.value)||0)*durationUnitMult();
   const start=startEl?.value||'';
   const tcd=tcdEl?.value||'';
@@ -8596,6 +8617,7 @@ function onDurationChg(){
   else if(tcd&&!start){if(startEl)startEl.value=subDays(tcd,days);}
   else if(start&&tcd){if(tcdEl)tcdEl.value=addDays(start,days);}
   updateDurationPreview();
+  syncGoalProjectEffortModalV422();
 }
 function updateDurationPreview(){
   const prev=document.getElementById('m-duration-preview');if(!prev)return;
@@ -8606,6 +8628,36 @@ function updateDurationPreview(){
     prev.textContent=diff===0?'Same day':diff>0?`${diff} day${diff!==1?'s':''} (${start} → ${tcd})`:`⚠ TCD is before Start`;
     prev.style.color=diff<0?'var(--pink)':'var(--txt3)';
   }else{prev.textContent='';}
+}
+// v422 — Goal/Project effort is mechanically derived from planned duration (Start Date → Target Completion Date).
+// This is intentionally separate from task effort, which remains derived from Estimated Minutes.
+const GOAL_PROJECT_DURATION_EFFORT_V422=[
+  {key:'easy',min:1,max:3},{key:'medium',min:4,max:7},{key:'hard',min:8,max:14},{key:'epic',min:15,max:30},
+  {key:'legendary',min:31,max:45},{key:'ultimate',min:46,max:60},{key:'mythic',min:61,max:90},{key:'elite',min:91,max:120},
+  {key:'master',min:121,max:180},{key:'titan',min:181,max:270},{key:'cosmic',min:271,max:365},{key:'immortal',min:366,max:545},
+  {key:'ascended',min:546,max:730},{key:'transcendent',min:731,max:Infinity}
+];
+function plannedDurationDaysV422(startDate,targetDate){
+  if(!startDate||!targetDate)return 0;
+  const a=new Date(startDate+'T12:00:00'),b=new Date(targetDate+'T12:00:00');
+  if(Number.isNaN(a.getTime())||Number.isNaN(b.getTime())||b<a)return 0;
+  return Math.max(1,Math.round((b-a)/86400000)); // same-day commitment counts as 1 day
+}
+function effortFromDurationV422(startDate,targetDate){
+  const days=plannedDurationDaysV422(startDate,targetDate);if(!days)return '';
+  const r=GOAL_PROJECT_DURATION_EFFORT_V422.find(x=>days>=x.min&&days<=x.max);return r?r.key:'';
+}
+function enforceGoalProjectEffortV422(item){
+  if(!item||!['goal','project'].includes(item.type))return item?.effort||'';
+  item.effort=effortFromDurationV422(item.startDate,item.date);return item.effort;
+}
+function syncGoalProjectEffortModalV422(){
+  const type=document.getElementById('m-type')?.value||'';
+  const el=document.getElementById('m-effort');if(!el)return;
+  const locked=type==='goal'||type==='project';
+  el.disabled=locked;
+  if(locked)el.value=effortFromDurationV422(document.getElementById('m-start')?.value||'',document.getElementById('m-date')?.value||'');
+  const hint=document.getElementById('m-effort-auto-hint');if(hint)hint.style.display=locked?'block':'none';
 }
 const EFFORT_TIME_RANGES_V313=[
   {key:'easy',label:'🟢 Easy',points:1,min:1,max:5,standard:'Quick task requiring little thought.'},
@@ -29069,7 +29121,7 @@ setTimeout(()=>{try{v369NormalizeInventory();v369EnsureFunnel();if(typeof recalc
      const items=qualifiedItems.map(i=>cleanLinks(JSON.parse(JSON.stringify(i)),qualified));
      const used=new Set(items.flatMap(i=>[...(i.listIds||[]),...(i.lists||[])]).map(String));
      const lists=(S.lists||[]).filter(l=>used.has(String(l.id))||BUSINESS_NAMES.has(norm(l.name)));
-     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v421',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
+     const payload={format:'BCC_ACTION_ITEMS_V1',exportedAt:new Date().toISOString(),source:'Life Command Center v422',scopeRule:'Every item must itself be associated with Business, RLA, Savvy Foundations or Savvy Structure; hierarchy never bypasses scope.',items,lists,itemTags:S.itemTags||[],tagLibrary:S.tagLibrary||[]};
      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-to-BCC-business-action-items-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('✓ Exported '+items.length+' strictly business-scoped Action Items for BCC');
    }catch(e){console.error(e);toast('Business export failed: '+e.message,4000)}
  };
@@ -29510,6 +29562,10 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v421 — Full deployment-style regression correction. The My Lists page now renders again because the protected core-list ID definition used by list cards and list deletion safeguards has been restored. v418 Focus/Sprint Bulk Update behavior, v419 Planning Stage persistence, and v420 canonical list rendering remain intact. -->
 <!-- CHANGE LOG: v421 — Restored the exact PROTECTED_LIST_IDS constant that existed through v407 and was accidentally removed during the v408 list-seeder cleanup while renderLists() and deleteList() still referenced it. No list objects or item listIds were rebuilt, deleted, or remapped. This version was validated with the expanded critical-path browser regression suite covering startup/list integrity, navigation, Action Item/Bulk Add/Bulk Update behavior, Focus/Sprint scoped updates, Planning Stage invariants, list rendering/add/remove, linked items, planning widgets, Release fields, Inventory/Digital Library smoke paths, Business exclusion, persistence payload round-trip, handler references, and JavaScript syntax. -->
 <!-- RELEASE NOTES: v421 — Deployment-readiness correction release. No Action Item type, field, module, linkable object, List, or existing record was added or removed. Existing Lists and assignments are preserved. Release records remain manual and no Release Action Item is auto-created. -->
+
+<!-- USER GUIDE: v422 — Goal and Project Effort is now automatic and locked. Enter Start Date + Target Completion Date (or Start Date + Duration); LCC maps the planned span to the existing Effort scale: Easy 1–3d, Medium 4–7d, Hard 8–14d, Epic 15–30d, Legendary 31–45d, Ultimate 46–60d, Mythic 61–90d, Elite 91–120d, Master 121–180d, Titan 181–270d, Cosmic 271–365d, Immortal 366–545d, Ascended 546–730d, Transcendent 731+d. Tasks remain time-based from Estimated Minutes. -->
+<!-- CHANGE LOG: v422 — Added duration-to-effort enforcement for Goal and Project records only. Effort is recalculated from Start Date/Target Completion Date during recalc(), live modal date/duration changes, and therefore after modal saves, Bulk Add, Bulk Update, CSV imports, inline updates, and persisted-data loads. Manual Effort editing is disabled in the Goal/Project modal. Start Date is now a planning-completeness requirement for Goals/Projects. Existing Effort names and point values were not changed. Added only the v422 Release record; historical Release records are not rebuilt. -->
+<!-- RELEASE NOTES: v422 — Planning rule release. Goal/Project Effort can no longer drift from planned duration or be manually inflated. Existing Goals/Projects with both dates are normalized automatically on load/recalc; those missing a date remain flagged for planning. No Action Item type, field, linkable object, List, or export column was added, so type/link/export matrices required no structural changes. -->
 </body>
 
 </html>
