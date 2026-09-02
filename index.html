@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v427</title>
+<title>LCC v428</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v427</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v428</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1403,7 +1403,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v427</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v428</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4179,6 +4179,15 @@ function ensureReleaseV427(){
   return true;
 }
 
+// v428 — Digital Library renderer stabilization. Add only this coded version's Release record.
+function ensureReleaseV428(){
+  if(!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.type==='release'&&String(i.releaseVersion||'')==='428'))return false;
+  const now=new Date().toISOString(),day=typeof dlToday==='function'?dlToday():new Date().toISOString().slice(0,10);
+  S.items.push({id:'release-lcc-v428',name:'LCC v428 — Digital Library Renderer Stabilization',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',releaseVersion:'428',releaseType:'patch',releaseModules:['Digital Library','Performance','Renderer','Overview','Inbox'],releaseChangelog:'Stabilized Digital Library rendering by removing legacy full-module recalculation and Needs Attention scans from initial navigation. Added a lightweight renderer shell, lazy active-tab rendering, guarded error recovery, and one-pass source migration aggregation for Overview.',releaseNotes:'v428 fixes the blank Digital Library screen seen in v427 and reduces work performed when opening the module. The Digital Library shell renders first; only the selected tab is then rendered. Overview migration totals are aggregated in a single pass across Digital Items.',notes:'User Guide: No workflow changes. Open Digital Library normally. Overview, Inbox, My Digital Library, Needs Attention, and Settings continue to work as before; the change is internal stabilization and performance.',completedDate:day,date:day,createdAt:now,updatedAt:now});
+  return true;
+}
+
 async function load(){
   try{
     const{payload:raw,migrated,fromAncient}=await loadDataStore();
@@ -4205,7 +4214,7 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
-  ensureReleaseV427();
+  ensureReleaseV428();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -29924,6 +29933,48 @@ function q(id){return document.getElementById(id)}
 <!-- CHANGE LOG: v425 — Cached Digital Library action-item normalization by current S.items reference/count; allowed dlRecalc() and dl424Ensure() to reuse an existing Digital Library object; passed that object through v424 overview/library/migration/attention rendering to avoid repeated full-store scans. -->
 <!-- RELEASE NOTES: v425 — Performance hotfix for v424 Digital Library loading. No fields, selectable options, import schema, NAS hierarchy, migration rules, or stored records changed. -->
 
+
+
+<script>
+/* v428 — Digital Library renderer stabilization and lazy rendering. */
+(function(){
+  function safeNum(v){const n=Number(v);return Number.isFinite(n)?n:0}
+  function fmtSize(gb){gb=safeNum(gb);return gb>=1024?(gb/1024).toFixed(1)+' TB':gb>=1?gb.toFixed(1)+' GB':(gb*1024).toFixed(0)+' MB'}
+  function lightweightHero(d){
+    const items=Array.isArray(d.inbox)?d.inbox:[];
+    let size=0,complete=0,needs=0;
+    for(const x of items){size+=safeNum(x.fileSizeGB);if(x.migrationStatus==='Complete')complete++;if((x.decision||'Needs Review')==='Needs Review')needs++;}
+    const pct=items.length?Math.round(complete/items.length*100):0;
+    return `<div class="dl361-hero"><div class="dl361-kicker">Home Cloud · Digital Life Source of Truth</div><div class="dl361-title">💾 Digital Library</div><div class="dl361-sub">Inventory, review, organize, migrate, verify, and protect your digital files without turning every file into an Action Item.</div><div class="dl361-mets"><div class="dl361-met"><b>${safeNum(d.config?.nasCapacityTB)||8} TB</b><span>NAS Capacity</span></div><div class="dl361-met"><b>${items.length.toLocaleString()}</b><span>Digital Items</span></div><div class="dl361-met"><b>${fmtSize(size)}</b><span>Cataloged Size</span></div><div class="dl361-met"><b>${pct}%</b><span>Migration Complete</span></div><div class="dl361-met"><b>${needs.toLocaleString()}</b><span>Needs Review</span></div></div></div>`;
+  }
+  function tabs428(){const t=[['overview','Overview'],['inbox','Inbox'],['library','My Digital Library'],['attention','Needs Attention'],['settings','Settings']];return `<div class="dl361-tabs">${t.map(x=>`<button class="dl361-tab${DL_TAB===x[0]?' active':''}" onclick="dlTab('${x[0]}')">${x[1]}</button>`).join('')}</div>`}
+  function renderError(v,err){console.error('Digital Library render error',err);v.innerHTML=`<div class="dl361-card"><h3>Digital Library could not finish rendering this view.</h3><div class="dl361-small" style="margin-bottom:10px">The module shell loaded, but this tab hit an error. Your data was not changed.</div><button class="btn" onclick="DL_TAB='overview';renderDigitalLibrary()">Return to Overview</button></div>`}
+  function overview428(v,d){
+    const items=Array.isArray(d.inbox)?d.inbox:[];
+    const counts={review:0,keep:0,del:0}; const mig={}; const src={};
+    for(const st of (typeof DL424_MIGRATION_STATUSES!=='undefined'?DL424_MIGRATION_STATUSES:[]))mig[st]=0;
+    for(const x of items){
+      const dec=x.decision||'Needs Review'; if(dec==='Needs Review')counts.review++; else if(dec==='Keep')counts.keep++; else if(dec==='Delete')counts.del++;
+      const ms=x.migrationStatus||'Not Started';mig[ms]=(mig[ms]||0)+1;
+      const sn=x.source||'Unassigned';let q=src[sn];if(!q)q=src[sn]={total:0,reviewed:0,migrated:0,verified:0,backed:0,complete:0,size:0};q.total++;q.size+=safeNum(x.fileSizeGB);if(dec!=='Needs Review')q.reviewed++;if(['Migrated','Verified','Backed Up','Complete'].includes(ms))q.migrated++;if(['Verified','Backed Up','Complete'].includes(ms))q.verified++;if(['Backed Up','Complete'].includes(ms))q.backed++;if(ms==='Complete')q.complete++;
+    }
+    const srcRows=Object.entries(src).sort((a,b)=>a[0].localeCompare(b[0])).map(([name,q])=>{const pct=q.total?Math.round(q.complete/q.total*100):0;return `<div class="dl361-row"><div class="dl361-main"><div class="dl361-name">${dle(name)}</div><div class="dl361-meta">${q.total.toLocaleString()} items · ${q.reviewed.toLocaleString()} reviewed · ${q.migrated.toLocaleString()} migrated · ${q.verified.toLocaleString()} verified · ${q.backed.toLocaleString()} backed up · ${q.complete.toLocaleString()} complete · ${q.size.toFixed(2)} GB</div><div class="dl361-progress"><i style="width:${pct}%"></i></div></div><span class="dl361-pill ${pct===100&&q.total?'ok':'purple'}">${pct}%</span></div>`}).join('');
+    v.innerHTML=`<div class="dl361-grid"><div class="dl361-card dl361-s3"><h3>Digital Items</h3><div class="dl361-big">${items.length.toLocaleString()}</div><div class="dl361-small">canonical item records</div></div><div class="dl361-card dl361-s3"><h3>Inbox</h3><div class="dl361-big">${counts.review.toLocaleString()}</div><div class="dl361-small">need review</div></div><div class="dl361-card dl361-s3"><h3>My Library</h3><div class="dl361-big">${counts.keep.toLocaleString()}</div><div class="dl361-small">Decision = Keep</div></div><div class="dl361-card dl361-s3"><h3>Delete Queue</h3><div class="dl361-big">${counts.del.toLocaleString()}</div><div class="dl361-small">awaiting safeguards</div></div><div class="dl361-card dl361-s12"><h3>Migration Status</h3><div class="dl361-mets">${Object.entries(mig).map(([st,n])=>`<div class="dl361-met"><b>${n.toLocaleString()}</b><span>${dle(st)}</span></div>`).join('')}</div></div><div class="dl361-card dl361-s12"><h3>Migration by Source</h3><div class="dl361-small" style="margin-bottom:8px">Each Source is its own migration. Counts are calculated directly from Digital Items.</div>${srcRows||'<div class="dl361-empty">No Digital Items have been assigned to a Source yet.</div>'}</div><div class="dl361-card dl361-s12"><div class="dl361-tools"><button class="btn primary" onclick="DL_TAB='inbox';renderDigitalLibrary()">Open Inbox</button><button class="btn" onclick="DL_TAB='library';renderDigitalLibrary()">My Digital Library</button><button class="btn" onclick="DL_TAB='settings';renderDigitalLibrary()">Sources & Settings</button></div></div></div>`;
+  }
+  window.dlOverview424=overview428;
+  window.renderDigitalLibrary=function(){
+    const el=document.getElementById('digital-body');if(!el)return;
+    let d;try{d=typeof dl424Ensure==='function'?dl424Ensure(dl()):dl();}catch(err){console.error(err);el.innerHTML='<div class="dl361-card"><h3>Digital Library initialization error</h3><div class="dl361-small">Your data was not changed. Reload the LCC and try again.</div></div>';return;}
+    // Render the shell immediately. Do not run legacy dlRecalc(), dlNeeds(), or full-library scans here.
+    el.innerHTML=lightweightHero(d)+tabs428()+`<div id="dl361-view"><div class="dl361-card"><div class="dl361-small">Loading ${dle(DL_TAB||'overview')}…</div></div></div>`;
+    const v=document.getElementById('dl361-view');
+    requestAnimationFrame(()=>{try{const map={overview:overview428,inbox:window.dlInbox424,library:window.dlLibrary424,attention:window.dlAttention424,settings:window.dlSettings424};const fn=map[DL_TAB]||overview428;if(typeof fn!=='function')throw new Error('Renderer not available for '+DL_TAB);fn(v,d);}catch(err){renderError(v,err)}});
+  };
+})();
+</script>
+<!-- USER GUIDE: v428 — No workflow changes. Digital Library now renders its shell first and lazily renders only the selected tab. -->
+<!-- CHANGE LOG: v428 — Removed legacy dlRecalc()/dlNeeds() work from initial Digital Library navigation; added lightweight hero, lazy selected-tab rendering, guarded error recovery, and one-pass source migration aggregation on Overview. -->
+<!-- RELEASE NOTES: v428 — Stabilization patch for the blank Digital Library screen and navigation performance regression observed in v427. -->
 
 </body>
 
