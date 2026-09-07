@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v444</title>
+<title>LCC v445</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v444</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v445</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1404,7 +1404,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v444</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v445</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -1912,7 +1912,8 @@ Item 3
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
 <button class="btn sm" onclick="exportInventoryCSV()" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)">📊 Export CSV</button>
-<button class="btn sm" onclick="openNotionImport()" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)">📥 Import from Notion/CSV</button>
+<button class="btn sm" onclick="openNotionImport()" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)">📥 Import Inventory CSV</button>
+<button class="btn sm" onclick="openInventoryPrintReview()" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)">🖨️ Print Review</button>
 <button class="btn sm" onclick="openInvModal()" style="background:#fff;color:var(--navy);border-color:#fff;font-weight:600">+ Add Item</button>
 <button class="btn sm" onclick="openBarcodeInput()" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)">📷 Scan / Enter Barcode</button>
 </div>
@@ -3935,9 +3936,10 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v444ReleaseAdded=ensureReleaseV444();
+  const _v445ReleaseAdded=ensureReleaseV445();
   recalc();
   renderAll();
-  if(_v444ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v444ReleaseAdded||_v445ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4185,6 +4187,14 @@ function ensureReleaseV441(){
 }
 
 
+function ensureReleaseV445(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v445'))return false;
+  const day=today(),now=new Date().toISOString();
+  S.items.push({id:'release-lcc-v445',name:'LCC v445 — Pantry Inventory Import & Review Print',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',releaseVersion:'445',releaseType:'minor',releaseModules:['Home Inventory','Inventory Import','Print / PDF Review'],releaseChangelog:'Upgraded Home Inventory CSV import to recognize the pantry-app export, map its supported fields into existing Inventory fields, preserve source category/location metadata, keep quantity on one catalog record, and skip repeat imports by barcode or Name + Brand. Added Inventory Review Print/PDF modes for By Room, By Category, Needs Attention, and All Inventory with writable review space.',releaseNotes:'v445 adds a repeat-safe pantry inventory bridge and review-ready Inventory print packets without adding a new Action Item type or Inventory schema field. Pantry source categories are normalized into the existing Pantry subcategory catalog and retained in Notes for traceability.',notes:'User Guide: Open Home Inventory → Import Inventory CSV and choose the pantry-app CSV. Review the preview, then Import Inventory. Pantry items import as Category = Pantry and Inventory Method = Consumable Stock; source categories remain in Notes (with a Pantry tag) and unsupported source locations are retained there for review. For paper or PDF review, choose Home Inventory → Print Review, then By Room, By Category, Needs Attention, or All Inventory. Mark corrections in Review / Changes and update the matching LCC record.',completedDate:day,date:day,createdAt:now,updatedAt:now});
+  return true;
+}
+
 function ensureReleaseV444(){
   if(!S||!Array.isArray(S.items))return false;
   if(S.items.some(i=>i&&i.id==='release-lcc-v444'))return false;
@@ -4234,6 +4244,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   ensureReleaseV444();
+  ensureReleaseV445();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -23355,39 +23366,72 @@ function openBarcodeInput(){
   },250);
 }
 
+function invImportNorm(v){return String(v??'').replace(/^\uFEFF/,'').trim();}
+function invImportKey(v){return invImportNorm(v).toLowerCase().replace(/[^a-z0-9]+/g,'');}
+function invImportMoney(v){const n=parseFloat(invImportNorm(v).replace(/[$,\s]/g,''));return Number.isFinite(n)?n:null;}
+function invImportPantrySubcategory(v){
+  const k=invImportNorm(v).toLowerCase();
+  if(/herb|spice|extract|season/.test(k))return 'Spices / Seasoning';
+  if(/sauce|condiment|dressing|dip|spread|pickle|syrup/.test(k))return 'Condiments';
+  if(/breakfast/.test(k))return 'Breakfast';
+  if(/chip|cookie|snack|cracker|popcorn/.test(k))return 'Snacks';
+  if(/canned/.test(k))return 'Canned Goods';
+  if(/stock|broth|bouillon/.test(k))return 'Dry Goods';
+  return 'Other Pantry';
+}
+function invImportIsPantry(headers){const h=new Set(headers.map(x=>invImportKey(x)));return h.has('barcode')&&h.has('stocked')&&h.has('bestby')&&h.has('name')&&h.has('quantity');}
+function invImportHeaderMap(headers){const m={};headers.forEach((h,i)=>m[invImportKey(h)]=i);return m;}
+function invImportCell(row,map,...keys){for(const k of keys){const i=map[invImportKey(k)];if(i!==undefined)return invImportNorm(row[i]);}return '';}
+function invImportExistingSets(){
+  const byBarcode=new Set(),byNameBrand=new Set();
+  loadInv().forEach(i=>{
+    const model=invImportNorm(i.model);if(model)byBarcode.add(invImportKey(model));
+    const nb=invImportKey(i.name)+'|'+invImportKey(i.brand);if(invImportKey(i.name))byNameBrand.add(nb);
+  });
+  return {byBarcode,byNameBrand};
+}
+function invImportAnalyze(rows){
+  if(rows.length<2)return {ok:false,message:'Could not read file. Make sure it is a valid CSV.'};
+  const headers=rows[0].map(invImportNorm),pantry=invImportIsPantry(headers),map=invImportHeaderMap(headers),sets=invImportExistingSets();
+  let valid=0,dupes=0,locationReview=0;const cats=new Set();
+  rows.slice(1).forEach(r=>{
+    const name=invImportCell(r,map,'Name','Item','Title');if(!name)return;valid++;
+    const brand=invImportCell(r,map,'Brand','Manufacturer','Make');
+    const barcode=invImportCell(r,map,'Barcode','UPC','ISBN','Model','Model Number');
+    const dup=(barcode&&sets.byBarcode.has(invImportKey(barcode)))||sets.byNameBrand.has(invImportKey(name)+'|'+invImportKey(brand));if(dup)dupes++;
+    const cat=invImportCell(r,map,'Category','Cat','Type');if(cat)cats.add(cat);
+    if(pantry){const loc=invImportCell(r,map,'Location');if(loc&&!roomIdByName(loc))locationReview++;}
+  });
+  return {ok:true,headers,pantry,valid,dupes,locationReview,categories:cats.size};
+}
 function openNotionImport(){
   const div=document.createElement('div');
   div.innerHTML=`<div class="overlay" style="display:flex" onclick="if(event.target===this)this.remove()">
-    <div class="modal" style="max-width:560px">
-      <div class="modal-head"><h2>Import Inventory (CSV / Notion Export)</h2><button class="xbtn" onclick="this.closest('.overlay').remove()">&#x00D7;</button></div>
+    <div class="modal" style="max-width:620px">
+      <div class="modal-head"><h2>Import Home Inventory CSV</h2><button class="xbtn" onclick="this.closest('.overlay').remove()">&#x00D7;</button></div>
       <div class="modal-body">
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;padding:10px 12px;background:var(--soft);border-radius:var(--r)">
-          <strong>From Notion:</strong> Open your database → ··· → Export → CSV. Then upload here.<br>
-          <strong>Column mapping (case-insensitive):</strong> name/item, category/cat, status, brand, store, quantity/qty, price, location, notes/tags.<br>
-          Items are <strong>merged by name</strong> — duplicates are skipped.
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;padding:10px 12px;background:var(--soft);border-radius:var(--r);line-height:1.6">
+          <strong>Pantry app exports are recognized automatically.</strong> Pantry records import as LCC <strong>Pantry</strong> inventory with the source category mapped to an approved Pantry subcategory and preserved in Notes. Quantity stays on one catalog record — it does not create duplicate records.<br>
+          <strong>Mapped pantry fields:</strong> Name, Brand, Quantity, Stocked → Purchase/Stocked Date, Best By → Expiration, Unit/Total Price, Store, Barcode → Model/SKU/ISBN, source Category, source Location, and Notes.<br>
+          <strong>Repeat-safe:</strong> matching barcode or Name + Brand records are skipped.
         </div>
-        <div class="field"><label>Upload CSV File</label><input type="file" id="notion-csv-file" accept=".csv,.tsv" style="padding:6px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;width:100%;background:var(--soft)"></div>
+        <div class="field"><label>Upload CSV File</label><input type="file" id="notion-csv-file" accept=".csv,.tsv,text/csv" style="padding:6px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;width:100%;background:var(--soft)"></div>
         <div id="notion-import-preview" style="margin-top:10px;font-size:12px;color:var(--txt2)"></div>
       </div>
       <div class="modal-foot">
         <button class="btn ghost" onclick="this.closest('.overlay').remove()">Cancel</button>
-        <button class="btn primary" onclick="runNotionImport(this.closest('.overlay'))">Import</button>
+        <button class="btn primary" onclick="runNotionImport(this.closest('.overlay'))">Import Inventory</button>
       </div>
     </div>
   </div>`;
   document.body.appendChild(div);
-  const _csvInput=div.querySelector('#notion-csv-file');
-  if(_csvInput)_csvInput.onchange=function(){
-    const f=this.files[0];if(!f)return;
-    const r=new FileReader();r.onload=e=>{
-      const rows=parseCSV(e.target.result);
-      const prev=document.getElementById('notion-import-preview');
-      if(rows.length<2){prev.textContent='Could not read file. Make sure it is a valid CSV.';prev.style.color='var(--pink)';return;}
-      const headers=rows[0].map(h=>h.replace(/^["']+|["']+$/g,'').trim());
+  const input=div.querySelector('#notion-csv-file');
+  if(input)input.onchange=function(){
+    const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{
+      const a=invImportAnalyze(parseCSV(e.target.result)),prev=div.querySelector('#notion-import-preview');
+      if(!a.ok){prev.textContent=a.message;prev.style.color='var(--pink)';return;}
       prev.style.color='var(--txt2)';
-      prev.innerHTML='<strong style="color:var(--navy)">Found '+( rows.length-1)+' rows</strong> with columns: '
-        +headers.map(h=>'<span style="background:var(--soft);border:1px solid var(--bdr);border-radius:4px;padding:1px 6px;font-size:11px;margin:1px">'+h+'</span>').join(' ')
-        +'<br><span style="color:#15803d">✓ Ready to import. Click Import below.</span>';
+      prev.innerHTML=`<div style="border:1px solid var(--bdr);border-radius:10px;padding:10px 12px;background:var(--card)"><strong style="color:var(--navy)">${a.pantry?'✅ Pantry app export recognized':'✅ Inventory CSV recognized'}</strong><div style="margin-top:6px;line-height:1.7">${a.valid} data rows · ${a.categories} source categories · ${a.dupes} likely duplicate${a.dupes===1?'':'s'} will be skipped${a.pantry&&a.locationReview?` · ${a.locationReview} source location${a.locationReview===1?'':'s'} need LCC room review`:''}</div><div style="margin-top:5px;color:#15803d">Ready to import.</div></div>`;
     };r.readAsText(f);
   };
 }
@@ -23395,55 +23439,59 @@ function parseCSV(text){
   const rows=[];let row=[];let cur='';let inQ=false;
   for(let i=0;i<text.length;i++){
     const c=text[i],n=text[i+1];
-    if(inQ){if(c==='"'&&n==='"'){cur+='"';i++;}else if(c==='"'){inQ=false;}else{cur+=c;}}
-    else if(c==='"'){inQ=true;}
+    if(inQ){if(c==='"'&&n==='"'){cur+='"';i++;}else if(c==='"'){inQ=false;}else cur+=c;}
+    else if(c==='"')inQ=true;
     else if(c===','){row.push(cur.trim());cur='';}
     else if(c==='\r'&&n==='\n'){i++;row.push(cur.trim());if(row.some(v=>v))rows.push(row);row=[];cur='';}
     else if(c==='\n'||c==='\r'){row.push(cur.trim());if(row.some(v=>v))rows.push(row);row=[];cur='';}
-    else{cur+=c;}
+    else cur+=c;
   }
-  if(cur||row.length){row.push(cur.trim());if(row.some(v=>v))rows.push(row);}
-  return rows;
+  if(cur||row.length){row.push(cur.trim());if(row.some(v=>v))rows.push(row);}return rows;
 }
 function runNotionImport(overlay){
   const file=(overlay||document).querySelector('#notion-csv-file')?.files[0]||document.getElementById('notion-csv-file')?.files[0];
   if(!file){alert('Select a CSV file first');return;}
-  const r=new FileReader();
-  r.onload=e=>{
-    const rows=parseCSV(e.target.result);
-    if(rows.length<2){alert('CSV appears empty or unreadable. Make sure it is a valid CSV file.');return;}
-    const headers=rows[0].map(h=>h.replace(/^["\']+|["\']+$/g,'').trim().toLowerCase());
-    const col=(...keys)=>{for(const k of keys){const i=headers.findIndex(h=>h===k||h.includes(k));if(i>=0)return i;}return -1;};
-    const iName=col('name','item','title');
-    const iCat=col('category','cat','type');
-    const iStatus=col('status','condition');const iBrand=col('brand','manufacturer','make');const iStore=col('store','retailer','purchased at','where purchased');
-    const iQty=col('quantity','qty','count','amount');
-    const iPrice=col('price','cost','value','amount paid');const iLoc=col('location','room','where stored');
-    const iNotes=col('notes','tags','description','note','comments');
-    const iModel=col('model','model number');const iWarranty=col('warranty');const iYear=col('year','purchase year','model year');const iCover=col('inv cover','cover url','cover image','cover','image url','image','photo');
-    const existing=loadInv();const existingNames=new Set(existing.map(x=>x.name.toLowerCase()));
-    let added=0,skipped=0;
-    const catMap={'appliance':'Appliances','electronic':'Electronics','furniture':'Furniture','grocer':'Groceries','pantry':'Pantry','cloth':'Clothing','jewel':'Jewelry','tool':'Tools','outdoor':'Outdoor','decor':'Decor','vehicle':'Vehicles','health':'Health & Beauty','beauty':'Health & Beauty','household':'Household','book':'Books','vinyl':'Vinyl','movie':'Movies','film':'Movies','kitchen':'Kitchen','food':'Groceries','drink':'Groceries','supply':'Household','tech':'Electronics','computer':'Electronics','phone':'Electronics'};
-    const stripNotion=v=>(v||'').replace(/\s*\(https?:\/\/[^)]+\)/g,'').replace(/^["']+|["']+$/g,'').trim();
-    rows.slice(1).forEach(cols=>{
-      const g=i=>i>=0&&i<cols.length?stripNotion(cols[i]):'';
-      const name=g(iName>=0?iName:0);
-      if(!name)return;
-      if(existingNames.has(name.toLowerCase())){skipped++;return;}
-      const catRaw=g(iCat);
-      const cat=Object.entries(catMap).find(([k])=>catRaw.toLowerCase().includes(k))?.[1]||(catRaw||'Other');
-      const statusRaw=g(iStatus).toLowerCase();
-      const statusMap={'in final room':'Done','donated':'Done','trashed':'Done','garage sale ready':'Done','good':'In Stock','excellent':'In Stock','fair':'In Stock','not started':'Need to Buy','to buy':'Need to Buy','in progress':'In Stock','need to locate':'In Stock','poor':'Needs Repair','broken':'Needs Repair','need':'Need to Buy','low':'Low Stock','out of stock':'Out of Stock','out':'Out of Stock','replace':'Need to Buy','want':'Need to Buy'};
-      const status=Object.entries(statusMap).find(([k])=>statusRaw.includes(k))?.[1]||(g(iStatus)||'In Stock');
-      const priceRaw=g(iPrice).replace(/[$,\s]/g,'');
-      existing.push({id:invUid(),name,cat,invStatus:status,brand:g(iBrand),store:g(iStore),qty:parseFloat(g(iQty))||1,price:parseFloat(priceRaw)||null,location:g(iLoc),notes:g(iNotes),model:g(iModel),warranty:g(iWarranty),year:g(iYear),invCover:g(iCover),tags:'',pdate:'',created:Date.now(),updated:Date.now()});
-      existingNames.add(name.toLowerCase());
-      added++;
-    });
-    saveInv(existing);overlay.remove();renderInventory();
-    toast('✅ Imported '+added+' items'+(skipped?' ('+skipped+' already existed, skipped)':'')+'!',5000);
+  const r=new FileReader();r.onload=e=>{
+    try{
+      const rows=parseCSV(e.target.result);if(rows.length<2)throw new Error('CSV appears empty or unreadable.');
+      const headers=rows[0].map(invImportNorm),map=invImportHeaderMap(headers),pantry=invImportIsPantry(headers),items=loadInv(),sets=invImportExistingSets();
+      let added=0,skipped=0,review=0;
+      rows.slice(1).forEach(cols=>{
+        const g=(...k)=>invImportCell(cols,map,...k),name=g('Name','Item','Title');if(!name)return;
+        const brand=g('Brand','Manufacturer','Make'),barcode=g('Barcode','UPC','ISBN','Model','Model Number');
+        const dup=(barcode&&sets.byBarcode.has(invImportKey(barcode)))||sets.byNameBrand.has(invImportKey(name)+'|'+invImportKey(brand));if(dup){skipped++;return;}
+        if(pantry){
+          const srcCat=g('Category'),srcLoc=g('Location'),qty=parseFloat(g('Quantity','Qty','Count'))||1,total=invImportMoney(g('Total Price')),unit=invImportMoney(g('Unit Price')),price=unit!=null?unit:(total!=null&&qty?total/qty:null),rid=srcLoc?roomIdByName(srcLoc):'',room=rid?loadRooms().find(x=>x.id===rid):null;
+          const notes=[];if(srcCat)notes.push('Pantry App Category: '+srcCat);if(srcLoc&&!rid){notes.push('Pantry App Location: '+srcLoc);review++;}if(g('Best By Source'))notes.push('Best By Source: '+g('Best By Source'));if(g('Price Source'))notes.push('Price Source: '+g('Price Source'));if(g('Store Address'))notes.push('Store Address: '+g('Store Address'));if(g('Product Notes'))notes.push('Product Notes: '+g('Product Notes'));if(g('Item Notes'))notes.push('Item Notes: '+g('Item Notes'));
+          const tags=['Pantry App'];if(srcCat)tags.push('Pantry: '+srcCat.replace(/,/g,' /'));
+          items.push({id:invUid(),name,cat:'Pantry',subcategory:invImportPantrySubcategory(srcCat),inventoryMethod:'Consumable Stock',invStatus:'In Stock',brand,model:barcode,qty,unit:'ea',price,store:g('Store'),pdate:g('Stocked'),expiration:g('Best By'),location:room?(room.name||''):'',roomId:room?(room.id||''):'',tags:tags.join(', '),notes:notes.join('\n'),created:Date.now(),updated:Date.now()});
+          if(brand)invCatalogAddName('invBrands',brand);if(g('Store'))invCatalogAddName('invStores',g('Store'));
+        }else{
+          const catRaw=g('Category','Cat','Type'),catMap={'appliance':'Appliances','electronic':'Electronics','furniture':'Furniture','grocer':'Groceries','pantry':'Pantry','cloth':'Clothing','jewel':'Jewelry','tool':'Tools','outdoor':'Outdoor','decor':'Decor','vehicle':'Vehicles','health':'Health & Beauty','beauty':'Health & Beauty','household':'Household','book':'Books','vinyl':'Vinyl','movie':'Movies','film':'Movies','kitchen':'Kitchen','food':'Groceries','drink':'Groceries','supply':'Household','tech':'Electronics','computer':'Electronics','phone':'Electronics'},cat=Object.entries(catMap).find(([k])=>catRaw.toLowerCase().includes(k))?.[1]||(catRaw||'Other'),statusRaw=g('Status','Condition').toLowerCase(),statusMap={'in final room':'Done','donated':'Done','trashed':'Done','garage sale ready':'Done','good':'In Stock','excellent':'In Stock','fair':'In Stock','not started':'Need to Buy','to buy':'Need to Buy','in progress':'In Stock','need to locate':'In Stock','poor':'Needs Repair','broken':'Needs Repair','need':'Need to Buy','low':'Low Stock','out of stock':'Out of Stock','out':'Out of Stock','replace':'Need to Buy','want':'Need to Buy'},status=Object.entries(statusMap).find(([k])=>statusRaw.includes(k))?.[1]||(g('Status','Condition')||'In Stock'),loc=g('Location','Room','Where Stored'),rid=loc?roomIdByName(loc):'';
+          items.push({id:invUid(),name,cat,invStatus:status,inventoryMethod:'Individual Item',brand,store:g('Store','Retailer','Purchased At','Where Purchased'),qty:parseFloat(g('Quantity','Qty','Count','Amount'))||1,price:invImportMoney(g('Price','Cost','Value','Amount Paid')),location:rid?loc:'',roomId:rid||'',notes:[loc&&!rid?'Imported Location: '+loc:'',g('Notes','Tags','Description','Note','Comments')].filter(Boolean).join('\n'),model:barcode,warranty:g('Warranty'),year:g('Year','Purchase Year','Model Year'),invCover:g('Inv Cover','Cover URL','Cover Image','Image URL','Photo'),tags:'Imported CSV',pdate:'',created:Date.now(),updated:Date.now()});
+        }
+        if(barcode)sets.byBarcode.add(invImportKey(barcode));sets.byNameBrand.add(invImportKey(name)+'|'+invImportKey(brand));added++;
+      });
+      saveInv(items);overlay?.remove();renderInventory();toast(`✅ Imported ${added} inventory records${skipped?` · ${skipped} duplicates skipped`:''}${review?` · ${review} location${review===1?'':'s'} flagged for review`:''}`,6500);
+    }catch(err){alert('Inventory import failed: '+err.message);}
   };r.readAsText(file);
 }
+
+function inventoryPrintMissing(i){try{return typeof window.inv385Missing==='function'?(window.inv385Missing(i)||[]):(typeof window.inventoryCoreMissingV390==='function'?window.inventoryCoreMissingV390(i):[]);}catch(_){return []}}
+function openInventoryPrintReview(){
+  const div=document.createElement('div');div.innerHTML=`<div class="overlay" style="display:flex" onclick="if(event.target===this)this.remove()"><div class="modal" style="max-width:520px"><div class="modal-head"><h2>Inventory Review Print / PDF</h2><button class="xbtn" onclick="this.closest('.overlay').remove()">×</button></div><div class="modal-body"><div style="font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:12px">Choose the review packet you want. The print layout includes a blank <strong>Review / Changes</strong> area so you can mark corrections on paper or in a PDF annotation app.</div><div class="field"><label>Print View</label><select id="inv-print-mode" style="width:100%;padding:8px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt)"><option value="room">By Room</option><option value="category">By Category</option><option value="attention">Needs Attention</option><option value="all">All Inventory</option></select></div></div><div class="modal-foot"><button class="btn ghost" onclick="this.closest('.overlay').remove()">Cancel</button><button class="btn primary" onclick="printInventoryReview(document.getElementById('inv-print-mode').value);this.closest('.overlay').remove()">🖨️ Open Print / PDF</button></div></div></div>`;document.body.appendChild(div);
+}
+function printInventoryReview(mode){
+  const escp=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  let items=loadInv().slice();if(mode==='attention')items=items.filter(i=>inventoryPrintMissing(i).length);
+  const groupKey=i=>mode==='room'?(i.location||'Unassigned / Review Needed'):mode==='category'?((i.cat||'Uncategorized')+(i.subcategory?' — '+i.subcategory:'')):(mode==='attention'?'Needs Attention':'All Inventory');
+  const groups={};items.forEach(i=>(groups[groupKey(i)]??=[]).push(i));
+  const title=mode==='room'?'Inventory Review — By Room':mode==='category'?'Inventory Review — By Category':mode==='attention'?'Inventory Review — Needs Attention':'Inventory Review — All Inventory';
+  const sections=Object.keys(groups).sort((a,b)=>a.localeCompare(b)).map(k=>`<section><h2>${escp(k)} <span>${groups[k].length} record${groups[k].length===1?'':'s'}</span></h2><table><thead><tr><th>Item</th><th>Category / Subcategory</th><th>Room</th><th>Qty</th><th>Status</th><th>Best By</th><th>Missing / Attention</th><th class="review">Review / Changes</th></tr></thead><tbody>${groups[k].sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''))).map(i=>`<tr><td><b>${escp(i.name)}</b>${i.brand?`<small>${escp(i.brand)}</small>`:''}${i.model?`<small>${escp(i.model)}</small>`:''}</td><td>${escp(i.cat||'')}${i.subcategory?`<small>${escp(i.subcategory)}</small>`:''}</td><td>${escp(i.location||'—')}</td><td>${escp(i.qty??1)} ${escp(i.unit||'ea')}</td><td>${escp(i.invStatus||'')}</td><td>${escp(i.expiration||'')}</td><td>${escp(inventoryPrintMissing(i).join(', '))}</td><td class="review"></td></tr>`).join('')}</tbody></table></section>`).join('');
+  const w=window.open('','_blank');if(!w){alert('Pop-up blocked. Allow pop-ups for this file, then try Print Review again.');return;}
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escp(title)}</title><style>@page{size:landscape;margin:.38in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#2A2620;margin:0;font-size:9px}header{border-bottom:2px solid #454F3E;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}h1{font-size:20px;margin:0;color:#454F3E}header p{margin:2px 0 0;color:#666}section{break-before:page}section:first-of-type{break-before:auto}h2{font-size:13px;margin:0 0 7px;background:#F4EBDD;border-left:5px solid #C1602C;padding:6px 8px;color:#454F3E}h2 span{float:right;font-size:9px;font-weight:normal;color:#666}table{width:100%;border-collapse:collapse;table-layout:fixed}th{background:#454F3E;color:white;padding:5px 4px;text-align:left;font-size:8px}td{border:1px solid #bbb;padding:5px 4px;vertical-align:top;min-height:28px;word-break:break-word}td small{display:block;color:#666;margin-top:2px}.review{width:17%}td.review{height:34px}.empty{padding:30px;text-align:center;color:#777;border:1px solid #ccc}.footer{margin-top:10px;color:#777;font-size:8px}@media print{button{display:none}}</style></head><body><header><div><h1>${escp(title)}</h1><p>Life Command Center v445 · ${items.length} catalog record${items.length===1?'':'s'}</p></div><div>${new Date().toLocaleDateString()}</div></header>${sections||'<div class="empty">No inventory records match this review view.</div>'}<div class="footer">Use Review / Changes to mark corrections, then update the matching Inventory record in LCC.</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);w.document.close();
+}
+
 function closeInvModal() {
   document.getElementById('inv-modal').style.display = 'none';
   invEditingId = null;
@@ -29956,3 +30004,7 @@ function download(name,text){const b=new Blob([text],{type:'text/csv;charset=utf
 <!-- USER GUIDE: v444 — Ask Type now recommends the existing LCC Effort Level. Defaults: Ask Epic/10, Invite Epic/10, Boundary Legendary/15, Pitch Ultimate/20, Publish Mythic/30, Application Mythic/30. The Effort field remains editable. Change future defaults in Catalog Settings → Ask → Ask Types → Default Effort. -->
 <!-- CHANGE LOG: v444 — Added editable Ask Type effort defaults to Catalog Settings; seeded existing Ask Types without overwriting custom values; connected Ask Type selection to Effort in the Ask modal, Bulk Add, Bulk Update, and CSV/bulk creation paths. No new Action Item field or type was added. -->
 <!-- RELEASE NOTES: v444 — Ask Type Effort Guide. Category remains reporting/organization; Ask Type now provides the recommended effort baseline using the existing LCC points scale. -->
+<!-- USER GUIDE: v445 — Open Home Inventory → Import Inventory CSV and select the pantry-app export. LCC recognizes that format automatically, imports one catalog record per row, keeps Quantity on the record, maps Stocked and Best By dates, preserves barcode in Model/SKU/ISBN, normalizes the source category into an approved Pantry subcategory, and keeps the exact source category in Notes with a review-friendly Pantry tag. Repeat imports skip matches by barcode or Name + Brand. Use Home Inventory → Print Review for By Room, By Category, Needs Attention, or All Inventory review packets with a blank Review / Changes column. -->
+<!-- CHANGE LOG: v445 — Reworked the existing Inventory CSV/Notion import path to add pantry-app format detection, preview counts, repeat-safe duplicate detection, approved Pantry subcategory normalization, source metadata preservation, catalog updates for imported brands/stores, and supported pantry field mapping. Added browser Print/PDF review output grouped by Room or Category plus Needs Attention and All Inventory modes. No new Action Item type, Inventory field, linkable object, or controlled-value catalog was added; existing Inventory/Bulk Add/Bulk Update/type filters/inline type selector/keyMap/tBadge/missingFields/recalc/applyFilter/export structural mappings remain unchanged. Added only the v445 Release record. -->
+<!-- RELEASE NOTES: v445 — Home Inventory import/review release. Pantry-app CSVs can now move directly into the existing LCC Inventory model without multiplying catalog records by quantity or introducing unapproved category values, and Inventory can be printed to review-friendly PDFs by room, category, or attention status. -->
+
