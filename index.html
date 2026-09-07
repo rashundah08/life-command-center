@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v445</title>
+<title>LCC v447</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v445</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v447</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -996,7 +996,8 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="srch" style="position:relative"><span class="srch-ic">⚲</span><input autocomplete="off" id="gsearch" onfocus="if(this.value)renderGlobalSearch()" oninput="handleSearch()" placeholder="Search all core fields..." title="Search name, type, status, level, planning stage, effort, priority, dates, time estimate, screen-time flag, notes, links, budget, blockers, hold/cancellation reasons, categories, lists, tags, sequence, sprint and rotation week" type="text"/><div id="global-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;width:min(360px,80vw);background:var(--card);border:1px solid var(--bdr2);border-radius:var(--rl);box-shadow:0 8px 30px rgba(0,0,0,.18);max-height:60vh;overflow-y:auto;z-index:5000"></div></div>
 <button class="btn primary sm" onclick="openModal()">+ Add</button>
 <button class="btn sm" onclick="openQuickCapture()" title="Quick Capture to Parking Lot">⚡</button>
-<button class="btn sm" onclick="openBulk('add')">Bulk</button>
+<button class="btn sm" onclick="openBulk('add')">Bulk Add</button>
+<button class="btn sm" onclick="openBulkUpdateAnywhere()" title="Open Bulk Update from any LCC view; uses the current selection when available">⚡ Bulk Update</button>
 <button class="btn sm" onclick="exportItemsExcel()" title="Export to Excel">📊 Excel</button>
 <button class="btn sm" onclick="exportBusinessItemsForBCC()" title="Export business Action Items for Business Command Center">💼 Export BCC</button>
 </div>
@@ -1032,6 +1033,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <input id="select-all-chk" onchange="toggleSelectAll(this.checked)" style="accent-color:var(--teal);width:15px;height:15px" type="checkbox"/>
 <label for="select-all-chk" style="font-size:11px;color:var(--txt2);cursor:pointer">Select All</label>
 <span style="color:var(--bdr2);margin:0 4px">|</span>
+<div class="srch" style="min-width:190px;max-width:300px"><span class="srch-ic">⚲</span><input id="items-search" autocomplete="off" oninput="renderItems()" placeholder="Search all items..." style="width:100%" type="text"/></div>
 <span style="font-size:11px;color:var(--txt2)">Sort by:</span>
 <select id="sort-by" onchange="renderItems()" style="font-size:11px;padding:3px 8px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--soft);color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
 <option value="date">Due Date (soonest first)</option>
@@ -1404,7 +1406,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v445</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v447</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -11706,9 +11708,11 @@ function itemSearchBlob(i){
     i.startDate,i.date,i.completedDate,i.estimatedMins,screenLabels[i.screenTimeRequired]||i.screenTimeRequired,
     i.notes,i.refLink,i.budget,i.blockers,i.cancellationReason,i.onHoldReason,
     i.seqNum,i.sprint,i.rotationWeek,
-    (i.categories||[]).join(' '),(i.tags||[]).join(' '),
+    (Array.isArray(i.categories)?i.categories:[i.categories]).filter(Boolean).join(' '),
+    (Array.isArray(i.tags)?i.tags:[i.tags]).filter(Boolean).join(' '),
     (i.listIds||[]).map(id=>lName(id)).filter(n=>n&&n!=='?').join(' ')
   ];
+  if(i.type==='inventory')vals.push(i.cat,i.subcategory,i.invStatus,i.inventoryMethod,i.brand,i.model,i.serial,i.store,i.location,i.roomId,i.qty,i.unit,i.expiration,i.pdate);
   // Preserve the existing Product identity search behavior in addition to core fields.
   if(i.type==='product')vals.push(i.productSKU,i.productId,i.productBrand,i.productCategory,i.productStatus,(i.productTags||[]).join(' '),(i.productKeywords||[]).join(' '));
   return vals.filter(v=>v!==undefined&&v!==null&&v!=='').join(' ').toLowerCase();
@@ -11923,7 +11927,7 @@ let _itemsShown=100;
 let _itemsFullSorted=[];
 function renderItems(){
   buildMultiFilters();
-  const search=((document.getElementById('gsearch')||{value:''}).value||'').trim().toLowerCase();
+  const search=((document.getElementById('items-search')||{value:''}).value||'').trim().toLowerCase();
   let filtered=applyMultiFilter(S.items).filter(i=>!search||itemSearchBlob(i).includes(search));
   // 0188 (v216) — habit occurrences no longer flood the flat list; they live in a
   // collapsible "scheduled days" section on their master's card instead.
@@ -12251,6 +12255,20 @@ function openBulkFromSelection(){
     const info=document.getElementById('bulk-foot-info');
     if(info)info.textContent=selectedIds.size+' item'+(selectedIds.size!==1?'s':'')+' pre-selected from your selection';
   },250);
+}
+
+// v447 — persistent Bulk Update entry point for every LCC view.
+// Reuses the canonical Bulk Update modal and carries any active row selection into it.
+function openBulkUpdateAnywhere(){
+  const fp=(typeof _fpSelected!=='undefined'&&_fpSelected&&_fpSelected.size)?Array.from(_fpSelected):[];
+  if(selectedIds&&selectedIds.size){openBulkUpdateForIds(Array.from(selectedIds),'Current view selection');return;}
+  if(fp.length){openBulkUpdateForIds(fp,'Focus View selection');return;}
+  openBulk('update');
+  setTimeout(()=>{
+    const info=document.getElementById('bulk-foot-info');
+    if(info)info.textContent='Bulk Update is available from every view · search or select the items you want to update';
+    document.getElementById('bu-search')?.focus();
+  },80);
 }
 
 function openBulkForList(){
@@ -14212,6 +14230,7 @@ function renderFocusLinked(item){
   cont.innerHTML=`
     <div id="fp-bulk-bar" style="display:${_fpSelected.size>0?'flex':'none'};align-items:center;gap:8px;padding:8px 10px;background:#EFF6FF;border:1px solid #93C5FD;border-radius:var(--r);margin-bottom:8px;flex-wrap:wrap">
       <span id="fp-bulk-count" style="font-size:12px;font-weight:600;color:#0E4A85;white-space:nowrap">${_fpSelected.size} selected</span>
+      <button class="btn xs primary" onclick="openBulkUpdateForIds(Array.from(_fpSelected),'Focus View selection')" title="Open the full Bulk Update editor for the selected linked items">⚡ Full Bulk Update</button>
       <select id="fp-bulk-type" class="tbl-sel" style="width:auto;min-width:120px">
         <option value="">— Set Type —</option>
         <option value="ask">Ask</option><option value="challenge">Challenge</option><option value="change">Change</option><option value="clientbuild">Client Build</option><option value="content">Content</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">Habit</option><option value="industryprofile">Industry Profile</option><option value="inventory">Inventory</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="product">Product</option><option value="project">Project</option><option value="release">Release</option><option value="room">Room</option><option value="automation">Automation</option><option value="task">Task</option><option value="workflow">Workflow</option>
@@ -17688,6 +17707,8 @@ initRewards();
       else i.listIds=['uncat'];
     }
     if(!i.categories)i.categories=i.category?[i.category]:[];
+    // v446 — repair v445 pantry-import records whose tags were stored as a comma string.
+    if(i&&i.type==='inventory'&&typeof i.tags==='string')i.tags=i.tags.split(',').map(t=>t.trim()).filter(Boolean);
   });
 
   autoNumberMissingListNums();
@@ -23464,7 +23485,7 @@ function runNotionImport(overlay){
           const srcCat=g('Category'),srcLoc=g('Location'),qty=parseFloat(g('Quantity','Qty','Count'))||1,total=invImportMoney(g('Total Price')),unit=invImportMoney(g('Unit Price')),price=unit!=null?unit:(total!=null&&qty?total/qty:null),rid=srcLoc?roomIdByName(srcLoc):'',room=rid?loadRooms().find(x=>x.id===rid):null;
           const notes=[];if(srcCat)notes.push('Pantry App Category: '+srcCat);if(srcLoc&&!rid){notes.push('Pantry App Location: '+srcLoc);review++;}if(g('Best By Source'))notes.push('Best By Source: '+g('Best By Source'));if(g('Price Source'))notes.push('Price Source: '+g('Price Source'));if(g('Store Address'))notes.push('Store Address: '+g('Store Address'));if(g('Product Notes'))notes.push('Product Notes: '+g('Product Notes'));if(g('Item Notes'))notes.push('Item Notes: '+g('Item Notes'));
           const tags=['Pantry App'];if(srcCat)tags.push('Pantry: '+srcCat.replace(/,/g,' /'));
-          items.push({id:invUid(),name,cat:'Pantry',subcategory:invImportPantrySubcategory(srcCat),inventoryMethod:'Consumable Stock',invStatus:'In Stock',brand,model:barcode,qty,unit:'ea',price,store:g('Store'),pdate:g('Stocked'),expiration:g('Best By'),location:room?(room.name||''):'',roomId:room?(room.id||''):'',tags:tags.join(', '),notes:notes.join('\n'),created:Date.now(),updated:Date.now()});
+          items.push({id:invUid(),name,cat:'Pantry',subcategory:invImportPantrySubcategory(srcCat),inventoryMethod:'Consumable Stock',invStatus:'In Stock',brand,model:barcode,qty,unit:'ea',price,store:g('Store'),pdate:g('Stocked'),expiration:g('Best By'),location:room?(room.name||''):'',roomId:room?(room.id||''):'',tags:tags,notes:notes.join('\n'),created:Date.now(),updated:Date.now()});
           if(brand)invCatalogAddName('invBrands',brand);if(g('Store'))invCatalogAddName('invStores',g('Store'));
         }else{
           const catRaw=g('Category','Cat','Type'),catMap={'appliance':'Appliances','electronic':'Electronics','furniture':'Furniture','grocer':'Groceries','pantry':'Pantry','cloth':'Clothing','jewel':'Jewelry','tool':'Tools','outdoor':'Outdoor','decor':'Decor','vehicle':'Vehicles','health':'Health & Beauty','beauty':'Health & Beauty','household':'Household','book':'Books','vinyl':'Vinyl','movie':'Movies','film':'Movies','kitchen':'Kitchen','food':'Groceries','drink':'Groceries','supply':'Household','tech':'Electronics','computer':'Electronics','phone':'Electronics'},cat=Object.entries(catMap).find(([k])=>catRaw.toLowerCase().includes(k))?.[1]||(catRaw||'Other'),statusRaw=g('Status','Condition').toLowerCase(),statusMap={'in final room':'Done','donated':'Done','trashed':'Done','garage sale ready':'Done','good':'In Stock','excellent':'In Stock','fair':'In Stock','not started':'Need to Buy','to buy':'Need to Buy','in progress':'In Stock','need to locate':'In Stock','poor':'Needs Repair','broken':'Needs Repair','need':'Need to Buy','low':'Low Stock','out of stock':'Out of Stock','out':'Out of Stock','replace':'Need to Buy','want':'Need to Buy'},status=Object.entries(statusMap).find(([k])=>statusRaw.includes(k))?.[1]||(g('Status','Condition')||'In Stock'),loc=g('Location','Room','Where Stored'),rid=loc?roomIdByName(loc):'';
@@ -23489,7 +23510,7 @@ function printInventoryReview(mode){
   const title=mode==='room'?'Inventory Review — By Room':mode==='category'?'Inventory Review — By Category':mode==='attention'?'Inventory Review — Needs Attention':'Inventory Review — All Inventory';
   const sections=Object.keys(groups).sort((a,b)=>a.localeCompare(b)).map(k=>`<section><h2>${escp(k)} <span>${groups[k].length} record${groups[k].length===1?'':'s'}</span></h2><table><thead><tr><th>Item</th><th>Category / Subcategory</th><th>Room</th><th>Qty</th><th>Status</th><th>Best By</th><th>Missing / Attention</th><th class="review">Review / Changes</th></tr></thead><tbody>${groups[k].sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''))).map(i=>`<tr><td><b>${escp(i.name)}</b>${i.brand?`<small>${escp(i.brand)}</small>`:''}${i.model?`<small>${escp(i.model)}</small>`:''}</td><td>${escp(i.cat||'')}${i.subcategory?`<small>${escp(i.subcategory)}</small>`:''}</td><td>${escp(i.location||'—')}</td><td>${escp(i.qty??1)} ${escp(i.unit||'ea')}</td><td>${escp(i.invStatus||'')}</td><td>${escp(i.expiration||'')}</td><td>${escp(inventoryPrintMissing(i).join(', '))}</td><td class="review"></td></tr>`).join('')}</tbody></table></section>`).join('');
   const w=window.open('','_blank');if(!w){alert('Pop-up blocked. Allow pop-ups for this file, then try Print Review again.');return;}
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escp(title)}</title><style>@page{size:landscape;margin:.38in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#2A2620;margin:0;font-size:9px}header{border-bottom:2px solid #454F3E;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}h1{font-size:20px;margin:0;color:#454F3E}header p{margin:2px 0 0;color:#666}section{break-before:page}section:first-of-type{break-before:auto}h2{font-size:13px;margin:0 0 7px;background:#F4EBDD;border-left:5px solid #C1602C;padding:6px 8px;color:#454F3E}h2 span{float:right;font-size:9px;font-weight:normal;color:#666}table{width:100%;border-collapse:collapse;table-layout:fixed}th{background:#454F3E;color:white;padding:5px 4px;text-align:left;font-size:8px}td{border:1px solid #bbb;padding:5px 4px;vertical-align:top;min-height:28px;word-break:break-word}td small{display:block;color:#666;margin-top:2px}.review{width:17%}td.review{height:34px}.empty{padding:30px;text-align:center;color:#777;border:1px solid #ccc}.footer{margin-top:10px;color:#777;font-size:8px}@media print{button{display:none}}</style></head><body><header><div><h1>${escp(title)}</h1><p>Life Command Center v445 · ${items.length} catalog record${items.length===1?'':'s'}</p></div><div>${new Date().toLocaleDateString()}</div></header>${sections||'<div class="empty">No inventory records match this review view.</div>'}<div class="footer">Use Review / Changes to mark corrections, then update the matching Inventory record in LCC.</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);w.document.close();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escp(title)}</title><style>@page{size:landscape;margin:.38in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#2A2620;margin:0;font-size:9px}header{border-bottom:2px solid #454F3E;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}h1{font-size:20px;margin:0;color:#454F3E}header p{margin:2px 0 0;color:#666}section{break-before:page}section:first-of-type{break-before:auto}h2{font-size:13px;margin:0 0 7px;background:#F4EBDD;border-left:5px solid #C1602C;padding:6px 8px;color:#454F3E}h2 span{float:right;font-size:9px;font-weight:normal;color:#666}table{width:100%;border-collapse:collapse;table-layout:fixed}th{background:#454F3E;color:white;padding:5px 4px;text-align:left;font-size:8px}td{border:1px solid #bbb;padding:5px 4px;vertical-align:top;min-height:28px;word-break:break-word}td small{display:block;color:#666;margin-top:2px}.review{width:17%}td.review{height:34px}.empty{padding:30px;text-align:center;color:#777;border:1px solid #ccc}.footer{margin-top:10px;color:#777;font-size:8px}@media print{button{display:none}}</style></head><body><header><div><h1>${escp(title)}</h1><p>Life Command Center v447 · ${items.length} catalog record${items.length===1?'':'s'}</p></div><div>${new Date().toLocaleDateString()}</div></header>${sections||'<div class="empty">No inventory records match this review view.</div>'}<div class="footer">Use Review / Changes to mark corrections, then update the matching Inventory record in LCC.</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);w.document.close();
 }
 
 function closeInvModal() {
@@ -23703,7 +23724,7 @@ function renderInvGrid(items, cont) {
           ${i.price !== null && i.price !== undefined ? `<span style="font-size:12px;color:var(--teal);font-weight:600;">$${(i.price * i.qty).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>` : ''}
         </div>
         ${(function(){var _n=(typeof automationsForDevice==='function')?automationsForDevice(i.id):0;return _n?`<div style="font-size:10px;color:#6D28D9;margin-top:5px;font-weight:600">⚡ ${_n} automation${_n!==1?'s':''}</div>`:'';})()}${i.warranty ? `<div style="font-size:10px;color:var(--txt3);margin-top:5px">🛡️ Warranty: ${i.warranty}</div>` : ''}
-        ${i.tags ? `<div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${i.tags.split(',').map(t=>`<span style="font-size:9px;padding:1px 6px;background:var(--soft);border-radius:7px;color:var(--txt2)">${esc(t.trim())}</span>`).join('')}</div>` : ''}
+        ${i.tags ? `<div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${(Array.isArray(i.tags)?i.tags:String(i.tags).split(',')).map(t=>`<span style="font-size:9px;padding:1px 6px;background:var(--soft);border-radius:7px;color:var(--txt2)">${esc(String(t).trim())}</span>`).join('')}</div>` : ''}
       </div>`;
     });
     html += '</div></div>';
@@ -30004,6 +30025,12 @@ function download(name,text){const b=new Blob([text],{type:'text/csv;charset=utf
 <!-- USER GUIDE: v444 — Ask Type now recommends the existing LCC Effort Level. Defaults: Ask Epic/10, Invite Epic/10, Boundary Legendary/15, Pitch Ultimate/20, Publish Mythic/30, Application Mythic/30. The Effort field remains editable. Change future defaults in Catalog Settings → Ask → Ask Types → Default Effort. -->
 <!-- CHANGE LOG: v444 — Added editable Ask Type effort defaults to Catalog Settings; seeded existing Ask Types without overwriting custom values; connected Ask Type selection to Effort in the Ask modal, Bulk Add, Bulk Update, and CSV/bulk creation paths. No new Action Item field or type was added. -->
 <!-- RELEASE NOTES: v444 — Ask Type Effort Guide. Category remains reporting/organization; Ask Type now provides the recommended effort baseline using the existing LCC points scale. -->
+<!-- USER GUIDE: v447 — Bulk Update is now available from the persistent top toolbar in every LCC view. Choose ⚡ Bulk Update anywhere to open the full canonical Bulk Update editor. If Action Items are already selected in All Action Items, Planning Queue, list/table views, or another shared-selection view, those selected records are pre-selected automatically. In Focus View, selecting linked rows and choosing ⚡ Full Bulk Update opens the same complete Bulk Update editor for that Focus selection. Existing view-specific shortcuts such as Bulk Update Sprint remain available. -->
+<!-- CHANGE LOG: v447 — Added a persistent topbar Bulk Update command that routes every LCC page/view to the existing canonical Bulk Update modal, carrying the current shared selection or Focus View selection when present. Renamed the adjacent topbar Bulk button to Bulk Add for clarity and added Full Bulk Update to the Focus linked-item selection bar. No item type, field, controlled-value option, filter, linked-item mapping, validation rule, recalc rule, applyFilter branch, or export schema changed. No automatic Release record was inserted. -->
+<!-- RELEASE NOTES: v447 — Universal Bulk Update access. The full Bulk Update editor can now be opened from any LCC view instead of requiring navigation back to All Action Items or a specific workspace. Existing selections are honored when available. -->
+<!-- USER GUIDE: v446 — All Action Items now has its own Search all items box beside Sort. Search matches action-item core fields plus Inventory name, category/subcategory, inventory status/method, brand, barcode/model, store, room/location, quantity/unit, purchase date, and expiration. Existing pantry records imported in v445 are repaired automatically on load so their tags use the LCC array format and the records render/search normally. Home Inventory also accepts both legacy string tags and normal tag arrays while rendering. -->
+<!-- CHANGE LOG: v446 — Fixed the v445 pantry-import visibility regression caused by imported Inventory tags being stored as a comma-separated string while All Action Items expected a tag array. Added an idempotent load repair for already-imported pantry records, changed future pantry imports to save tag arrays, hardened itemSearchBlob() and Home Inventory rendering against legacy tag strings, expanded All Action Items search coverage for Inventory-specific fields, and added a dedicated All Action Items search box. No item type, field, controlled-value catalog, linkable object, Bulk Add/Bulk Update mapping, filter type, tBadge, missingFields, recalc, applyFilter, or export schema was added or removed. No automatic v446 Release record was inserted. -->
+<!-- RELEASE NOTES: v446 — Inventory visibility + All Action Items search fix. Pantry records already imported under v445 are repaired in place on load and become visible/searchable again. All Action Items now has a page-level search that includes Inventory-specific metadata instead of relying on the global header search. -->
 <!-- USER GUIDE: v445 — Open Home Inventory → Import Inventory CSV and select the pantry-app export. LCC recognizes that format automatically, imports one catalog record per row, keeps Quantity on the record, maps Stocked and Best By dates, preserves barcode in Model/SKU/ISBN, normalizes the source category into an approved Pantry subcategory, and keeps the exact source category in Notes with a review-friendly Pantry tag. Repeat imports skip matches by barcode or Name + Brand. Use Home Inventory → Print Review for By Room, By Category, Needs Attention, or All Inventory review packets with a blank Review / Changes column. -->
 <!-- CHANGE LOG: v445 — Reworked the existing Inventory CSV/Notion import path to add pantry-app format detection, preview counts, repeat-safe duplicate detection, approved Pantry subcategory normalization, source metadata preservation, catalog updates for imported brands/stores, and supported pantry field mapping. Added browser Print/PDF review output grouped by Room or Category plus Needs Attention and All Inventory modes. No new Action Item type, Inventory field, linkable object, or controlled-value catalog was added; existing Inventory/Bulk Add/Bulk Update/type filters/inline type selector/keyMap/tBadge/missingFields/recalc/applyFilter/export structural mappings remain unchanged. Added only the v445 Release record. -->
 <!-- RELEASE NOTES: v445 — Home Inventory import/review release. Pantry-app CSVs can now move directly into the existing LCC Inventory model without multiplying catalog records by quantity or introducing unapproved category values, and Inventory can be printed to review-friendly PDFs by room, category, or attention status. -->
