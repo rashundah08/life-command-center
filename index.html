@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v449</title>
+<title>LCC v451</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v449</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v451</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1406,7 +1406,7 @@ Item 3
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v449</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v451</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -2563,9 +2563,9 @@ Item 3
 <div class="field" style="margin:0"><label>Manual / Document URL</label><input id="inv-manualurl" placeholder="https://…" type="url"/></div>
 </div>
 <div class="field" style="margin-top:10px"><label>Serial / Order #</label><input id="inv-serial" placeholder="Serial number, order number..."/></div>
-<div class="field" style="margin-top:10px"><label>URL / Link</label><input id="inv-url" placeholder="https://..." type="url"/></div>
-<div class="field" style="margin-top:10px"><label>Cover Image URL <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">shows as the item's photo</span></label><input id="inv-cover" oninput="invCoverPreview()" placeholder="https://…"/></div>
-<div id="inv-cover-preview" style="margin-top:8px;display:none"><img alt="Cover preview" id="inv-cover-img" onerror="document.getElementById('inv-cover-preview').style.display='none'" style="max-width:100%;max-height:160px;border-radius:var(--r);border:1px solid var(--bdr)"/></div>
+<div class="field" style="margin-top:10px"><label>Product URL <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">paste the normal retailer or product-page link</span></label><input id="inv-url" placeholder="https://www.lowes.com/…" type="url"/></div>
+<div class="field" style="margin-top:10px"><label>Product Image <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">saved as the item's photo</span></label><input accept="image/*" id="inv-cover-file" onchange="invCoverFileSelected(this)" type="file"/><div style="font-size:10px;color:var(--txt3);margin-top:5px">Choose an image from Photos or Files. LCC resizes/compresses it before saving.</div><div style="display:flex;gap:6px;align-items:center;margin-top:7px"><input id="inv-cover" oninput="invCoverPreview()" placeholder="Or paste a direct image URL (optional)" style="flex:1"/><button class="btn xs ghost" onclick="invClearCover()" type="button">Remove</button></div></div>
+<div id="inv-cover-preview" style="margin-top:8px;display:none"><img alt="Product image preview" id="inv-cover-img" style="max-width:100%;max-height:180px;border-radius:var(--r);border:1px solid var(--bdr);display:block"/><div id="inv-cover-msg" style="font-size:10px;color:#B45309;margin-top:5px"></div></div>
 <div class="field" style="margin-top:10px"><label>Tags (comma separated)</label><input id="inv-tags" placeholder="e.g. builder-supplied, holiday, gift"/></div>
 <div class="field" style="margin-top:10px"><label>Notes</label><textarea id="inv-notes" placeholder="Any additional details..." rows="2"></textarea></div>
 <div id="inv-del-wrap" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr)">
@@ -3939,9 +3939,11 @@ function loadFromDriveData(p){
   runSchemaMigration();
   const _v444ReleaseAdded=ensureReleaseV444();
   const _v445ReleaseAdded=ensureReleaseV445();
+  const _v450ReleaseAdded=ensureReleaseV450();
+  const _v451ReleaseAdded=ensureReleaseV451();
   recalc();
   renderAll();
-  if((_v444ReleaseAdded||_v445ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v444ReleaseAdded||_v445ReleaseAdded||_v450ReleaseAdded||_v451ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4189,6 +4191,25 @@ function ensureReleaseV441(){
 }
 
 
+// v450 — add only this coded version's Release record; historical releases are not rebuilt.
+function ensureReleaseV450(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v450'))return false;
+  const day='2026-09-07',now=new Date().toISOString();
+  S.items.push({id:'release-lcc-v450',name:'LCC v450 — Inventory Product Image Upload',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'easy',releaseVersion:'450',releaseType:'minor',releaseModules:['Home Inventory','Inventory Item Editor','Product Images'],releaseChangelog:'Reworked the existing Inventory URL and Inv Cover fields into a clearer Product URL + Product Image workflow. Product URL now explicitly accepts the normal retailer/product-page link. Product Image now supports choosing an image from Photos/Files, automatically resizes and compresses the image before saving, preserves the existing direct-image-URL fallback, previews the saved image, and provides a Remove control. No new Inventory schema field or item type was added.',releaseNotes:'v450 makes inventory photos usable without hunting for a retailer image-file URL. Save the normal product page in Product URL, then choose the product photo from Photos or Files; LCC prepares it and uses it as the item cover image.',notes:'User Guide: In Home Inventory, open Add/Edit Item. Paste the normal Lowe’s, Target, Walmart, Amazon, or other product-page link into Product URL. Under Product Image, choose a saved image from Photos or Files. LCC resizes/compresses the selected image and shows a preview; choose Save Item to keep it. Direct image URLs remain supported in the optional image URL box. Use Remove to clear the current product image.',completedDate:day,date:day,createdAt:now,updatedAt:now});
+  return true;
+}
+
+
+// v451 — add only this coded version's Release record; historical releases are not rebuilt.
+function ensureReleaseV451(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v451'))return false;
+  const day='2026-09-07',now=new Date().toISOString();
+  S.items.push({id:'release-lcc-v451',name:'LCC v451 — Inventory Card View & All Inventory Search',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'easy',releaseVersion:'451',releaseType:'minor',releaseModules:['Home Inventory','All Inventory','Product Images','Search'],releaseChangelog:'Added a dedicated List/Card view switch and visible search bar to Home Inventory → All Inventory. Card View displays the existing Inventory product image, item name, category, room/location, quantity/unit, item status, brand, and missing-required-information state. Search matches item name, category, subcategory, brand, room/location, item status, model/SKU/barcode, store, tags, notes, and Product URL. Existing table editing and Inventory bulk-selection workflows remain available.',releaseNotes:'v451 turns Product Images into a browseable visual inventory and makes All Inventory directly searchable without opening individual records.',notes:'User Guide: Open Home Inventory → All Inventory. Use Search all inventory to find records by item, brand, room, category, model/barcode, store, status, notes, tags, or Product URL. Switch between List and Cards. Card View shows the saved Product Image and key inventory details; tap/click a card to open the full record. Use the card checkbox to select records, then Bulk Update Selected when needed.',completedDate:day,date:day,createdAt:now,updatedAt:now});
+  return true;
+}
+
 function ensureReleaseV445(){
   if(!S||!Array.isArray(S.items))return false;
   if(S.items.some(i=>i&&i.id==='release-lcc-v445'))return false;
@@ -4247,6 +4268,9 @@ async function load(){
   }catch(e){console.warn('Load failed:',e);}
   ensureReleaseV444();
   ensureReleaseV445();
+  ensureReleaseV450();
+  const _v451ReleaseAdded=ensureReleaseV451();
+  if(_v451ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -22798,9 +22822,38 @@ function roomCoverPreview(){
 }
 function invCoverPreview(){
   const u=(document.getElementById('inv-cover').value||'').trim();
-  const w=document.getElementById('inv-cover-preview'), img=document.getElementById('inv-cover-img');
+  const w=document.getElementById('inv-cover-preview'),img=document.getElementById('inv-cover-img'),msg=document.getElementById('inv-cover-msg');
   if(!w||!img)return;
-  if(u){img.src=u;w.style.display='block';}else{w.style.display='none';}
+  if(!u){w.style.display='none';img.removeAttribute('src');if(msg)msg.textContent='';return;}
+  w.style.display='block';img.style.display='block';if(msg)msg.textContent='';
+  img.onload=()=>{img.style.display='block';if(msg)msg.textContent='';};
+  img.onerror=()=>{img.style.display='none';if(msg)msg.textContent='⚠️ This is not a direct image. If it is a retailer product page, place it in Product URL instead.';};
+  img.src=u;
+}
+function invClearCover(){
+  const u=document.getElementById('inv-cover'),f=document.getElementById('inv-cover-file');
+  if(u)u.value='';if(f)f.value='';invCoverPreview();
+}
+function invCoverFileSelected(input){
+  const file=input&&input.files&&input.files[0];if(!file)return;
+  if(!String(file.type||'').startsWith('image/')){alert('Please choose an image file.');input.value='';return;}
+  if(file.size>25*1024*1024){alert('That image is too large. Please choose an image under 25 MB.');input.value='';return;}
+  const fr=new FileReader();
+  fr.onerror=()=>alert('LCC could not read that image. Please try another image.');
+  fr.onload=()=>{
+    const im=new Image();
+    im.onerror=()=>alert('LCC could not open that image. Please try another image.');
+    im.onload=()=>{
+      const maxDim=900,scale=Math.min(1,maxDim/Math.max(im.naturalWidth||1,im.naturalHeight||1));
+      const w=Math.max(1,Math.round((im.naturalWidth||1)*scale)),h=Math.max(1,Math.round((im.naturalHeight||1)*scale));
+      const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.drawImage(im,0,0,w,h);
+      const data=c.toDataURL('image/jpeg',0.78),u=document.getElementById('inv-cover');
+      if(u){u.value=data;invCoverPreview();toast('🖼️ Product image ready to save',2200);}
+    };
+    im.src=fr.result;
+  };
+  fr.readAsDataURL(file);
 }
 function openRoomModal(id){
   const item=id?getItem(id):null;
@@ -23082,6 +23135,7 @@ function openInvModal(id) {
   document.getElementById('inv-serial').value = item ? (item.serial || '') : '';
   document.getElementById('inv-url').value = item ? (item.url || '') : '';
   document.getElementById('inv-cover').value = item ? (item.invCover || '') : '';
+  const _invCoverFile=document.getElementById('inv-cover-file');if(_invCoverFile)_invCoverFile.value='';
   invCoverPreview();
   document.getElementById('inv-tags').value = item ? (item.tags || '') : '';
   document.getElementById('inv-notes').value = item ? (item.notes || '') : '';
@@ -23510,7 +23564,7 @@ function printInventoryReview(mode){
   const title=mode==='room'?'Inventory Review — By Room':mode==='category'?'Inventory Review — By Category':mode==='attention'?'Inventory Review — Needs Attention':'Inventory Review — All Inventory';
   const sections=Object.keys(groups).sort((a,b)=>a.localeCompare(b)).map(k=>`<section><h2>${escp(k)} <span>${groups[k].length} record${groups[k].length===1?'':'s'}</span></h2><table><thead><tr><th>Item</th><th>Category / Subcategory</th><th>Room</th><th>Qty</th><th>Status</th><th>Best By</th><th>Missing / Attention</th><th class="review">Review / Changes</th></tr></thead><tbody>${groups[k].sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''))).map(i=>`<tr><td><b>${escp(i.name)}</b>${i.brand?`<small>${escp(i.brand)}</small>`:''}${i.model?`<small>${escp(i.model)}</small>`:''}</td><td>${escp(i.cat||'')}${i.subcategory?`<small>${escp(i.subcategory)}</small>`:''}</td><td>${escp(i.location||'—')}</td><td>${escp(i.qty??1)} ${escp(i.unit||'ea')}</td><td>${escp(i.invStatus||'')}</td><td>${escp(i.expiration||'')}</td><td>${escp(inventoryPrintMissing(i).join(', '))}</td><td class="review"></td></tr>`).join('')}</tbody></table></section>`).join('');
   const w=window.open('','_blank');if(!w){alert('Pop-up blocked. Allow pop-ups for this file, then try Print Review again.');return;}
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escp(title)}</title><style>@page{size:landscape;margin:.38in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#2A2620;margin:0;font-size:9px}header{border-bottom:2px solid #454F3E;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}h1{font-size:20px;margin:0;color:#454F3E}header p{margin:2px 0 0;color:#666}section{break-before:page}section:first-of-type{break-before:auto}h2{font-size:13px;margin:0 0 7px;background:#F4EBDD;border-left:5px solid #C1602C;padding:6px 8px;color:#454F3E}h2 span{float:right;font-size:9px;font-weight:normal;color:#666}table{width:100%;border-collapse:collapse;table-layout:fixed}th{background:#454F3E;color:white;padding:5px 4px;text-align:left;font-size:8px}td{border:1px solid #bbb;padding:5px 4px;vertical-align:top;min-height:28px;word-break:break-word}td small{display:block;color:#666;margin-top:2px}.review{width:17%}td.review{height:34px}.empty{padding:30px;text-align:center;color:#777;border:1px solid #ccc}.footer{margin-top:10px;color:#777;font-size:8px}@media print{button{display:none}}</style></head><body><header><div><h1>${escp(title)}</h1><p>Life Command Center v449 · ${items.length} catalog record${items.length===1?'':'s'}</p></div><div>${new Date().toLocaleDateString()}</div></header>${sections||'<div class="empty">No inventory records match this review view.</div>'}<div class="footer">Use Review / Changes to mark corrections, then update the matching Inventory record in LCC.</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);w.document.close();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escp(title)}</title><style>@page{size:landscape;margin:.38in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#2A2620;margin:0;font-size:9px}header{border-bottom:2px solid #454F3E;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}h1{font-size:20px;margin:0;color:#454F3E}header p{margin:2px 0 0;color:#666}section{break-before:page}section:first-of-type{break-before:auto}h2{font-size:13px;margin:0 0 7px;background:#F4EBDD;border-left:5px solid #C1602C;padding:6px 8px;color:#454F3E}h2 span{float:right;font-size:9px;font-weight:normal;color:#666}table{width:100%;border-collapse:collapse;table-layout:fixed}th{background:#454F3E;color:white;padding:5px 4px;text-align:left;font-size:8px}td{border:1px solid #bbb;padding:5px 4px;vertical-align:top;min-height:28px;word-break:break-word}td small{display:block;color:#666;margin-top:2px}.review{width:17%}td.review{height:34px}.empty{padding:30px;text-align:center;color:#777;border:1px solid #ccc}.footer{margin-top:10px;color:#777;font-size:8px}@media print{button{display:none}}</style></head><body><header><div><h1>${escp(title)}</h1><p>Life Command Center v451 · ${items.length} catalog record${items.length===1?'':'s'}</p></div><div>${new Date().toLocaleDateString()}</div></header>${sections||'<div class="empty">No inventory records match this review view.</div>'}<div class="footer">Use Review / Changes to mark corrections, then update the matching Inventory record in LCC.</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);w.document.close();
 }
 
 function closeInvModal() {
@@ -30152,6 +30206,55 @@ function download(name,text){const b=new Blob([text],{type:'text/csv;charset=utf
 <!-- USER GUIDE: v449 — In Home Inventory, use the new 🔎 Missing Information dropdown above inventory tables and grouped Room/Category/Container views. Choose Any Required Information or a specific blank field such as Room, Subcategory, Quantity, Brand, Store, Best By / Expiration, Condition, Lifecycle Status, Receipt, Serial / ID, or Insurance Review. The filter narrows the records currently being reviewed and works with v448 selection/bulk update so Select shown targets only the filtered records. Needs Attention remains the required-field queue; the Missing Information filter is the more specific cleanup tool. -->
 <!-- CHANGE LOG: v449 — Added a persistent Home Inventory Missing Information filter across All Inventory, Needs Attention, To Buy, Disposition, drilled Room/Category/Container tables, and grouped Room/Category/Container views. Filter options use existing Inventory fields from the v333 Field Guide and do not change required-field validation. Filtered table selections feed the existing Inventory Bulk Update current-view selection. No new item type, field, controlled value, linked object, validation rule, recalc rule, applyFilter branch, or export field was added. No automatic Release record was inserted. -->
 <!-- RELEASE NOTES: v449 — Inventory cleanup filtering. Home Inventory can now be narrowed by the exact information that is missing, making it possible to select and bulk-correct incomplete records directly from the review view. -->
+
+<!-- v451 — Inventory All Items Search + Card View -->
+<style id="lcc-v451-inventory-cards-search-css">
+.inv451-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 11px;margin:5px 0 10px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;box-shadow:var(--sh)}
+.inv451-search{position:relative;flex:1;min-width:220px}.inv451-search input{width:100%;padding:8px 11px 8px 31px;border:1px solid var(--bdr2);border-radius:9px;background:var(--soft);color:var(--txt);font:12px 'DM Sans',sans-serif;outline:none}.inv451-search input:focus{background:#fff;border-color:var(--teal)}.inv451-search span{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--txt3);pointer-events:none}
+.inv451-toggle{display:inline-flex;border:1px solid var(--bdr2);border-radius:9px;overflow:hidden;background:var(--soft)}.inv451-toggle button{border:0;background:transparent;color:var(--txt2);padding:7px 10px;font:700 10.5px 'DM Sans',sans-serif;cursor:pointer}.inv451-toggle button.active{background:var(--navy);color:#fff}.inv451-result{font-size:10px;color:var(--txt3);white-space:nowrap}
+.inv451-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:8px}.inv451-card{position:relative;background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:var(--sh);transition:transform .15s,border-color .15s,box-shadow .15s}.inv451-card:hover{transform:translateY(-1px);border-color:var(--bdr2);box-shadow:0 5px 18px rgba(0,0,0,.08)}
+.inv451-card-img{height:155px;background:var(--soft);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}.inv451-card-img img{width:100%;height:100%;object-fit:contain;background:#fff}.inv451-card-placeholder{font-size:32px;opacity:.28}.inv451-card-body{padding:11px 12px 12px;cursor:pointer}.inv451-card-name{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.3;margin-bottom:5px}.inv451-card-meta{font-size:10px;color:var(--txt2);line-height:1.55}.inv451-card-row{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:7px}.inv451-status{font-size:9px;font-weight:800;border-radius:10px;padding:3px 7px;background:var(--soft);color:var(--txt2);white-space:nowrap}.inv451-missing{font-size:9px;font-weight:800;border-radius:10px;padding:3px 7px;background:#FEF3C7;color:#92400E;white-space:nowrap}.inv451-complete{background:#DCFCE7;color:#166534}.inv451-select{position:absolute;top:9px;left:9px;z-index:3;background:rgba(255,255,255,.92);border:1px solid var(--bdr2);border-radius:7px;padding:5px;display:flex;align-items:center;box-shadow:0 1px 5px rgba(0,0,0,.08)}.inv451-select input{width:15px;height:15px;accent-color:var(--teal);cursor:pointer}.inv451-hidden{display:none!important}.inv451-bulkbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:7px 0 9px}.inv451-bulkbar .count{font-size:10px;color:var(--txt3);font-weight:700}
+@media(max-width:620px){.inv451-toolbar{align-items:stretch}.inv451-search{min-width:100%}.inv451-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.inv451-card-img{height:120px}.inv451-card-body{padding:9px}.inv451-card-name{font-size:11.5px}.inv451-card-meta{font-size:9.5px}}
+@media(max-width:390px){.inv451-grid{grid-template-columns:1fr}}
+</style>
+<script id="lcc-v451-inventory-cards-search">
+(function(){
+ const q=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const inv=()=>typeof loadInv==='function'?loadInv():(S.items||[]).filter(i=>i&&i.type==='inventory');
+ const qty=i=>Math.max(0,Number(i?.qty)||0), missing=i=>{try{return typeof inv385Missing==='function'?inv385Missing(i):[]}catch(_){return[]}};
+ window.inv451Mode=window.inv451Mode||'list'; window.inv451Query=window.inv451Query||'';
+ function blob(i){const tags=Array.isArray(i.tags)?i.tags.join(' '):(i.tags||'');return [i.name,i.cat,i.subcategory,i.brand,i.location,i.invStatus,i.model,i.isbn,i.barcode,i.serial,i.store,i.notes,tags,i.url,i.inventoryMethod].map(v=>String(v||'')).join(' ').toLowerCase()}
+ function matches(i){const s=String(window.inv451Query||'').trim().toLowerCase();return !s||blob(i).includes(s)}
+ function allMatches(){return inv().filter(matches)}
+ function itemById(id){return inv().find(i=>String(i.id)===String(id))}
+ function selected(){return window.inv448Selected instanceof Set?window.inv448Selected:(window.inv448Selected=new Set())}
+ function toolbar(){return `<div id="inv451-toolbar" class="inv451-toolbar"><div class="inv451-search"><span>⌕</span><input id="inv451-search" type="search" autocomplete="off" value="${esc(window.inv451Query)}" placeholder="Search all inventory — item, brand, room, category, model…" oninput="inv451Search(this.value)"></div><div class="inv451-toggle"><button id="inv451-list-btn" onclick="inv451SetMode('list')">☰ List</button><button id="inv451-card-btn" onclick="inv451SetMode('card')">▦ Cards</button></div><span id="inv451-result" class="inv451-result"></span></div>`}
+ function injectToolbar(){const c=q('inv-content');if(!c||getComputedStyle(c).display==='none')return;let t=q('inv451-toolbar');if(!t)c.insertAdjacentHTML('afterbegin',toolbar());updateToggle()}
+ function updateToggle(){q('inv451-list-btn')?.classList.toggle('active',window.inv451Mode==='list');q('inv451-card-btn')?.classList.toggle('active',window.inv451Mode==='card')}
+ function rowId(tr){const el=tr.querySelector('[onclick*="openInvModal"]');const m=(el?.getAttribute('onclick')||'').match(/openInvModal\(['\"]([^'\"]+)/);return m?m[1]:''}
+ function applyListSearch(){const c=q('inv-content'),table=c?.querySelector('table.inv385-table');if(!table)return false;let shown=[];[...table.querySelectorAll('tbody tr')].forEach(tr=>{const id=rowId(tr),i=itemById(id),ok=!i||matches(i);tr.classList.toggle('inv451-hidden',!ok);if(ok&&!tr.classList.contains('inv449-hidden')&&id)shown.push(String(id))});window.inv448CurrentIds=shown;const r=q('inv451-result');if(r)r.textContent=`${shown.length} shown`;const count=q('inv-count');if(count){const units=shown.map(itemById).filter(Boolean).reduce((s,i)=>s+qty(i),0);count.textContent=`${shown.length.toLocaleString()} catalog record(s) · ${units.toLocaleString()} physical quantity`}try{window.inv448Enhance?.()}catch(_){}return true}
+ function cardHtml(i){const m=missing(i),id=esc(i.id),img=String(i.invCover||'').trim(),checked=selected().has(String(i.id));const loc=i.location||'Unassigned',cat=i.cat||'Uncategorized',status=i.invStatus||'No status',qtyTxt=`${qty(i)} ${i.unit||'ea'}`;return `<article class="inv451-card" data-inv-id="${id}"><label class="inv451-select" onclick="event.stopPropagation()"><input type="checkbox" ${checked?'checked':''} onchange="inv451Select('${id}',this.checked)"></label><div class="inv451-card-img" onclick="openInvModal('${id}')">${img?`<img src="${esc(img)}" alt="${esc(i.name||'Inventory item')}" onerror="this.parentElement.innerHTML='<span class=&quot;inv451-card-placeholder&quot;>📦</span>'">`:'<span class="inv451-card-placeholder">📦</span>'}</div><div class="inv451-card-body" onclick="openInvModal('${id}')"><div class="inv451-card-name">${esc(i.name||'Untitled')}</div><div class="inv451-card-meta">${esc(cat)}${i.subcategory?' · '+esc(i.subcategory):''}<br>${esc(loc)}${i.brand?' · '+esc(i.brand):''}<br>${esc(qtyTxt)}</div><div class="inv451-card-row"><span class="inv451-status">${esc(status)}</span><span class="inv451-missing ${m.length?'':'inv451-complete'}">${m.length?m.length+' missing':'Complete'}</span></div></div></article>`}
+ function renderCards(){const c=q('inv-content');if(!c)return;const a=allMatches(),units=a.reduce((s,i)=>s+qty(i),0),ids=a.map(i=>String(i.id));window.inv448CurrentIds=ids;c.innerHTML=toolbar()+`<div class="inv451-bulkbar"><button class="btn xs" onclick="inv451SelectShown()">✓ Select Shown</button><button class="btn xs ghost" onclick="inv451ClearSelection()">Clear Selection</button><button class="btn xs primary" onclick="inv451BulkUpdate()">⚡ Bulk Update Selected</button><span id="inv451-sel-count" class="count"></span></div>`+(a.length?`<div class="inv451-grid">${a.map(cardHtml).join('')}</div>`:'<div class="empty"><p>No inventory records match your search.</p></div>');if(q('inv-count'))q('inv-count').textContent=`${a.length.toLocaleString()} catalog record(s) · ${units.toLocaleString()} physical quantity`;if(q('inv451-result'))q('inv451-result').textContent=`${a.length} shown`;updateToggle();updateSelectedCount()}
+ function updateSelectedCount(){const e=q('inv451-sel-count');if(e)e.textContent=`${selected().size} selected`}
+ function renderMode(){if((window.inv388Current||'')!=='all')return;window.inv451Mode==='card'?renderCards():(injectToolbar(),applyListSearch())}
+ window.inv451Search=function(v){window.inv451Query=v||'';renderMode()};
+ window.inv451SetMode=function(v){window.inv451Mode=v==='card'?'card':'list';if(window.inv451Mode==='list'){window.inv388View?.('all');setTimeout(renderMode,65)}else renderCards()};
+ window.inv451Select=function(id,on){const s=selected();on?s.add(String(id)):s.delete(String(id));updateSelectedCount()};
+ window.inv451SelectShown=function(){allMatches().forEach(i=>selected().add(String(i.id)));renderCards()};
+ window.inv451ClearSelection=function(){selected().clear();renderCards()};
+ window.inv451BulkUpdate=function(){const ids=[...selected()];if(!ids.length)return alert('Select at least one Inventory record.');if(typeof window.inv448Open==='function')return window.inv448Open(ids);alert('Inventory Bulk Update is not available.')};
+ const oldView=window.inv388View;if(typeof oldView==='function'&&!oldView._v451){const wrap=function(v){const r=oldView.apply(this,arguments);setTimeout(()=>{if(v==='all')renderMode();else{window.inv451Query='';}},75);return r};wrap._v451=1;window.inv388View=wrap}
+ document.addEventListener('input',e=>{if(e.target?.id==='inv449-missing-select'&&window.inv451Mode==='list')setTimeout(applyListSearch,55)},true);
+ setTimeout(()=>{if((window.inv388Current||'')==='all')renderMode()},350);
+})();
+</script>
+<!-- USER GUIDE: v451 — Open Home Inventory → All Inventory. Use Search all inventory to find records by item name, category/subcategory, brand, room/location, status, model/SKU/barcode, store, notes, tags, or Product URL. Use List for the editable database table or Cards for a visual browse view. Cards show the saved Product Image, item name, category, room, quantity/unit, status, brand, and missing-required-information state. Click a card to open the full record. Card checkboxes can be used with Bulk Update Selected. -->
+<!-- CHANGE LOG: v451 — Added an All Inventory-specific search toolbar and List/Cards view toggle on top of the existing v388 Inventory workspace. Card View uses the existing invCover field and existing Inventory data; search operates only on existing Inventory fields. Existing table editing, v448 Inventory bulk update, and v449 missing-information filtering remain intact. No new item type, schema field, controlled value, linked object, validation rule, recalc rule, applyFilter branch, Bulk Add/Bulk Update type option, or export column was added. Added only the v451 Release record. -->
+<!-- RELEASE NOTES: v451 — Visual Inventory browsing + direct All Inventory search. Product images now appear in a card gallery, and All Inventory can be searched without opening records or relying on another page-level search. -->
+
+<!-- USER GUIDE: v450 — In Home Inventory → Add/Edit Item, Product URL is the normal retailer/product-page link. Product Image accepts an image chosen from Photos/Files, resizes/compresses it in the browser, previews it, and saves it through the existing Inv Cover field. Direct image URLs remain available as an optional fallback. Use Remove to clear the current product image. -->
+<!-- CHANGE LOG: v450 — Renamed the existing Inventory URL / Link UI to Product URL and changed the existing Inv Cover UI into Product Image upload + preview + direct-image-URL fallback. Added client-side image resizing/compression and a Remove action. Reused existing Inventory fields url and invCover; no new item type, schema field, controlled value, linked object, validation rule, recalc rule, applyFilter branch, Bulk Add/Bulk Update type option, or export column was added. Added only the v450 Release action-item record. -->
+<!-- RELEASE NOTES: v450 — Inventory product-image workflow. Paste the normal product-page URL, choose the product image from Photos/Files, preview it, and save. LCC no longer requires the user to hunt for a direct retailer image-file URL for the everyday workflow. -->
 </body>
 
 </html>
