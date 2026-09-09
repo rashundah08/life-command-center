@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v455</title>
+<title>LCC v456</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -832,7 +832,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v455</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v456</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -840,136 +840,100 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div id="sb-lcc-time" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">-- CT</div>
 </div>
 <div class="sb-sec">
-<div class="sb-lbl">Execute</div>
+<div class="sb-lbl">Home</div>
 <button class="nb active" id="nav-hub" onclick="showPage('hub',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 1l2 5h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z"></path></svg>Master Plan
-    </button>
-<button class="nb" id="nav-headquarters" onclick="showPage('headquarters',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 8c0-3.4 2.6-6 6-6s6 2.6 6 6-2.6 6-6 6-6-2.6-6-6z"></path><path d="M5 8h6M8 5v6"></path></svg>Inside Headquarters
-    </button>
-<button class="nb" id="nav-dash" onclick="showPage('dash',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 12L5.5 7.5l3 3L14 3"></path></svg>Dashboard
-    </button>
-<button class="nb" id="nav-planning" onclick="showPage('planning',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 6h6M5 9h6M5 12h3"></path></svg>Planning Queue
-    </button>
-<button class="nb" id="nav-sprints" onclick="showPage('sprints',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="10" rx="1.5" width="12" x="2" y="3"></rect><path d="M5 3V1M11 3V1M2 7h12"></path><path d="M5.5 10l1.5 1.5L10 9"></path></svg>Sprint Planner
-    </button>
-<button class="nb" id="nav-items" onclick="showPage('items',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><circle cx="8" cy="8" r="2.5"></circle></svg>All Action Items
-    </button>
-<button class="nb" id="nav-hierarchy" onclick="showPage('hierarchy',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2v3M8 5H4v3M8 5h4v3M4 8v3M12 8v3"></path><circle cx="8" cy="2" r="1.3"></circle><circle cx="4" cy="12" r="1.3"></circle><circle cx="12" cy="12" r="1.3"></circle></svg>Hierarchy
-    </button>
-</div>
-<div class="sb-sec">
-<div class="sb-lbl">Initiatives</div>
-<div id="sb-initiatives"></div>
-</div>
-<div class="sb-sec">
-<div class="sb-lbl">System</div>
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 7l6-4.5L14 7v6.5a.5.5 0 01-.5.5H10V10H6v4H2.5a.5.5 0 01-.5-.5V7z"></path></svg>Home
+</button>
 <button class="nb" id="nav-parking" onclick="showPage('parking',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 8l2-5h8l2 5v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8z"></path><path d="M2 8h4l1 2h2l1-2h4"></path></svg>Parking Lot<span class="lc" id="sb-parking-count" style="margin-left:auto"></span>
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 8l2-5h8l2 5v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8z"></path><path d="M2 8h4l1 2h2l1-2h4"></path></svg>Inbox<span class="lc" id="sb-parking-count" style="margin-left:auto"></span>
 </button>
 <button class="nb" id="nav-dump" onclick="showPage('dump',this)">
 <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 4h12M2 8h8M2 12h10"></path></svg>Brain Dump
-    </button>
-<button class="nb" id="nav-lists" onclick="showPage('lists',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="5" rx="1" width="5" x="2" y="2"></rect><rect height="5" rx="1" width="5" x="9" y="2"></rect><rect height="5" rx="1" width="5" x="2" y="9"></rect><rect height="5" rx="1" width="5" x="9" y="9"></rect></svg>My Lists
-    </button>
-<button class="nb" id="nav-itemtags" onclick="showPage('itemtags',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 2H13v4.5L7 12.5 2 7.5z"></path><circle cx="10.5" cy="4.5" r="1"></circle></svg>Tags
-    </button>
-<button class="nb" id="nav-rewards" onclick="showPage('rewards',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2l1.8 3.6L14 6.5l-3 2.9.7 4.1L8 11.5l-3.7 1.9.7-4.1-3-2.9 4.2-.9z"></path></svg>Rewards Bank
-    </button>
-<button class="nb" id="nav-releases" onclick="goToList('releases')">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 12h10"></path></svg>Release Management
-    </button>
-<button class="nb" id="nav-changemgmt" onclick="goToList('lccop-change')">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M13 7a5 5 0 0 0-8.5-3.5L2 6M3 9a5 5 0 0 0 8.5 3.5L14 10M2 4v2h2M14 12v-2h-2"></path></svg>Change Management
-    </button>
-<button class="nb" id="nav-implementation" onclick="showPage('implementation',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 5h6M5 8h6M5 11h4"></path></svg>Implementation Scorecard
-    </button>
-<button class="nb" id="nav-projtasks" onclick="goToList('projtasks')">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 5.5l1.5 1.5L9 4.5M5 10.5l1.5 1.5L9 9.5"></path></svg>Project Tasks
-    </button>
+</button>
+<div class="sb-sublbl">Operational Views</div>
+<button class="nb" id="nav-dash" onclick="showPage('dash',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 12L5.5 7.5l3 3L14 3"></path></svg>Needs Attention
+</button>
+<button class="nb" id="nav-headquarters" onclick="showPage('headquarters',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 8c0-3.4 2.6-6 6-6s6 2.6 6 6-2.6 6-6 6-6-2.6-6-6z"></path><path d="M5 8h6M8 5v6"></path></svg>Pulse / Headquarters
+</button>
 </div>
+
 <div class="sb-sec">
-<div class="sb-lbl">Tools</div>
-<button class="nb" id="nav-meal" onclick="showPage('meal',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 3v4c0 2.2 1.8 4 4 4s4-1.8 4-4V3M7 11v2M5 13h4"></path></svg>Meal Planner
-    </button>
-<button class="nb" id="nav-bcc" onclick="window.location.href='business-command-center.html'">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 13h12"></path><path d="M4 13V8M7.3 13V4M10.7 13V9.5M14 13V6"></path></svg>Business Command Center
-    </button>
-<button class="nb" id="nav-knowledge" onclick="showPage('knowledge',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 2.5h7.5A2.5 2.5 0 0113 5v8.5H5.5A2.5 2.5 0 013 11V2.5z"></path><path d="M5.5 13.5A2.5 2.5 0 018 11h5M6 5h4M6 7.5h4"></path></svg>Knowledge Hub
-    </button>
-<button class="nb" id="nav-finance" onclick="showPage('finance',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 10c0-3.3 2.7-6 6-6s6 2.7 6 6"></path><path d="M8 4V2M5 5.5L3.5 4M11 5.5l1.5-1.5"></path><circle cx="8" cy="10" r="2"></circle></svg>Finance Tracker
-    </button>
-<button class="nb" id="nav-health" onclick="showPage('health',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 14s-5-3.2-5-7.2A2.8 2.8 0 018 4.7a2.8 2.8 0 015 2.1C13 10.8 8 14 8 14z"></path><path d="M5.5 8h1.5l.7-1.5 1.1 3 1-1.5h1.2"></path></svg>Health &amp; Wellness
-    </button>
-<button class="nb" id="nav-homeops" onclick="showPage('homeops',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 7l6-4.5L14 7v6.5a.5.5 0 01-.5.5H10V10H6v4H2.5a.5.5 0 01-.5-.5V7z"></path><path d="M4 8h2M10 8h2"></path></svg>Home Operations
-    </button>
-<button class="nb" id="nav-inventory" onclick="showPage('inventory',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 5l6-3 6 3v6l-6 3-6-3V5z"></path><path d="M8 2v12M2 5l6 3 6-3"></path></svg>Home Inventory
-    </button>
-<button class="nb" id="nav-rooms" onclick="showPage('rooms',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 7l6-4.5L14 7v6.5a.5.5 0 01-.5.5H10V10H6v4H2.5a.5.5 0 01-.5-.5V7z"></path></svg>Rooms
-    </button>
-<button class="nb" id="nav-automations" onclick="showPage('automations',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 1.5L3.5 9H7l-.5 5.5L12.5 7H9l-.5-5.5z"></path></svg>Automations
-    </button>
-<button class="nb" id="nav-catalog" onclick="showPage('catalog',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="10" rx="1.5" width="12" x="2" y="3"></rect><path d="M2 6h12M6 3v10"></path></svg>Field Option Catalog
-    </button>
-<button class="nb" id="nav-taglibrary" onclick="showPage('taglibrary',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 2H13v4.5L7 12.5 2 7.5z"></path><circle cx="10.5" cy="4.5" r="1"></circle></svg>Tag Library
-    </button>
-<button class="nb" id="nav-workflows" onclick="showPage('workflows',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="4" cy="4" r="2"></circle><circle cx="12" cy="12" r="2"></circle><path d="M4 6v3a2 2 0 002 2h4"></path><path d="M8.5 9.5L10 11l-1.5 1.5"></path></svg>Workflows
-    </button>
-<!-- v237 — Field Catalog merged into Field Option Catalog -->
+<div class="sb-lbl">Plan</div>
+<button class="nb" id="nav-planning" onclick="showPage('planning',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 6h6M5 9h6M5 12h3"></path></svg>Planning Queue
+</button>
+<button class="nb" id="nav-sprints" onclick="showPage('sprints',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="10" rx="1.5" width="12" x="2" y="3"></rect><path d="M5 3V1M11 3V1M2 7h12"></path><path d="M5.5 10l1.5 1.5L10 9"></path></svg>Sprint Planner
+</button>
+<button class="nb" id="nav-sot" onclick="showPage('sot',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 6h6M5 9h4"></path></svg>13-Week Plan
+</button>
+<button class="nb" id="nav-hierarchy" onclick="showPage('hierarchy',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2v3M8 5H4v3M8 5h4v3M4 8v3M12 8v3"></path><circle cx="8" cy="2" r="1.3"></circle><circle cx="4" cy="12" r="1.3"></circle><circle cx="12" cy="12" r="1.3"></circle></svg>Hierarchy
+</button>
+<div class="sb-sublbl">Initiatives &amp; Goals</div>
+<div id="sb-initiatives"></div>
+</div>
+
+<div class="sb-sec">
+<div class="sb-lbl">Do</div>
+<button class="nb" id="nav-items" onclick="showPage('items',this)">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><circle cx="8" cy="8" r="2.5"></circle></svg>All Action Items
+</button>
 <button class="nb" id="nav-habits" onclick="showPage('habits',this)">
 <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v3l2 2"></path></svg>Habits &amp; Routines
-    </button>
-<button class="nb" id="nav-myarc" onclick="showPage('myarc',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 12c2-5 4-7 10-8"></path><path d="M8 3h5v5"></path><circle cx="4" cy="12" r="1.5"></circle></svg>My Arc
-    </button>
-<button class="nb" id="nav-countdowns" onclick="showPage('countdowns',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="9" r="6"></circle><path d="M8 6v3l2 1.5M6 1h4"></path></svg>Countdowns
-    </button>
-<button class="nb" id="nav-dreamfund" onclick="showPage('dreamfund',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2l1.6 3.5L13.5 6l-2.8 2.6.7 3.9L8 10.7 4.6 12.5l.7-3.9L2.5 6l3.9-.5z"></path></svg>Dream Life Fund
-    </button>
-<button class="nb" id="nav-content" onclick="showPage('content',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="3" rx="1" width="12" x="2" y="2"></rect><path d="M2 7h7M2 11h5"></path><circle cx="12" cy="11" r="2.5"></circle><path d="M12 9.5V11l1 1"></path></svg>Content Planner
-    </button>
-<button class="nb" id="nav-sot" onclick="showPage('sot',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 6h6M5 9h4"></path></svg>13-Wk SOT
-    </button>
-<button class="nb" id="nav-wiab" onclick="showPage('wiab',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"></path><path d="M8 8v4M6 6c1-1 2-1 4 0"></path></svg>Who I Am Becoming
-    </button>
-<button class="nb" id="nav-ce" onclick="goToListByName('Continuing Education')" style="display:none">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 3L1 6.5 8 10l7-3.5L8 3z"></path><path d="M4 8v3.5c0 1 1.8 2 4 2s4-1 4-2V8"></path></svg>Continuing Education
-    </button>
-<button class="nb" id="nav-patches" onclick="showPage('patches',this)">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 2v2M8 12v2M2 8h2M12 8h2M4 4l1.4 1.4M10.6 10.6L12 12M12 4l-1.4 1.4M5.4 10.6L4 12"></path></svg>Patch Challenges
-    </button>
+</button>
 </div>
+
 <div class="sb-sec">
-<div class="sb-lbl">My Lists</div>
-<div id="sb-lists"></div>
-<button class="nb" onclick="openNewList()" style="color:rgba(255,255,255,.28);font-size:11px;margin-top:2px">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 3v10M3 8h10"></path></svg>New List
-    </button>
+<div class="sb-lbl">Life</div>
+<div class="sb-sublbl">Home</div>
+<button class="nb" id="nav-homeops" onclick="showPage('homeops',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 7l6-4.5L14 7v6.5a.5.5 0 01-.5.5H10V10H6v4H2.5a.5.5 0 01-.5-.5V7z"></path><path d="M4 8h2M10 8h2"></path></svg>Home Operations</button>
+<button class="nb" id="nav-inventory" onclick="showPage('inventory',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 5l6-3 6 3v6l-6 3-6-3V5z"></path><path d="M8 2v12M2 5l6 3 6-3"></path></svg>Home Inventory</button>
+<button class="nb" id="nav-rooms" onclick="showPage('rooms',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 7l6-4.5L14 7v6.5a.5.5 0 01-.5.5H10V10H6v4H2.5a.5.5 0 01-.5-.5V7z"></path></svg>Rooms</button>
+<button class="nb" id="nav-meal" onclick="showPage('meal',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 3v4c0 2.2 1.8 4 4 4s4-1.8 4-4V3M7 11v2M5 13h4"></path></svg>Meal Planner</button>
+<button class="nb" id="nav-automations" onclick="showPage('automations',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 1.5L3.5 9H7l-.5 5.5L12.5 7H9l-.5-5.5z"></path></svg>Automations</button>
+<div class="sb-sublbl">Wellness</div>
+<button class="nb" id="nav-health" onclick="showPage('health',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 14s-5-3.2-5-7.2A2.8 2.8 0 018 4.7a2.8 2.8 0 015 2.1C13 10.8 8 14 8 14z"></path><path d="M5.5 8h1.5l.7-1.5 1.1 3 1-1.5h1.2"></path></svg>Health &amp; Wellness</button>
+<div class="sb-sublbl">Money</div>
+<button class="nb" id="nav-finance" onclick="showPage('finance',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 10c0-3.3 2.7-6 6-6s6 2.7 6 6"></path><path d="M8 4V2M5 5.5L3.5 4M11 5.5l1.5-1.5"></path><circle cx="8" cy="10" r="2"></circle></svg>Finance Tracker</button>
+<button class="nb" id="nav-dreamfund" onclick="showPage('dreamfund',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2l1.6 3.5L13.5 6l-2.8 2.6.7 3.9L8 10.7 4.6 12.5l.7-3.9L2.5 6l3.9-.5z"></path></svg>Dream Life Fund</button>
+<div class="sb-sublbl">Personal</div>
+<button class="nb" id="nav-myarc" onclick="showPage('myarc',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 12c2-5 4-7 10-8"></path><path d="M8 3h5v5"></path><circle cx="4" cy="12" r="1.5"></circle></svg>My Arc</button>
+<button class="nb" id="nav-wiab" onclick="showPage('wiab',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"></path><path d="M8 8v4M6 6c1-1 2-1 4 0"></path></svg>Who I Am Becoming</button>
+<button class="nb" id="nav-rewards" onclick="showPage('rewards',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2l1.8 3.6L14 6.5l-3 2.9.7 4.1L8 11.5l-3.7 1.9.7-4.1-3-2.9 4.2-.9z"></path></svg>Rewards Bank</button>
+<button class="nb" id="nav-countdowns" onclick="showPage('countdowns',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="9" r="6"></circle><path d="M8 6v3l2 1.5M6 1h4"></path></svg>Countdowns</button>
+<button class="nb" id="nav-patches" onclick="showPage('patches',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 2v2M8 12v2M2 8h2M12 8h2M4 4l1.4 1.4M10.6 10.6L12 12M12 4l-1.4 1.4M5.4 10.6L4 12"></path></svg>Patch Challenges</button>
+<button class="nb" id="nav-ce" onclick="goToListByName('Continuing Education')" style="display:none"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 3L1 6.5 8 10l7-3.5L8 3z"></path><path d="M4 8v3.5c0 1 1.8 2 4 2s4-1 4-2V8"></path></svg>Continuing Education</button>
+</div>
+
+<div class="sb-sec">
+<div class="sb-lbl">Library</div>
+<button class="nb" id="nav-knowledge" onclick="showPage('knowledge',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 2.5h7.5A2.5 2.5 0 0113 5v8.5H5.5A2.5 2.5 0 013 11V2.5z"></path><path d="M5.5 13.5A2.5 2.5 0 018 11h5M6 5h4M6 7.5h4"></path></svg>Knowledge Hub</button>
+<button class="nb" id="nav-digital" onclick="showPage('digital',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"></rect><path d="M5 6h6M5 9h4"></path></svg>Digital Library</button>
+<button class="nb" id="nav-content" onclick="showPage('content',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="3" rx="1" width="12" x="2" y="2"></rect><path d="M2 7h7M2 11h5"></path><circle cx="12" cy="11" r="2.5"></circle><path d="M12 9.5V11l1 1"></path></svg>Content Planner</button>
+</div>
+
+<div class="sb-sec">
+<div class="sb-lbl">System</div>
+<div class="sb-sublbl">Classification</div>
+<button class="nb" id="nav-lists" onclick="showPage('lists',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="5" rx="1" width="5" x="2" y="2"></rect><rect height="5" rx="1" width="5" x="9" y="2"></rect><rect height="5" rx="1" width="5" x="2" y="9"></rect><rect height="5" rx="1" width="5" x="9" y="9"></rect></svg>Lists &amp; Classification</button>
+<button class="nb" id="nav-itemtags" onclick="showPage('itemtags',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 2H13v4.5L7 12.5 2 7.5z"></path><circle cx="10.5" cy="4.5" r="1"></circle></svg>Tags</button>
+<button class="nb" id="nav-taglibrary" onclick="showPage('taglibrary',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8.5 2H13v4.5L7 12.5 2 7.5z"></path><circle cx="10.5" cy="4.5" r="1"></circle></svg>Tag Library</button>
+<button class="nb" id="nav-catalog" onclick="showPage('catalog',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="10" rx="1.5" width="12" x="2" y="3"></rect><path d="M2 6h12M6 3v10"></path></svg>Field Option Catalog</button>
+<div class="sb-sublbl">Operations</div>
+<button class="nb" id="nav-workflows" onclick="showPage('workflows',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="4" cy="4" r="2"></circle><circle cx="12" cy="12" r="2"></circle><path d="M4 6v3a2 2 0 002 2h4"></path><path d="M8.5 9.5L10 11l-1.5 1.5"></path></svg>Workflows</button>
+<button class="nb" id="nav-releases" onclick="goToList('releases')"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 12h10"></path></svg>Release Management</button>
+<button class="nb" id="nav-changemgmt" onclick="goToList('lccop-change')"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M13 7a5 5 0 0 0-8.5-3.5L2 6M3 9a5 5 0 0 0 8.5 3.5L14 10M2 4v2h2M14 12v-2h-2"></path></svg>Change Management</button>
+<button class="nb" id="nav-implementation" onclick="showPage('implementation',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 5h6M5 8h6M5 11h4"></path></svg>Implementation Scorecard</button>
+<button class="nb" id="nav-projtasks" onclick="goToList('projtasks')"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="1.5" width="12" x="2" y="2"></rect><path d="M5 5.5l1.5 1.5L9 4.5M5 10.5l1.5 1.5L9 9.5"></path></svg>Project Tasks</button>
+</div>
+
+<div class="sb-sec">
+<div class="sb-lbl">Business</div>
+<button class="nb" id="nav-bcc" onclick="window.location.href='business-command-center.html'"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 13h12"></path><path d="M4 13V8M7.3 13V4M10.7 13V9.5M14 13V6"></path></svg>Business Command Center ↗</button>
 </div>
 <div class="sb-foot">
 <button class="nb" id="save-now-btn" onclick="saveNow()" style="font-size:11px;color:rgba(56,189,248,.9);font-weight:600" title="Save immediately — to this device and to Google Drive if connected">
@@ -991,7 +955,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="main">
 <div class="topbar">
 <button class="ham" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button>
-<div class="page-title" id="page-title">Dashboard</div>
+<div class="page-title" id="page-title">Home</div>
 <div style="display:flex;gap:6px;align-items:center">
 <div class="srch" style="position:relative"><span class="srch-ic">⚲</span><input autocomplete="off" id="gsearch" onfocus="if(this.value)renderGlobalSearch()" oninput="handleSearch()" placeholder="Search all core fields..." title="Search name, type, status, level, planning stage, effort, priority, dates, time estimate, screen-time flag, notes, links, budget, blockers, hold/cancellation reasons, categories, lists, tags, sequence, sprint and rotation week" type="text"/><div id="global-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;width:min(360px,80vw);background:var(--card);border:1px solid var(--bdr2);border-radius:var(--rl);box-shadow:0 8px 30px rgba(0,0,0,.18);max-height:60vh;overflow-y:auto;z-index:5000"></div></div>
 <button class="btn primary sm" onclick="openModal()">+ Add</button>
@@ -1402,11 +1366,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">Your Personal Command Center</div>
-<div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">The Master Plan</div>
-<div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Everything in one place. One beautiful, intentional life.</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v456 · Your Personal Command Center</div>
+<div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
+<div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">Your Master Plan for what matters now, what needs attention, and what comes next.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v455</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v456</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3945,9 +3909,10 @@ function loadFromDriveData(p){
   const _v453ReleaseAdded=ensureReleaseV453();
   const _v454ReleaseAdded=ensureReleaseV454();
   const _v455ReleaseAdded=ensureReleaseV455();
+  const _v456ReleaseAdded=ensureReleaseV456();
   recalc();
   renderAll();
-  if((_v444ReleaseAdded||_v445ReleaseAdded||_v450ReleaseAdded||_v451ReleaseAdded||_v452ReleaseAdded||_v453ReleaseAdded||_v454ReleaseAdded||_v455ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v444ReleaseAdded||_v445ReleaseAdded||_v450ReleaseAdded||_v451ReleaseAdded||_v452ReleaseAdded||_v453ReleaseAdded||_v454ReleaseAdded||_v455ReleaseAdded||_v456ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4234,6 +4199,16 @@ function ensureReleaseV455(){
   return true;
 }
 
+
+// v456 — add only this coded version's Release record; historical releases are not rebuilt.
+function ensureReleaseV456(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v456'))return false;
+  const day='2026-09-08',now=new Date().toISOString();
+  S.items.push({id:'release-lcc-v456',name:'LCC v456 — Navigation Architecture Refactor',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'456',releaseType:'minor',releaseModules:['Navigation','Home','Plan','Do','Life','Library','System','Business'],releaseChangelog:'Reorganized the primary LCC sidebar into Home, Plan, Do, Life, Library, System, and Business. Moved existing pages under their functional homes without changing page IDs, record types, fields, schemas, or core workflows. Removed individual List shortcuts from primary navigation while preserving Lists & Classification and all underlying list data. Renamed Master Plan navigation to Home, Parking Lot navigation to Inbox, Dashboard navigation to Needs Attention, Inside Headquarters navigation to Pulse / Headquarters, and 13-Wk SOT navigation to 13-Week Plan. Digital Library now has a stable Library navigation button instead of relying on placement after Inventory.',releaseNotes:'v456 is the navigation foundation for the LCC restructure. Existing tools and records are preserved, but the sidebar now follows the way work is actually used: Home → Plan → Do → Life → Library → System, with Business Command Center kept as an external shortcut.',notes:'User Guide: Start at Home. Use Inbox and Brain Dump for capture; Needs Attention and Pulse / Headquarters remain available as operational views. Use Plan for Planning Queue, Sprint Planner, 13-Week Plan, Hierarchy, and Initiatives. Use Do for All Action Items and Habits. Life groups Home, Wellness, Money, and Personal tools. Library contains Knowledge Hub, Digital Library, and Content Planner. System contains Lists & Classification, Tags, Field Option Catalog, Workflows, Releases, Changes, Implementation Scorecard, and Project Tasks. Business Command Center remains an external shortcut. No records, fields, item types, or workflows were removed in this version.',createdAt:now,updatedAt:now});
+  return true;
+}
+
 // v454 — add only this coded version's Release record; historical releases are not rebuilt.
 function ensureReleaseV454(){
   if(!S||!Array.isArray(S.items))return false;
@@ -4316,7 +4291,8 @@ async function load(){
   const _v453ReleaseAdded=ensureReleaseV453();
   const _v454ReleaseAdded=ensureReleaseV454();
   const _v455ReleaseAdded=ensureReleaseV455();
-  if((_v451ReleaseAdded||_v452ReleaseAdded||_v453ReleaseAdded||_v454ReleaseAdded||_v455ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  const _v456ReleaseAdded=ensureReleaseV456();
+  if((_v451ReleaseAdded||_v452ReleaseAdded||_v453ReleaseAdded||_v454ReleaseAdded||_v455ReleaseAdded||_v456ReleaseAdded)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -13837,7 +13813,6 @@ window.openInitiativeDashboardV298=function(k,btn){var c=initiativeTagConfig(k);
 function renderSb(){
   currentListsForUi();
   const el=document.getElementById('sb-lists');
-  if(!el)return;
   // v324 — aggregate all sidebar list counts in one database pass.
   const sbCounts=new Map(),sbAttn=new Map();
   (S.items||[]).forEach(i=>{
@@ -13890,7 +13865,7 @@ function renderSb(){
   // v131: My Lists section shows only lists not already pinned in the nav groups above
   const pinnedIds=new Set(['life','50b50','nos','101g','ravyn','sf','ss','rla','releases','lccop-change','projtasks','patches']);
   const pinnedNames=new Set(['life admin','who am i becoming','continuing education','parking lot']);
-  el.innerHTML=S.lists.filter(l=>!pinnedIds.has(l.id)&&!pinnedNames.has((l.name||'').trim().toLowerCase())).map(listBtn).join('');
+  if(el)el.innerHTML=S.lists.filter(l=>!pinnedIds.has(l.id)&&!pinnedNames.has((l.name||'').trim().toLowerCase())).map(listBtn).join('');
 }
 function goToList(id){
   // v318 — Home Operations is a full command center; its standard list opens there directly.
@@ -14632,7 +14607,7 @@ function showPage(page,btn){
   if(page==='sot'){setTimeout(renderSOTWIABEditor,80);}
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const tt={initiative:'Initiative Dashboard',headquarters:'Inside Headquarters',implementation:'Implementation Scorecard',taglibrary:'Tag Library',dash:'Dashboard',items:'All Action Items',planning:'Planning Queue',nos:'1,000 NOs Challenge',nos2:'1,000 NOs 2.0',lists:'My Lists',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Master Plan',sot:'13-Week SOT',meal:'Meal Planner',health:'Health & Wellness',homeops:'Home Operations',inventory:'Home Inventory',digital:'Digital Library',catalog:'Catalog Settings',habits:'Habits & Routines',myarc:'My Arc',finance:'Finance Tracker',dreamfund:'Dream Life Fund',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner',parking:'Parking Lot',patches:'Patch Challenges',hierarchy:'Hierarchy',rooms:'Rooms',automations:'Automations',itemtags:'Tags',knowledge:'Knowledge Hub'};
+  const tt={initiative:'Initiative Dashboard',headquarters:'Pulse / Headquarters',implementation:'Implementation Scorecard',taglibrary:'Tag Library',dash:'Needs Attention',items:'All Action Items',planning:'Planning Queue',nos:'1,000 NOs Challenge',nos2:'1,000 NOs 2.0',lists:'Lists & Classification',dump:'Brain Dump',rewards:'Rewards Bank',hub:'Home',sot:'13-Week Plan',meal:'Meal Planner',health:'Health & Wellness',homeops:'Home Operations',inventory:'Home Inventory',digital:'Digital Library',catalog:'Field Option Catalog',habits:'Habits & Routines',myarc:'My Arc',finance:'Finance Tracker',dreamfund:'Dream Life Fund',countdowns:'Countdowns',wiab:'Who I Am Becoming',sprints:'Sprint Planner',content:'Content Planner',parking:'Inbox',patches:'Patch Challenges',hierarchy:'Hierarchy',rooms:'Rooms',automations:'Automations',itemtags:'Tags',knowledge:'Knowledge Hub'};
   document.getElementById('page-title').textContent=tt[page]||page;
   if(page==='items'){clearSelection();renderItems();}
   if(page==='planning'){clearSelection();renderPlanningQueue();}
@@ -29833,6 +29808,10 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v454 — Home Inventory → All Inventory supports sorting on every visible data column (Item, Category, Room, Container, Status, Qty, Brand, Price, Missing) plus a Status filter. Card View shows only active records with all four Core Inventory Fields complete (Item Name, Category, Inventory Method, Item Status) and excludes Donated/Trashed. Bulk Update Selected opens the Inventory bulk editor. Inventory modal and bulk-update dropdown choices are alphabetized while placeholders/Add-new actions stay in place. -->
 <!-- CHANGE LOG: v454 — Added All Inventory Status filtering and clickable ascending/descending sorting for all visible data fields; restricted All Inventory Card View eligibility to core-complete non-Donated/non-Trashed records; fixed the Inventory Bulk Update modal by using/mounting the standard LCC overlay; alphabetized Inventory and Inventory Bulk Update select choices. Reused existing fields/types/options, so no new Bulk Add/Bulk Update type option, type filter, inline type selector, linked keyMap entry, tBadge case, required-field validation rule, recalc/calcProg branch, applyFilter type branch, or export field was required. Added only the v454 Release record. -->
 <!-- RELEASE NOTES: v454 — Inventory review + editing reliability: complete column sorting, Status filter, meaningful Card View eligibility, repaired Bulk Update Selected, and alphabetical Inventory dropdowns. -->
+
+<!-- USER GUIDE: v456 — Start at Home. Use Inbox and Brain Dump for capture; Needs Attention and Pulse / Headquarters remain available as operational views. Plan contains Planning Queue, Sprint Planner, 13-Week Plan, Hierarchy, and Initiatives. Do contains All Action Items and Habits & Routines. Life groups Home, Wellness, Money, and Personal tools. Library contains Knowledge Hub, Digital Library, and Content Planner. System contains Lists & Classification, Tags, Field Option Catalog, Workflows, Release Management, Change Management, Implementation Scorecard, and Project Tasks. Business Command Center remains an external shortcut. -->
+<!-- CHANGE LOG: v456 — Reorganized the primary sidebar into HOME / PLAN / DO / LIFE / LIBRARY / SYSTEM / BUSINESS; relabeled Master Plan as Home, Parking Lot as Inbox, Dashboard as Needs Attention, Inside Headquarters as Pulse / Headquarters, and 13-Wk SOT as 13-Week Plan; removed individual List shortcuts from primary navigation while preserving all list data and My Lists functionality under Lists & Classification; placed Digital Library directly under Library. No new item type, field, controlled value, linkable object, validation requirement, recalc rule, applyFilter branch, Bulk Add/Bulk Update type option, or export field was added. -->
+<!-- RELEASE NOTES: v456 — Navigation now reflects the LCC operating model rather than feature history. This is a structure-only release: existing records, page IDs, renderers, workflows, and data remain intact so the upcoming Home/Dashboard/Headquarters and Inbox consolidation can be completed in later versions without combining architecture and behavior changes. -->
 </body>
 
 </html>
