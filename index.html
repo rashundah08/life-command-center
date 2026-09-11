@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v469</title>
+<title>LCC v471</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v469</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v471</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1303,11 +1303,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v469 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v471 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v469</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v471</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -2105,6 +2105,7 @@ Item 3
 <button id="sp-tab-timeline" onclick="showSprintView('timeline')" style="padding:5px 14px;border-radius:20px;font-size:12px;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif">📅 Timeline</button>
 </div>
 </div>
+<div id="sp-planning-guidance" style="margin:-6px 0 14px"></div>
 <div id="sp-view-current"></div>
 <div id="sp-view-next" style="display:none"></div>
 <div id="sp-view-cards" style="display:none"></div>
@@ -3816,10 +3817,10 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
-  const _v469ReleaseAdded=ensureReleaseV469();
+  const _v471ReleaseAdded=ensureReleaseV471();
   recalc();
   renderAll();
-  if(_v469ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if(_v471ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4001,11 +4002,12 @@ const LCC_POST360_RELEASES_V379={
  '361':['Knowledge Hub Command Center','2026-08-24'],'362':['Knowledge Hub Field Controls & Validation','2026-08-24'],'363':['Knowledge Review Scheduling','2026-08-24'],'364':['Knowledge Topics & Sources','2026-08-24'],'365':['Knowledge Hub Render Hotfix','2026-08-24'],'366':['Digital Library Merge & Knowledge Hub Layout Fix','2026-08-24'],'367':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'368':['Bulk Update Field & Option Reconciliation','2026-08-24'],'369':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'370':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'371':['Business Command Center Structure','2026-08-25'],'372':['BCC Migration Export & Render Hotfix','2026-08-25'],'373':['BCC Migration Goals & Placeholders','2026-08-25'],'374':['Strict BCC Migration Scope','2026-08-25'],'375':['Bulk Add Permissive Capture','2026-08-25'],'376':['Knowledge Hub Types, Fields & CSV Upload','2026-08-25'],'377':['Master Plan BCC Separation','2026-08-26'],'378':['Release Persistence & Master Plan BCC Filter Repair','2026-08-27'],'379':['Release Continuity & Master Plan Widget Isolation','2026-08-27']
 };
 // Add only this coded version's Release record; historical releases are not rebuilt.
-function ensureReleaseV469(){
+function ensureReleaseV471(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v469'))return false;
-  const day='2026-09-09',now=new Date().toISOString();
-  S.items.push({id:'release-lcc-v469',name:'LCC v469 — Regression & Stabilization',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'469',releaseType:'stabilization',releaseModules:['Navigation','Home','Planning','Execution','Life','Classification','System Operations','Inventory','Persistence'],releaseChangelog:'Completed structural regression checks after the architecture refactor and restored the missing Home Inventory tab initializer so Inventory no longer fails on ensureTabs(). No schema, record type, field option, validation, calculation, linked-item, Bulk Add/Bulk Update, or export definitions changed.',releaseNotes:'v469 is the stabilization release for the LCC architecture restructuring. It verifies the consolidated navigation/page structure and fixes a pre-existing Inventory runtime initialization defect discovered during regression testing.',notes:'User Guide: No navigation retraining is required. Continue using the consolidated Home, Plan, Do, Life, Library, and System workspaces. Home Inventory now initializes its current inventory navigation reliably when opened.',createdAt:now,updatedAt:now});
+  if(S.items.some(i=>i&&i.id==='release-lcc-v471'))return false;
+  const now=Date.now(),day='2026-09-11';
+  S.items.push({id:'release-lcc-v471',name:'LCC v471 — Accurate Reschedule Counting',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'471',releaseType:'bugfix',releaseModules:['Guardrails','Scheduling','Action Items'],releaseChangelog:'Corrected reschedule counting so completing previously-missing Start Date, Target Completion Date, or Duration does not count as a behavioral reschedule. Backfilling Duration no longer rewrites an already-established Start/Target date pair in the item modal. Schedule-completion events are recorded in Guardrail History while true date changes continue to increment Reschedule Count and Sprint Rollover Count as applicable.',releaseNotes:'v471 separates planning cleanup from actual rescheduling. Filling missing schedule information is now logged without penalizing Reschedule Count. Changing an already-established Start or Target date still counts as a reschedule, and sprint overload relief remains exempt under the v470 rule.',notes:'User Guide: Complete missing Start Date, Target Completion Date, or Duration normally; these updates are treated as schedule completion and do not increase reschedule counters. Once an item has an established schedule, changing its Start or Target date is a true reschedule and existing reason/recommit guardrails apply. Sprint overload moves made through Sprint Planner remain capacity-relief moves and do not increase behavioral reschedule counters.',createdAt:now,updatedAt:now});
+  invalidateItemIndex();
   return true;
 }
 
@@ -4035,8 +4037,8 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
-  const _v469ReleaseAdded=ensureReleaseV469();
-  if(_v469ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  const _v471ReleaseAdded=ensureReleaseV471();
+  if(_v471ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -8437,7 +8439,14 @@ function onDurationChg(){
   const tcd=tcdEl?.value||'';
   if(start&&!tcd){if(tcdEl)tcdEl.value=addDays(start,days);}
   else if(tcd&&!start){if(startEl)startEl.value=subDays(tcd,days);}
-  else if(start&&tcd){if(tcdEl)tcdEl.value=addDays(start,days);}
+  else if(start&&tcd){
+    // v471 — Filling a previously-missing Duration is schedule completion, not a reschedule.
+    // If both dates were already established when the item was opened, do not manufacture
+    // a date move simply because Duration is being backfilled.
+    const existing=S.editId?getItem(S.editId):null;
+    const backfillingDuration=!!(existing&&(existing.duration===null||existing.duration===undefined||existing.duration==='')&&existing.startDate&&existing.date&&start===existing.startDate&&tcd===existing.date);
+    if(!backfillingDuration&&tcdEl)tcdEl.value=addDays(start,days);
+  }
   updateDurationPreview();
   syncGoalProjectEffortModalV422();
 }
@@ -8964,8 +8973,20 @@ function applyConsistencyGuardrailsV326(obj,prior){
   const movedTarget=!!(prior.date&&obj.date&&prior.date!==obj.date);
   const movedStart=!!(prior.startDate&&obj.startDate&&prior.startDate!==obj.startDate);
   const oldSprintNum=prior.startDate?sprintNumForDate(prior.startDate):null,newSprintNum=obj.startDate?sprintNumForDate(obj.startDate):null;
-  if(oldSprintNum&&newSprintNum&&oldSprintNum!==newSprintNum){obj.sprintRolloverCount++;hist.push({at:now,kind:'sprint-rollover',count:obj.sprintRolloverCount,from:oldSprintNum,to:newSprintNum});}
-  if(movedTarget||movedStart){
+  const capacityRelief=!!obj._capacityReliefMove;
+  const priorDurationMissing=(prior.duration===null||prior.duration===undefined||prior.duration==='');
+  const durationAdded=priorDurationMissing&&obj.duration!==null&&obj.duration!==undefined&&obj.duration!=='';
+  const startAdded=!prior.startDate&&!!obj.startDate;
+  const targetAdded=!prior.date&&!!obj.date;
+  // v471 — completing missing scheduling data is planning cleanup, not behavioral rescheduling.
+  // Duration backfill is also exempt if an older entry path recalculates one established date as a side effect.
+  const durationBackfillAdjustment=durationAdded&&!!prior.startDate&&!!prior.date&&obj.startDate===prior.startDate&&movedTarget;
+  const scheduleCompletion=startAdded||targetAdded||durationAdded;
+  const behavioralMove=(movedTarget||movedStart)&&!capacityRelief&&!durationBackfillAdjustment;
+  if(oldSprintNum&&newSprintNum&&oldSprintNum!==newSprintNum&&!capacityRelief&&!durationBackfillAdjustment){obj.sprintRolloverCount++;hist.push({at:now,kind:'sprint-rollover',count:obj.sprintRolloverCount,from:oldSprintNum,to:newSprintNum});}
+  if(scheduleCompletion){hist.push({at:now,kind:'schedule-completion',startAdded:startAdded,targetAdded:targetAdded,durationAdded:durationAdded,fromDate:prior.date||'',toDate:obj.date||'',fromStart:prior.startDate||'',toStart:obj.startDate||'',reason:'Completed previously-missing scheduling data — reschedule counters unchanged'});}
+  if((movedTarget||movedStart)&&capacityRelief){hist.push({at:now,kind:'capacity-relief',fromSprint:oldSprintNum||'',toSprint:newSprintNum||'',fromDate:prior.date||'',toDate:obj.date||'',fromStart:prior.startDate||'',toStart:obj.startDate||'',reason:'Sprint overload relief — behavioral reschedule counters unchanged'});}
+  if(behavioralMove){
     const next=obj.rescheduleCount+1;
     let reason='';
     if(next>=2){
@@ -19637,11 +19658,99 @@ function sprintGuardrailCheck(oldItem,obj){
   const proposed=sprintOpenTaskHours(sprint,oldItem&&oldItem.id)+(Number(obj.estimatedMins)||0)/60;
   const pct=theoretical?proposed/theoretical*100:0;
   if(pct>100){
-    alert('Sprint Control: This would put Sprint '+sprint.displayNum+' at '+Math.round(pct)+'% of theoretical capacity ('+proposed.toFixed(1)+' / '+theoretical.toFixed(1)+' hrs).\n\nHard stop: remove or move existing work before adding this commitment.');
+    const fromIdx=Math.max(getCurrentSprintIdx(),ALL_SPRINTS.findIndex(s=>s.num===sprint.num)+1);
+    const next=findNextAvailableSprint(Number(obj.estimatedMins)||0,oldItem&&oldItem.id,fromIdx);
+    const hint=next?'\n\nNext good-fit sprint: Sprint '+next.sprint.displayNum+' ('+fmtMDY(next.sprint.start)+' → '+fmtMDY(next.sprint.end)+') · '+next.planned+'h currently planned.':'\n\nNo later sprint in the current planning horizon fits this task under the protected 80% target.';
+    alert('Sprint Control: This would put Sprint '+sprint.displayNum+' at '+Math.round(pct)+'% of theoretical capacity ('+proposed.toFixed(1)+' / '+theoretical.toFixed(1)+' hrs).\n\nHard stop: remove or move existing work before adding this commitment.'+hint);
     return false;
   }
   if(pct>80&&!confirm('Sprint Control warning: This will use your protected buffer.\n\nSprint '+sprint.displayNum+' would be '+Math.round(pct)+'% full ('+proposed.toFixed(1)+' / '+theoretical.toFixed(1)+' hrs).\n\nContinue and intentionally use the buffer?'))return false;
   return true;
+}
+
+// v470 — planning guidance, sprint triage, and capacity-relief moves.
+let spTaskSort='move-first';
+let spTaskFilter='all';
+function sprintTaskSortValue(t,mode){
+  if(mode==='minutes-desc')return -(Number(t.estimatedMins)||0);
+  if(mode==='minutes-asc')return Number(t.estimatedMins)||0;
+  if(mode==='due')return t.date||'9999-12-31';
+  if(mode==='priority')return ({critical:0,high:1,medium:2,low:3}[String(t.priority||'').toLowerCase()]??9);
+  if(mode==='reschedules')return -(parseInt(t.rescheduleCount||0)||0);
+  if(mode==='effort')return ({epic:0,hard:1,medium:2,easy:3}[String(t.effort||'').toLowerCase()]??9);
+  return 0;
+}
+function sortSprintTasksForTriage(tasks){
+  let out=[...(tasks||[])];
+  if(spTaskFilter==='ready')out=out.filter(t=>t.planningStage==='ready');
+  else if(spTaskFilter==='notready')out=out.filter(t=>!['ready','na'].includes(t.planningStage));
+  else if(spTaskFilter==='large')out=out.filter(t=>(Number(t.estimatedMins)||0)>=120);
+  if(spTaskSort==='move-first'){
+    out.sort((a,b)=>{
+      const ar=(a.planningStage==='ready'?0:1),br=(b.planningStage==='ready'?0:1);
+      if(ar!==br)return ar-br;
+      return (Number(b.estimatedMins)||0)-(Number(a.estimatedMins)||0) || String(a.date||'9999').localeCompare(String(b.date||'9999'));
+    });
+  }else out.sort((a,b)=>{const av=sprintTaskSortValue(a,spTaskSort),bv=sprintTaskSortValue(b,spTaskSort);return av<bv?-1:av>bv?1:String(a.name||'').localeCompare(String(b.name||''));});
+  return out;
+}
+function setSprintTaskSort(v){spTaskSort=v;renderSprints();}
+function setSprintTaskFilter(v){spTaskFilter=v;renderSprints();}
+function sprintTriageToolbar(tasks){
+  return `<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 11px;padding:9px 10px;background:var(--soft);border:1px solid var(--bdr);border-radius:var(--r)">
+    <div style="font-size:10px;font-weight:800;color:var(--navy);margin-right:2px">TRIAGE</div>
+    <select class="tbl-sel" style="width:auto;min-width:155px" onchange="setSprintTaskSort(this.value)">
+      <option value="move-first"${spTaskSort==='move-first'?' selected':''}>Best move candidates</option><option value="minutes-desc"${spTaskSort==='minutes-desc'?' selected':''}>Longest first</option><option value="minutes-asc"${spTaskSort==='minutes-asc'?' selected':''}>Shortest first</option><option value="due"${spTaskSort==='due'?' selected':''}>Due date</option><option value="priority"${spTaskSort==='priority'?' selected':''}>Priority</option><option value="effort"${spTaskSort==='effort'?' selected':''}>Effort</option><option value="reschedules"${spTaskSort==='reschedules'?' selected':''}>Most rescheduled</option>
+    </select>
+    <select class="tbl-sel" style="width:auto;min-width:125px" onchange="setSprintTaskFilter(this.value)"><option value="all"${spTaskFilter==='all'?' selected':''}>All tasks</option><option value="ready"${spTaskFilter==='ready'?' selected':''}>Ready only</option><option value="notready"${spTaskFilter==='notready'?' selected':''}>Needs planning</option><option value="large"${spTaskFilter==='large'?' selected':''}>2h+ tasks</option></select>
+    <span style="font-size:10px;color:var(--txt3)">${(tasks||[]).length} task${(tasks||[]).length===1?'':'s'} · Move opens capacity-aware sprint choices.</span>
+  </div>`;
+}
+function findNextAvailableSprint(requiredMins=0,excludeId='',fromIdx){
+  const start=Number.isInteger(fromIdx)?fromIdx:Math.max(0,getCurrentSprintIdx());
+  const need=Math.max(0,Number(requiredMins)||0)/60;
+  for(let idx=start;idx<ALL_SPRINTS.length;idx++){
+    const s=ALL_SPRINTS[idx],cap=calcSprintCapacity(s);
+    const exclude=(excludeId&&getItem(excludeId)&&getItem(excludeId).startDate&&sprintNumForDate(getItem(excludeId).startDate)===s.num)?(Number(getItem(excludeId).estimatedMins)||0)/60:0;
+    const planned=Math.max(0,cap.plannedHrs-exclude);
+    if(planned+need<=cap.capHigh)return{idx,sprint:s,cap,planned,after:planned+need};
+  }
+  return null;
+}
+function renderSprintPlanningGuidance(){
+  const el=document.getElementById('sp-planning-guidance');if(!el)return;
+  const curIdx=getCurrentSprintIdx(),next=findNextAvailableSprint(0,'',curIdx);
+  if(!next){el.innerHTML='<div class="rule-box" style="margin:0">No future sprint currently has protected planning capacity available.</div>';return;}
+  const free=Math.max(0,Math.round((next.cap.capHigh-next.planned)*10)/10);
+  el.innerHTML=`<div style="background:#EEF4FF;border:1.5px solid #185FA5;border-radius:var(--rl);padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:#185FA5">NEXT AVAILABLE SPRINT FOR PLANNING</div><div style="font-size:14px;font-weight:700;color:var(--navy);margin-top:2px">Sprint ${next.sprint.displayNum} · ${fmtMDY(next.sprint.start)} → ${fmtMDY(next.sprint.end)}</div><div style="font-size:10px;color:var(--txt2);margin-top:2px">${next.planned}h planned · ${free}h remains before the protected 80% target. If a sprint is full, the move tool will show the next sprints that can actually fit the task.</div></div><button class="btn sm" onclick="showSprintView('next');renderSprintNextNum(${next.idx})">Open Sprint ${next.sprint.displayNum} →</button></div>`;
+}
+function openSprintMove(id){
+  const i=getItem(id);if(!i)return;
+  const source=sprintForStartDate(i.startDate||'');
+  const srcStats=source?sprintControlStats(source):null;
+  const overloadRelief=!!(srcStats&&srcStats.pct>=100);
+  const curIdx=source?ALL_SPRINTS.findIndex(s=>s.num===source.num):getCurrentSprintIdx();
+  const options=[];
+  for(let idx=Math.max(curIdx+1,getCurrentSprintIdx());idx<Math.min(ALL_SPRINTS.length,curIdx+9);idx++){
+    const s=ALL_SPRINTS[idx],cap=calcSprintCapacity(s),need=(Number(i.estimatedMins)||0)/60;
+    const after=cap.plannedHrs+need,fit80=after<=cap.capHigh,fit100=after<=cap.hrsPerSprint;
+    options.push({idx,s,cap,after,fit80,fit100});
+  }
+  const first=options.find(x=>x.fit80)||options.find(x=>x.fit100);
+  const ov=document.createElement('div');ov.id='sprint-move-overlay';ov.className='overlay';
+  ov.innerHTML=`<div class="modal" style="max-width:560px" onclick="event.stopPropagation()"><div class="modal-head"><h2>Move Task to Another Sprint</h2><button class="xbtn" onclick="document.getElementById('sprint-move-overlay')?.remove()">×</button></div><div class="modal-body"><div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px">${esc(i.name||'Untitled')}</div><div style="font-size:10px;color:var(--txt2);margin-bottom:12px">${Number(i.estimatedMins)||0} min · current ${source?'Sprint '+source.displayNum:'sprint unavailable'}</div>${overloadRelief?`<div style="background:#FFF1F5;border:1px solid #F8B4C8;border-radius:var(--r);padding:9px 11px;margin-bottom:12px;font-size:11px;color:#9F1239"><b>Capacity-relief move:</b> this sprint is full/over capacity. Moving through this tool will be recorded in history but will <b>not</b> increase Reschedule Count or Sprint Rollover Count.</div>`:`<div style="background:#FFF9E8;border:1px solid #F0D48A;border-radius:var(--r);padding:9px 11px;margin-bottom:12px;font-size:11px;color:#7A5B12">This sprint is not full. Moving it is a normal reschedule and existing reschedule guardrails apply.</div>`}<div style="font-size:10px;font-weight:800;letter-spacing:1px;color:var(--txt2);margin-bottom:7px">AVAILABLE SPRINTS</div>${options.map(x=>`<label style="display:flex;gap:9px;align-items:center;padding:9px;border:1px solid ${x.fit80?'#86EFAC':x.fit100?'#F0D48A':'#F8B4C8'};border-radius:var(--r);margin-bottom:6px;background:${x.fit80?'#F0FDF4':x.fit100?'#FFF9E8':'#FFF1F5'};opacity:${x.fit100?1:.6}"><input type="radio" name="sprint-move-target" value="${x.idx}" ${first&&first.idx===x.idx?'checked':''} ${x.fit100?'':'disabled'}><div style="flex:1"><b style="font-size:11px;color:var(--navy)">Sprint ${x.s.displayNum}</b><div style="font-size:10px;color:var(--txt2)">${fmtMDY(x.s.start)} → ${fmtMDY(x.s.end)} · ${x.cap.plannedHrs}h planned → ${Math.round(x.after*10)/10}h with task</div></div><span style="font-size:9px;font-weight:800;color:${x.fit80?'#059669':x.fit100?'#92400E':'#9F1239'}">${x.fit80?'GOOD FIT':x.fit100?'BUFFER':'FULL'}</span></label>`).join('')||'<div class="empty">No later sprint found.</div>'}</div><div class="modal-foot"><button class="btn ghost" onclick="document.getElementById('sprint-move-overlay')?.remove()">Cancel</button><button class="btn primary" onclick="commitSprintMove('${i.id}',${overloadRelief?'true':'false'})">Move Task</button></div></div>`;
+  ov.addEventListener('click',()=>ov.remove());document.body.appendChild(ov);
+}
+function commitSprintMove(id,capacityRelief){
+  const i=getItem(id);if(!i)return;const pick=document.querySelector('input[name="sprint-move-target"]:checked');if(!pick){alert('Choose a sprint.');return;}
+  const target=ALL_SPRINTS[Number(pick.value)];if(!target)return;
+  const prior=JSON.parse(JSON.stringify(i)),draft=JSON.parse(JSON.stringify(i));
+  const oldStart=prior.startDate||target.start,newStart=effectiveSprintStart(target),delta=Math.round((new Date(newStart+'T12:00:00')-new Date(oldStart+'T12:00:00'))/86400000);
+  draft.startDate=newStart;if(prior.date&&delta)draft.date=addDays(prior.date,delta);
+  if(capacityRelief)draft._capacityReliefMove=true;
+  if(!sprintGuardrailCheck(prior,draft))return;
+  if(!applyConsistencyGuardrailsV326(draft,prior))return;
+  delete draft._capacityReliefMove;Object.assign(i,draft);invalidateSprintTaskBuckets();recalc();save();document.getElementById('sprint-move-overlay')?.remove();renderSprints();if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();toast(capacityRelief?'↪ Moved for sprint overload — reschedule counts unchanged':'📅 Task moved to Sprint '+target.displayNum);
 }
 
 // ── CAPACITY CALC ────────────────────────────────────────────────────────
@@ -19675,7 +19784,7 @@ function renderSprintTaskGroups(tasks,rerenderCall){
   const labels={needsplanning:'⬜ Needs Planning',scheduled:'🟡 Scheduled',ready:'🟢 Ready — counts toward capacity',na:'⚪ N/A — visible, not sprint capacity',deferred:'⏸ Deferred'};
   const groups={};tasks.forEach(t=>{const p=t.planningStage||'needsplanning';(groups[p]=groups[p]||[]).push(t);});
   const psOpts=[['needsplanning','⬜ Needs Planning'],['scheduled','🟡 Scheduled'],['ready','🟢 Ready'],['deferred','⏸ Deferred'],['na','⚪ N/A']];
-  const rowHtml=t=>`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${t.id}')"><div style="flex:1 1 210px;min-width:0"><div style="font-size:13px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.name)}</div><div style="font-size:10px;color:var(--txt3)">Start: ${fmtMDY(t.startDate)}${t.date?' · Due: '+fmtMDY(t.date):''} · ${sBadge(t.status)}</div></div><div onclick="event.stopPropagation()" style="flex:1 1 145px;min-width:135px"><select class="tbl-sel" style="width:100%;min-width:0" onchange="sprintInlinePlanningStage('${t.id}',this.value);${rerenderCall}">${psOpts.map(([v,l])=>`<option value="${v}"${(t.planningStage||'needsplanning')===v?' selected':''}>${l}</option>`).join('')}</select></div><div onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:4px;flex:0 0 auto"><input class="tbl-inp" type="number" min="0" step="1" value="${t.estimatedMins||''}" placeholder="min" style="width:72px;min-width:72px" onchange="sprintInlineMinutes('${t.id}',this.value);${rerenderCall}"><span style="font-size:9px;color:var(--txt3)">min</span></div><div style="font-size:10px;flex:0 0 auto;color:${t.planningStage==='ready'?'#059669':'var(--txt3)'};font-weight:${t.planningStage==='ready'?'700':'400'}">${t.planningStage==='ready'?(t.estimatedMins?`${t.estimatedMins}m committed`:'⚠ estimate'):'0m capacity'}</div></div>`;
+  const rowHtml=t=>`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="openModal(null,null,null,'${t.id}')"><div style="flex:1 1 210px;min-width:0"><div style="font-size:13px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t.name)}</div><div style="font-size:10px;color:var(--txt3)">Start: ${fmtMDY(t.startDate)}${t.date?' · Due: '+fmtMDY(t.date):''} · ${sBadge(t.status)}</div></div><div onclick="event.stopPropagation()" style="flex:1 1 145px;min-width:135px"><select class="tbl-sel" style="width:100%;min-width:0" onchange="sprintInlinePlanningStage('${t.id}',this.value);${rerenderCall}">${psOpts.map(([v,l])=>`<option value="${v}"${(t.planningStage||'needsplanning')===v?' selected':''}>${l}</option>`).join('')}</select></div><div onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:4px;flex:0 0 auto"><input class="tbl-inp" type="number" min="0" step="1" value="${t.estimatedMins||''}" placeholder="min" style="width:72px;min-width:72px" onchange="sprintInlineMinutes('${t.id}',this.value);${rerenderCall}"><span style="font-size:9px;color:var(--txt3)">min</span></div><div style="font-size:10px;flex:0 0 auto;color:${t.planningStage==='ready'?'#059669':'var(--txt3)'};font-weight:${t.planningStage==='ready'?'700':'400'}">${t.planningStage==='ready'?(t.estimatedMins?`${t.estimatedMins}m committed`:'⚠ estimate'):'0m capacity'}</div><button class="btn xs" onclick="event.stopPropagation();openSprintMove('${t.id}')" title="Move with sprint capacity guidance">Move ↗</button></div>`;
   return order.filter(p=>groups[p]&&groups[p].length).map(p=>`<details class="sp-group" open style="margin-bottom:8px;border:1px solid var(--bdr);border-radius:var(--r);padding:4px 10px;background:${p==='ready'?'#F0FDF4':'var(--card)'}"><summary style="cursor:pointer;font-size:11px;font-weight:700;color:var(--txt2);padding:5px 0;list-style:none"><span class="sp-caret" style="margin-right:6px;font-size:9px;color:var(--txt3)"></span>${labels[p]||p} (${groups[p].length})</summary>${groups[p].map(rowHtml).join('')}</details>`).join('');
 }
 function sprintInlineMinutes(id,val){const i=getItem(id);if(!i)return;i.estimatedMins=val===''?0:Math.max(0,parseInt(val)||0);if(i.estimatedMins>0)i.effort=effortFromMins(i.estimatedMins);i.updatedAt=Date.now();invalidateSprintTaskBuckets();recalc();save();if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();if(typeof renderHubPeriodLens==='function')renderHubPeriodLens();}
@@ -19941,7 +20050,7 @@ function showSprintView(view){
   if(view==='timeline')renderSprintTimeline();
 }
 
-function renderSprints(){ensureSprintGuardrails();showSprintView(spActiveView);}
+function renderSprints(){ensureSprintGuardrails();renderSprintPlanningGuidance();showSprintView(spActiveView);}
 // 0227/0228 (v221) — collapsible year groups on All Sprints + Timeline. Past years
 // default collapsed, the current year (and future) default open. Toggle persists per session.
 var spYearCollapsed={};
@@ -20041,7 +20150,7 @@ function renderSprintNext(){
   <!-- Tasks In This Sprint -->
   <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)">
     <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#185FA5;margin-bottom:12px">📋 Unfinished Tasks Starting This Sprint (${cap.tasks.length})</div>
-    ${cap.tasks.length?renderSprintTaskGroups(cap.tasks,'renderSprintNext()'):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint window.<br><span style="font-size:11px">Assign a start date to a task that falls within ${sprint.start} — ${sprint.end}</span></div>`}
+    ${cap.tasks.length?sprintTriageToolbar(cap.tasks)+renderSprintTaskGroups(sortSprintTasksForTriage(cap.tasks),spActiveView==='current'?`renderSprintAtIdx(${nextIdx},document.getElementById('sp-view-current'))`:`renderSprintAtIdx(${nextIdx},document.getElementById('sp-view-next'))`):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint window.<br><span style="font-size:11px">Assign a start date to a task that falls within ${sprint.start} — ${sprint.end}</span></div>`}
   </div>
 
   ${inFlight.length?`<div style="background:var(--soft);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px 18px;margin-bottom:14px">
@@ -20150,7 +20259,7 @@ function renderSprintAtIdx(idx,el){
   </div>
   <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)">
     <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#185FA5;margin-bottom:12px">📋 Tasks Starting This Sprint (${cap.tasks.length})</div>
-    ${cap.tasks.length?renderSprintTaskGroups(cap.tasks,`renderSprintAtIdx(${idx},document.getElementById('${cid}'))`):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint (${sprint.start} — ${sprint.end})</div>`}
+    ${cap.tasks.length?sprintTriageToolbar(cap.tasks)+renderSprintTaskGroups(sortSprintTasksForTriage(cap.tasks),`renderSprintAtIdx(${idx},document.getElementById('${cid}'))`):`<div style="font-size:12px;color:var(--txt3);font-style:italic;padding:12px 0;text-align:center">No tasks starting in this sprint (${sprint.start} — ${sprint.end})</div>`}
   </div>
   ${inFlight.length?`<div style="background:var(--soft);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px 18px">
     <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt2);margin-bottom:8px">🔄 In Flight (${inFlight.length}) — not counted in capacity</div>
