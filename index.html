@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v477</title>
+<title>LCC v481</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v477</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v481</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -888,7 +888,6 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-lbl">Library</div>
 <button class="nb" id="nav-knowledge" onclick="showPage('knowledge',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 2.5h7.5A2.5 2.5 0 0113 5v8.5H5.5A2.5 2.5 0 013 11V2.5z"></path><path d="M5.5 13.5A2.5 2.5 0 018 11h5M6 5h4M6 7.5h4"></path></svg>Knowledge Hub</button>
 <button class="nb" id="nav-digital" onclick="showPage('digital',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"></rect><path d="M5 6h6M5 9h4"></path></svg>Digital Library</button>
-<button class="nb" id="nav-content" onclick="showPage('content',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="3" rx="1" width="12" x="2" y="2"></rect><path d="M2 7h7M2 11h5"></path><circle cx="12" cy="11" r="2.5"></circle><path d="M12 9.5V11l1 1"></path></svg>Content Planner</button>
 </div>
 
 <div class="sb-sec">
@@ -899,10 +898,6 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <button class="nb" id="nav-systemops" onclick="showPage('systemops',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><rect height="10" rx="1.5" width="12" x="2" y="3"></rect><path d="M5 6h6M5 9h3M10.5 9.5l1 1 2-2"></path></svg>System Operations</button>
 </div>
 
-<div class="sb-sec">
-<div class="sb-lbl">Business</div>
-<button class="nb" id="nav-bcc" onclick="window.location.href='business-command-center.html'"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2 13h12"></path><path d="M4 13V8M7.3 13V4M10.7 13V9.5M14 13V6"></path></svg>Business Command Center ↗</button>
-</div>
 <div class="sb-foot">
 <button class="nb" id="save-now-btn" onclick="saveNow()" style="font-size:11px;color:rgba(56,189,248,.9);font-weight:600" title="Save immediately — to this device and to Google Drive if connected">
 <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 3h8l2 2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M5 3v3h5V3"></path></svg>Save Now
@@ -1022,7 +1017,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
 <div><label style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#1D4ED8;display:block;margin-bottom:4px">Type</label>
 <select id="iba-type" style="width:100%;padding:5px 8px;border:1px solid #93C5FD;border-radius:var(--r);font-size:12px;background:#fff;color:var(--txt);font-family:'DM Sans',sans-serif;outline:none">
-<option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="change">Change</option><option value="content">Content</option><option value="course">Course</option><option value="patch">Patch</option><option value="product">Product</option><option value="release">Release</option>
+<option value="">-- Set Type --</option><option value="goal">Goal</option><option value="project">Project</option><option value="task">Task</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="change">Change</option><option value="course">Course</option><option value="patch">Patch</option><option value="release">Release</option>
 </select>
 </div>
 <div><label style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#1D4ED8;display:block;margin-bottom:4px">Status</label>
@@ -1198,13 +1193,12 @@ Item 3
 <div style="background:linear-gradient(135deg,#1F2A44,#0F766E);border-radius:var(--rxl);padding:24px 28px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden">
 <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:6px">System · Classification</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;font-style:italic;margin-bottom:4px">Classification Center</div>
-<div style="font-size:12px;opacity:.82">One place to manage the structures used to organize LCC records. Core Lists remain controlled; use Tags and Field Options for flexible grouping.</div>
+<div style="font-size:12px;opacity:.82">Manage LCC Core Lists, Action Item Tags, and Field Options in one place.</div>
 </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--bdr);margin-bottom:16px">
 <button class="sot-tab active" id="classification-tab-core" onclick="setClassificationTab('core')">Core Lists</button>
 <button class="sot-tab" id="classification-tab-itemtags" onclick="setClassificationTab('itemtags')">Action Item Tags</button>
 <button class="sot-tab" id="classification-tab-catalog" onclick="setClassificationTab('catalog')">Field Options</button>
-<button class="sot-tab" id="classification-tab-taglibrary" onclick="setClassificationTab('taglibrary')">Workflow Tag Library</button>
 </div>
 <div id="classification-view-core">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
@@ -1290,10 +1284,6 @@ Item 3
 <div style="margin-bottom:14px"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)">Field Options</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Manage controlled dropdown and catalog values used across LCC.</div></div>
 <div id="catalog-body"></div>
 </div>
-<div id="classification-view-taglibrary" style="display:none">
-<div style="margin-bottom:14px"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)">Workflow Tag Library</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Manage workflow and external-system tag references.</div></div>
-<div id="taglibrary-body"></div>
-</div>
 </div>
 <!-- REWARDS BANK — v288 Rewards Bank 2.0 -->
 
@@ -1301,11 +1291,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v477 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v481 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v477</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v481</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -2118,17 +2108,15 @@ Item 3
 <div style="position:relative">
 <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.65;margin-bottom:6px">System · Operations</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;font-style:italic;margin-bottom:4px">System Operations</div>
-<div style="font-size:13px;opacity:.82;font-style:italic">Operate the LCC system itself — workflows, releases, changes & implementation health</div>
+<div style="font-size:13px;opacity:.82;font-style:italic">Operate LCC releases, changes & implementation health</div>
 </div>
 </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--bdr);margin-bottom:16px">
-<button class="sot-tab active" id="systemops-tab-workflows" onclick="setSystemOpsTab('workflows')">Workflows</button>
-<button class="sot-tab" id="systemops-tab-releases" onclick="setSystemOpsTab('releases')">Release Management</button>
+<button class="sot-tab active" id="systemops-tab-releases" onclick="setSystemOpsTab('releases')">Release Management</button>
 <button class="sot-tab" id="systemops-tab-changes" onclick="setSystemOpsTab('changes')">Change Management</button>
 <button class="sot-tab" id="systemops-tab-implementation" onclick="setSystemOpsTab('implementation')">Implementation Scorecard</button>
 </div>
-<div id="systemops-view-workflows"><div id="workflows-body"></div></div>
-<div id="systemops-view-releases" style="display:none">
+<div id="systemops-view-releases">
   <div class="card" style="padding:18px;margin-bottom:14px"><div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)">Release Management</div><div style="font-size:11px;color:var(--txt2);margin:4px 0 12px">Releases remain canonical Action Items in the controlled Releases List. Open the register to review, edit, filter, or print them using the single shared List workspace.</div><div id="systemops-release-summary" style="margin-bottom:12px"></div><button class="btn primary sm" onclick="openSystemRegister('releases')">Open Release Register →</button></div>
 </div>
 <div id="systemops-view-changes" style="display:none">
@@ -2576,7 +2564,7 @@ Item 3
 <div id="btab-add-body">
 <div style="font-size:12px;color:var(--txt2);margin-bottom:14px;padding:8px 12px;background:var(--soft);border-radius:var(--r)">Set fields below. Paste item names one per line. All checked fields apply to every item added.</div>
 <div class="g3" style="margin-bottom:10px">
-<div class="field" style="margin:0"><label>Type</label><select id="ba-type" onchange="onBulkTypeChange('ba')"><option value="">-- Set Type --</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="inventory">📦 Inventory</option><option value="change">Change</option><option value="clientbuild">Client Build</option><option value="content">Content</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">🔁 Habit</option><option value="industryprofile">Industry Profile</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="product">Product</option><option value="project">Project</option><option value="release">Release</option><option value="room">🏠 Room</option><option value="automation">⚡ Automation</option><option value="task">Task</option><option value="transaction">💳 Transaction</option><option value="recurringexpense">🧾 Recurring Expense</option><option value="workflow">Workflow</option></select></div>
+<div class="field" style="margin:0"><label>Type</label><select id="ba-type" onchange="onBulkTypeChange('ba')"><option value="">-- Set Type --</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="inventory">📦 Inventory</option><option value="change">Change</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">🔁 Habit</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="project">Project</option><option value="release">Release</option><option value="room">🏠 Room</option><option value="automation">⚡ Automation</option><option value="task">Task</option><option value="transaction">💳 Transaction</option><option value="recurringexpense">🧾 Recurring Expense</option></select></div>
 <div class="field" style="margin:0"><label>Status</label><select id="ba-status"><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="placeholder">📌 Placeholder</option></select></div>
 <div class="field" style="margin:0"><label>Effort Level</label><select id="ba-effort"><option value="">-- None --</option><option value="easy">🟢 Easy (1pt)</option><option value="medium">🟠 Medium (3pts)</option><option value="hard">🔴 Hard (5pts)</option><option value="epic">⭐ Epic (10pts)</option><option value="legendary">👑 Legendary (15pts)</option><option value="ultimate">🔥 Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcend (100pts)</option></select></div>
 </div>
@@ -2898,7 +2886,7 @@ Donate clothes,notstarted,easy,2026-07-02,2026-07-04,30,Home &amp; Environment,"
 <select id="bu-items" multiple="" style="height:160px;width:100%;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--soft);color:var(--txt);padding:4px;outline:none;font-family:'DM Sans',sans-serif"></select>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-<div class="field" style="margin:0"><label>Type</label><select id="bu-type" onchange="onBulkTypeChange('bu')"><option value="">-- Keep --</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="inventory">📦 Inventory</option><option value="change">Change</option><option value="clientbuild">Client Build</option><option value="content">Content</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">🔁 Habit</option><option value="industryprofile">Industry Profile</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="product">Product</option><option value="project">Project</option><option value="release">Release</option><option value="room">🏠 Room</option><option value="automation">⚡ Automation</option><option value="task">Task</option><option value="transaction">💳 Transaction</option><option value="recurringexpense">🧾 Recurring Expense</option><option value="workflow">Workflow</option></select></div>
+<div class="field" style="margin:0"><label>Type</label><select id="bu-type" onchange="onBulkTypeChange('bu')"><option value="">-- Keep --</option><option value="ask">Ask</option><option value="challenge">🏁 Challenge</option><option value="inventory">📦 Inventory</option><option value="change">Change</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">🔁 Habit</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="project">Project</option><option value="release">Release</option><option value="room">🏠 Room</option><option value="automation">⚡ Automation</option><option value="task">Task</option><option value="transaction">💳 Transaction</option><option value="recurringexpense">🧾 Recurring Expense</option></select></div>
 <div class="field" style="margin:0"><label>Status</label><select id="bu-status"><option value="">-- Keep --</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="onhold">⏸️ On Hold</option><option value="done">Done</option><option value="cancelled">Cancelled</option><option value="placeholder">📌 Placeholder</option></select></div>
 <div class="field" style="margin:0"><label>Effort</label><select id="bu-effort"><option value="">-- Keep --</option><option value="easy">Easy (1pt)</option><option value="medium">Medium (3pts)</option><option value="hard">Hard (5pts)</option><option value="epic">Epic (10pts)</option><option value="legendary">Legendary (15pts)</option><option value="ultimate">Ultimate (20pts)</option><option value="mythic">⚡ Mythic (30pts)</option><option value="elite">💎 Elite (40pts)</option><option value="master">🛡️ Master (50pts)</option><option value="titan">🐉 Titan (60pts)</option><option value="cosmic">🌌 Cosmic (70pts)</option><option value="immortal">👑 Immortal (80pts)</option><option value="ascended">🚀 Ascended (90pts)</option><option value="transcendent">🏆 Transcend (100pts)</option></select></div>
 </div>
@@ -3798,6 +3786,8 @@ async function driveLoad(){
 function loadFromDriveData(p){
   S.lists=p.lists||DEFAULT_LISTS;
   S.items=p.items||[];
+      retireBCCOwnedTypesV478();
+      retireBusinessWorkflowLibraryV481();
       S.knowledge=p.knowledge||[];
       S.knowledgeCategories=p.knowledgeCategories||[];
   if(p.sot)S.sot=p.sot;
@@ -3816,7 +3806,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV477();
+  const _v475ReleaseAdded=ensureReleaseV481();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4010,13 +4000,23 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV477(){
+function ensureReleaseV481(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v477'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v481'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v477',name:'LCC v477 — Compact Core Filters',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'477',releaseType:'enhancement',releaseModules:['All Action Items','Core Filters','Execution Center'],releaseChangelog:'Replaced the sprawling All Action Items filter matrix with a compact Core Filter toolbar. Add Filter now exposes searchable core-field values, active filters render as removable chips, Sprint/Tags/Categories/Lists stay collapsed until requested, and saved filter views can be stored locally. Expanded filtering to core controlled fields plus useful date/number/presence filters while preserving the existing search, sort, print, selection, and bulk actions.',releaseNotes:'v477 makes All Action Items filtering compact and scalable. Core fields are selected one at a time, large option sets are searchable, active filters stay visible as chips, and reusable saved views reduce repeated setup without consuming page space.',notes:'User Guide: In Execution Center → All Action Items, use the existing Search box for names/text and ＋ Add Filter for structured filtering. Choose a core field, search its available values, and select one or more options. Active filters appear as removable chips. Sprint, Tags, Categories, and Lists no longer display every value at once. Use Save View to store a commonly used filter combination locally, and Clear All to reset structured filters.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v481',name:'LCC v481 — Restore LCC Classification Tools',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'481',releaseType:'enhancement',releaseModules:['All Action Items','Core Filters','Execution Center'],releaseChangelog:'Replaced the sprawling All Action Items filter matrix with a compact Core Filter toolbar. Add Filter now exposes searchable core-field values, active filters render as removable chips, Sprint/Tags/Categories/Lists stay collapsed until requested, and saved filter views can be stored locally. Expanded filtering to core controlled fields plus useful date/number/presence filters while preserving the existing search, sort, print, selection, and bulk actions.',releaseNotes:'v477 makes All Action Items filtering compact and scalable. Core fields are selected one at a time, large option sets are searchable, active filters stay visible as chips, and reusable saved views reduce repeated setup without consuming page space.',notes:'User Guide: In Execution Center → All Action Items, use the existing Search box for names/text and ＋ Add Filter for structured filtering. Choose a core field, search its available values, and select one or more options. Active filters appear as removable chips. Sprint, Tags, Categories, and Lists no longer display every value at once. Use Save View to store a commonly used filter combination locally, and Clear All to reset structured filters.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
+}
+
+function retireBCCOwnedTypesV478(){
+  const retired=new Set(['clientbuild','content','industryprofile','product','workflow']);
+  const before=(S.items||[]).length;
+  S.items=(S.items||[]).filter(i=>!retired.has(i&&i.type));
+  return before-S.items.length;
+}
+function retireBusinessWorkflowLibraryV481(){
+  S.tagLibrary=[];
 }
 
 async function load(){
@@ -4046,7 +4046,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV477();
+  const _v475ReleaseAdded=ensureReleaseV481();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -4215,7 +4215,7 @@ function _tBadgeImpl(t,item){
     const md=dd?(parseInt(dd.slice(5,7),10)+'/'+parseInt(dd.slice(8,10),10)):'occ';
     return`<span class="tb tb-habit" title="Habit occurrence — the master habit is separate">🔁 ${md}</span>`;
   }
-  const m={habit:['tb-habit','🔁 Habit'],ask:['tb-ask','Ask'],change:['tb-change','Change'],clientbuild:['tb-clientbuild','🏗 Client Build'],content:['tb-content','Content'],course:['tb-course','Course'],event:['tb-event','Event'],goal:['tb-goal','Goal'],industryprofile:['tb-industryprofile','📋 Industry Profile'],patch:['tb-badge','Patch'],challenge:['tb-challenge','🏁 Challenge'],phase:['tb-phase','🧭 Phase'],product:['tb-product','Product'],project:['tb-project','Project'],release:['tb-release','Release'],task:['tb-task','Task'],workflow:['tb-workflow','🔀 Workflow'],inventory:['tb-inventory','📦 Inventory'],room:['tb-room','🏠 Room'],automation:['tb-automation','⚡ Automation'],transaction:['tb-transaction','💳 Transaction'],recurringexpense:['tb-recurringexpense','🧾 Recurring Expense']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
+  const m={habit:['tb-habit','🔁 Habit'],ask:['tb-ask','Ask'],change:['tb-change','Change'],course:['tb-course','Course'],event:['tb-event','Event'],goal:['tb-goal','Goal'],patch:['tb-badge','Patch'],challenge:['tb-challenge','🏁 Challenge'],phase:['tb-phase','🧭 Phase'],project:['tb-project','Project'],release:['tb-release','Release'],task:['tb-task','Task'],inventory:['tb-inventory','📦 Inventory'],room:['tb-room','🏠 Room'],automation:['tb-automation','⚡ Automation'],transaction:['tb-transaction','💳 Transaction'],recurringexpense:['tb-recurringexpense','🧾 Recurring Expense']};const[c,l]=m[t]||['tb-none',t||'?'];return`<span class="tb ${c}">${l}</span>`;}
 // 0050 — small badge marking a recurring task (or a member of a generated series)
 function recBadge(i){
   if(!i)return'';
@@ -4282,8 +4282,8 @@ const ACTION_SCHEMA_2={
   product:{label:'Product',fields:[
     {k:'productRevenueType',l:'Revenue Type',t:'select',o:['','One-Time','Recurring','Installment','Free / Lead Magnet','Internal']}
   ]},
-  industryprofile:{label:'Industry Profile',fields:[]},
-  clientbuild:{label:'Client Build',fields:[]},
+  
+  
   release:{label:'Release',fields:[]},
   change:{label:'Change',fields:[]},
   automation:{label:'Automation',fields:[
@@ -4335,7 +4335,7 @@ function schema2RenderSingleFields(type,item){return schema2RenderFields(type,it
 function schema2CollectSingle(type,existing){return schema2CollectFields(type,existing,'m');}
 function schema2MountSpecial(type,item,prefix,anchorId){const a=document.getElementById(anchorId);if(!a)return;let box=document.getElementById(prefix+'-schema2-special');if(!box){box=document.createElement('div');box.id=prefix+'-schema2-special';a.parentNode.insertBefore(box,a);}box.innerHTML=schema2RenderFields(type,item,prefix);}
 function schema2CollectSpecial(type,existing,prefix){return schema2CollectFields(type,existing,prefix);}
-function schema2IsWorkType(t){return ['task','project','goal','phase','habit','ask','content','course','event','patch','challenge','clientbuild','release','change'].includes(t);}
+function schema2IsWorkType(t){return ['task','project','goal','phase','habit','ask','course','event','patch','challenge','release','change'].includes(t);}
 function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};req(obj.name&&String(obj.name).trim(),'Name');if(schema2IsWorkType(t)){req((obj.listIds||[]).length,'List');req((obj.categories||[]).length,'Category');}
   if(t==='phase')req((obj.linkedGoals||[]).length||(obj.linkedProjects||[]).length,'Linked Goal or Project');
   else if(t==='habit'&&!obj.habitMasterId){req(obj.startDate,'Start Date');req(obj.habitRule||obj.habitFreq,'Frequency');if((obj.habitCueType||'Time')==='Time')req(obj.habitTime||obj.habitCueValue,'Time of Day / Time Cue');else req(obj.habitCueValue||obj.habitAfterId,'Cue');}
@@ -5933,7 +5933,7 @@ function saveQuickCapture(){
 
 // BIDIRECTIONAL SYNC
 function syncLinks(item){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   const myField=keyMap[item.type]; // field name OTHER items use to reference back to me
   if(!myField)return;
   Object.entries(keyMap).forEach(([linkType,field])=>{
@@ -6933,7 +6933,7 @@ function renderModalBody(type,item,prefill){
   // 0184 (v209) — habit was listed twice here. Both options rendered with the
   // selected attribute, so the browser honoured the last one and the dropdown
   // jumped positions when you picked the first.
-  const typeOpts=[['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['clientbuild','Client Build'],['content','Content'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['industryprofile','Industry Profile'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['product','Product'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['transaction','💳 Transaction'],['recurringexpense','🧾 Recurring Expense'],['workflow','Workflow']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
+  const typeOpts=[['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['transaction','💳 Transaction'],['recurringexpense','🧾 Recurring Expense'],['workflow','Workflow']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
   const statOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']].map(([v,l])=>`<option value="${v}"${item&&item.status===v?' selected':''}>${l}</option>`).join('');
   // 0135/0142 — structured reason dropdowns, replacing the old "reason required in Notes" behavior
   const cancelReasonOpts=[['','— Select —'],['notcompleted','Did Not Complete'],['duplicate','Duplicate'],['nolongerneeded','No Longer Needed'],['blocked','Blocked / Dependency Failed'],['other','Other']].map(([v,l])=>`<option value="${v}"${item&&item.cancellationReason===v?' selected':''}>${l}</option>`).join('');
@@ -8070,7 +8070,7 @@ function renderModalBody(type,item,prefill){
   // single "Link Any Item" search above + the unified typed-chip list (#lfc-all). The
   // per-type Bulk-Add shortcut is preserved here as a compact row (parent types only).
   if(_bulkParentTypes.includes(type)){
-    const _cts=[['project','Projects'],['task','Tasks'],['ask','Asks'],['challenge','Challenges'],['content','Content'],['patch','Patches'],['event','Events'],['release','Releases'],['change','Changes'],['product','Products']];
+    const _cts=[['project','Projects'],['task','Tasks'],['ask','Asks'],['challenge','Challenges'],['patch','Patches'],['event','Events'],['release','Releases'],['change','Changes'],['product','Products']];
     const _bb=_cts.map(([ct,lbl])=>_bulkItemId
       ?`<button type="button" onclick="closeBulkAndOpen('${_bulkItemId}','${type}','${ct}')" style="${_bulkBtnStyle}">\u26A1 ${lbl}</button>`
       :`<button type="button" onclick="saveThenBulkAdd('${ct}')" style="${_bulkBtnStyle}">\u26A1 ${lbl}</button>`).join('');
@@ -8867,7 +8867,7 @@ function buildLF(linkType,linkedIds){
 }
 function showLDD(type,q){
   const dd=document.getElementById('ldd-'+type);if(!dd)return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   const allLinked=[...(ML.linkedGoals||[]),...(ML.linkedProjects||[]),...(ML.linkedTasks||[]),...(ML.linkedAsks||[]),...(ML.linkedPatches||[]),...(ML.linkedChallenges||[]),...(ML.linkedContent||[]),...(ML.linkedReleases||[]),...(ML.linkedChanges||[]),...(ML.linkedProducts||[]),...(ML.linkedEvents||[]),...(ML.linkedClientBuilds||[]),...(ML.linkedHabits||[]),...(ML.linkedInventory||[]),...(ML.linkedRooms||[]),...(ML.linkedAutomations||[]),...(ML.linkedDigital||[])];
   const existing=type==='any'?allLinked:(ML[keyMap[type]]||[]);
   const results=S.items.filter(i=>
@@ -8886,7 +8886,7 @@ function showLDD(type,q){
 }
 function hideLDD(type){const dd=document.getElementById('ldd-'+type);if(dd)dd.style.display='none';}
 function addLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   if(!ML[keyMap[type]])ML[keyMap[type]]=[];
   if(!ML[keyMap[type]].includes(id))ML[keyMap[type]].push(id);
   const inp=document.getElementById('lfs-'+type);if(inp)inp.value='';
@@ -8895,7 +8895,7 @@ function addLink(type,id){
   if(document.getElementById('lfc-all'))refreshAllChips();else refreshChips(type); // 0648 (v248) — unified chips
 }
 function removeLink(type,id){
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   ML[keyMap[type]]=(ML[keyMap[type]]||[]).filter(x=>x!==id);
   if(document.getElementById('lfc-all'))refreshAllChips();else refreshChips(type); // 0648 (v248)
 }
@@ -8903,7 +8903,7 @@ function removeLink(type,id){
 // shown once as a typed chip. Its type only appears here once it's actually linked.
 function refreshAllChips(){
   const cont=document.getElementById('lfc-all');if(!cont)return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',phase:'linkedPhases',task:'linkedTasks',ask:'linkedAsks',content:'linkedContent',event:'linkedEvents',patch:'linkedPatches',challenge:'linkedChallenges',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',phase:'linkedPhases',task:'linkedTasks',ask:'linkedAsks',event:'linkedEvents',patch:'linkedPatches',challenge:'linkedChallenges',release:'linkedReleases',change:'linkedChanges',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   let html='';
   Object.keys(keyMap).forEach(t=>{
     (ML[keyMap[t]]||[]).forEach(id=>{
@@ -8915,7 +8915,7 @@ function refreshAllChips(){
 }
 function refreshChips(type){
   if(type==='any')return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   const cont=document.getElementById('lfc-'+type);if(!cont)return;
   cont.innerHTML=ML[keyMap[type]].map(id=>{const it=getItem(id);if(!it)return'';return`<span class="chip"><span class="chip-link" onclick="openModal(null,null,null,'${id}')">${esc((it.name||'').slice(0,42))}</span><button onclick="removeLink('${type}','${id}')">&#x00D7;</button></span>`;}).join('');
   const lbl=cont.closest('.field')?.querySelector('label span');if(lbl)lbl.textContent=`${ML[keyMap[type]].length} linked`;
@@ -9772,7 +9772,7 @@ function doSave(obj){
     const {anchorId}=window._fpPendingLinkBack;
     const type=window._fpPendingLinkBack.type||obj.type; // 0101: resolve from the item's own type when not pre-specified
     const anchor=getItem(anchorId);
-    const keyMap2={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds'};
+    const keyMap2={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',clientbuild:'linkedClientBuilds'};
     const ak=keyMap2[type];
     if(anchor&&ak){if(!anchor[ak])anchor[ak]=[];if(!anchor[ak].includes(obj.id))anchor[ak].push(obj.id);}
     // Also link anchor into the new item
@@ -10005,7 +10005,7 @@ function filterLinkSelect(selId,query){
 // linkedTasks, so it keeps showing under "Linked Tasks"). This moves the id to
 // the correct array on all referencing items. If the new type has no linked
 // array (course), entries are left in place rather than silently dropped.
-const LINK_KEY_BY_TYPE={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+const LINK_KEY_BY_TYPE={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
 function rehomeLinksForTypeChange(itemId,oldType,newType){
   if(!itemId||oldType===newType)return;
   const oldKey=LINK_KEY_BY_TYPE[oldType],newKey=LINK_KEY_BY_TYPE[newType];
@@ -10055,7 +10055,7 @@ function removeLinkBothSides(aId,bItem){
 // 0183 (v204) — the canonical type -> link-array map. Same shape as the keyMap literal
 // repeated inside showLDD / addLink / removeLink / renderModalBody; applyLink() now reads
 // from this one instead of keeping its own hand-written copy in sync.
-const LINK_KEY_MAP={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+const LINK_KEY_MAP={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
 // Course is deliberately absent: no linkedCourses array exists anywhere in the app.
 function applyLink(parentId,childItem){
   if(!parentId||!childItem)return;
@@ -11513,7 +11513,7 @@ let MFTagMode='any'; // v255
 
 function buildMultiFilters(){
   updateFilterActiveCount();
-  const tf=[['goal','Goals'],['project','Projects'],['phase','Phases'],['task','Tasks'],['ask','Asks'],['challenge','Challenges'],['content','Content'],['course','Courses'],['event','Events'],['patch','Patches'],['change','Changes'],['clientbuild','Client Builds'],['release','Releases'],['product','Products'],['habit','Habits'],['industryprofile','Industry Profiles'],['workflow','Workflows'],['inventory','📦 Inventory'],['room','🏠 Rooms'],['automation','⚡ Automations']];  // 0191 (v219) — all types now filterable; v249 Rooms
+  const tf=[['goal','Goals'],['project','Projects'],['phase','Phases'],['task','Tasks'],['ask','Asks'],['challenge','Challenges'],['course','Courses'],['event','Events'],['patch','Patches'],['change','Changes'],['release','Releases'],['habit','Habits'],['inventory','📦 Inventory'],['room','🏠 Rooms'],['automation','⚡ Automations']];  // 0191 (v219) — all types now filterable; v249 Rooms
   const sf=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']];
   const mf=[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort Level'],['nostartdate','No Start Date'],['nodeadline','No Deadline'],['noplanstage','No Planning Stage'],['nolevel','No Level'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],['recurring','♻️ Recurring'],['screentime','📱 Screen Time Required'],['noscreentime','🚫📱 No Screen Time']];
   const df=[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']];
@@ -12178,14 +12178,14 @@ function openListDetail(listId){
   // Build filter bar WITHOUT list chips (list detail doesn't need list chips)
   const cnt=f=>applyFilter(li,f).length;
   const isNos=listId==='nos';
-  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['ask','Asks'],['inventory','📦 Inventory'],['change','Changes'],['clientbuild','Client Builds'],['content','Content'],['course','Courses'],['event','Events'],['goal','Goals'],['habit','Habits'],['industryprofile','Industry Profiles'],['patch','Patches'],['challenge','Challenges'],['phase','Phases'],['product','Products'],['project','Projects'],['release','Releases'],['room','🏠 Rooms'],['automation','⚡ Automations'],['task','Tasks'],['workflow','Workflows'],
+  const baseFilters=[['all','All'],['placeholder','📌 Placeholders'],['ask','Asks'],['inventory','📦 Inventory'],['change','Changes'],['course','Courses'],['event','Events'],['goal','Goals'],['habit','Habits'],['patch','Patches'],['challenge','Challenges'],['phase','Phases'],['project','Projects'],['release','Releases'],['room','🏠 Rooms'],['automation','⚡ Automations'],['task','Tasks'],
     ['notstarted','Not Started'],['inprogress','In Progress'],['planned','Planned'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['attention','Needs Attention']];
   const nosFilters=[['all','All'],['nos-ask','All Asks & Tasks'],['inprogress','In Progress'],['done','Done'],['cancelled','Cancelled'],
     ...[['pending','⏳ Pending Response'],['yes','✅ Yes'],['no','❌ No']].map(([v,l])=>[v+'-resp',l])];
   // 0651 (v241) — in a list's detail view, only show TYPE filter chips for types that
   // actually have items in this list (declutter). 'All', status filters and Needs
   // Attention always stay; NoS keeps its own bespoke filter set untouched.
-  const _typeChipKeys=new Set(['placeholder','ask','inventory','change','clientbuild','content','course','event','goal','habit','industryprofile','patch','phase','product','project','release','room','task','workflow']);
+  const _typeChipKeys=new Set(['placeholder','ask','inventory','change','course','event','goal','habit','patch','phase','project','release','room','task']);
   if(_typeChipKeys.has(ldFilter)&&cnt(ldFilter)===0)ldFilter='all'; // don't strand the view on a chip we're about to hide
   const filters=(isNos?nosFilters:baseFilters).filter(([k])=>!_typeChipKeys.has(k)||cnt(k)>0);
   document.getElementById('ld-fbar').innerHTML=filters.map(([k,lbl])=>
@@ -12868,7 +12868,7 @@ function renderListDetail(){
       return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'&&i.type!=='transaction'&&i.type!=='recurringexpense'?' done-name':''}" style="min-width:160px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['clientbuild','Client Build'],['content','Content'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['industryprofile','Industry Profile'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['product','Product'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Ask —'],['ask','Ask'],['application','Application'],['boundary','Boundary'],['invite','Invite'],['pitch','Pitch'],['publish','Publish']],i.askType||'',`inlineField('${i.id}','askType',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${inp(i.askWho||'',`inlineField('${i.id}','askWho',this.value)`,'Who...')}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Channel —'],['email','📧 Email'],['dm','💬 DM'],['inperson','🤝 In-Person'],['text','📱 Text'],['call','📞 Call'],['form','📋 Form']],i.askChannel||'',`inlineField('${i.id}','askChannel',this.value)`)}</td>
@@ -12946,7 +12946,7 @@ function renderListDetail(){
     return`<tr class="${sCls(i.status)}${attn?' needs-attn':''}" onclick="openModal(null,null,null,'${i.id}')">
         <td onclick="event.stopPropagation()" style="width:48px">${inp(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
         <td class="td-name${i.status==='done'&&i.type!=='transaction'&&i.type!=='recurringexpense'?' done-name':''}" style="min-width:260px" onclick="event.stopPropagation()">${inp(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['clientbuild','Client Build'],['content','Content'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['industryprofile','Industry Profile'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['product','Product'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+        <td onclick="event.stopPropagation()">${sel([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
         <td onclick="event.stopPropagation()"><select class="tbl-sel" style="font-weight:600;color:${i.level==='primary'?'#92400E':i.level==='supporting'?'#3B4B5C':'#B91C1C'}" onclick="event.stopPropagation()" onchange="inlineField('${i.id}','level',this.value);this.style.color=this.value==='primary'?'#92400E':this.value==='supporting'?'#3B4B5C':'#B91C1C'"><option value=""${!i.level?' selected':''}>⁉️ Needs Level</option><option value="primary"${i.level==='primary'?' selected':''}>⭐ Primary</option><option value="supporting"${i.level==='supporting'?' selected':''}>🔹 Supporting</option></select></td>
         <td onclick="event.stopPropagation()">${sel([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
         <td onclick="event.stopPropagation()">${sel([['','— Effort —'],['easy','🟢 Easy (1pt)'],['medium','🟠 Medium (3pts)'],['hard','🔴 Hard (5pts)'],['epic','⭐ Epic (10pts)'],['legendary','👑 Legendary (15pts)'],['ultimate','🔥 Ultimate (20pts)'],['mythic','⚡ Mythic (30pts)'],['elite','💎 Elite (40pts)'],['master','🛡️ Master (50pts)'],['titan','🐉 Titan (60pts)'],['cosmic','🌌 Cosmic (70pts)'],['immortal','👑 Immortal (80pts)'],['ascended','🚀 Ascended (90pts)'],['transcendent','🏆 Transcend (100pts)']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
@@ -13695,7 +13695,7 @@ function fpSearchLink(q){
 }
 function fpLinkExisting(type,id){
   const anchor=getItem(window._fpItemId);if(!anchor)return;
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   const k=keyMap[type];if(!k)return;
   if(!anchor[k])anchor[k]=[];
   if(!anchor[k].includes(id))anchor[k].push(id);
@@ -13719,7 +13719,7 @@ function fpAddItem(){
   openModal(); // new blank item, type defaults to goal and is user-editable
   window._fpPendingLinkBack={anchorId,type:null}; // type resolved from the saved item's own type at save time
   setTimeout(()=>{
-    const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+    const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
     const ak=keyMap[anchor.type];
     if(ak&&ML[ak]&&!ML[ak].includes(anchorId)){ML[ak].push(anchorId);refreshChips(anchor.type);}
   },150);
@@ -13918,9 +13918,9 @@ function renderFocusLinked(item){
   // Filter bar — mirrors the same categories/logic as All Action Items (applyFilter()),
   // restricted to just this item's linked set instead of the whole app.
   const filterKeys=[
-    ['all','All'],['ask','Asks'],['change','Changes'],['clientbuild','Client Builds'],['content','Content'],['course','Courses'],
-    ['event','Events'],['goal','Goals'],['habit','Habits'],['industryprofile','Industry Profiles'],['patch','Patches'],['challenge','Challenges'],['phase','Phases'],['product','Products'],['project','Projects'],
-    ['release','Releases'],['task','Tasks'],['workflow','Workflows'],
+    ['all','All'],['ask','Asks'],['change','Changes'],['course','Courses'],
+    ['event','Events'],['goal','Goals'],['habit','Habits'],['patch','Patches'],['challenge','Challenges'],['phase','Phases'],['project','Projects'],
+    ['release','Releases'],['task','Tasks'],
     ['notstarted','Not Started'],['inprogress','In Progress'],['planned','Planned'],['behind','Behind'],
     ['done','Done'],['cancelled','Cancelled'],['attention','Needs Attention']
   ];
@@ -13952,7 +13952,7 @@ function renderFocusLinked(item){
       <td onclick="event.stopPropagation()" style="width:28px;text-align:center"><input type="checkbox" class="fp-lnk-chk" data-id="${i.id}" ${_fpSelected.has(i.id)?'checked':''} onclick="event.stopPropagation();fpToggleLinkedSel('${i.id}',this.checked)" style="accent-color:var(--teal);width:13px;height:13px;cursor:pointer"></td>
       <td onclick="event.stopPropagation()" style="width:64px">${inp2(i.seqNum,`inlineField('${i.id}','seqNum',this.value)`,'#')}</td>
       <td onclick="event.stopPropagation()">${inp2(i.name,`inlineField('${i.id}','name',this.value)`,'Name...')}</td>
-      <td onclick="event.stopPropagation()">${sel2([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['clientbuild','Client Build'],['content','Content'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['industryprofile','Industry Profile'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['product','Product'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
+      <td onclick="event.stopPropagation()">${sel2([['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['workflow','Workflow']],i.type,`inlineField('${i.id}','type',this.value)`)}</td>
       <td onclick="event.stopPropagation()">${sel2([['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled']],i.status,`inlineStatusChg('${i.id}',this.value)`)}</td>
       <td onclick="event.stopPropagation()">${sel2([['needsplanning','⬜ Needs Planning'],['scheduled','🟡 Scheduled'],['ready','🟢 Ready'],['deferred','⏸ Deferred'],['na','⚪ N/A']],i.planningStage||'needsplanning',`inlineField('${i.id}','planningStage',this.value)`)}</td>
       <td onclick="event.stopPropagation()">${sel2([['','— Effort —'],['easy','🟢 Easy'],['medium','🟠 Med'],['hard','🔴 Hard'],['epic','⭐ Epic'],['legendary','👑 Leg'],['ultimate','🔥 Ult'],['mythic','⚡ Myth'],['elite','💎 Elite'],['master','🛡️ Master'],['titan','🐉 Titan'],['cosmic','🌌 Cosmic'],['immortal','👑 Immortal'],['ascended','🚀 Ascend'],['transcendent','🏆 Transc']],i.effort||'',`inlineField('${i.id}','effort',this.value)`)}</td>
@@ -13969,7 +13969,7 @@ function renderFocusLinked(item){
       <button class="btn xs primary" onclick="openBulkUpdateForIds(Array.from(_fpSelected),'Focus View selection')" title="Open the full Bulk Update editor for the selected linked items">⚡ Full Bulk Update</button>
       <select id="fp-bulk-type" class="tbl-sel" style="width:auto;min-width:120px">
         <option value="">— Set Type —</option>
-        <option value="ask">Ask</option><option value="challenge">Challenge</option><option value="change">Change</option><option value="clientbuild">Client Build</option><option value="content">Content</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">Habit</option><option value="industryprofile">Industry Profile</option><option value="inventory">Inventory</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="product">Product</option><option value="project">Project</option><option value="release">Release</option><option value="room">Room</option><option value="automation">Automation</option><option value="task">Task</option><option value="workflow">Workflow</option>
+        <option value="ask">Ask</option><option value="challenge">Challenge</option><option value="change">Change</option><option value="course">Course</option><option value="event">Event</option><option value="goal">Goal</option><option value="habit">Habit</option><option value="inventory">Inventory</option><option value="patch">Patch</option><option value="phase">Phase</option><option value="project">Project</option><option value="release">Release</option><option value="room">Room</option><option value="automation">Automation</option><option value="task">Task</option>
       </select>
       <select id="fp-bulk-status" class="tbl-sel" style="width:auto;min-width:120px">
         <option value="">— Set Status —</option>
@@ -14274,9 +14274,9 @@ function showHomeView(view){
 // Classification Center is one page with tabbed classification tools.
 let classificationTab='core';
 function setClassificationTab(tab,skipRender){
-  const target=['core','itemtags','catalog','taglibrary'].includes(tab)?tab:'core';
+  const target=['core','itemtags','catalog'].includes(tab)?tab:'core';
   classificationTab=target;
-  ['core','itemtags','catalog','taglibrary'].forEach(k=>{
+  ['core','itemtags','catalog'].forEach(k=>{
     const view=document.getElementById('classification-view-'+k);
     const btn=document.getElementById('classification-tab-'+k);
     if(view)view.style.display=k===target?'block':'none';
@@ -14286,7 +14286,6 @@ function setClassificationTab(tab,skipRender){
   if(target==='core')renderLists();
   if(target==='itemtags')renderItemTags();
   if(target==='catalog')renderCatalogSettings();
-  if(target==='taglibrary')renderTagLibrary();
 }
 // v465 — LIFE command centers: one canonical page per LIFE domain.
 let lifeHomeTab='overview',lifeWellnessTab='health',lifeMoneyTab='finance',lifePersonalTab='myarc';
@@ -14302,7 +14301,7 @@ function setLifeWorkspace(group,tab){
 }
 function syncLifeWorkspace(page){if(page==='homeops')setLifeWorkspace('home',lifeHomeTab);if(page==='health')setLifeWorkspace('wellness',lifeWellnessTab);if(page==='finance')setLifeWorkspace('money',lifeMoneyTab);if(page==='myarc')setLifeWorkspace('personal',lifePersonalTab);}
 
-let systemOpsTab='workflows';
+let systemOpsTab='releases';
 function renderSystemOpsSummaries(){
   const rel=(S.items||[]).filter(i=>i.type==='release');
   const chg=(S.items||[]).filter(i=>i.type==='change');
@@ -14314,13 +14313,12 @@ function renderSystemOpsSummaries(){
   if(cs)cs.innerHTML=`<div class="metrics" style="grid-template-columns:repeat(2,minmax(120px,1fr));margin-bottom:0"><div class="metric"><div class="metric-n">${chg.length}</div><div class="metric-l">Total Changes</div></div><div class="metric"><div class="metric-n">${chgOpen}</div><div class="metric-l">Open Changes</div></div></div>`;
 }
 function setSystemOpsTab(tab){
-  if(!['workflows','releases','changes','implementation'].includes(tab))tab='workflows';
+  if(!['releases','changes','implementation'].includes(tab))tab='releases';
   systemOpsTab=tab;
-  ['workflows','releases','changes','implementation'].forEach(k=>{
+  ['releases','changes','implementation'].forEach(k=>{
     const v=document.getElementById('systemops-view-'+k);if(v)v.style.display=k===tab?'block':'none';
     const b=document.getElementById('systemops-tab-'+k);if(b)b.classList.toggle('active',k===tab);
   });
-  if(tab==='workflows')renderWorkflows();
   if(tab==='implementation')renderImplementationScorecardV350();
   if(tab==='releases'||tab==='changes')renderSystemOpsSummaries();
 }
@@ -17198,7 +17196,7 @@ initRewards();
 function backfillAllLinksOnce(){
   // O(n) equivalent of calling syncLinks() once per item (which is O(n) each -> O(n^2) total).
   // For every link a item declares, ensure the target item has the reciprocal link back.
-  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',content:'linkedContent',release:'linkedReleases',change:'linkedChanges',product:'linkedProducts',event:'linkedEvents',clientbuild:'linkedClientBuilds',industryprofile:'linkedIndustryProfiles',workflow:'linkedWorkflows',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
+  const keyMap={goal:'linkedGoals',project:'linkedProjects',task:'linkedTasks',ask:'linkedAsks',patch:'linkedPatches',challenge:'linkedChallenges',phase:'linkedPhases',release:'linkedReleases',change:'linkedChanges',event:'linkedEvents',habit:'linkedHabits',inventory:'linkedInventory',room:'linkedRooms',automation:'linkedAutomations',digital:'linkedDigital'};
   S.items.forEach(item=>{
     const myField=keyMap[item.type];
     if(!myField)return;
@@ -26942,11 +26940,11 @@ Movie Night | 20 | 🎬" rows="8"></textarea></div>
 <option value="ask">Ask</option>
 <option value="challenge">🏁 Challenge</option>
 <option value="patch">Patch</option>
-<option value="content">Content</option>
+
 <option value="event">Event</option>
 <option value="release">Release</option>
 <option value="change">Change</option>
-<option value="product">Product</option>
+
 <option value="course">Course</option>
 </select>
 <div style="display:flex;gap:8px;justify-content:flex-end">
@@ -29165,7 +29163,7 @@ const CORE_FILTER_VIEW_KEY='lccCoreFilterViewsV477';
 const CF={types:{label:'Type',group:'Work'},statuses:{label:'Status',group:'Work'},levels:{label:'Level',group:'Work'},pstages:{label:'Planning Stage',group:'Work'},efforts:{label:'Effort',group:'Work'},priorities:{label:'Priority',group:'Work'},screen:{label:'Screen Time Required',group:'Work'},sprints:{label:'Sprint',group:'Planning'},startDate:{label:'Start Date',group:'Planning'},targetDate:{label:'Target / Due Date',group:'Planning'},completedDate:{label:'Completed Date',group:'Planning'},estimatedMins:{label:'Estimated Minutes',group:'Planning'},duration:{label:'Duration',group:'Planning'},durationUnits:{label:'Duration Unit',group:'Planning'},rotationWeeks:{label:'Rotation Week',group:'Planning'},focusPeriods:{label:'Focus Period',group:'Planning'},due:{label:'Due Timeline',group:'Planning'},lists:{label:'List',group:'Organization'},cats:{label:'Category',group:'Organization'},tags:{label:'Tags',group:'Organization'},missing:{label:'Missing Info',group:'Quality'},notesPresence:{label:'Notes',group:'Quality'},refPresence:{label:'Reference Link',group:'Quality'},budgetPresence:{label:'Budget',group:'Quality'},blockersPresence:{label:'Blockers',group:'Quality'},onHoldReasons:{label:'On Hold Reason',group:'Quality'},cancelReasons:{label:'Cancellation Reason',group:'Quality'}};
 const DEFAULT_MF={types:[],statuses:[],missing:[],due:[],cats:[],lists:[],pstages:[],levels:[],sprints:[],tags:[],efforts:[],priorities:[],screen:[],startDate:[],targetDate:[],completedDate:[],estimatedMins:[],duration:[],durationUnits:[],rotationWeeks:[],focusPeriods:[],notesPresence:[],refPresence:[],budgetPresence:[],blockersPresence:[],onHoldReasons:[],cancelReasons:[]};
 function ensureMF(){Object.keys(DEFAULT_MF).forEach(k=>{if(!Array.isArray(MF[k]))MF[k]=[]})} function opt(v,l){return{v:String(v),l:String(l??v)}} function uniqueVals(key){return [...new Set((S.items||[]).map(i=>i?.[key]).filter(v=>v!==undefined&&v!==null&&String(v).trim()!==''))].map(v=>opt(v,v)).sort((a,b)=>a.l.localeCompare(b.l))} function presenceOpts(){return[opt('has','Has value'),opt('blank','Blank / missing')]} function dateOpts(){return[opt('missing','Missing'),opt('past','Past'),opt('today','Today'),opt('week','This week'),opt('month','This month'),opt('future','Future')]} function numericOpts(){return[opt('missing','Missing'),opt('0-30','0–30'),opt('31-60','31–60'),opt('61-120','61–120'),opt('121+','121+')]} function durationOpts(){return[opt('missing','Missing'),opt('0-1','0–1'),opt('2-7','2–7'),opt('8-30','8–30'),opt('31+','31+')]} 
-function optionsFor(key){const typeOpts=[['goal','Goal'],['project','Project'],['phase','Phase'],['task','Task'],['ask','Ask'],['challenge','Challenge'],['content','Content'],['course','Course'],['event','Event'],['patch','Patch'],['change','Change'],['clientbuild','Client Build'],['release','Release'],['product','Product'],['habit','Habit'],['industryprofile','Industry Profile'],['workflow','Workflow'],['inventory','Inventory'],['room','Room'],['automation','Automation'],['transaction','Transaction'],['recurringexpense','Recurring Expense']].map(x=>opt(x[0],x[1]));const map={types:typeOpts,statuses:[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','Placeholder']].map(x=>opt(x[0],x[1])),levels:[['primary','Primary'],['supporting','Supporting']].map(x=>opt(x[0],x[1])),pstages:[['needsplanning','Needs Planning'],['scheduled','Scheduled'],['ready','Ready'],['deferred','Deferred'],['na','N/A']].map(x=>opt(x[0],x[1])),efforts:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.effort?.o||['easy','medium','hard','epic','legendary']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),priorities:[['high','High'],['medium','Medium'],['low','Low']].map(x=>opt(x[0],x[1])),screen:[['yes','Yes'],['no','No'],['blank','Blank / missing']].map(x=>opt(x[0],x[1])),durationUnits:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.durationUnit?.o||['days','weeks','months','years']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),focusPeriods:['Day','Week','Month','Quarter','Year'].map(v=>opt(v,v)),rotationWeeks:[1,2,3,4,5,6,7,8,9,10,11,12,13].map(v=>opt(v,'Week '+v)),missing:[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort'],['nostartdate','No Start Date'],['nodeadline','No Target Date'],['noplanstage','No Planning Stage'],['nolevel','No Level'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],['recurring','Recurring']].map(x=>opt(x[0],x[1])),due:[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']].map(x=>opt(x[0],x[1])),startDate:dateOpts(),targetDate:dateOpts(),completedDate:dateOpts(),estimatedMins:numericOpts(),duration:durationOpts(),notesPresence:presenceOpts(),refPresence:presenceOpts(),budgetPresence:presenceOpts(),blockersPresence:presenceOpts(),onHoldReasons:uniqueVals('onHoldReason'),cancelReasons:uniqueVals('cancellationReason')};if(key==='cats')return[...new Set([...(typeof CATS!=='undefined'?CATS:[]),...(S.items||[]).flatMap(i=>i.categories||[])])].filter(Boolean).sort().map(v=>opt(v,v));if(key==='lists')return(S.lists||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(l=>opt(l.id,l.name));if(key==='tags')return[...new Set((S.items||[]).flatMap(i=>i.tags||[]))].filter(Boolean).sort((a,b)=>a.localeCompare(b)).map(v=>opt(v,v));if(key==='sprints'){const used=new Set(),out=[];let none=false;(S.items||[]).forEach(i=>{const n=i.startDate?sprintNumForDate(i.startDate):'';if(n)used.add(n);else none=true});[...used].sort((a,b)=>a-b).forEach(n=>{const sp=(typeof ALL_SPRINTS!=='undefined'?ALL_SPRINTS:[]).find(s=>s.num===n);out.push(opt(String(n),sp?`Sprint ${sp.displayNum} · ${sp.year}`:`Sprint ${n}`))});if(none)out.unshift(opt('none','No Sprint'));return out}return map[key]||[]}
+function optionsFor(key){const typeOpts=[['goal','Goal'],['project','Project'],['phase','Phase'],['task','Task'],['ask','Ask'],['challenge','Challenge'],['course','Course'],['event','Event'],['patch','Patch'],['change','Change'],['release','Release'],['habit','Habit'],['inventory','Inventory'],['room','Room'],['automation','Automation'],['transaction','Transaction'],['recurringexpense','Recurring Expense']].map(x=>opt(x[0],x[1]));const map={types:typeOpts,statuses:[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','Placeholder']].map(x=>opt(x[0],x[1])),levels:[['primary','Primary'],['supporting','Supporting']].map(x=>opt(x[0],x[1])),pstages:[['needsplanning','Needs Planning'],['scheduled','Scheduled'],['ready','Ready'],['deferred','Deferred'],['na','N/A']].map(x=>opt(x[0],x[1])),efforts:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.effort?.o||['easy','medium','hard','epic','legendary']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),priorities:[['high','High'],['medium','Medium'],['low','Low']].map(x=>opt(x[0],x[1])),screen:[['yes','Yes'],['no','No'],['blank','Blank / missing']].map(x=>opt(x[0],x[1])),durationUnits:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.durationUnit?.o||['days','weeks','months','years']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),focusPeriods:['Day','Week','Month','Quarter','Year'].map(v=>opt(v,v)),rotationWeeks:[1,2,3,4,5,6,7,8,9,10,11,12,13].map(v=>opt(v,'Week '+v)),missing:[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort'],['nostartdate','No Start Date'],['nodeadline','No Target Date'],['noplanstage','No Planning Stage'],['nolevel','No Level'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],['recurring','Recurring']].map(x=>opt(x[0],x[1])),due:[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']].map(x=>opt(x[0],x[1])),startDate:dateOpts(),targetDate:dateOpts(),completedDate:dateOpts(),estimatedMins:numericOpts(),duration:durationOpts(),notesPresence:presenceOpts(),refPresence:presenceOpts(),budgetPresence:presenceOpts(),blockersPresence:presenceOpts(),onHoldReasons:uniqueVals('onHoldReason'),cancelReasons:uniqueVals('cancellationReason')};if(key==='cats')return[...new Set([...(typeof CATS!=='undefined'?CATS:[]),...(S.items||[]).flatMap(i=>i.categories||[])])].filter(Boolean).sort().map(v=>opt(v,v));if(key==='lists')return(S.lists||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(l=>opt(l.id,l.name));if(key==='tags')return[...new Set((S.items||[]).flatMap(i=>i.tags||[]))].filter(Boolean).sort((a,b)=>a.localeCompare(b)).map(v=>opt(v,v));if(key==='sprints'){const used=new Set(),out=[];let none=false;(S.items||[]).forEach(i=>{const n=i.startDate?sprintNumForDate(i.startDate):'';if(n)used.add(n);else none=true});[...used].sort((a,b)=>a-b).forEach(n=>{const sp=(typeof ALL_SPRINTS!=='undefined'?ALL_SPRINTS:[]).find(s=>s.num===n);out.push(opt(String(n),sp?`Sprint ${sp.displayNum} · ${sp.year}`:`Sprint ${n}`))});if(none)out.unshift(opt('none','No Sprint'));return out}return map[key]||[]}
 function labelFor(k,v){const o=optionsFor(k).find(x=>x.v===String(v));return`${CF[k]?.label||k}: ${o?.l||v}`}
 window.buildMultiFilters=function(){ensureMF();updateFilterActiveCount();const fs=document.getElementById('core-filter-field');if(fs){const cur=fs.value;const groups=['Work','Planning','Organization','Quality'];fs.innerHTML=groups.map(g=>`<optgroup label="${g}">${Object.entries(CF).filter(([,d])=>d.group===g).map(([k,d])=>`<option value="${k}">${d.label}</option>`).join('')}</optgroup>`).join('');if(cur&&CF[cur])fs.value=cur;if(!fs.value)fs.value='types'}renderCoreFilterChoices();renderActiveCoreFilters();renderSavedCoreFilterViews()};
 window.renderCoreFilterChoices=function(){ensureMF();const fs=document.getElementById('core-filter-field'),box=document.getElementById('core-filter-choices'),q=(document.getElementById('core-filter-option-search')?.value||'').trim().toLowerCase();if(!fs||!box)return;const k=fs.value||'types',arr=optionsFor(k).filter(o=>!q||o.l.toLowerCase().includes(q)||o.v.toLowerCase().includes(q));const help=document.getElementById('core-filter-choice-help');if(help)help.textContent=['sprints','tags','cats','lists'].includes(k)?'Search, then select one or more values. Only selected values stay visible as active chips.':'Select one or more values; choices within the same field use OR logic.';box.innerHTML=arr.length?arr.slice(0,250).map(o=>`<button type="button" class="core-filter-choice${MF[k].includes(o.v)?' active':''}" data-k="${k}" data-v="${encodeURIComponent(o.v)}" onclick="toggleCoreFilterValue(this.dataset.k,decodeURIComponent(this.dataset.v))">${esc(o.l)}</button>`).join(''):'<span style="font-size:11px;color:var(--txt3)">No matching options</span>'};
@@ -29181,6 +29179,15 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- CHANGE LOG: v477 — Replaced the always-expanded multi-filter matrix with searchable field/value filtering. Added controlled core-field filters for Type, Status, Level, Planning Stage, Effort, Priority, Screen Time, Sprint, Lists, Categories, Tags, Duration Unit, Rotation Week, Focus Period, missing-info/due presets, date buckets, numeric ranges, and presence checks for Notes/Reference/Budget/Blockers. No new item type, persistent item field, linkable object, progress rule, or export field was added. -->
 <!-- RELEASE NOTES: v477 — All Action Items filters now scale with the database: choose a field, search values, keep only active chips visible, and save common filter views without filling the page with Sprint and Tag pills. -->
 
+<!-- USER GUIDE: v478 — Client Build, Content, Industry Profile, Product, and Workflow are owned by BCC and are no longer LCC Action Item types. -->
+<!-- CHANGE LOG: v478 — Retired the five BCC-owned types from LCC Add/Bulk Add/Bulk Update, type filters, inline type selectors, linked-item maps, tBadge/type catalogs, work-type/schema registration, and core-filter type options. Legacy LCC records of those types are purged on load. -->
+<!-- RELEASE NOTES: v478 — LCC no longer duplicates Client Build, Content, Industry Profile, Product, or Workflow records managed in BCC. -->
+<!-- USER GUIDE: v479 — Business-owned Content and BCC navigation are no longer shown in the LCC sidebar. Use BCC for business-owned Content, Client Builds, Industry Profiles, Products, and business Workflows. -->
+<!-- CHANGE LOG: v479 — Removed Content Planner from the LCC Library sidebar and removed the entire Business sidebar section/BCC shortcut. No underlying BCC application, LCC System Operations workflow tools, item type, persistent field, validation rule, progress rule, or export schema was added. -->
+<!-- RELEASE NOTES: v479 — LCC sidebar navigation now excludes business-specific destinations following the move of those records to BCC. -->
+<!-- USER GUIDE: v481 — Classification Center retains Core Lists, Action Item Tags, and Field Options for LCC. Business Workflows and Workflow Tag Library belong in BCC. -->
+<!-- CHANGE LOG: v481 — Corrected v480 over-removal by restoring/preserving Action Item Tags and Field Options. Removed only Workflow Tag Library and System Operations Workflows. Preserved S.itemTags and S.fieldLibrary; only S.tagLibrary is cleared as business workflow reference data. -->
+<!-- RELEASE NOTES: v481 — LCC classification tools are restored while business workflow management remains removed. -->
 </body>
 
 
