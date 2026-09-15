@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v471</title>
+<title>LCC v477</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v471</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v477</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -881,6 +881,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <button class="nb" id="nav-health" onclick="lifeWellnessTab='health';showPage('health',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M8 14s-5-3.2-5-7.2A2.8 2.8 0 018 4.7a2.8 2.8 0 015 2.1C13 10.8 8 14 8 14z"></path></svg>Wellness Center</button>
 <button class="nb" id="nav-finance" onclick="lifeMoneyTab='finance';showPage('finance',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M5 8h6M8 5v6"></path></svg>Money Center</button>
 <button class="nb" id="nav-myarc" onclick="lifePersonalTab='myarc';showPage('myarc',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 12c2-5 4-7 10-8"></path><path d="M8 3h5v5"></path><circle cx="4" cy="12" r="1.5"></circle></svg>Personal Center</button>
+<button class="nb" id="nav-rewards" onclick="showPage('rewards',this)"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 16 16"><path d="M3 6.5h10v7H3z"></path><path d="M2 4.5h12v2H2zM8 4.5v9"></path><path d="M8 4.5C6.3 4.5 5 3.7 5 2.8c0-.7.6-1.3 1.4-1.3C7.7 1.5 8 3 8 4.5zM8 4.5c1.7 0 3-.8 3-1.7 0-.7-.6-1.3-1.4-1.3C8.3 1.5 8 3 8 4.5z"></path></svg>Reward Center</button>
 </div>
 
 <div class="sb-sec">
@@ -1064,27 +1065,24 @@ Item 3
 <span id="iba-result" style="font-size:12px;color:#15803D;font-weight:600"></span>
 </div>
 </div>
-<!-- Filter panel toggle -->
-<div style="margin-bottom:10px">
-<button class="btn xs ghost" id="filter-toggle-btn" onclick="toggleFilterPanel()" style="width:100%;justify-content:space-between;padding:7px 12px;border:1px solid var(--bdr);border-radius:var(--r);background:var(--soft)">
-<span id="filter-toggle-label">▼ Show Filters</span>
-<span id="filter-active-count" style="font-size:10px;color:var(--teal);font-weight:600"></span>
-</button>
-<div id="items-multi-filter" style="display:none;background:var(--soft);border:1px solid var(--bdr);border-radius:0 0 var(--rl) var(--rl);padding:12px;border-top:none">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Type</div><div class="cat-filter-inner" id="mf-type"></div></div>
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Status</div><div class="cat-filter-inner" id="mf-status"></div></div>
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Missing Info</div><div class="cat-filter-inner" id="mf-missing"></div></div>
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Due Timeline</div><div class="cat-filter-inner" id="mf-due"></div></div>
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Planning Stage</div><div class="cat-filter-inner" id="mf-pstage"></div></div>
-<div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Level</div><div class="cat-filter-inner" id="mf-level"></div></div>
-<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Sprint</div><div class="cat-filter-inner" id="mf-sprint"></div></div>
-<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">Category</div><div class="cat-filter-inner" id="mf-cat"></div></div>
-<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--txt2);margin-bottom:6px">List</div><div class="cat-filter-inner" id="mf-list"></div></div>
-<div id="mf-tag" style="grid-column:1/-1"></div>
-</div>
-<div style="margin-top:8px;display:flex;justify-content:flex-end"><button class="btn xs ghost" onclick="clearMultiFilter()">Clear All Filters</button></div>
-</div>
+<!-- v477 Compact Core Filter system -->
+<div class="core-filter-shell" id="core-filter-shell">
+  <div class="core-filter-toolbar">
+    <button class="btn sm primary" id="filter-toggle-btn" onclick="toggleFilterPanel()">＋ Add Filter</button>
+    <div id="filter-active-count" class="core-filter-count"></div>
+    <button class="btn sm ghost" onclick="clearMultiFilter()">Clear All</button>
+    <button class="btn sm ghost" onclick="saveCoreFilterView()">💾 Save View</button>
+    <select id="core-filter-saved-view" class="core-filter-saved" onchange="loadCoreFilterView(this.value)" title="Saved filter views"><option value="">Saved Views…</option></select>
+  </div>
+  <div id="core-filter-active-chips" class="core-filter-active-chips"></div>
+  <div id="items-multi-filter" class="core-filter-editor" style="display:none">
+    <div class="core-filter-editor-grid">
+      <div><label class="core-filter-label">Core field</label><select id="core-filter-field" onchange="renderCoreFilterChoices()"></select></div>
+      <div><label class="core-filter-label">Find an option</label><input id="core-filter-option-search" type="search" placeholder="Search options…" oninput="renderCoreFilterChoices()"></div>
+    </div>
+    <div id="core-filter-choice-help" class="core-filter-help"></div>
+    <div id="core-filter-choices" class="core-filter-choices"></div>
+  </div>
 </div>
 <!-- Items list -->
 <div id="items-list"></div>
@@ -1303,11 +1301,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v471 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v477 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v471</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v477</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3817,10 +3815,11 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
-  const _v471ReleaseAdded=ensureReleaseV471();
+  const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
+  const _v475ReleaseAdded=ensureReleaseV477();
   recalc();
   renderAll();
-  if(_v471ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -4002,11 +4001,20 @@ const LCC_POST360_RELEASES_V379={
  '361':['Knowledge Hub Command Center','2026-08-24'],'362':['Knowledge Hub Field Controls & Validation','2026-08-24'],'363':['Knowledge Review Scheduling','2026-08-24'],'364':['Knowledge Topics & Sources','2026-08-24'],'365':['Knowledge Hub Render Hotfix','2026-08-24'],'366':['Digital Library Merge & Knowledge Hub Layout Fix','2026-08-24'],'367':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'368':['Bulk Update Field & Option Reconciliation','2026-08-24'],'369':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'370':['Digital Library / Knowledge Hub Continuity','2026-08-24'],'371':['Business Command Center Structure','2026-08-25'],'372':['BCC Migration Export & Render Hotfix','2026-08-25'],'373':['BCC Migration Goals & Placeholders','2026-08-25'],'374':['Strict BCC Migration Scope','2026-08-25'],'375':['Bulk Add Permissive Capture','2026-08-25'],'376':['Knowledge Hub Types, Fields & CSV Upload','2026-08-25'],'377':['Master Plan BCC Separation','2026-08-26'],'378':['Release Persistence & Master Plan BCC Filter Repair','2026-08-27'],'379':['Release Continuity & Master Plan Widget Isolation','2026-08-27']
 };
 // Add only this coded version's Release record; historical releases are not rebuilt.
-function ensureReleaseV471(){
+function ensureReleaseV474(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v471'))return false;
-  const now=Date.now(),day='2026-09-11';
-  S.items.push({id:'release-lcc-v471',name:'LCC v471 — Accurate Reschedule Counting',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'medium',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'471',releaseType:'bugfix',releaseModules:['Guardrails','Scheduling','Action Items'],releaseChangelog:'Corrected reschedule counting so completing previously-missing Start Date, Target Completion Date, or Duration does not count as a behavioral reschedule. Backfilling Duration no longer rewrites an already-established Start/Target date pair in the item modal. Schedule-completion events are recorded in Guardrail History while true date changes continue to increment Reschedule Count and Sprint Rollover Count as applicable.',releaseNotes:'v471 separates planning cleanup from actual rescheduling. Filling missing schedule information is now logged without penalizing Reschedule Count. Changing an already-established Start or Target date still counts as a reschedule, and sprint overload relief remains exempt under the v470 rule.',notes:'User Guide: Complete missing Start Date, Target Completion Date, or Duration normally; these updates are treated as schedule completion and do not increase reschedule counters. Once an item has an established schedule, changing its Start or Target date is a true reschedule and existing reason/recommit guardrails apply. Sprint overload moves made through Sprint Planner remain capacity-relief moves and do not increase behavioral reschedule counters.',createdAt:now,updatedAt:now});
+  if(S.items.some(i=>i&&i.id==='release-lcc-v474'))return false;
+  const now=Date.now(),day='2026-09-14';
+  S.items.push({id:'release-lcc-v474',name:'LCC v474 — Reward Center Navigation Restoration',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'474',releaseType:'enhancement',releaseModules:['Reward Center','Personal Center','Navigation'],releaseChangelog:'Restored Reward Center as a direct Life-navigation destination without duplicating the existing Rewards Bank 2.0 engine. The new sidebar entry opens the existing rewards workspace directly and receives its own active navigation state and page title, while Personal Center → Rewards remains available as a secondary path.',releaseNotes:'v474 makes Rewards visible again from the main sidebar. Reward Center now appears directly in the Life section and opens the existing Rewards Bank data, shop, wishlist, challenges, history, settings, points, and redemption functionality. No rewards data model or earning logic was changed.',notes:'User Guide: In the Life section of the sidebar, choose Reward Center to open Rewards Bank 2.0 directly. You can still reach the same workspace through Personal Center → Rewards. Both paths use the same reward balance, shop, wishlist, challenges, history, settings, and redemption records.',createdAt:now,updatedAt:now});
+  invalidateItemIndex();
+  return true;
+}
+
+function ensureReleaseV477(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v477'))return false;
+  const now=Date.now(),day='2026-09-14';
+  S.items.push({id:'release-lcc-v477',name:'LCC v477 — Compact Core Filters',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'477',releaseType:'enhancement',releaseModules:['All Action Items','Core Filters','Execution Center'],releaseChangelog:'Replaced the sprawling All Action Items filter matrix with a compact Core Filter toolbar. Add Filter now exposes searchable core-field values, active filters render as removable chips, Sprint/Tags/Categories/Lists stay collapsed until requested, and saved filter views can be stored locally. Expanded filtering to core controlled fields plus useful date/number/presence filters while preserving the existing search, sort, print, selection, and bulk actions.',releaseNotes:'v477 makes All Action Items filtering compact and scalable. Core fields are selected one at a time, large option sets are searchable, active filters stay visible as chips, and reusable saved views reduce repeated setup without consuming page space.',notes:'User Guide: In Execution Center → All Action Items, use the existing Search box for names/text and ＋ Add Filter for structured filtering. Choose a core field, search its available values, and select one or more options. Active filters appear as removable chips. Sprint, Tags, Categories, and Lists no longer display every value at once. Use Save View to store a commonly used filter combination locally, and Clear All to reset structured filters.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
 }
@@ -4037,8 +4045,9 @@ async function load(){
       if(migrated&&fromAncient)toast('Your data has been restored from a previous version!',4000);
     }
   }catch(e){console.warn('Load failed:',e);}
-  const _v471ReleaseAdded=ensureReleaseV471();
-  if(_v471ReleaseAdded&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
+  const _v475ReleaseAdded=ensureReleaseV477();
+  if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -5142,6 +5151,28 @@ function habitPurgeFuture(mid){
   if(n){S.items=S.items.filter(i=>!kill[i.id]);invalidateItemIndex();}
   return n;
 }
+/* v473 — a paused/closed habit should have no active generated cards at all.
+   Preserve completed history, but remove every unfinished dated occurrence so
+   stale children from older bulk/update paths cannot keep appearing as work. */
+function habitPurgeOpenOccurrences(mid){
+  const kill={};let n=0;
+  (S.items||[]).forEach(o=>{
+    if(!o||o.type!=='habit'||o.habitMasterId!==mid)return;
+    if(o.status==='done')return;
+    kill[o.id]=1;n++;
+  });
+  if(n){S.items=S.items.filter(i=>!kill[i.id]);invalidateItemIndex();}
+  return n;
+}
+function habitReconcileInactiveOccurrences(){
+  let n=0;
+  habitMasters().forEach(m=>{
+    if(!m||!['onhold','cancelled','done'].includes(m.status))return;
+    if(m.status==='onhold'&&!m.habitHeldFrom)m.habitHeldFrom=todayStr();
+    n+=habitPurgeOpenOccurrences(m.id);
+  });
+  return n;
+}
 /* Every occurrence of a master, used by the delete confirmation. */
 function habitPurgeAll(mid){
   const before=(S.items||[]).length;
@@ -5171,7 +5202,7 @@ function habitApplyStatusChange(m,oldStatus){
   const paused=st=>st==='onhold'||st==='cancelled';
   let n=0;
   if(paused(m.status)&&!paused(oldStatus)){
-    n=habitPurgeFuture(m.id);
+    n=habitPurgeOpenOccurrences(m.id);
     m.habitHeldFrom=todayStr();
   } else if(!paused(m.status)&&paused(oldStatus)){
     m.habitResumeDate=todayStr();
@@ -5191,10 +5222,13 @@ function habitStatusSideEffects(i,oldStatus){
   return p;
 }
 function habitGenerateAll(){
-  // 0184 (v209) — sweep first. The sweep writes missed dates onto the masters,
-  // and the generator seeds those dates so it cannot recreate what was swept.
+  // v473 — reconcile inactive masters BEFORE the miss sweep. This prevents stale
+  // generated cards from an On Hold/Cancelled/Done habit being counted as misses.
+  let n=0;
+  if(typeof habitReconcileInactiveOccurrences==='function')n+=habitReconcileInactiveOccurrences();
+  // 0184 (v209) — sweep active habit misses, then generate the live schedule.
   if(typeof habitSweepMisses==='function')habitSweepMisses();
-  let n=0;habitMasters().forEach(m=>{n+=habitGenerateOccurrences(m);});
+  habitMasters().forEach(m=>{n+=habitGenerateOccurrences(m);});
   return n;
 }
 
@@ -5361,6 +5395,9 @@ function habitSweepMisses(){
     if(o.status==='done')return;
     if(!o.date||o.date>=cut)return;
     const m=getItem(o.habitMasterId);
+    // v473 — defensive guard for direct sweep calls: inactive masters are cleaned
+    // without recording a miss because no habit was expected while paused/closed.
+    if(m&&['onhold','cancelled','done'].includes(m.status)){kill[o.id]=1;swept++;return;}
     if(m){const ms=habitMisses(m);if(ms.indexOf(o.date)<0)ms.push(o.date);}
     kill[o.id]=1;swept++;
   });
@@ -11283,6 +11320,9 @@ function saveBulk(){
         const _s2CloseMiss=schema2CloseMissing(item);
         if(_s2CloseMiss.length){item.status=_s2OldStatus;_schema2BulkCloseErrors.push((item.name||'Item')+': '+_s2CloseMiss.join(', '));}
       }
+      // v473 — Bulk Update must trigger the same habit pause/resume cleanup as
+      // modal and inline status changes; otherwise stale generated dates survive.
+      if(status)habitStatusSideEffects(item,_s2OldStatus);
     });
     toast('Updated '+updated+' item'+(updated!==1?'s':'')+'!'+(skippedPhaseNoParent?' ⚠️ '+skippedPhaseNoParent+' skipped the type change to Phase (must be linked to a Goal/Project first).':'')+(_bCSkipped?' ⚠️ '+_bCSkipped+' content item'+(_bCSkipped===1?'':'s')+' stayed put — checklist not finished.':'')+(_schema2BulkCloseErrors.length?' ⚠️ '+_schema2BulkCloseErrors.length+' could not close: '+_schema2BulkCloseErrors.slice(0,2).join(' | '):''),(skippedPhaseNoParent||_bCSkipped||_schema2BulkCloseErrors.length)?7000:4000);
   } else if(currentBulkTab==='delete'){
@@ -11778,6 +11818,7 @@ let selectedIds=new Set();
 function toggleSelect(id,checked){
   if(checked)selectedIds.add(id);else selectedIds.delete(id);
   updateBulkBar();
+  if(typeof updateDashPanelSelectionState==='function')updateDashPanelSelectionState();
 }
 function toggleSelectAll(checked){
   const cards=document.querySelectorAll('#items-list .ai-chk');
@@ -13317,40 +13358,91 @@ function saveEditList(){
 }
 // DASHBOARD
 let dashPanelKey=null;
+let dashPanelIds=[]; // v472 — ids currently shown in the dashboard drilldown
+function dashboardAttentionSource(items){
+  // v476 — one Home Attention population: action-work only; habits remain in Habits & Routines.
+  return (items||[]).filter(i=>i&&i.type!=='habit');
+}
+function dashboardBehindItems(items){
+  return dashboardAttentionSource(items).filter(i=>{
+    const overdue=daysUntil(i.date)!==null&&daysUntil(i.date)<0;
+    return i.status==='behind'||(overdue&&!['done','cancelled','onhold','placeholder','someday'].includes(i.status));
+  });
+}
+function dashboardTypeItems(type){return dashboardAttentionSource(S.items).filter(i=>i.type===type);}
+function dashboardListItems(listId){return dashboardAttentionSource(S.items).filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(listId));}
+function dashboardStatusCount(items,status){
+  if(status==='behind')return dashboardBehindItems(items).length;
+  if(status==='attention')return dashboardAttentionSource(items).filter(i=>needsAttn(i)).length;
+  return (items||[]).filter(i=>i.status===status).length;
+}
+function dashPanelSelectedIds(){
+  const visible=new Set(dashPanelIds||[]);
+  return Array.from(selectedIds||[]).filter(id=>visible.has(id));
+}
+function updateDashPanelSelectionState(){
+  const el=document.getElementById('dash-panel-selected-count');if(el){const n=dashPanelSelectedIds().length;el.textContent=n+' selected';}
+  const all=document.getElementById('dash-panel-select-all');if(all){const n=dashPanelIds.length,s=dashPanelSelectedIds().length;all.checked=!!n&&s===n;all.indeterminate=s>0&&s<n;}
+}
+function dashSelectAllPanel(checked){
+  (dashPanelIds||[]).forEach(id=>{if(checked)selectedIds.add(id);else selectedIds.delete(id);});
+  document.querySelectorAll('#dash-panel-list .ai-chk').forEach(chk=>{chk.checked=checked;});
+  updateBulkBar();updateDashPanelSelectionState();
+}
+function dashClearPanelSelection(){dashSelectAllPanel(false);}
+function dashBulkUpdateSelected(){
+  const ids=dashPanelSelectedIds();if(!ids.length)return alert('Select at least one item to update.');
+  openBulkUpdateForIds(ids,'Dashboard selection');
+}
+function dashDeleteSelected(){
+  const ids=dashPanelSelectedIds();if(!ids.length)return alert('Select at least one item to delete.');
+  if(!confirm('Delete '+ids.length+' selected dashboard item'+(ids.length!==1?'s':'')+' permanently?'))return;
+  const del=new Set(ids);habitExpandDeleteSet(del);S.items=S.items.filter(i=>!del.has(i.id));
+  del.forEach(id=>selectedIds.delete(id));dashPanelIds=[];dashPanelKey=null;
+  recalc();save();renderAll();updateBulkBar();toast('Deleted '+ids.length+' item'+(ids.length!==1?'s':'')+'!');
+}
+function dashPanelSelectionToolbar(){
+  return `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;margin:8px 0 10px;background:var(--soft);border:1px solid var(--bdr2);border-radius:var(--r)"><label style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;cursor:pointer"><input id="dash-panel-select-all" type="checkbox" onchange="dashSelectAllPanel(this.checked)" style="accent-color:var(--teal)"> Select All</label><span id="dash-panel-selected-count" style="font-size:11px;color:var(--txt3)">0 selected</span><button class="btn xs" onclick="dashClearPanelSelection()">Clear</button><button class="btn xs primary" onclick="dashBulkUpdateSelected()">⚡ Bulk Update</button><button class="btn xs danger" onclick="dashDeleteSelected()">🗑 Delete Selected</button></div>`;
+}
 function openAttnFieldPanel(field){
   const key='attnfield:'+field;
   if(dashPanelKey===key){dashPanelKey=null;document.getElementById('dash-panel').innerHTML='';return;}
   dashPanelKey=key;
-  const items=sortByDate(S.items.filter(i=>needsAttn(i)&&missingFields(i).includes(field)));
-  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">Missing ${esc(field)} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div><div id="dash-panel-list"></div></div>`;
-  renderCardsSorted(items,'dash-panel-list');
+  const items=sortByDate(dashboardAttentionSource(S.items).filter(i=>needsAttn(i)&&missingFields(i).includes(field)));
+  dashPanelIds=items.map(i=>i.id);
+  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">Missing ${esc(field)} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;dashPanelIds=[];document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div>${dashPanelSelectionToolbar()}<div id="dash-panel-list"></div></div>`;
+  renderCardsSorted(items,'dash-panel-list');updateDashPanelSelectionState();
 }
 function openDashPanel(filter,title){
   if(dashPanelKey===filter){dashPanelKey=null;document.getElementById('dash-panel').innerHTML='';document.querySelectorAll('.mc').forEach(m=>m.classList.remove('active-p'));return;}
   dashPanelKey=filter;
   document.querySelectorAll('.mc').forEach(m=>m.classList.remove('active-p'));
   event&&event.currentTarget&&event.currentTarget.classList.add('active-p');
-  const items=sortByDate(applyFilter(S.items,filter));
-  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">${title} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div><div id="dash-panel-list"></div></div>`;
-  renderCardsSorted(items,'dash-panel-list');
+  const base=filter==='behind'?dashboardBehindItems(S.items):filter==='attention'?dashboardAttentionSource(S.items).filter(i=>needsAttn(i)):applyFilter(S.items,filter);
+  const items=sortByDate(base);
+  dashPanelIds=items.map(i=>i.id);
+  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">${title} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;dashPanelIds=[];document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div>${dashPanelSelectionToolbar()}<div id="dash-panel-list"></div></div>`;
+  renderCardsSorted(items,'dash-panel-list');updateDashPanelSelectionState();
 }
 function openTypePanel(type,statFilter,title){
   const key=type+statFilter;
   if(dashPanelKey===key){dashPanelKey=null;document.getElementById('dash-panel').innerHTML='';return;}
   dashPanelKey=key;
-  const items=sortByDate(S.items.filter(i=>{
-    if(i.type!==type)return false;
+  const typeItems=dashboardTypeItems(type);
+  const items=sortByDate(typeItems.filter(i=>{
     if(statFilter==='all')return true;
     if(statFilter==='done')return i.status==='done';
     if(statFilter==='inprogress')return i.status==='inprogress';
     if(statFilter==='planned')return i.status==='planned';
     if(statFilter==='notstarted')return i.status==='notstarted';
-    if(statFilter==='behind')return i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done');
+    if(statFilter==='placeholder')return i.status==='placeholder';
+    if(statFilter==='behind')return dashboardBehindItems([i]).length===1;
     if(statFilter==='attention')return needsAttn(i);
     return true;
   }));
-  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">${title} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div><div id="dash-panel-list"></div></div>`;
-  renderCardsSorted(items,'dash-panel-list');
+  dashPanelIds=items.map(i=>i.id);
+  document.getElementById('dash-panel').innerHTML=`<div class="slide-panel"><div class="panel-head"><div class="panel-ttl">${title} (${items.length})</div><button class="btn xs ghost" onclick="dashPanelKey=null;dashPanelIds=[];document.getElementById('dash-panel').innerHTML=''">&#x2715; Close</button></div>${dashPanelSelectionToolbar()}<div id="dash-panel-list"></div></div>`;
+  renderCardsSorted(items,'dash-panel-list');updateDashPanelSelectionState();
 }
 
 function renderDash(){
@@ -13358,8 +13450,9 @@ function renderDash(){
   const all=S.items,total=all.length;
   const done=all.filter(i=>i.status==='done').length;
   const prog=all.filter(i=>i.status==='inprogress').length;
-  const beh=all.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done')).length;
-  const attn=all.filter(i=>needsAttn(i)).length;
+  const attentionSource=dashboardAttentionSource(all);
+  const beh=dashboardBehindItems(all).length;
+  const attn=attentionSource.filter(i=>needsAttn(i)).length;
   const planned2=all.filter(i=>i.status==='planned').length;
   const notStarted=all.filter(i=>i.status==='notstarted').length;
   const placeholders=all.filter(i=>i.status==='placeholder').length;
@@ -13380,24 +13473,24 @@ function renderDash(){
   ];
   document.getElementById('dash-top').innerHTML=metrics.map(m=>`<div class="mc${dashPanelKey===m.f?' active-p':''}" onclick="openDashPanel('${m.f}','${m.l}')"><div class="mc-lbl">${m.l}</div><div class="mc-val" style="color:${m.c}">${m.v}</div>${m.s?`<div class="mc-sub">${m.s}</div>`:''}</div>`).join('');
   // Attention — broken into actionable per-field counts instead of one big number
-  const attnItems=all.filter(i=>needsAttn(i));
+  const attnItems=attentionSource.filter(i=>needsAttn(i));
   const fieldCounts={};
   attnItems.forEach(i=>{missingFields(i).forEach(f=>{fieldCounts[f]=(fieldCounts[f]||0)+1;});});
   const fieldRows=Object.entries(fieldCounts).sort((a,b)=>b[1]-a[1]);
   document.getElementById('dash-attn').innerHTML=fieldRows.length?fieldRows.map(([field,count])=>`<div class="d-item" onclick="openAttnFieldPanel('${esc(field)}')" style="cursor:pointer"><div class="d-dot" style="background:#EF9F27"></div><div class="d-txt">Missing ${esc(field)}</div><span class="d-tag" style="background:#FFF3CD;color:#856404">${count}</span></div>`).join(''):`<div style="color:var(--txt3);font-size:12px;padding:12px 0;text-align:center">All complete!</div>`;
   // Behind
-  const behItems=sortByDate(all.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done'&&i.status!=='cancelled'))).slice(0,8);
+  const behItems=sortByDate(dashboardBehindItems(all)).slice(0,8);
   document.getElementById('dash-beh').innerHTML=behItems.length?behItems.map(i=>{const d=daysUntil(i.date);return`<div class="d-item" onclick="openModal(null,null,null,'${i.id}')"><div class="d-dot" style="background:var(--pink)"></div><div class="d-txt">${esc((i.name||'').slice(0,50))}</div>${d!==null&&d<0?`<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">${Math.abs(d)}d over</span>`:'<span class="d-tag" style="background:#FCEBEB;color:#8B1A1A">Behind</span>'}</div>`;}).join(''):`<div style="color:var(--txt3);font-size:12px;padding:12px 0;text-align:center">Nothing behind!</div>`;
   // Breakdown
   document.getElementById('dash-breakdown').innerHTML=['goal','project','task','content','patch','course','event'].map(t=>{
-    const ti=all.filter(i=>i.type===t);
-    const tns=ti.filter(i=>i.status==='notstarted').length;
-    const tpl=ti.filter(i=>i.status==='planned').length;
-    const tip2=ti.filter(i=>i.status==='inprogress').length;
-    const tb=ti.filter(i=>i.status==='behind'||(daysUntil(i.date)!==null&&daysUntil(i.date)<0&&i.status!=='done')).length;
-    const td2=ti.filter(i=>i.status==='done').length;
-    const tph=ti.filter(i=>i.status==='placeholder').length;
-    const ta=ti.filter(i=>needsAttn(i)).length;
+    const ti=dashboardTypeItems(t);
+    const tns=dashboardStatusCount(ti,'notstarted');
+    const tpl=dashboardStatusCount(ti,'planned');
+    const tip2=dashboardStatusCount(ti,'inprogress');
+    const tb=dashboardStatusCount(ti,'behind');
+    const td2=dashboardStatusCount(ti,'done');
+    const tph=dashboardStatusCount(ti,'placeholder');
+    const ta=dashboardStatusCount(ti,'attention');
     // Points for this type
     const pts=ti.reduce((s,i)=>s+(i.status==='done'?(EFFORT_PTS[i.effort]||0):0),0);
     return`<div class="tblock">
@@ -13419,12 +13512,12 @@ function renderDash(){
   }).join('');
   // Lists progress
   document.getElementById('dash-lists').innerHTML=S.lists.map(l=>{
-    const li=S.items.filter(i=>(i.listIds||[i.listId]).filter(Boolean).includes(l.id));
-    const liActive=li.filter(i=>i.status!=='done'&&i.status!=='placeholder');
-    const totalProg=li.reduce((s,i)=>s+calcProg(i),0);
-    const pct=li.length?Math.round(totalProg/li.length):0;
-    const d2=li.filter(i=>i.status==='done').length;
-    return`<div class="dp-row" style="cursor:pointer" onclick="goToList('${l.id}')"><div class="dp-hd"><div class="dp-nm" style="color:${l.color}">${esc(l.name)}</div><div class="dp-st">${d2}/${li.length} - ${pct}%</div></div><div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${l.color}"></div></div></div>`;
+    const li=dashboardListItems(l.id);
+    const measurable=li.filter(i=>i.status!=='placeholder'&&i.status!=='cancelled'&&i.status!=='someday');
+    const totalProg=measurable.reduce((s,i)=>s+calcProg(i),0);
+    const pct=measurable.length?Math.round(totalProg/measurable.length):0;
+    const d2=measurable.filter(i=>i.status==='done').length;
+    return`<div class="dp-row" style="cursor:pointer" onclick="goToList('${l.id}')"><div class="dp-hd"><div class="dp-nm" style="color:${l.color}">${esc(l.name)}</div><div class="dp-st">${d2}/${measurable.length} - ${pct}%</div></div><div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${l.color}"></div></div></div>`;
   }).join('');
 }
 
@@ -14241,7 +14334,8 @@ function showPage(page,btn){
   if(['inventory','rooms','meal','automations'].includes(page)){lifeHomeTab=page;page='homeops';btn=document.getElementById('nav-homeops');}
   if(page==='habits'){lifeWellnessTab='habits';page='health';btn=document.getElementById('nav-health');}
   if(page==='dreamfund'){lifeMoneyTab='dreamfund';page='finance';btn=document.getElementById('nav-finance');}
-  if(['wiab','rewards','countdowns','patches'].includes(page)){lifePersonalTab=page;page='myarc';btn=document.getElementById('nav-myarc');}
+  if(page==='rewards'){lifePersonalTab='rewards';page='myarc';btn=document.getElementById('nav-rewards')||document.getElementById('nav-myarc');}
+  else if(['wiab','countdowns','patches'].includes(page)){lifePersonalTab=page;page='myarc';btn=document.getElementById('nav-myarc');}
   ['initiative','items','planning','nos2','lists','hub','sot','health','homeops','digital','systemops','myarc','finance','sprints','content','parking','hierarchy','knowledge'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display=p===page?'block':'none';});
   const attentionView=document.getElementById('home-view-attention');if(attentionView)attentionView.style.display='none';
   const pulseView=document.getElementById('home-view-pulse');if(pulseView)pulseView.style.display='none';
@@ -14250,7 +14344,7 @@ function showPage(page,btn){
   if(page==='hub'){const hb=document.getElementById('nav-hub');if(hb)hb.classList.add('active');}
   else if(btn)btn.classList.add('active');
   const tt={initiative:'Initiative Dashboard',systemops:'System Operations',items:'Execution Center',planning:'Planning Queue',nos2:'1,000 NOs Challenge',lists:'Classification Center',hub:'Home',sot:'13-Week Plan',health:'Wellness Center',homeops:'Home Center',digital:'Digital Library',myarc:'Personal Center',finance:'Money Center',sprints:'Sprint Planner',content:'Content Planner',parking:'Inbox',hierarchy:'Hierarchy',knowledge:'Knowledge Hub'};
-  document.getElementById('page-title').textContent=tt[page]||page;
+  document.getElementById('page-title').textContent=(page==='myarc'&&lifePersonalTab==='rewards'&&btn&&btn.id==='nav-rewards')?'Reward Center':(tt[page]||page);
   if(page==='items'){clearSelection();setExecutionView(executionView);}
   if(page==='planning'){clearSelection();renderPlanningQueue();}
   if(page==='knowledge')renderKnowledgeHub(); // v361
@@ -27835,7 +27929,7 @@ function renderImplementationScorecardV350(){const el=document.getElementById('i
     renderHubMonthly();
   };
   // #0356/#0247 — Active Now is now a full Active Now-style section in Planning Queue.
-  window.renderPlanningActiveV360=function(){const host=document.getElementById('v360-planning-active');if(!host)return;const arr=v360ActiveNowItems();host.innerHTML=v360ActiveSectionHtml('Active Now',arr,'Current active work only. Goals and Habits are excluded; due-today and overdue work stays in Today’s Focus.','planning-active');};
+  window.renderPlanningActiveV360=function(){const host=document.getElementById('v360-planning-active');if(!host)return;if(typeof planningQueueView!=='undefined'&&planningQueueView!=='overview'){host.innerHTML='';host.style.display='none';return;}host.style.display='block';const arr=v360ActiveNowItems();host.innerHTML=v360ActiveSectionHtml('Active Now',arr,'Current active work only. Goals and Habits are excluded; due-today and overdue work stays in Today’s Focus.','planning-active');};
   const oldPQ=window.renderPlanningQueue;window.renderPlanningQueue=function(){const r=oldPQ&&oldPQ.apply(this,arguments);renderPlanningActiveV360();return r};
   // #0668 Inventory appears in focus views: Today's Focus should not exclude inventory; dedicated inventory focus panel remains available.
   // #0640/#0757/#0031/#0704/#0756 lifecycle invariants, #0758 release progress = calcProg.
@@ -29052,8 +29146,47 @@ function q(id){return document.getElementById(id)}
 <!-- USER GUIDE: v461 — No workflow changes are required. Home, Implementation Scorecard, Rewards Bank, Inventory, Content selectors, and Initiative workspace behavior remain the same. v461 only normalizes active compatibility helper names and DOM markers so the code reflects what each helper actually does. -->
 <!-- CHANGE LOG: v461 — Renamed active v369-era Home, Implementation, Reward, Inventory, Content/Funnel, and Initiative compatibility helpers to semantic names; renamed their wrapper variables and version-numbered DOM markers; removed unused v369 constants/helpers; removed the dead out-of-scope showPage compatibility hook block after scope validation while preserving the active wrappers and initialization calls. No item type, field, controlled value, linkable object, validation requirement, recalc rule, applyFilter branch, Bulk Add/Bulk Update type option, or export field was added or changed. -->
 <!-- RELEASE NOTES: v461 — Active legacy normalization. Still-required compatibility behavior is now named by purpose instead of historical version number, reducing ambiguity for future maintenance without changing user-facing behavior. -->
+<!-- USER GUIDE: v472 — Home → Attention uses one reconciled Behind rule for both the KPI and its drilldown. Habits are excluded from Home Attention Behind/Needs Attention triage and remain in the Habits workspace. Dashboard drilldowns now support Select All, individual checkbox selection, Clear, Bulk Update, and Delete Selected. -->
+<!-- CHANGE LOG: v472 — Reconciled Behind KPI/drilldown eligibility, excluding overdue Done/Cancelled/On Hold items and Habit records from the dashboard Behind work queue; removed Habits from dashboard Needs Attention triage; added dashboard-panel bulk selection/update/delete controls. No new item type, persistent field, module, linkable object, controlled value, validation rule, progress rule, applyFilter type branch, or export field was added. Added only the v472 Release record. -->
+<!-- RELEASE NOTES: v472 — Home Attention now shows a trustworthy Behind count that matches the records you can actually drill into. Habits no longer pollute the action-work triage view, and bulk cleanup can be done directly from dashboard drilldowns. -->
+<!-- USER GUIDE: v476 — Home → Attention uses shared reporting rules. Behind counts only actionable overdue/behind work; Needs Attention excludes Habits; Breakdown by Type uses the same Behind and Attention rules as the top widgets; Progress by List measures active/completed work and excludes Placeholder, Cancelled, and Someday records from the progress denominator. -->
+<!-- CHANGE LOG: v476 — Reconciled Home dashboard calculation populations for Behind, Needs Attention, Breakdown by Type, type drilldowns, and Progress by List. No new item type, persistent field, module, linkable object, controlled value, validation rule, progress schema rule, applyFilter type branch, or export field was added. Added only the v476 Release record. -->
+<!-- RELEASE NOTES: v476 — Dashboard reporting now uses consistent eligibility rules so summary counts, type breakdowns, drilldowns, and list progress reconcile to the records they represent. -->
+
+<style>
+/* v477 — compact core filters */
+.core-filter-shell{margin:10px 0 12px;border:1px solid var(--bdr);border-radius:var(--rl);background:var(--soft);padding:10px 12px}
+.core-filter-toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.core-filter-count{font-size:10px;color:var(--teal);font-weight:700;min-width:54px}.core-filter-saved{font-size:11px;padding:5px 8px;border:1px solid var(--bdr2);border-radius:var(--r);background:#fff;color:var(--txt);max-width:220px}.core-filter-active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.core-filter-active-chips:empty{display:none}.core-filter-active-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid #99d8d0;border-radius:999px;background:#ecfdf8;color:#0f5f57;font-size:10px;font-weight:650}.core-filter-active-chip button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:13px;line-height:1;padding:0}.core-filter-editor{margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr)}.core-filter-editor-grid{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(220px,1.3fr);gap:8px;align-items:end}.core-filter-editor select,.core-filter-editor input{width:100%;padding:7px 9px;border:1px solid var(--bdr2);border-radius:var(--r);background:#fff;color:var(--txt);font:inherit;font-size:11px}.core-filter-label{display:block;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--txt2);margin-bottom:4px}.core-filter-help{font-size:10px;color:var(--txt3);margin:8px 0 6px}.core-filter-choices{display:flex;gap:6px;flex-wrap:wrap;max-height:190px;overflow:auto;padding:2px 1px 4px}.core-filter-choice{border:1px solid var(--bdr2);background:#fff;border-radius:999px;padding:5px 9px;font-size:10px;color:var(--txt2);cursor:pointer}.core-filter-choice:hover{border-color:var(--teal);color:var(--teal)}.core-filter-choice.active{background:var(--teal);border-color:var(--teal);color:#fff}@media(max-width:720px){.core-filter-editor-grid{grid-template-columns:1fr}.core-filter-saved{max-width:100%}}
+</style>
+<script>
+/* v477 — Compact reusable Core Filter engine. Field-guide baseline: LCC v333 Complete Field Guide + current controlled options. */
+(function(){
+const CORE_FILTER_VIEW_KEY='lccCoreFilterViewsV477';
+const CF={types:{label:'Type',group:'Work'},statuses:{label:'Status',group:'Work'},levels:{label:'Level',group:'Work'},pstages:{label:'Planning Stage',group:'Work'},efforts:{label:'Effort',group:'Work'},priorities:{label:'Priority',group:'Work'},screen:{label:'Screen Time Required',group:'Work'},sprints:{label:'Sprint',group:'Planning'},startDate:{label:'Start Date',group:'Planning'},targetDate:{label:'Target / Due Date',group:'Planning'},completedDate:{label:'Completed Date',group:'Planning'},estimatedMins:{label:'Estimated Minutes',group:'Planning'},duration:{label:'Duration',group:'Planning'},durationUnits:{label:'Duration Unit',group:'Planning'},rotationWeeks:{label:'Rotation Week',group:'Planning'},focusPeriods:{label:'Focus Period',group:'Planning'},due:{label:'Due Timeline',group:'Planning'},lists:{label:'List',group:'Organization'},cats:{label:'Category',group:'Organization'},tags:{label:'Tags',group:'Organization'},missing:{label:'Missing Info',group:'Quality'},notesPresence:{label:'Notes',group:'Quality'},refPresence:{label:'Reference Link',group:'Quality'},budgetPresence:{label:'Budget',group:'Quality'},blockersPresence:{label:'Blockers',group:'Quality'},onHoldReasons:{label:'On Hold Reason',group:'Quality'},cancelReasons:{label:'Cancellation Reason',group:'Quality'}};
+const DEFAULT_MF={types:[],statuses:[],missing:[],due:[],cats:[],lists:[],pstages:[],levels:[],sprints:[],tags:[],efforts:[],priorities:[],screen:[],startDate:[],targetDate:[],completedDate:[],estimatedMins:[],duration:[],durationUnits:[],rotationWeeks:[],focusPeriods:[],notesPresence:[],refPresence:[],budgetPresence:[],blockersPresence:[],onHoldReasons:[],cancelReasons:[]};
+function ensureMF(){Object.keys(DEFAULT_MF).forEach(k=>{if(!Array.isArray(MF[k]))MF[k]=[]})} function opt(v,l){return{v:String(v),l:String(l??v)}} function uniqueVals(key){return [...new Set((S.items||[]).map(i=>i?.[key]).filter(v=>v!==undefined&&v!==null&&String(v).trim()!==''))].map(v=>opt(v,v)).sort((a,b)=>a.l.localeCompare(b.l))} function presenceOpts(){return[opt('has','Has value'),opt('blank','Blank / missing')]} function dateOpts(){return[opt('missing','Missing'),opt('past','Past'),opt('today','Today'),opt('week','This week'),opt('month','This month'),opt('future','Future')]} function numericOpts(){return[opt('missing','Missing'),opt('0-30','0–30'),opt('31-60','31–60'),opt('61-120','61–120'),opt('121+','121+')]} function durationOpts(){return[opt('missing','Missing'),opt('0-1','0–1'),opt('2-7','2–7'),opt('8-30','8–30'),opt('31+','31+')]} 
+function optionsFor(key){const typeOpts=[['goal','Goal'],['project','Project'],['phase','Phase'],['task','Task'],['ask','Ask'],['challenge','Challenge'],['content','Content'],['course','Course'],['event','Event'],['patch','Patch'],['change','Change'],['clientbuild','Client Build'],['release','Release'],['product','Product'],['habit','Habit'],['industryprofile','Industry Profile'],['workflow','Workflow'],['inventory','Inventory'],['room','Room'],['automation','Automation'],['transaction','Transaction'],['recurringexpense','Recurring Expense']].map(x=>opt(x[0],x[1]));const map={types:typeOpts,statuses:[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','Placeholder']].map(x=>opt(x[0],x[1])),levels:[['primary','Primary'],['supporting','Supporting']].map(x=>opt(x[0],x[1])),pstages:[['needsplanning','Needs Planning'],['scheduled','Scheduled'],['ready','Ready'],['deferred','Deferred'],['na','N/A']].map(x=>opt(x[0],x[1])),efforts:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.effort?.o||['easy','medium','hard','epic','legendary']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),priorities:[['high','High'],['medium','Medium'],['low','Low']].map(x=>opt(x[0],x[1])),screen:[['yes','Yes'],['no','No'],['blank','Blank / missing']].map(x=>opt(x[0],x[1])),durationUnits:(typeof CORE_FIELD_OPTION_DEFS!=='undefined'&&CORE_FIELD_OPTION_DEFS.durationUnit?.o||['days','weeks','months','years']).map(v=>opt(v,v.charAt(0).toUpperCase()+v.slice(1))),focusPeriods:['Day','Week','Month','Quarter','Year'].map(v=>opt(v,v)),rotationWeeks:[1,2,3,4,5,6,7,8,9,10,11,12,13].map(v=>opt(v,'Week '+v)),missing:[['nocat','No Category'],['nolist','No List'],['noeffort','No Effort'],['nostartdate','No Start Date'],['nodeadline','No Target Date'],['noplanstage','No Planning Stage'],['nolevel','No Level'],['nolinkedgoals','No Linked Goals'],['nolinkedtasks','No Linked Tasks'],['nolinkedprojects','No Linked Projects'],['recurring','Recurring']].map(x=>opt(x[0],x[1])),due:[['today','Today'],['week','This Week'],['month','This Month'],['quarter','This Quarter'],['year','This Year']].map(x=>opt(x[0],x[1])),startDate:dateOpts(),targetDate:dateOpts(),completedDate:dateOpts(),estimatedMins:numericOpts(),duration:durationOpts(),notesPresence:presenceOpts(),refPresence:presenceOpts(),budgetPresence:presenceOpts(),blockersPresence:presenceOpts(),onHoldReasons:uniqueVals('onHoldReason'),cancelReasons:uniqueVals('cancellationReason')};if(key==='cats')return[...new Set([...(typeof CATS!=='undefined'?CATS:[]),...(S.items||[]).flatMap(i=>i.categories||[])])].filter(Boolean).sort().map(v=>opt(v,v));if(key==='lists')return(S.lists||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(l=>opt(l.id,l.name));if(key==='tags')return[...new Set((S.items||[]).flatMap(i=>i.tags||[]))].filter(Boolean).sort((a,b)=>a.localeCompare(b)).map(v=>opt(v,v));if(key==='sprints'){const used=new Set(),out=[];let none=false;(S.items||[]).forEach(i=>{const n=i.startDate?sprintNumForDate(i.startDate):'';if(n)used.add(n);else none=true});[...used].sort((a,b)=>a-b).forEach(n=>{const sp=(typeof ALL_SPRINTS!=='undefined'?ALL_SPRINTS:[]).find(s=>s.num===n);out.push(opt(String(n),sp?`Sprint ${sp.displayNum} · ${sp.year}`:`Sprint ${n}`))});if(none)out.unshift(opt('none','No Sprint'));return out}return map[key]||[]}
+function labelFor(k,v){const o=optionsFor(k).find(x=>x.v===String(v));return`${CF[k]?.label||k}: ${o?.l||v}`}
+window.buildMultiFilters=function(){ensureMF();updateFilterActiveCount();const fs=document.getElementById('core-filter-field');if(fs){const cur=fs.value;const groups=['Work','Planning','Organization','Quality'];fs.innerHTML=groups.map(g=>`<optgroup label="${g}">${Object.entries(CF).filter(([,d])=>d.group===g).map(([k,d])=>`<option value="${k}">${d.label}</option>`).join('')}</optgroup>`).join('');if(cur&&CF[cur])fs.value=cur;if(!fs.value)fs.value='types'}renderCoreFilterChoices();renderActiveCoreFilters();renderSavedCoreFilterViews()};
+window.renderCoreFilterChoices=function(){ensureMF();const fs=document.getElementById('core-filter-field'),box=document.getElementById('core-filter-choices'),q=(document.getElementById('core-filter-option-search')?.value||'').trim().toLowerCase();if(!fs||!box)return;const k=fs.value||'types',arr=optionsFor(k).filter(o=>!q||o.l.toLowerCase().includes(q)||o.v.toLowerCase().includes(q));const help=document.getElementById('core-filter-choice-help');if(help)help.textContent=['sprints','tags','cats','lists'].includes(k)?'Search, then select one or more values. Only selected values stay visible as active chips.':'Select one or more values; choices within the same field use OR logic.';box.innerHTML=arr.length?arr.slice(0,250).map(o=>`<button type="button" class="core-filter-choice${MF[k].includes(o.v)?' active':''}" data-k="${k}" data-v="${encodeURIComponent(o.v)}" onclick="toggleCoreFilterValue(this.dataset.k,decodeURIComponent(this.dataset.v))">${esc(o.l)}</button>`).join(''):'<span style="font-size:11px;color:var(--txt3)">No matching options</span>'};
+window.toggleCoreFilterValue=function(k,v){ensureMF();v=String(v);MF[k]=MF[k].includes(v)?MF[k].filter(x=>x!==v):[...MF[k],v];renderCoreFilterChoices();renderActiveCoreFilters();updateFilterActiveCount();renderItems()};window.removeCoreFilterValue=function(k,v){ensureMF();MF[k]=MF[k].filter(x=>String(x)!==String(v));renderActiveCoreFilters();renderCoreFilterChoices();updateFilterActiveCount();renderItems()};
+window.renderActiveCoreFilters=function(){ensureMF();const el=document.getElementById('core-filter-active-chips');if(!el)return;const chips=[];Object.keys(DEFAULT_MF).forEach(k=>(MF[k]||[]).forEach(v=>chips.push(`<span class="core-filter-active-chip">${esc(labelFor(k,v))}<button type="button" data-k="${k}" data-v="${encodeURIComponent(String(v))}" onclick="removeCoreFilterValue(this.dataset.k,decodeURIComponent(this.dataset.v))" title="Remove">×</button></span>`)));el.innerHTML=chips.join('')};
+window.updateFilterActiveCount=function(){ensureMF();const total=Object.keys(DEFAULT_MF).reduce((n,k)=>n+(MF[k]?.length||0),0);const el=document.getElementById('filter-active-count');if(el)el.textContent=total?`${total} active filter${total===1?'':'s'}`:'No active filters'};window.toggleFilterPanel=function(){filterPanelOpen=!filterPanelOpen;const p=document.getElementById('items-multi-filter'),b=document.getElementById('filter-toggle-btn');if(p)p.style.display=filterPanelOpen?'block':'none';if(b)b.textContent=filterPanelOpen?'− Close Filters':'＋ Add Filter';if(filterPanelOpen){renderCoreFilterChoices();setTimeout(()=>document.getElementById('core-filter-option-search')?.focus(),30)}};window.clearMultiFilter=function(){MF=JSON.parse(JSON.stringify(DEFAULT_MF));MFTagMode='any';buildMultiFilters();renderItems()};
+function hasVal(v){return!(v===undefined||v===null||String(v).trim()==='')}function matchPresence(v,sel){return!sel.length||sel.some(x=>x==='has'?hasVal(v):!hasVal(v))}function matchDate(v,sel){if(!sel.length)return true;const td=today(),ew=endOfWeek();return sel.some(x=>{if(x==='missing')return!v;if(!v)return false;if(x==='past')return v<td;if(x==='today')return v===td;if(x==='week')return v>=td&&v<=ew;if(x==='month')return v.slice(0,7)===td.slice(0,7);if(x==='future')return v>td;return false})}function matchNum(v,sel,d){if(!sel.length)return true;const n=Number(v),m=!hasVal(v);return sel.some(x=>{if(x==='missing')return m;if(m||!Number.isFinite(n))return false;if(d){if(x==='0-1')return n<=1;if(x==='2-7')return n>=2&&n<=7;if(x==='8-30')return n>=8&&n<=30;if(x==='31+')return n>=31}else{if(x==='0-30')return n<=30;if(x==='31-60')return n>=31&&n<=60;if(x==='61-120')return n>=61&&n<=120;if(x==='121+')return n>=121}return false})}
+window.applyMultiFilter=function(items){ensureMF();return items.filter(i=>{if(MF.types.length&&!MF.types.includes(i.type))return false;if(MF.statuses.length&&!MF.statuses.includes(i.status))return false;if(MF.levels.length&&!MF.levels.includes(i.level))return false;if(MF.pstages.length&&!MF.pstages.includes(i.planningStage||'needsplanning'))return false;if(MF.efforts.length&&!MF.efforts.includes(i.effort))return false;if(MF.priorities.length&&!MF.priorities.includes(i.priority))return false;if(MF.screen.length){const sv=hasVal(i.screenTimeRequired)?String(i.screenTimeRequired):'blank';if(!MF.screen.includes(sv))return false}if(MF.cats.length&&!MF.cats.some(c=>(i.categories||[]).includes(c)))return false;if(MF.lists.length&&!MF.lists.some(l=>(i.listIds||[]).includes(l)))return false;if(MF.tags.length){const it=(i.tags||[]).map(x=>String(x).toLowerCase()),sel=MF.tags.map(x=>String(x).toLowerCase());const ok=MFTagMode==='all'?sel.every(x=>it.includes(x)):sel.some(x=>it.includes(x));if(!ok)return false}if(MF.sprints.length){const n=i.startDate?sprintNumForDate(i.startDate):'';if(!MF.sprints.includes(n?String(n):'none'))return false}if(MF.durationUnits.length&&!MF.durationUnits.includes(String(i.durationUnit||'').toLowerCase()))return false;if(MF.rotationWeeks.length&&!MF.rotationWeeks.includes(String(i.rotationWeek||'')))return false;if(MF.focusPeriods.length){const fp=Array.isArray(i.focusPeriods)?i.focusPeriods:[i.focusPeriod].filter(Boolean);if(!MF.focusPeriods.some(x=>fp.includes(x)))return false}if(!matchDate(i.startDate,MF.startDate)||!matchDate(i.date,MF.targetDate)||!matchDate(i.completedDate,MF.completedDate))return false;if(!matchNum(i.estimatedMins,MF.estimatedMins,false)||!matchNum(i.duration,MF.duration,true))return false;if(!matchPresence(i.notes,MF.notesPresence)||!matchPresence(i.refLink,MF.refPresence)||!matchPresence(i.budget,MF.budgetPresence)||!matchPresence(i.blockers,MF.blockersPresence))return false;if(MF.onHoldReasons.length&&!MF.onHoldReasons.includes(String(i.onHoldReason||'')))return false;if(MF.cancelReasons.length&&!MF.cancelReasons.includes(String(i.cancellationReason||'')))return false;if(MF.missing.length){const pass=MF.missing.some(f=>{if(f==='nocat')return!(i.categories||[]).length;if(f==='nolist')return!(i.listIds||[]).length||(i.listIds||[]).every(x=>x==='uncat');if(f==='noeffort')return!i.effort&&i.status!=='done';if(f==='nostartdate')return!i.startDate&&i.status!=='done';if(f==='nodeadline')return!i.date&&i.status!=='done';if(f==='noplanstage')return!i.planningStage;if(f==='nolevel')return!i.level&&i.status!=='placeholder';if(f==='nolinkedgoals')return!(i.linkedGoals||[]).length;if(f==='nolinkedtasks')return!(i.linkedTasks||[]).length;if(f==='nolinkedprojects')return!(i.linkedProjects||[]).length;if(f==='recurring')return!!(i.recurrence&&!i.recurrence._completed)||!!i.recurringSeriesId;return false});if(!pass)return false}if(MF.due.length){const td=today(),ew=endOfWeek(),pass=MF.due.some(f=>{if(f==='today')return i.date===td&&i.status!=='done';if(f==='week')return i.date&&i.date>=td&&i.date<=ew&&i.status!=='done';if(f==='month')return i.date&&i.date.slice(0,7)===td.slice(0,7)&&i.status!=='done';if(f==='quarter'){const m=parseInt(i.date?.slice(5,7)||0),qm=parseInt(td.slice(5,7)),qs=Math.floor((qm-1)/3)*3+1;return i.date&&m>=qs&&m<=qs+2&&i.date.slice(0,4)===td.slice(0,4)&&i.status!=='done'}if(f==='year')return i.date&&i.date.slice(0,4)===td.slice(0,4)&&i.status!=='done';return false});if(!pass)return false}return true})};
+function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIEW_KEY)||'{}')}catch(e){return{}}}window.renderSavedCoreFilterViews=function(){const el=document.getElementById('core-filter-saved-view');if(!el)return;const views=savedViews(),cur=el.value;el.innerHTML='<option value="">Saved Views…</option>'+Object.keys(views).sort().map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(cur&&views[cur])el.value=cur};window.saveCoreFilterView=function(){ensureMF();const n=prompt('Name this filter view:');if(!n||!n.trim())return;const views=savedViews();views[n.trim()]={mf:JSON.parse(JSON.stringify(MF)),tagMode:MFTagMode};localStorage.setItem(CORE_FILTER_VIEW_KEY,JSON.stringify(views));renderSavedCoreFilterViews();const el=document.getElementById('core-filter-saved-view');if(el)el.value=n.trim();toast('Saved filter view: '+n.trim())};window.loadCoreFilterView=function(n){if(!n)return;const v=savedViews()[n];if(!v)return;MF=Object.assign(JSON.parse(JSON.stringify(DEFAULT_MF)),v.mf||{});MFTagMode=v.tagMode||'any';buildMultiFilters();renderItems()};setTimeout(()=>{try{ensureMF();buildMultiFilters()}catch(e){console.warn('v477 core filter init',e)}},350);
+})();
+</script>
+<!-- USER GUIDE: v477 — Execution Center → All Action Items uses a compact Core Filter toolbar. Search is for free text; Add Filter exposes core fields and searchable options; selected filters become removable chips; Sprint/Tags/Categories/Lists stay collapsed until requested; Save View stores reusable filter combinations locally. -->
+<!-- CHANGE LOG: v477 — Replaced the always-expanded multi-filter matrix with searchable field/value filtering. Added controlled core-field filters for Type, Status, Level, Planning Stage, Effort, Priority, Screen Time, Sprint, Lists, Categories, Tags, Duration Unit, Rotation Week, Focus Period, missing-info/due presets, date buckets, numeric ranges, and presence checks for Notes/Reference/Budget/Blockers. No new item type, persistent item field, linkable object, progress rule, or export field was added. -->
+<!-- RELEASE NOTES: v477 — All Action Items filters now scale with the database: choose a field, search values, keep only active chips visible, and save common filter views without filling the page with Sprint and Tag pills. -->
+
 </body>
 
+
+<!-- USER GUIDE: v473 — Put the main Habit record On Hold to pause it. LCC removes every unfinished dated occurrence owned by that habit while preserving completed history. Paused habits do not generate new dated occurrences and paused dates are not counted as misses. Resume the main habit to restart from the resume date without backfilling the paused period. -->
+<!-- CHANGE LOG: v473 — Fixed habit pause handling at the source: Bulk Update now runs habit status side effects; On Hold/Cancelled/Done habit masters are reconciled before miss sweeping/generation; inactive-master unfinished occurrences are purged; the miss sweep defensively removes inactive occurrences without recording misses. No new item type, persistent field, linkable object, controlled value, validation rule, progress rule, applyFilter type branch, or export field was added. Added only the v473 Release record. -->
+<!-- RELEASE NOTES: v473 — Habit On-Hold generation repair. Paused habits now truly stop producing dated action records, stale generated occurrences self-heal on load/render, completed habit history is preserved, and paused dates are excluded from miss accounting. -->
 </html>
 
 <!-- USER GUIDE: v443 — Plan an Ask using TCD or Start Date + Duration. If the Ask is still Pending when that planning date arrives, it appears automatically in the 1,000 NOs Dashboard Follow-Up Center. Open the Ask from the widget to update its response or planning dates. No separate follow-up fields or seven-day rescheduling rule remain. -->
