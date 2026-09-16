@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v488</title>
+<title>LCC v490</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v488</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v490</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -974,14 +974,17 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
   <div id="execution-today-list"></div>
 </div>
 <div id="execution-view-classification" style="display:none">
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:9px"><select id="exec-classification-status" onchange="renderExecutionClassificationReview()"><option value="">All Statuses</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="onhold">On Hold</option><option value="deferred">Deferred</option></select><button class="btn xs" onclick="execReviewSelectVisible()">Select Visible</button><button class="btn xs" onclick="execReviewClearSelected()">Clear</button><button class="btn xs" onclick="execReviewBulkUpdate()">Bulk Update Selected</button></div>
   <div id="execution-classification-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
   <div id="execution-classification-list"></div>
 </div>
 <div id="execution-view-goalreview" style="display:none">
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:9px"><select id="exec-goalreview-status" onchange="renderExecutionPlanningReview('goal')"><option value="">All Statuses</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="onhold">On Hold</option><option value="deferred">Deferred</option></select><button class="btn xs" onclick="execReviewSelectVisible()">Select Visible</button><button class="btn xs" onclick="execReviewClearSelected()">Clear</button><button class="btn xs" onclick="execReviewBulkUpdate()">Bulk Update Selected</button></div>
   <div id="execution-goalreview-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
   <div id="execution-goalreview-list"></div>
 </div>
 <div id="execution-view-projectreview" style="display:none">
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:9px"><select id="exec-projectreview-status" onchange="renderExecutionPlanningReview('project')"><option value="">All Statuses</option><option value="notstarted">Not Started</option><option value="planned">Planned</option><option value="inprogress">In Progress</option><option value="behind">Behind</option><option value="onhold">On Hold</option><option value="deferred">Deferred</option></select><button class="btn xs" onclick="execReviewSelectVisible()">Select Visible</button><button class="btn xs" onclick="execReviewClearSelected()">Clear</button><button class="btn xs" onclick="execReviewBulkUpdate()">Bulk Update Selected</button></div>
   <div id="execution-projectreview-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
   <div id="execution-projectreview-list"></div>
 </div>
@@ -1146,59 +1149,25 @@ Item 3
 </div>
 <div id="inbox-capture-panel">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">Capture</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Brain dump several ideas at once, or use Quick Capture for a single item.</div></div>
+<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">🧠 Daily Brain Dump</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Write by hand for 5 minutes, have ChatGPT transcribe it one thought per line, then paste the transcription here. Brain Dump stays separate from the main Inbox until you deliberately route each thought.</div></div>
 <button class="btn primary sm" onclick="openQuickCapture()">⚡ Quick Capture</button>
 </div>
-
-<div class="dump-card">
-<textarea id="dump-in" onkeydown="if((event.ctrlKey||event.metaKey)&amp;&amp;event.key==='Enter')runDump()" placeholder="Dump it here — goals, ideas, tasks, dreams... One per line."></textarea>
+<div id="bd-summary" class="metrics" style="margin-bottom:12px"></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<button class="btn sm primary" id="bd-tab-today" onclick="setBrainDumpView('today')">Today</button>
+<button class="btn sm" id="bd-tab-process" onclick="setBrainDumpView('process')">To Process</button>
+<button class="btn sm" id="bd-tab-history" onclick="setBrainDumpView('history')">History</button>
+</div>
+<div id="bd-capture-box" class="dump-card">
+<div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px">Paste today's transcription</div>
+<div style="font-size:10.5px;color:var(--txt3);margin-bottom:9px">One thought per line. Nothing is added to Action Items or Inbox when you save this batch.</div>
+<textarea id="dump-in" placeholder="Paste the transcription from ChatGPT here — one thought per line."></textarea>
 <div style="height:1px;background:var(--bdr);margin:11px 0"></div>
-<div style="display:flex;align-items:center;justify-content:space-between">
-<span style="font-size:11px;color:var(--txt3)">Ctrl+Enter to analyze</span>
-<div style="display:flex;gap:6px">
-<button class="btn ghost sm" onclick="document.getElementById('dump-in').value=''">Clear</button>
-<button class="btn primary" onclick="runDump()">Analyze →</button>
-</div>
-</div>
-</div>
-<div class="rule-box">
-<div style="font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-bottom:9px">How Action Items Are Classified</div>
-<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:7px"><span class="tb tb-goal" style="width:58px;text-align:center;flex-shrink:0">Goal</span><span style="font-size:12px;color:var(--txt2)">The <em>what</em> — desired outcome. Keywords: <em>reach, earn, save, lose, become, complete, achieve, grow, read, travel, visit</em>. Contains Projects and Tasks.</span></div>
-<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:7px"><span class="tb tb-project" style="width:58px;text-align:center;flex-shrink:0">Project</span><span style="font-size:12px;color:var(--txt2)">The <em>how</em> — multi-step effort. Keywords: <em>plan, design, launch, build, set up, organize, redesign, implement, create, develop</em>. Contains Tasks, links to Goals.</span></div>
-<div style="display:flex;gap:9px;align-items:flex-start"><span class="tb tb-task" style="width:58px;text-align:center;flex-shrink:0">Task</span><span style="font-size:12px;color:var(--txt2)">The <em>do</em> — single discrete action. Binary: done or not done. Rolls up to Projects and Goals.</span></div>
-<div style="font-size:11px;color:var(--txt3);margin-top:9px;padding-top:9px;border-top:1px solid var(--bdr)">Use <strong>Reclassify</strong> to cycle through types after analyzing.</div>
-<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--bdr)">
-<div style="font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-bottom:9px">Quick Classification Test</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<div style="background:#E1F5EE;border-radius:var(--r);padding:11px">
-<div style="font-size:11px;font-weight:500;color:#0A5E47;margin-bottom:6px">🎯 Goal — "WHAT do I want to achieve?"</div>
-<div style="font-size:11px;color:#0A5E47">☐ Outcome-based (a result or vision)?</div>
-<div style="font-size:11px;color:#0A5E47">☐ Measurable and time-bound?</div>
-<div style="font-size:11px;color:#0A5E47">☐ Months/years to complete?</div>
-<div style="font-size:11px;color:#0A5E47">☐ Needs multiple projects?</div>
-</div>
-<div style="background:#E6F1FB;border-radius:var(--r);padding:11px">
-<div style="font-size:11px;font-weight:500;color:#0E4A85;margin-bottom:6px">📁 Project — "HOW will I make it happen?"</div>
-<div style="font-size:11px;color:#0E4A85">☐ Clear deliverable or product?</div>
-<div style="font-size:11px;color:#0E4A85">☐ Weeks/months to complete?</div>
-<div style="font-size:11px;color:#0E4A85">☐ Rolls into a Goal?</div>
-<div style="font-size:11px;color:#0E4A85">☐ Made up of multiple tasks?</div>
-</div>
-</div>
-<div style="margin-top:8px;background:#FFF5E0;border-radius:var(--r);padding:9px">
-<div style="font-size:11px;font-weight:500;color:#7A4A00;margin-bottom:3px">✅ Task — "DO it. Single action."</div>
-<div style="font-size:11px;color:#7A4A00">One action. Binary: done or not done. Can be completed in one session. No sub-steps.</div>
-</div>
-</div>
-</div>
-<div id="dump-bu-bar" style="display:none;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rl);padding:10px 14px;margin-bottom:14px;box-shadow:var(--sh);align-items:center;justify-content:space-between;gap:10px">
-<span style="font-size:12px;color:var(--txt2)"><strong id="dump-added-count">0</strong> item(s) added from this Brain Dump session</span>
-<div style="display:flex;gap:6px">
-<button class="btn xs ghost" onclick="clearDumpSession()">Clear</button>
-<button class="btn xs primary" onclick="openBulkUpdateForDump()">📝 Bulk Update Added Items</button>
-</div>
-</div>
-<div id="cl-list"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+<span style="font-size:11px;color:var(--txt3)">The original batch remains available in History after processing.</span>
+<div style="display:flex;gap:6px"><button class="btn ghost sm" onclick="document.getElementById('dump-in').value=''">Clear</button><button class="btn primary" onclick="saveBrainDumpBatch()">Add to Brain Dump Queue →</button></div>
+</div></div>
+<div id="bd-workspace"></div>
 </div>
 <div id="inbox-triage-panel" style="display:none">
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
@@ -1312,11 +1281,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v488 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v490 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v488</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v490</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3428,7 +3397,7 @@ function currentListsForUi(){
   enforceV305KeeperLists();
   return S.lists;
 }
-let S={lists:[...DEFAULT_LISTS.map(l=>({...l}))],items:[],knowledge:[],knowledgeCategories:[],filter:'all',cats:[],activeList:null,editId:null,pendingClId:null,dashPanel:null,bulkMode:'add',pendingSaveObj:null,catalogSettings:{},companySops:{}};
+let S={lists:[...DEFAULT_LISTS.map(l=>({...l}))],items:[],knowledge:[],knowledgeCategories:[],brainDumps:[],filter:'all',cats:[],activeList:null,editId:null,pendingClId:null,dashPanel:null,bulkMode:'add',pendingSaveObj:null,catalogSettings:{},companySops:{}};
 let ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],linkedChallenges:[],linkedPhases:[],linkedReleases:[],linkedProducts:[],linkedEvents:[],linkedClientBuilds:[],linkedIndustryProfiles:[],linkedWorkflows:[],linkedHabits:[],linkedInventory:[],linkedRooms:[],linkedAutomations:[],linkedDigital:[],listIds:[],categories:[]};
 
 // ═══════════════════════════════════════════════
@@ -3811,6 +3780,7 @@ function loadFromDriveData(p){
       retireBusinessWorkflowLibraryV481();
       S.knowledge=p.knowledge||[];
       S.knowledgeCategories=p.knowledgeCategories||[];
+      S.brainDumps=p.brainDumps||[];
   if(p.sot)S.sot=p.sot;
   if(p.rewards)S.rewards=p.rewards;
   if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
@@ -3827,7 +3797,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV488();
+  const _v475ReleaseAdded=ensureReleaseV490();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4021,13 +3991,20 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV488(){
+function ensureReleaseV489(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v488'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v489'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v488',name:'LCC v488 — Execution Review Workspace',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'488',releaseType:'enhancement',releaseModules:['Execution Center','Goal/Project Classification','Goals','Projects'],releaseChangelog:'Added three live review tabs to Execution Center: Classification Review, Goals Review, and Projects Review. Classification Review contains active Goals/Projects whose four classification questions are incomplete, tied, or whose saved Type does not match the recommendation; completing the questions and matching Type removes the item from the tab automatically. Goals Review and Projects Review contain only active records whose classification is complete and matched. Required planning fields are editable inline and save in real time, with missing-required-field callouts recalculated after edits. Goal review includes Name, Status, Level, List, Category, Start Date, Target Date, auto Effort, and M — Measurable. Project review includes the same core fields plus Desired Outcome and Success Criteria, and Project Result when applicable. Full Item remains available for non-review fields.',releaseNotes:'v488 turns Execution Center into the working cleanup surface for Goal/Project classification and required planning data. Review queues update immediately as records become valid.',notes:'User Guide: In Execution Center, use Classification Review first. Answer all four questions and correct Type when needed; matched items leave that tab automatically. Then use Goals Review or Projects Review to complete required planning fields inline. Changes save in real time and missing-field warnings refresh automatically. Use Open Full Item for fields outside the review scope.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v489',name:'LCC v489 — Review Filters & Bulk Update',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'489',releaseType:'enhancement',releaseModules:['Execution Center','Classification Review','Goals Review','Projects Review','Bulk Update'],releaseChangelog:'Added Status filters and bulk selection/update controls to all three Execution Center review tabs. Users can filter by Status, select all currently visible records, clear selection, and open the existing canonical Bulk Update workflow with those records pre-selected. Summary counts distinguish shown records from the full review population. Inline real-time editing remains intact.',releaseNotes:'v489 adds status filtering and bulk maintenance to the Goal/Project review workspace.',notes:'User Guide: Filter any Execution Center review tab by Status. Use Select Visible to check the currently displayed records, then Bulk Update Selected to open the standard Bulk Update editor with those records pre-selected. Clear removes the current review selection.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
+}
+
+function ensureReleaseV490(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v490'))return false;
+  const now=Date.now(),day='2026-09-16';
+  S.items.push({id:'release-lcc-v490',name:'LCC v490 — Protected Daily Brain Dump Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'490',releaseType:'enhancement',releaseModules:['Inbox','Brain Dump','Knowledge Hub','Action Items'],releaseChangelog:'Reworked Inbox Capture into a protected Daily Brain Dump processing workflow for handwritten dumps transcribed externally. Added persistent dated Brain Dump batches, a To Process queue, History, explicit routing decisions, destination links, and queue counts. Brain Dump thoughts no longer enter the main Inbox merely because they were pasted.',releaseNotes:'v490 keeps handwritten brain-dump thoughts visible until each one is deliberately routed, preventing new thoughts from disappearing into the existing Inbox backlog.',notes:'User Guide: Handwrite for five minutes, upload the page to the Daily Brain Dump ChatGPT project for transcription, then paste the one-thought-per-line result into Inbox → Capture. Save the batch, open To Process, and route every thought as Actionable, Keep / Reference, Someday / Maybe, Already Exists, or Discard. The queue is complete when Waiting reaches 0.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
 function retireBCCOwnedTypesV478(){
@@ -4067,7 +4044,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV488();
+  const _v475ReleaseAdded=ensureReleaseV490();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -5578,6 +5555,7 @@ function setInboxWorkspace(view,skipRender){
   if(cb)cb.classList.toggle('active',inboxWorkspace==='capture');
   if(tb)tb.classList.toggle('active',inboxWorkspace==='triage');
   if(inboxWorkspace==='triage'&&!skipRender)renderParking();
+  if(inboxWorkspace==='capture'&&!skipRender&&typeof renderBrainDumpQueue==='function')renderBrainDumpQueue();
 }
 function syncInboxWorkspace(){
   setInboxWorkspace(inboxWorkspace,true);
@@ -6042,7 +6020,7 @@ function stripEmptyFields(item){
   return out;
 }
 function buildSavePayload(){
-  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
+  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],brainDumps:S.brainDumps||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
 }
 function makeItem(o){
   const tcd=o.date||'';
@@ -6397,6 +6375,46 @@ const CLS_P=['plan','design','set up','setup','organize','rebrand','redesign','r
 const CLS_G=['reach','hit','earn','save','lose','gain','grow','complete','become','obtain','achieve','increase','reduce','maintain','publish','read','travel','visit','attend','host','go on','write'];
 const CLS_ASK=['ask','pitch','email','dm','reach out','submit','request','apply','contact','propose'];
 function classify(t){const l=t.toLowerCase();if(CLS_ASK.some(k=>l.includes(k)))return'ask';if(CLS_P.some(k=>l.includes(k)))return'project';if(CLS_G.some(k=>l.includes(k)))return'goal';return'task';}
+
+// v490 — protected Daily Brain Dump queue. Capture is persisted separately from Action Items/Inbox until explicitly routed.
+let brainDumpView='today';
+function bdInit(){if(!Array.isArray(S.brainDumps))S.brainDumps=[];}
+function bdDate(ts){try{return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}catch(e){return'';}}
+function bdPending(){bdInit();return S.brainDumps.flatMap(b=>(b.thoughts||[]).filter(t=>!t.decision).map(t=>({batch:b,thought:t})));}
+function setBrainDumpView(v){brainDumpView=v||'today';renderBrainDumpQueue();}
+function saveBrainDumpBatch(){
+  bdInit();const raw=(document.getElementById('dump-in')?.value||'').trim();if(!raw){toast('Paste at least one thought');return;}
+  const lines=raw.split(/\n+/).map(x=>x.replace(/^[-*•\d.)\s]+/,'').trim()).filter(x=>x.length>1);
+  if(!lines.length){toast('No thoughts found');return;}
+  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',processedAt:null}))});
+  document.getElementById('dump-in').value='';save();brainDumpView='process';renderBrainDumpQueue();toast(lines.length+' thoughts added to protected Brain Dump queue');
+}
+function bdDecision(batchId,thoughtId,decision){
+  bdInit();const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;
+  if(decision==='discard'){t.decision='Discarded';t.processedAt=Date.now();save();renderBrainDumpQueue();return;}
+  if(decision==='reference'){
+    if(!Array.isArray(S.knowledge))S.knowledge=[];const id='kh-'+Date.now().toString(36);S.knowledge.push({id,title:t.text,knowledgeType:'Note',category:'',tags:'',summary:'',details:'',source:'Daily Brain Dump',sourceRef:bdDate(b.createdAt),attachmentRef:'',status:'Inbox',favorite:false,reviewFrequency:'Never',nextReviewDate:'',linkedItemIds:[],createdAt:Date.now(),updatedAt:Date.now()});t.decision='Keep / Reference';t.destinationId=id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Saved to Knowledge Hub');return;
+  }
+  if(decision==='someday'){
+    ensureParkingList();const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:[parkingListId()],categories:[],notes:'Routed from Daily Brain Dump · Someday / Maybe'});S.items.push(item);t.decision='Someday / Maybe';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Routed to Parking Lot');return;
+  }
+  if(decision==='action'){
+    const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:['uncat'],categories:[],notes:'Routed from Daily Brain Dump'});S.items.push(item);t.decision='Actionable';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Created Action Item');return;
+  }
+  if(decision==='existing'){
+    const q=prompt('Search existing Action Items for:');if(!q)return;const hits=S.items.filter(i=>i.status!=='placeholder'&&(i.name||'').toLowerCase().includes(q.toLowerCase())).slice(0,8);if(!hits.length){alert('No matching Action Items found. Try a different search.');return;}const msg=hits.map((i,n)=>(n+1)+'. '+i.name+' ['+i.type+']').join('\n');const pick=parseInt(prompt('Enter the number to link this thought to:\n\n'+msg)||'',10)-1;if(!hits[pick])return;t.decision='Already Exists';t.destinationId=hits[pick].id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Linked to existing Action Item');
+  }
+}
+function bdReopen(batchId,thoughtId){const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;t.decision='';t.destinationId='';t.processedAt=null;save();brainDumpView='process';renderBrainDumpQueue();}
+function renderBrainDumpQueue(){
+  bdInit();const ws=document.getElementById('bd-workspace');if(!ws)return;const pending=bdPending(),total=S.brainDumps.reduce((n,b)=>n+(b.thoughts||[]).length,0),processed=total-pending.length;
+  const sm=document.getElementById('bd-summary');if(sm)sm.innerHTML=`<div class="mc"><div class="mc-val">${pending.length}</div><div class="mc-lbl">Waiting</div><div class="mc-sub">Protected queue</div></div><div class="mc"><div class="mc-val">${S.brainDumps.length}</div><div class="mc-lbl">Dump Sessions</div><div class="mc-sub">Saved history</div></div><div class="mc"><div class="mc-val">${processed}</div><div class="mc-lbl">Processed</div><div class="mc-sub">Explicitly routed</div></div>`;
+  ['today','process','history'].forEach(v=>{const x=document.getElementById('bd-tab-'+v);if(x)x.classList.toggle('primary',brainDumpView===v);});const cap=document.getElementById('bd-capture-box');if(cap)cap.style.display=brainDumpView==='today'?'block':'none';
+  const card=(b,t)=>`<div class="ai" style="cursor:default"><div class="ai-top"><div class="ai-name">${esc(t.text)}</div><span style="font-size:9.5px;color:var(--txt3);white-space:nowrap">${bdDate(b.createdAt)}</span></div>${t.decision?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="sb2 sb-done">✓ ${esc(t.decision)}</span>${t.destinationId&&getItem(t.destinationId)?`<button class="btn xs" onclick="openModal(null,null,null,'${t.destinationId}')">Open Destination</button>`:''}<button class="btn xs ghost" onclick="bdReopen('${b.id}','${t.id}')">Reopen</button></div>`:`<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action')">✓ Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference')">💡 Keep / Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday')">⏳ Someday / Maybe</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing')">🔗 Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard')">Discard</button></div>`}</div>`;
+  if(brainDumpView==='process'){ws.innerHTML=pending.length?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="panel-ttl">To Process</div><div style="font-size:11px;color:var(--txt2)">${pending.length} thought${pending.length===1?'':'s'} waiting · goal = 0</div></div>`+pending.map(x=>card(x.batch,x.thought)).join(''):`<div class="empty"><p>Brain Dump queue is clear. 🎉</p><div style="font-size:11px">Nothing can get lost here: every captured thought has been explicitly routed.</div></div>`;return;}
+  if(brainDumpView==='history'){ws.innerHTML=S.brainDumps.length?S.brainDumps.map(b=>{const n=(b.thoughts||[]).length,p=(b.thoughts||[]).filter(t=>t.decision).length;return `<details class="tblock" ${p<n?'open':''}><summary style="cursor:pointer;font-weight:700;color:var(--navy)">${bdDate(b.createdAt)} · ${n} thoughts · ${p===n?'✓ Processed':(n-p)+' waiting'}</summary><div style="margin-top:10px">${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div></details>`}).join(''):`<div class="empty"><p>No Brain Dump history yet.</p></div>`;return;}
+  const today=new Date().toDateString(),b=S.brainDumps.find(x=>new Date(x.createdAt).toDateString()===today);ws.innerHTML=b?`<div style="margin-top:12px"><div class="panel-ttl" style="margin-bottom:8px">Today's Saved Dump</div>${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div>`:'';
+}
 
 // BRAIN DUMP
 function runDump(){
@@ -11736,6 +11754,11 @@ function renderExecutionProjectTasks(){
 
 // v488 — Execution Center live Goal / Project review workspace.
 let _execReviewTimer=null;
+function execReviewSelectedIds(){return [...document.querySelectorAll('.exec-review-select:checked')].map(x=>x.value)}
+function execReviewSelectVisible(){document.querySelectorAll('.exec-review-select').forEach(x=>x.checked=true)}
+function execReviewClearSelected(){document.querySelectorAll('.exec-review-select').forEach(x=>x.checked=false)}
+function execReviewBulkUpdate(){const ids=execReviewSelectedIds();if(!ids.length){toast('Select at least one item first');return;}openBulkUpdateForIds(ids,'Execution Center review selection')}
+function execReviewStatusFilter(view){return document.getElementById('exec-'+view+'-status')?.value||'';}
 function execReviewEscAttr(v){return esc(String(v??'')).replace(/"/g,'&quot;')}
 function execReviewOptions(values,current,blank='— Select —'){
   return `<option value="">${blank}</option>`+values.map(v=>`<option value="${execReviewEscAttr(v.value??v)}" ${(v.value??v)===current?'selected':''}>${esc(v.label??v)}</option>`).join('');
@@ -11807,7 +11830,7 @@ function execReviewStyles(){
 function execClassificationCard(i){
   const r=goalProjectClassification(i),rec=r.recommendation==='goal'?'Goal':r.recommendation==='project'?'Project':'Needs Review';
   return `<div class="exec-review-card">
-    <div class="exec-review-head"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Answer all four questions and align Type with the recommendation. It will disappear from this tab automatically.</div></div>
+    <div class="exec-review-head"><div style="display:flex;gap:8px;align-items:flex-start"><input class="exec-review-select" type="checkbox" value="${i.id}" style="margin-top:2px"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Answer all four questions and align Type with the recommendation. It will disappear from this tab automatically.</div></div></div>
       <button class="btn xs" onclick="openModal('${i.id}')">Open Full Item</button></div>
     <div class="exec-review-fields">
       <div><label>Current Type</label><select onchange="execReviewTypeSet('${i.id}',this.value)">${execReviewOptions([{value:'goal',label:'Goal'},{value:'project',label:'Project'}],i.type,'— Type —')}</select></div>
@@ -11820,16 +11843,17 @@ function execClassificationCard(i){
 }
 function renderExecutionClassificationReview(){
   const active=executionActiveItems().filter(i=>['goal','project'].includes(i.type));
-  const rows=active.filter(i=>!goalProjectClassificationReviewed(i));
+  const pending=active.filter(i=>!goalProjectClassificationReviewed(i)),sf=execReviewStatusFilter('classification');
+  const rows=pending.filter(i=>!sf||i.status===sf);
   const sum=document.getElementById('execution-classification-summary');
-  if(sum)sum.innerHTML=`<b>${rows.length}</b> need classification review · ${active.length-rows.length} already answered and matched`;
+  if(sum)sum.innerHTML=`<b>${rows.length}</b> shown · ${pending.length} need classification review · ${active.length-pending.length} already answered and matched`;
   const body=document.getElementById('execution-classification-list');if(!body)return;
   body.innerHTML=execReviewStyles()+(rows.length?`<div class="exec-review-grid">${rows.map(execClassificationCard).join('')}</div>`:'<div class="empty">✓ All active Goals and Projects have all four questions answered and match their recommended type.</div>');
 }
 function execPlanningCard(i,type){
   const isGoal=type==='goal',r=goalProjectClassification(i);
   return `<div class="exec-review-card">
-    <div class="exec-review-head"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Classification matched: ${r.confidence} ${isGoal?'Goal':'Project'}</div></div>
+    <div class="exec-review-head"><div style="display:flex;gap:8px;align-items:flex-start"><input class="exec-review-select" type="checkbox" value="${i.id}" style="margin-top:2px"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Classification matched: ${r.confidence} ${isGoal?'Goal':'Project'}</div></div></div>
       <button class="btn xs" onclick="openModal('${i.id}')">Open Full Item</button></div>
     <div class="exec-review-fields">
       <div class="wide"><label>Name</label><input value="${execReviewEscAttr(i.name||'')}" oninput="execReviewText('${i.id}','name',this.value)"></div>
@@ -11848,11 +11872,12 @@ function execPlanningCard(i,type){
     </div></div>`;
 }
 function renderExecutionPlanningReview(type){
-  const rows=executionActiveItems().filter(i=>i.type===type&&goalProjectClassificationReviewed(i));
+  const allRows=executionActiveItems().filter(i=>i.type===type&&goalProjectClassificationReviewed(i));
+  const id=type==='goal'?'goalreview':'projectreview',sf=execReviewStatusFilter(id);
+  const rows=allRows.filter(i=>!sf||i.status===sf);
   const missing=rows.filter(i=>baseMissingFields(i).length).length;
-  const id=type==='goal'?'goalreview':'projectreview';
   const sum=document.getElementById('execution-'+id+'-summary');
-  if(sum)sum.innerHTML=`<b>${rows.length}</b> classified ${type==='goal'?'Goal':'Project'}${rows.length!==1?'s':''} · <b>${missing}</b> with missing required fields · edits save in real time`;
+  if(sum)sum.innerHTML=`<b>${rows.length}</b> shown · ${allRows.length} classified ${type==='goal'?'Goal':'Project'}${allRows.length!==1?'s':''} · <b>${missing}</b> shown with missing required fields · edits save in real time`;
   const body=document.getElementById('execution-'+id+'-list');if(!body)return;
   body.innerHTML=execReviewStyles()+(rows.length?`<div class="exec-review-grid">${rows.map(i=>execPlanningCard(i,type)).join('')}</div>`:`<div class="empty">No active ${type==='goal'?'Goals':'Projects'} have completed classification and matched the recommended type yet.</div>`);
 }
@@ -29586,6 +29611,13 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v488 — Execution Center now has Classification Review, Goals Review, and Projects Review. Classification exceptions self-clear when questions are complete and Type matches; planning fields edit/save inline in real time. -->
 <!-- CHANGE LOG: v488 — Added three Execution Center review tabs with live classification routing, inline required-field editing, auto effort recalculation from dates, and real-time missing-field refresh. No new data fields or Action Item types were added. -->
 <!-- RELEASE NOTES: v488 — Goal/Project cleanup can now be completed directly from Execution Center instead of relying on printed reports or opening every record. -->
+<!-- USER GUIDE: v489 — Review tabs support Status filtering, Select Visible, Clear, and Bulk Update Selected. -->
+<!-- CHANGE LOG: v489 — Added Status filters and canonical Bulk Update routing to Classification, Goal, and Project review tabs. -->
+<!-- RELEASE NOTES: v489 — Execution review queues can now be filtered and maintained in bulk. -->
+
+<!-- USER GUIDE: v490 — Handwrite the five-minute brain dump, use the Daily Brain Dump ChatGPT project to transcribe it one thought per line, then paste it into Inbox → Capture. Saving creates a protected dated batch, not Action Items. Process the queue to zero by routing each thought as Actionable, Keep / Reference, Someday / Maybe, Already Exists, or Discard. History preserves every batch and its routing status. -->
+<!-- CHANGE LOG: v490 — Added persistent protected Brain Dump batches, To Process and History views, explicit five-way routing, destination links, and waiting/processed counts. Brain Dump capture is now separate from the 8,710+ item operational Inbox until the user explicitly routes a thought. Added only the v490 Release record. No new Action Item type, Action Item field, controlled value, linkable object, required-field rule, progress rule, applyFilter type branch, Bulk Add/Bulk Update type option, inline type selector option, tBadge case, or export field was added; therefore the mandatory new-type/field integration checklist required no schema changes. -->
+<!-- RELEASE NOTES: v490 — Daily Brain Dump is now a protected processing queue designed for handwritten capture + ChatGPT transcription. New thoughts remain visible until explicitly routed and cannot silently disappear into the general Inbox. -->
 </body>
 
 
