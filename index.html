@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v482</title>
+<title>LCC v484</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v482</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v484</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1099,6 +1099,7 @@ Item 3
 <span style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)">🖨 Planning Reports</span>
 <button class="btn xs" onclick="printPlanningStructureReport('goal')">Print Goals</button>
 <button class="btn xs" onclick="printPlanningStructureReport('project')">Print Projects</button>
+<button class="btn xs" onclick="openGoalProjectClassificationReview()">Review Goal vs Project</button>
 </div>
 </div>
 <div id="hub-focus-periods-wrap" style="margin-bottom:24px"></div>
@@ -1296,11 +1297,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v482 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v484 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v482</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v484</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3811,7 +3812,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV482();
+  const _v475ReleaseAdded=ensureReleaseV484();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4005,11 +4006,11 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV482(){
+function ensureReleaseV484(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v482'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v484'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v482',name:'LCC v482 — Planning Organization & Sidebar Cleanup',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'482',releaseType:'enhancement',releaseModules:['Sidebar','Planning Queue','Print','Goals','Projects'],releaseChangelog:'Removed the remaining Business initiative group from the LCC sidebar, including RLA, Savvy Foundations, and Savvy Structure shortcuts. Reduced Planning Queue render work by skipping hidden Focus rendering and deferring annual/aging scans until those views need them. Added separate printable Goals and Projects planning reports grouped by sprint, with Start/Due dates, progress, linked descendant counts by type, and a blank Planning Notes column.',releaseNotes:'v482 removes the last business shortcuts from LCC navigation, improves Planning Queue responsiveness, and adds paper-friendly Goal and Project planning reports to help organize work by sprint and hierarchy.',notes:'User Guide: In Planning Queue, use Print Goals or Print Projects under Planning Reports. Each report groups the selected record type by sprint and shows its dates, progress, and the number of linked phases/tasks/other descendants underneath it. Use the blank Planning Notes column while planning on paper.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v484',name:'LCC v484 — Goal/Project Classification Assist',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'484',releaseType:'enhancement',releaseModules:['Action Item Modal','Planning Queue','Goals','Projects'],releaseChangelog:'Added an explainable Goal/Project Classification Assist to Goal and Project Action Item forms. The assist scores existing LCC signals including M — Measurable, linked parent Goals, linked Projects, Phases, and Tasks, shows why it recommends Goal or Project, and provides an explicit Change button when the recommendation differs. Added a Planning Queue Goal vs Project Classification Review that flags likely-correct records, records needing review, and possible duplicate Goal/Project names. No new persistent field or controlled value was added.',releaseNotes:'v484 helps distinguish outcomes from bodies of work without silently reclassifying records. Recommendations are visible in the Action Item modal and an active Goal/Project review is available from Planning Queue.',notes:'User Guide: Open any Goal or Project to see Classification Assist under Type/Status/Effort. Add or refine M — Measurable and hierarchy links to strengthen the recommendation. Use Change to Goal/Project only when the recommendation makes sense. In Planning Queue, use Review Goal vs Project to audit active records and possible duplicate names.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
 }
@@ -4051,7 +4052,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV482();
+  const _v475ReleaseAdded=ensureReleaseV484();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -6938,7 +6939,7 @@ function renderModalBody(type,item,prefill){
   // 0184 (v209) — habit was listed twice here. Both options rendered with the
   // selected attribute, so the browser honoured the last one and the dropdown
   // jumped positions when you picked the first.
-  const typeOpts=[['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['transaction','💳 Transaction'],['recurringexpense','🧾 Recurring Expense'],['workflow','Workflow']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
+  const typeOpts=[['ask','Ask'],['challenge','🏁 Challenge'],['change','Change'],['course','Course'],['event','Event'],['goal','Goal'],['habit','🔁 Habit'],['inventory','📦 Inventory'],['patch','Patch'],['phase','Phase'],['project','Project'],['release','Release'],['room','🏠 Room'],['automation','⚡ Automation'],['task','Task'],['transaction','💳 Transaction'],['recurringexpense','🧾 Recurring Expense']].map(([v,l])=>`<option value="${v}"${type===v?' selected':''}>${l}</option>`).join('');
   const statOpts=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','⏸️ On Hold'],['done','Done'],['cancelled','Cancelled'],['placeholder','📌 Placeholder']].map(([v,l])=>`<option value="${v}"${item&&item.status===v?' selected':''}>${l}</option>`).join('');
   // 0135/0142 — structured reason dropdowns, replacing the old "reason required in Notes" behavior
   const cancelReasonOpts=[['','— Select —'],['notcompleted','Did Not Complete'],['duplicate','Duplicate'],['nolongerneeded','No Longer Needed'],['blocked','Blocked / Dependency Failed'],['other','Other']].map(([v,l])=>`<option value="${v}"${item&&item.cancellationReason===v?' selected':''}>${l}</option>`).join('');
@@ -6977,6 +6978,7 @@ function renderModalBody(type,item,prefill){
       <div class="field" style="margin:0"><label>Status</label><select id="m-status" onchange="onStatusChg()">${statOpts}</select></div>
       <div class="field" style="margin:0"><label>Effort Level</label><select id="m-effort" ${(type==='goal'||type==='project')?'disabled title="Auto-calculated from Start Date and Target Completion Date"':''}>${effortOpts((type==='goal'||type==='project')?effortFromDurationV422(item?.startDate||'',item?.date||''):(item?.effort||''))}</select><div id="m-effort-auto-hint" style="display:${(type==='goal'||type==='project')?'block':'none'};font-size:9.5px;color:var(--teal);margin-top:3px;line-height:1.35">🔒 Auto-calculated from planned duration. Change Start Date or Target Completion Date to change Effort.</div></div>
     </div>
+    ${(type==='goal'||type==='project')?`<div id="gp-classification-assist" style="margin:-2px 0 13px"></div>`:''}
     <div class="g2" style="margin-bottom:13px">
       <div class="field" style="margin:0"><label>Level <span class="req">*</span></label><select id="m-level" style="font-weight:600;color:${item?.level==='primary'?'#92400E':item?.level==='supporting'?'#3B4B5C':'inherit'}" onchange="this.style.color=this.value==='primary'?'#92400E':this.value==='supporting'?'#3B4B5C':'inherit'">
         <option value=""${item?(!item.level?' selected':''):''}>-- Select --</option>
@@ -7114,7 +7116,7 @@ function renderModalBody(type,item,prefill){
     html+=`<div class="type-widget tw-goal">
       <div class="type-widget-head"><span class="type-widget-ttl">🎯 Goal Details</span></div>
       <div class="field" style="margin-bottom:10px"><label>S — Specific <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:#15803D">(required for Done)</span></label><textarea id="m-s" rows="2" placeholder="What exactly is the goal?">${esc(item?.smart_s||'')}</textarea></div>
-      <div class="field" style="margin-bottom:10px"><label>M — Measurable <span class="req">*</span></label><input id="m-m" placeholder="How will you know you achieved it?" value="${esc(item?.smart_m||'')}"></div>
+      <div class="field" style="margin-bottom:10px"><label>M — Measurable <span class="req">*</span></label><input id="m-m" placeholder="How will you know you achieved it?" value="${esc(item?.smart_m||'')}" oninput="renderGoalProjectClassificationAssist()"></div>
       <div class="g2" style="margin-bottom:10px"><div class="field" style="margin:0"><label>Number Goal Target</label><input id="m-goal-num-target" type="number" min="0" step="1" value="${item?.goalNumberTarget??''}" placeholder="e.g. 50"></div><div class="field" style="margin:0"><label>Current Count</label><div style="display:flex;gap:5px"><button type="button" class="btn xs" onclick="var e=document.getElementById('m-goal-num-current');e.value=Math.max(0,(parseInt(e.value)||0)-1)">−</button><input id="m-goal-num-current" type="number" min="0" step="1" value="${item?.goalNumberCurrent??''}" placeholder="0"><button type="button" class="btn xs" onclick="var e=document.getElementById('m-goal-num-current');e.value=(parseInt(e.value)||0)+1">+</button></div><div style="font-size:10px;color:var(--txt3);margin-top:4px">Use for count-based goals without creating individual tasks.</div></div></div>
       <div class="field" style="margin-bottom:10px"><label>A — Achievable <span class="req">*</span></label><input id="m-a" placeholder="Is this realistic given your resources?" value="${esc(item?.smart_a||'')}"></div>
       <div class="field" style="margin-bottom:10px"><label>R — Relevant <span class="req">*</span></label><input id="m-r" placeholder="Why does this matter to you right now?" value="${esc(item?.smart_r||'')}"></div>
@@ -8094,6 +8096,7 @@ function renderModalBody(type,item,prefill){
 
   html+=schema2RenderSingleFields(type,item);
   document.getElementById('modal-body').innerHTML=html;
+  if(type==='goal'||type==='project')setTimeout(()=>{try{renderGoalProjectClassificationAssist()}catch(e){}},0);
   renderListFields(); // v252 - list-scoped conditional fields
   itagPickerInit(); // v254 - tag picker
   if(document.getElementById('lfc-all'))refreshAllChips(); // 0648 (v248) — fill the unified linked-items list
@@ -11834,6 +11837,76 @@ function toggleSelectAll(checked){
   updateBulkBar();
 }
 
+
+// v484 — Goal / Project Classification Assist.
+// Deterministic and explainable; it never silently changes the Action Item type.
+function goalProjectClassification(itemLike){
+  const x=itemLike||{},reasonsGoal=[],reasonsProject=[];let goal=0,project=0;
+  const linkedGoals=(x.linkedGoals||[]).length,linkedProjects=(x.linkedProjects||[]).length;
+  const linkedPhases=(x.linkedPhases||[]).length,linkedTasks=(x.linkedTasks||[]).length;
+  const measurable=(x.smart_m||'').trim();
+  if(linkedProjects){goal+=4;reasonsGoal.push(`${linkedProjects} linked project${linkedProjects===1?'':'s'} — goals can contain projects`);}
+  if(measurable){goal+=3;reasonsGoal.push('has a measurable success/outcome statement');}
+  if(!linkedGoals&&linkedProjects){goal+=1;reasonsGoal.push('is not linked under another goal');}
+  if(linkedGoals){project+=5;reasonsProject.push(`linked to ${linkedGoals} goal${linkedGoals===1?'':'s'} — projects execute a larger outcome`);}
+  if(linkedPhases){project+=3;reasonsProject.push(`${linkedPhases} phase${linkedPhases===1?'':'s'} — phased work is a strong project signal`);}
+  if(linkedTasks>=2){project+=2;reasonsProject.push(`${linkedTasks} linked tasks — executable work structure`);}
+  else if(linkedTasks===1){project+=1;reasonsProject.push('has a linked task');}
+  if(!measurable&&(linkedPhases||linkedTasks)){project+=1;reasonsProject.push('has work structure but no measurable outcome statement yet');}
+  let recommendation='review',confidence='Needs Review';
+  if(goal>=project+2){recommendation='goal';confidence=goal>=6?'Strong':'Likely';}
+  else if(project>=goal+2){recommendation='project';confidence=project>=6?'Strong':'Likely';}
+  const reasons=recommendation==='goal'?reasonsGoal:recommendation==='project'?reasonsProject:[...reasonsGoal.slice(0,2),...reasonsProject.slice(0,2)];
+  return {recommendation,confidence,goalScore:goal,projectScore:project,reasons};
+}
+function modalGoalProjectSnapshot(){
+  const item=S.editId?getItem(S.editId):{};
+  return {...(item||{}),type:document.getElementById('m-type')?.value||item?.type||'',
+    smart_m:document.getElementById('m-m')?.value??item?.smart_m??'',
+    linkedGoals:(ML.linkedGoals||[]).slice(),linkedProjects:(ML.linkedProjects||[]).slice(),
+    linkedPhases:(ML.linkedPhases||[]).slice(),linkedTasks:(ML.linkedTasks||[]).slice()};
+}
+function renderGoalProjectClassificationAssist(){
+  const box=document.getElementById('gp-classification-assist');if(!box)return;
+  const x=modalGoalProjectSnapshot();if(!['goal','project'].includes(x.type)){box.innerHTML='';return;}
+  const r=goalProjectClassification(x),same=r.recommendation===x.type;
+  const recLabel=r.recommendation==='goal'?'Goal':r.recommendation==='project'?'Project':'Needs Review';
+  const bg=r.recommendation==='review'?'#FFF7ED':same?'#ECFDF5':'#EFF6FF';
+  const bd=r.recommendation==='review'?'#FDBA74':same?'#86EFAC':'#93C5FD';
+  const fg=r.recommendation==='review'?'#9A3412':same?'#166534':'#1D4ED8';
+  const why=r.reasons.length?r.reasons.map(v=>`<li>${esc(v)}</li>`).join(''):'<li>Add M — Measurable and/or hierarchy links for a stronger recommendation.</li>';
+  box.innerHTML=`<div style="border:1px solid ${bd};background:${bg};border-radius:10px;padding:10px 12px">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:11px;color:${fg}">💡 Classification Assist: ${r.confidence} ${recLabel}</b>
+    <span style="font-size:9px;color:var(--txt3)">Goal ${r.goalScore} · Project ${r.projectScore}</span>
+    ${r.recommendation!=='review'&&!same?`<button type="button" class="btn xs" style="margin-left:auto" onclick="applyGoalProjectRecommendation('${r.recommendation}')">Change to ${recLabel}</button>`:''}
+    ${same?`<span style="margin-left:auto;font-size:9px;font-weight:600;color:${fg}">Current type fits</span>`:''}</div>
+    <ul style="margin:6px 0 0 17px;padding:0;font-size:9.5px;line-height:1.45;color:var(--txt2)">${why}</ul>
+    <div style="font-size:9px;color:var(--txt3);margin-top:5px">Recommendation only — LCC never changes Goal/Project automatically.</div></div>`;
+}
+function applyGoalProjectRecommendation(type){
+  if(!['goal','project'].includes(type))return;const sel=document.getElementById('m-type');if(!sel)return;sel.value=type;switchType();
+}
+function openGoalProjectClassificationReview(){
+  const excluded=new Set(['done','cancelled','placeholder']);
+  const items=(S.items||[]).filter(i=>['goal','project'].includes(i.type)&&!excluded.has(i.status));
+  if(!items.length){toast('No active Goals or Projects to review');return;}
+  const byName=new Map();items.forEach(i=>{const k=(i.name||'').trim().toLowerCase().replace(/\s+/g,' ');if(k){if(!byName.has(k))byName.set(k,[]);byName.get(k).push(i);}});
+  const rows=items.map(i=>{const r=goalProjectClassification(i),same=r.recommendation===i.type;
+    const key=(i.name||'').trim().toLowerCase().replace(/\s+/g,' '),dup=(byName.get(key)||[]).length>1;
+    const flag=dup?'Possible duplicate Goal/Project':r.recommendation==='review'?'Needs classification review':same?'Likely correct':`Review as ${r.recommendation==='goal'?'Goal':'Project'}`;
+    const list=(i.listIds||[]).map(id=>(S.lists||[]).find(x=>String(x.id)===String(id))?.name).filter(Boolean).join(', ')||'—';
+    return {i,r,same,dup,flag,list,reasons:r.reasons.join('; ')||'Not enough structure yet'};})
+    .sort((a,b)=>(a.same&&!a.dup?1:0)-(b.same&&!b.dup?1:0)||(a.i.name||'').localeCompare(b.i.name||''));
+  const counts={total:rows.length,review:rows.filter(x=>!x.same||x.r.recommendation==='review'||x.dup).length,duplicates:rows.filter(x=>x.dup).length,fits:rows.filter(x=>x.same&&x.r.recommendation!=='review'&&!x.dup).length};
+  const body=rows.map(x=>`<tr><td>${esc(x.i.name||'(Untitled)')}</td><td>${x.i.type==='goal'?'Goal':'Project'}</td><td><b>${esc(x.flag)}</b><div class="why">${esc(x.reasons)}</div></td><td>${esc(x.list)}</td><td>${x.r.goalScore}</td><td>${x.r.projectScore}</td></tr>`).join('');
+  const w=window.open('','_blank');if(!w){toast('Allow pop-ups to open Classification Review');return;}
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Goal vs Project Classification Review</title><style>
+  body{font-family:Arial,sans-serif;color:#20202a;margin:24px;font-size:11px}h1{margin:0 0 4px}.sub{color:#666;margin-bottom:14px}.summary{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.sum{border:1px solid #d7d0e5;border-radius:8px;padding:8px 12px;min-width:100px}.sum b{display:block;font-size:20px;color:#4C1D95}.sum span{font-size:9px;text-transform:uppercase;color:#666}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:7px;vertical-align:top}th{background:#f2eefb;text-align:left}.why{font-size:9px;color:#666;margin-top:4px;line-height:1.35}</style></head><body>
+  <h1>Goal vs Project Classification Review</h1><div class="sub">Active Goals and Projects only. Recommendations are explainable and do not change your data.</div>
+  <div class="summary"><div class="sum"><b>${counts.total}</b><span>Total Active</span></div><div class="sum"><b>${counts.review}</b><span>Needs Review</span></div><div class="sum"><b>${counts.duplicates}</b><span>Possible Duplicates</span></div><div class="sum"><b>${counts.fits}</b><span>Likely Fits</span></div></div>
+  <table><thead><tr><th>Action Item</th><th>Current Type</th><th>Classification</th><th>List</th><th>Goal Score</th><th>Project Score</th></tr></thead><tbody>${body}</tbody></table></body></html>`);w.document.close();
+}
+
 // v482 — printable planning structure reports.
 // Goals and Projects print separately, grouped by the anchor item's sprint.
 // Each row shows the hierarchy footprint underneath the anchor so planning can happen from paper.
@@ -11870,45 +11943,70 @@ function planningReportCounts(anchor){
 }
 function printPlanningStructureReport(type){
   if(!['goal','project'].includes(type))return;
-  const anchors=S.items.filter(i=>i.type===type&&i.status!=='placeholder')
+  const excludedStatuses=new Set(['done','cancelled','placeholder']);
+  const anchors=S.items.filter(i=>i.type===type&&!excludedStatuses.has(i.status))
     .sort((a,b)=>{
       const sa=planningReportSprint(a),sb=planningReportSprint(b);
       return sa.key.localeCompare(sb.key)||(a.name||'').localeCompare(b.name||'');
     });
-  if(!anchors.length){toast(`No ${type==='goal'?'goals':'projects'} to print`);return;}
+  if(!anchors.length){toast(`No active ${type==='goal'?'goals':'projects'} to print`);return;}
+
+  const statusLabels={notstarted:'Not Started',planned:'Planned',inprogress:'In Progress',behind:'Behind',onhold:'On Hold',deferred:'Deferred',ready:'Ready',scheduled:'Scheduled'};
+  const statusCounts={};
+  anchors.forEach(i=>statusCounts[i.status||'notstarted']=(statusCounts[i.status||'notstarted']||0)+1);
+  const statusSummary=Object.entries(statusCounts)
+    .sort((a,b)=>b[1]-a[1]||(statusLabels[a[0]]||a[0]).localeCompare(statusLabels[b[0]]||b[0]))
+    .map(([k,v])=>`<div class="sum"><b>${v}</b><span>${esc(statusLabels[k]||k)}</span></div>`).join('');
+
   const groups=new Map();
   anchors.forEach(i=>{const sp=planningReportSprint(i);if(!groups.has(sp.key))groups.set(sp.key,{sp,items:[]});groups.get(sp.key).items.push(i);});
   const typeOrder=['project','phase','task','ask','challenge','patch','release','change','event','course','habit','inventory','room','automation','digital'];
   const labelMap={project:'Projects',phase:'Phases',task:'Tasks',ask:'Asks',challenge:'Challenges',patch:'Patches',release:'Releases',change:'Changes',event:'Events',course:'Courses',habit:'Habits',inventory:'Inventory',room:'Rooms',automation:'Automations',digital:'Digital'};
+
+  function reportLists(i){
+    const names=(i.listIds||[]).map(id=>{const l=(S.lists||[]).find(x=>String(x.id)===String(id));return l&&l.name;}).filter(Boolean);
+    return names.length?names.join(', '):'—';
+  }
+  function reportDuration(i){
+    const d=Number(i.duration);
+    if(!Number.isFinite(d)||d<=0)return '—';
+    const unit=i.durationUnit||'days';
+    return `${d} ${unit}`;
+  }
+
   const rows=Array.from(groups.values()).map(g=>{
     const body=g.items.map(i=>{
       const info=planningReportCounts(i),c=info.counts;
       const structure=typeOrder.filter(k=>c[k]).map(k=>`${c[k]} ${labelMap[k]}`).join(' · ')||'No linked child items';
       const prog=typeof calcProg==='function'?calcProg(i):0;
       return `<tr>
-        <td><div class="nm">${esc(i.name||'(Untitled)')}</div><div class="meta">${tBadge(i.type,i)} · ${esc((i.status||'').replace(/([A-Z])/g,' $1'))}</div></td>
+        <td><div class="nm">${esc(i.name||'(Untitled)')}</div><div class="meta">${esc(statusLabels[i.status]||i.status||'Not Started')}</div></td>
+        <td>${esc(reportLists(i))}</td>
         <td>${i.startDate?fmtMDY(i.startDate):'—'}</td>
         <td>${i.date?fmtMDY(i.date):'—'}</td>
+        <td>${esc(reportDuration(i))}</td>
         <td>${Math.round(prog||0)}%</td>
         <td>${esc(structure)}</td>
         <td class="notes"></td>
       </tr>`;
     }).join('');
-    return `<section><div class="sprint"><div><b>${esc(g.sp.label)}</b><span>${esc(g.sp.range)}</span></div><strong>${g.items.length} ${type==='goal'?'goal':'project'}${g.items.length!==1?'s':''}</strong></div>
-      <table><thead><tr><th>${type==='goal'?'Goal':'Project'}</th><th>Start</th><th>Due</th><th>Progress</th><th>Structure Under It</th><th>Planning Notes</th></tr></thead><tbody>${body}</tbody></table></section>`;
+    return `<section><div class="sprint"><div><b>${esc(g.sp.label)}</b><span>${esc(g.sp.range)}</span></div><strong>${g.items.length} active ${type==='goal'?'goal':'project'}${g.items.length!==1?'s':''}</strong></div>
+      <table><thead><tr><th>${type==='goal'?'Goal':'Project'}</th><th>List</th><th>Start</th><th>Due</th><th>Duration</th><th>Progress</th><th>Structure Under It</th><th>Planning Notes</th></tr></thead><tbody>${body}</tbody></table></section>`;
   }).join('');
+
   const title=type==='goal'?'Goals Planning Report':'Projects Planning Report';
   const w=window.open('','_blank');
   if(!w){toast('Allow pop-ups to print this report');return;}
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>
-    @page{size:landscape;margin:.45in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#20202a;margin:0;font-size:10px}
-    h1{font-size:22px;margin:0 0 3px}.sub{color:#666;margin-bottom:16px}.sprint{display:flex;justify-content:space-between;align-items:end;border-bottom:2px solid #4C1D95;padding:8px 0 5px;margin-top:14px}
-    .sprint b{font-size:15px;color:#4C1D95}.sprint span{display:block;font-size:9px;color:#666;margin-top:2px}.sprint strong{font-size:10px}
-    table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:4px;page-break-inside:auto}tr{page-break-inside:avoid}th,td{border:1px solid #bbb;padding:6px;vertical-align:top}
-    th{background:#f2eefb;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.4px}th:nth-child(1){width:23%}th:nth-child(2),th:nth-child(3){width:9%}th:nth-child(4){width:7%}th:nth-child(5){width:31%}th:nth-child(6){width:21%}
-    .nm{font-weight:700;font-size:11px}.meta{color:#666;font-size:8px;margin-top:3px}.notes{height:34px}section{break-inside:auto}
-    .footer{margin-top:16px;color:#777;font-size:8px}
-  </style></head><body><h1>${title}</h1><div class="sub">Grouped by sprint · includes every non-placeholder ${type} · structure counts include linked descendants underneath each ${type}.</div>${rows}<div class="footer">Generated ${new Date().toLocaleString()}</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);
+    @page{size:landscape;margin:.4in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#20202a;margin:0;font-size:9px}
+    h1{font-size:22px;margin:0 0 3px}.sub{color:#666;margin-bottom:10px}.summary{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}.sum{border:1px solid #cfc7df;border-radius:6px;padding:6px 10px;min-width:76px;background:#faf8ff}.sum b{font-size:16px;color:#4C1D95;display:block}.sum span{font-size:8px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+    .sprint{display:flex;justify-content:space-between;align-items:end;border-bottom:2px solid #4C1D95;padding:8px 0 5px;margin-top:12px}.sprint b{font-size:14px;color:#4C1D95}.sprint span{display:block;font-size:8px;color:#666;margin-top:2px}.sprint strong{font-size:9px}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:4px}tr{page-break-inside:avoid}th,td{border:1px solid #bbb;padding:5px;vertical-align:top}th{background:#f2eefb;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:.3px}
+    th:nth-child(1){width:19%}th:nth-child(2){width:11%}th:nth-child(3),th:nth-child(4){width:7%}th:nth-child(5){width:7%}th:nth-child(6){width:6%}th:nth-child(7){width:25%}th:nth-child(8){width:18%}
+    .nm{font-weight:700;font-size:10px}.meta{color:#666;font-size:8px;margin-top:3px}.notes{height:32px}.footer{margin-top:14px;color:#777;font-size:8px}
+  </style></head><body><h1>${title}</h1><div class="sub">Active ${type==='goal'?'goals':'projects'} only · Completed and Cancelled excluded · grouped by sprint · linked hierarchy counts shown for planning.</div>
+  <div class="summary"><div class="sum"><b>${anchors.length}</b><span>Total Active</span></div>${statusSummary}</div>
+  ${rows}<div class="footer">Generated ${new Date().toLocaleString()}</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);
   w.document.close();
 }
 
@@ -29275,6 +29373,12 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v482 — Planning Queue now includes separate Print Goals and Print Projects reports. Reports group anchors by sprint and show dates, progress, linked descendant counts, and planning-note space. Business initiative shortcuts are no longer shown in the LCC sidebar. -->
 <!-- CHANGE LOG: v482 — Removed RLA/Savvy Foundations/Savvy Structure from dynamic sidebar initiatives; optimized Planning Queue hidden-view rendering; added separate Goal and Project planning print reports grouped by sprint with hierarchy counts. -->
 <!-- RELEASE NOTES: v482 — A planning-focused cleanup that removes remaining business navigation, reduces Planning Queue render work, and adds printable hierarchy summaries for Goals and Projects. -->
+<!-- USER GUIDE: v483 — Goal/Project reports exclude Completed/Cancelled and include List, Duration, total active count, and status counts. Workflow is removed from the Action Item modal type selector. -->
+<!-- CHANGE LOG: v483 — Removed remaining Workflow modal option; enhanced planning reports with active-only filtering, List/Duration columns, and top status summary. -->
+<!-- RELEASE NOTES: v483 — Completes the visible Workflow type cleanup and strengthens Goal/Project paper planning. -->
+<!-- USER GUIDE: v484 — Goal/Project Action Items display an explainable Classification Assist. Planning Queue includes Review Goal vs Project for active-record auditing. Recommendations never auto-change type. -->
+<!-- CHANGE LOG: v484 — Added deterministic Goal/Project classification scoring using existing M — Measurable and hierarchy links; added explicit apply-recommendation control and active classification review with duplicate-name detection. No new persistent field or controlled value added, so Bulk Add/Bulk Update/export schema remain unchanged. -->
+<!-- RELEASE NOTES: v484 — LCC can now help distinguish Goals from Projects while keeping the final classification decision with the user. -->
 </body>
 
 
