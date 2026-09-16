@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v484</title>
+<title>LCC v487</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v484</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v487</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1297,11 +1297,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v484 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v487 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v484</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v487</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3812,7 +3812,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV484();
+  const _v475ReleaseAdded=ensureReleaseV487();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4006,11 +4006,11 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV484(){
+function ensureReleaseV487(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v484'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v487'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v484',name:'LCC v484 — Goal/Project Classification Assist',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'484',releaseType:'enhancement',releaseModules:['Action Item Modal','Planning Queue','Goals','Projects'],releaseChangelog:'Added an explainable Goal/Project Classification Assist to Goal and Project Action Item forms. The assist scores existing LCC signals including M — Measurable, linked parent Goals, linked Projects, Phases, and Tasks, shows why it recommends Goal or Project, and provides an explicit Change button when the recommendation differs. Added a Planning Queue Goal vs Project Classification Review that flags likely-correct records, records needing review, and possible duplicate Goal/Project names. No new persistent field or controlled value was added.',releaseNotes:'v484 helps distinguish outcomes from bodies of work without silently reclassifying records. Recommendations are visible in the Action Item modal and an active Goal/Project review is available from Planning Queue.',notes:'User Guide: Open any Goal or Project to see Classification Assist under Type/Status/Effort. Add or refine M — Measurable and hierarchy links to strengthen the recommendation. Use Change to Goal/Project only when the recommendation makes sense. In Planning Queue, use Review Goal vs Project to audit active records and possible duplicate names.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v487',name:'LCC v487 — Project Lifecycle Fields',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'487',releaseType:'enhancement',releaseModules:['Action Item Modal','Projects','Bulk Add','Bulk Update','Export','Planning Reports'],releaseChangelog:'Surfaced Desired Outcome, Success Criteria, and Project Result from the current Field Guide on Project Action Items. Desired Outcome and Success Criteria are required before saving a Project as In Progress. Project Result is required for Done. Priority remains available but is no longer a required Project field. Renamed Review / Check-in Date to Next Review Date. Added the three Project fields to Schema 2.0 Bulk Add/Bulk Update and Excel export. Shared missing-field validation now feeds the Goal/Project planning reports with these lifecycle requirements.',releaseNotes:'v487 gives Projects a clearer lifecycle: define the intended outcome and success criteria before execution, then capture the actual result at close-out. Priority is optional.',notes:'User Guide: Complete Desired Outcome and Success Criteria before changing a Project to In Progress. Enter Project Result before marking it Done. Priority is optional. Planning reports call out any lifecycle-required fields that are missing.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
 }
@@ -4052,7 +4052,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV484();
+  const _v475ReleaseAdded=ensureReleaseV487();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -4060,7 +4060,7 @@ async function load(){
 function exportItemsExcel(){
   try{
     const items=(S.items||[]).filter(i=>i.status!=='placeholder');
-    const headers=['Seq#','Name','Type','Status','Cancellation Reason','On Hold Reason','Level','Planning Stage','Effort','Sprint','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Reference Link','Linked Goals','Linked Projects','Linked Tasks','Linked Digital Library','Notes','Ask Type','Who','Who Type','Channel','Rejection','Response Status','Asked For Amount','Won Amount','Challenge Details','Badge URL','Content Type','Content Family','Content Stage','Checklist %','Content Purpose','Content Pillar','Campaign','Audience','Offer/CTA','Platforms','Publish Date','Headline','Subject Line','Preview Text','Caption','Hashtags','Meta Description','Slug','Thumbnail Concept','Guest','Registration URL','Lesson Count','Doc Owner','Doc Version','Body','Linked Products','Views','Likes','Comments','Shares','Release Version','Release Type','Release Modules','Release Changelog','Release Notes','Change Type','Change Status','Change Priority','Change Modules','Habit Frequency','Habit Time of Day','Habit Rotation Week','Habit Award Pts','Habit Missed Days','Habit Skipped Days','Habit Week Progress','Habit Amount Goal','Habit Amount Unit','Habit Amount Logged','Event Location','Event All Day','Event Calendar Source','Event Calendar Link','Linked Events','Linked Challenges','Linked Phases','Is Milestone','Recurrence','Screen Time Required','Client Name','Client Archetype','Industry','SS Package','SF Package','Founding Client','Founding #','Build Week','Build Phase','Slot Status','Client Status','How They Found You','Date Cancelled','Est Build Hours','Actual Build Hours','Revision Count','Contract Signed','Deposit Paid','Payment Status','GHL Contact Link','Assets Received','Logo Received','Brand Colors Received','Domain Access Received','Calendar Info Received','Email Domain Connected','Payment Processor Connected','Snapshot Source','Industry Snapshot Level','Snapshot Updated','SOP Updated','QA Complete','Client Review Complete','Loom Recorded','Final Delivery Complete','Test Account Passed','Build Notes','Linked Client Builds','Product Status','Product Brand','Product Category','Product Type','Product Format','Product Featured','Product Launch Date','Product SKU','Product ID','Product Price','Regular Price','Founding Price','Payment Plan','Checkout Link','Sales Page','Order Bump','Upsell','Downsell','Short Description','Long Description','GHL Product Description','SEO Title','SEO Description','Keywords','Tags','Google Doc Link','Drive Folder','Canva Folder','Snapshot Link','Course Link','Loom Walkthrough','Version','Est Build Hours','Actual Build Hours','Product Images','Mockups','Promo Video','Email Sequence','Social Graphics','Blog Post','FAQ','GHL Link','Revenue','Active Customers','Product Raw Cost','Product Snapshot Eligible','Product Snapshot Price','IP Brand','IP Profile #','IP Status','IP Last Verified','IP Industry','IP Business Types','IP Typical Size','IP How Operate','IP Revenue Model','IP Savings','IP Identify','IP Stage','IP Tech Comfort','IP How Find','IP Decision Style','IP Motivation','IP Pain Points','IP Tried Before','IP Done Looks Like','IP Sales Pitch','IP Pitch Notes','IP Common Requests','IP Hands-On','IP Comm Style','IP Onboard Complexity','IP Onboard Notes','IP Risk Level','IP Risk Notes','IP Modules','IP Config Notes','IP Hosting Product','IP Snapshot Eligible','IP Snapshot Notes','IP Snapshot Product','IP Objections','IP Reframes','IP Outgrown Signs','IP Transition Points','IP Entry Product','IP Entry Note','IP Bad Fit','IP Churn Behaviors','IP Industry Notes','IP FAQs (count)','IP Credits Note','IP Add-Ons','IP DFY','IP Social Angles','IP Email Subjects','IP Referral Sources (count)','IP Seasonal Triggers (count)','IP Tools (count)','WF Name','WF Prefix','WF Phase','WF Descriptor','WF Function','WF Owner','WF Client','WF Scope','WF Status','WF Trigger','WF Intent','WF Steps','WF # Emails','WF # Tags','WF Duration (days)','WF #','WF Last Reviewed','WF Review Due','WF Fields','Content Name','Content #','Descriptor','Content Scope','Content Function','SOP/Policy Category','Inv Stock Status','Inv Category','Inv Location','Inv Room','Inv Container','Inv Qty','Inv Unit','Inv Low Alert','Inv Brand','Inv Model','Inv Price','Inv Store','Inv Serial','Inv Expiration/Warranty','Inv URL','Inv Cover','Inv Creator','Inv Genre','Inv Year','Inv ISBN/UPC','Inv Format','Inv Digital Version','Inv Digital Library IDs','Inv Sub-Category','Inv Colors','Inv Style','Inv Season','Inv Size(s)','Inv Wash','Inv Dryer','Inv Uses','Inv Capsule','Inv Essential','Inv Wish List','Test Result','Ask Category','Room Location #','Room Zone','Room Flooring','Room Sq Ft','Room Cover','Auto Trigger','Auto Action','Auto Devices','Auto Rooms','Auto App(s)','Auto Status','Function','Cadence','Knowledge Type','Maintenance Type','Transaction Type','Transaction Amount','Transaction Date','Transaction Account','Transaction To Account','Transaction Category','Transaction Payee','Transaction Subcategory','Transaction Payment Method','Transaction Budget Group','Transaction Cleared','Transaction Tax Deductible','Transaction Recurring','Transaction Memo','Recurring Kind','Recurring Amount','Recurring Frequency','Recurring Next Due','Recurring Account','Recurring Category','Recurring Payee','Recurring Payment Method','Recurring Auto Pay','Recurring Status','Recurring Start Date','Recurring Cancelled Date','Recurring Cancel Reason','Recurring Last Paid Date','Recurring Notes','Created At','Updated At','Reschedule Count','Sprint Rollover Count','Reopen Count','Hold Since','Guardrail History'];
+    const headers=['Seq#','Name','Type','Status','Cancellation Reason','On Hold Reason','Level','Planning Stage','Effort','Sprint','Lists','Categories','Start Date','Due Date','Completed Date','Progress%','Reference Link','Linked Goals','Linked Projects','Linked Tasks','Linked Digital Library','Notes','Class · Natural Finish Line','Class · Breaks Down Into','Class · Outcome or Work','Class · Completion Style','Desired Outcome','Success Criteria','Project Result','Ask Type','Who','Who Type','Channel','Rejection','Response Status','Asked For Amount','Won Amount','Challenge Details','Badge URL','Content Type','Content Family','Content Stage','Checklist %','Content Purpose','Content Pillar','Campaign','Audience','Offer/CTA','Platforms','Publish Date','Headline','Subject Line','Preview Text','Caption','Hashtags','Meta Description','Slug','Thumbnail Concept','Guest','Registration URL','Lesson Count','Doc Owner','Doc Version','Body','Linked Products','Views','Likes','Comments','Shares','Release Version','Release Type','Release Modules','Release Changelog','Release Notes','Change Type','Change Status','Change Priority','Change Modules','Habit Frequency','Habit Time of Day','Habit Rotation Week','Habit Award Pts','Habit Missed Days','Habit Skipped Days','Habit Week Progress','Habit Amount Goal','Habit Amount Unit','Habit Amount Logged','Event Location','Event All Day','Event Calendar Source','Event Calendar Link','Linked Events','Linked Challenges','Linked Phases','Is Milestone','Recurrence','Screen Time Required','Client Name','Client Archetype','Industry','SS Package','SF Package','Founding Client','Founding #','Build Week','Build Phase','Slot Status','Client Status','How They Found You','Date Cancelled','Est Build Hours','Actual Build Hours','Revision Count','Contract Signed','Deposit Paid','Payment Status','GHL Contact Link','Assets Received','Logo Received','Brand Colors Received','Domain Access Received','Calendar Info Received','Email Domain Connected','Payment Processor Connected','Snapshot Source','Industry Snapshot Level','Snapshot Updated','SOP Updated','QA Complete','Client Review Complete','Loom Recorded','Final Delivery Complete','Test Account Passed','Build Notes','Linked Client Builds','Product Status','Product Brand','Product Category','Product Type','Product Format','Product Featured','Product Launch Date','Product SKU','Product ID','Product Price','Regular Price','Founding Price','Payment Plan','Checkout Link','Sales Page','Order Bump','Upsell','Downsell','Short Description','Long Description','GHL Product Description','SEO Title','SEO Description','Keywords','Tags','Google Doc Link','Drive Folder','Canva Folder','Snapshot Link','Course Link','Loom Walkthrough','Version','Est Build Hours','Actual Build Hours','Product Images','Mockups','Promo Video','Email Sequence','Social Graphics','Blog Post','FAQ','GHL Link','Revenue','Active Customers','Product Raw Cost','Product Snapshot Eligible','Product Snapshot Price','IP Brand','IP Profile #','IP Status','IP Last Verified','IP Industry','IP Business Types','IP Typical Size','IP How Operate','IP Revenue Model','IP Savings','IP Identify','IP Stage','IP Tech Comfort','IP How Find','IP Decision Style','IP Motivation','IP Pain Points','IP Tried Before','IP Done Looks Like','IP Sales Pitch','IP Pitch Notes','IP Common Requests','IP Hands-On','IP Comm Style','IP Onboard Complexity','IP Onboard Notes','IP Risk Level','IP Risk Notes','IP Modules','IP Config Notes','IP Hosting Product','IP Snapshot Eligible','IP Snapshot Notes','IP Snapshot Product','IP Objections','IP Reframes','IP Outgrown Signs','IP Transition Points','IP Entry Product','IP Entry Note','IP Bad Fit','IP Churn Behaviors','IP Industry Notes','IP FAQs (count)','IP Credits Note','IP Add-Ons','IP DFY','IP Social Angles','IP Email Subjects','IP Referral Sources (count)','IP Seasonal Triggers (count)','IP Tools (count)','WF Name','WF Prefix','WF Phase','WF Descriptor','WF Function','WF Owner','WF Client','WF Scope','WF Status','WF Trigger','WF Intent','WF Steps','WF # Emails','WF # Tags','WF Duration (days)','WF #','WF Last Reviewed','WF Review Due','WF Fields','Content Name','Content #','Descriptor','Content Scope','Content Function','SOP/Policy Category','Inv Stock Status','Inv Category','Inv Location','Inv Room','Inv Container','Inv Qty','Inv Unit','Inv Low Alert','Inv Brand','Inv Model','Inv Price','Inv Store','Inv Serial','Inv Expiration/Warranty','Inv URL','Inv Cover','Inv Creator','Inv Genre','Inv Year','Inv ISBN/UPC','Inv Format','Inv Digital Version','Inv Digital Library IDs','Inv Sub-Category','Inv Colors','Inv Style','Inv Season','Inv Size(s)','Inv Wash','Inv Dryer','Inv Uses','Inv Capsule','Inv Essential','Inv Wish List','Test Result','Ask Category','Room Location #','Room Zone','Room Flooring','Room Sq Ft','Room Cover','Auto Trigger','Auto Action','Auto Devices','Auto Rooms','Auto App(s)','Auto Status','Function','Cadence','Knowledge Type','Maintenance Type','Transaction Type','Transaction Amount','Transaction Date','Transaction Account','Transaction To Account','Transaction Category','Transaction Payee','Transaction Subcategory','Transaction Payment Method','Transaction Budget Group','Transaction Cleared','Transaction Tax Deductible','Transaction Recurring','Transaction Memo','Recurring Kind','Recurring Amount','Recurring Frequency','Recurring Next Due','Recurring Account','Recurring Category','Recurring Payee','Recurring Payment Method','Recurring Auto Pay','Recurring Status','Recurring Start Date','Recurring Cancelled Date','Recurring Cancel Reason','Recurring Last Paid Date','Recurring Notes','Created At','Updated At','Reschedule Count','Sprint Rollover Count','Reopen Count','Hold Since','Guardrail History'];
     const rows=items.map(i=>{
       try{
         return[
@@ -4075,6 +4075,8 @@ function exportItemsExcel(){
           (i.linkedTasks||[]).map(id=>{const it=getItem(id);return it?it.name||id:id;}).join('; '),
           (i.linkedDigital||[]).map(id=>{try{return dlRecordLabel361(id)||id;}catch(e){return id;}}).join('; '),
           (i.notes||'').replace(/\n/g,' '),
+          i.gpClassFinish||'',i.gpClassBreakdown||'',i.gpClassNature||'',i.gpClassCompletion||'',
+          i.desiredOutcome||'',i.successCriteria||'',i.projectResult||'',
           i.askType||'',i.askWho||'',i.askWhoType||'',i.askChannel||'',i.rejectionType||'',i.responseStatus||'',i.askAmount??'',i.askOutcomeValue??'',
           (i.challengeDetails||'').replace(/\n/g,' '),i.badgeUrl||'',
           i.contentType||'',
@@ -4315,6 +4317,8 @@ const SCHEMA2_COMMON_FIELDS=[
   {k:'budget',l:'Budget',t:'text'},{k:'blockers',l:'Blockers',t:'textarea'},{k:'cancellationReason',l:'Cancellation Reason',t:'text'},{k:'onHoldReason',l:'On Hold Reason',t:'text'},{k:'linkedDigital',l:'Linked Digital Library IDs (; separated)',t:'text'}
 ];
 const SCHEMA2_KNOWN_FIELDS={
+  project:['gpClassFinish','gpClassBreakdown','gpClassNature','gpClassCompletion','desiredOutcome','successCriteria','projectResult'],
+  goal:['gpClassFinish','gpClassBreakdown','gpClassNature','gpClassCompletion'],
   ask:['askType','askWho','askWhoType','askChannel','askCategory','askAmount','responseStatus','rejectionType','askOutcomeType','askOutcomeValue','askLesson'],
   content:['contentType','contentPurpose','contentPillar','contentStage','contentCampaign','contentAudience','contentOffer','contentPlatform','contentBrand','sopCategory'],
   course:['courseNum','courseHours','courseSemester','courseYear','courseInstitution','courseGrade','courseProctored','courseStatus'],
@@ -4333,7 +4337,16 @@ const SCHEMA2_KNOWN_FIELDS={
   recurringexpense:['recurringKind','recurringAmount','recurringFrequency','recurringNextDue','recurringAccountId','recurringCategory','recurringPayee','recurringPaymentMethod','recurringAutoPay','recurringStatus','recurringStartDate','recurringCancelledDate','recurringCancelReason','recurringNotes']
 };
 function schema2PrettyKey(k){return String(k||'').replace(/([a-z0-9])([A-Z])/g,'$1 $2').replace(/[_-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}
-function schema2FieldDef(type,key){return [...SCHEMA2_COMMON_FIELDS,...((ACTION_SCHEMA_2[type]||{}).fields||[])].find(x=>x.k===key)||{k:key,l:schema2PrettyKey(key),t:'text'};}
+const GP_CLASS_FIELD_DEFS={
+  gpClassFinish:{k:'gpClassFinish',l:'Classification · Natural Finish Line',t:'select',o:['','finish','ongoing']},
+  gpClassBreakdown:{k:'gpClassBreakdown',l:'Classification · Breaks Down Into',t:'select',o:['','tasks','projects']},
+  gpClassNature:{k:'gpClassNature',l:'Classification · Outcome or Work',t:'select',o:['','why','what']},
+  gpClassCompletion:{k:'gpClassCompletion',l:'Classification · Completion Style',t:'select',o:['','metric','checklist']},
+  desiredOutcome:{k:'desiredOutcome',l:'Desired Outcome',t:'textarea'},
+  successCriteria:{k:'successCriteria',l:'Success Criteria',t:'textarea'},
+  projectResult:{k:'projectResult',l:'Project Result',t:'textarea'}
+};
+function schema2FieldDef(type,key){return GP_CLASS_FIELD_DEFS[key]||[...SCHEMA2_COMMON_FIELDS,...((ACTION_SCHEMA_2[type]||{}).fields||[])].find(x=>x.k===key)||{k:key,l:schema2PrettyKey(key),t:'text'};}
 function schema2RenderInput(def,val,id){val=val??'';const ro=def.ro?' readonly style="background:var(--soft);color:var(--txt3)"':'';if(def.t==='textarea')return `<textarea id="${id}" rows="3"${ro}>${esc(String(val))}</textarea>`;if(def.t==='select')return `<select id="${id}"${def.ro?' disabled':''}>${(def.o||[]).map(o=>`<option value="${esc(o)}"${String(val)===String(o)?' selected':''}>${esc(o||'— Select —')}</option>`).join('')}</select>`;return `<input id="${id}" type="${def.t==='number'?'number':def.t==='date'?'date':def.t==='url'?'url':'text'}" value="${esc(String(val))}"${def.t==='number'?' step="any"':''}${ro}>`;}
 function schema2RenderFields(type,item,prefix){const cfg=ACTION_SCHEMA_2[type];if(!cfg||!cfg.fields.length)return '';return `<div class="type-widget v305-type-fields" style="margin-top:12px"><div class="type-widget-head"><span class="type-widget-ttl">${esc(cfg.label)} · Additional Fields</span></div><div class="g2">${cfg.fields.map(d=>`<div class="field" style="margin:0 0 10px"><label>${esc(d.l)}</label>${schema2RenderInput(d,item?.[d.k],`${prefix}-s2-${d.k}`)}</div>`).join('')}</div></div>`;}
 function schema2CollectFields(type,existing,prefix){const out={};const cfg=ACTION_SCHEMA_2[type];if(!cfg)return out;cfg.fields.forEach(d=>{const el=document.getElementById(prefix+'-s2-'+d.k);if(!el){if(existing&&existing[d.k]!==undefined)out[d.k]=existing[d.k];return;}if(d.ro){out[d.k]=existing?.[d.k]??'';return;}let v=el.value;if(d.t==='number')v=v===''?'':(parseFloat(v)||0);out[d.k]=v;});return out;}
@@ -4361,10 +4374,11 @@ function schema2CaptureMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.
   else if(t==='transaction'){req(obj.transactionType,'Transaction Type');req(Number(obj.transactionAmount)>0,'Amount');req(obj.transactionDate,'Transaction Date');req(obj.transactionAccountId,'Account');req(obj.transactionPayee||obj.name,'Payee / Description');req(obj.transactionCategory,'Category');if(obj.transactionType==='transfer')req(obj.transactionToAccountId,'To Account');}
   else if(t==='recurringexpense'){req(obj.recurringPayee,'Payee / Service');req(Number(obj.recurringAmount)>0,'Expected Amount');req(obj.recurringFrequency,'Frequency');req(obj.recurringNextDue,'Next Due Date');req(obj.recurringAccountId,'Account');req(obj.recurringCategory,'Category');}
   return [...new Set(m)];}
-function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(['goal','project'].includes(t))req(obj.startDate,'Start Date');if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='goal')req(obj.smart_m,'M — Measurable');if(t==='phase')req(obj.startDate,'Start Date');if(t==='clientbuild'){req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
+function schema2PlanningMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};if(['task','project','goal','phase'].includes(t)){req(obj.effort,'Effort');req(obj.date,'Target Date');}if(['goal','project'].includes(t))req(obj.startDate,'Start Date');if(t==='project'&&['inprogress','behind','done'].includes(obj.status)){req(obj.desiredOutcome&&String(obj.desiredOutcome).trim(),'Desired Outcome');req(obj.successCriteria&&String(obj.successCriteria).trim(),'Success Criteria');}if(t==='task'&&obj.planningStage==='ready')req(Number(obj.estimatedMins)>0,'Estimated Minutes');if(t==='goal')req(obj.smart_m,'M — Measurable');if(t==='phase')req(obj.startDate,'Start Date');if(t==='clientbuild'){req(obj.startDate,'Build Start Date');req(obj.date,'Target Completion');}return [...new Set(m)];}
 function schema2ExecutionMissing(obj){const m=[],req=(ok,l)=>{if(!ok)m.push(l)};if(obj.type==='task'&&obj.sprint){req(Number(obj.estimatedMins)>0,'Estimated Minutes');req(obj.effort,'Effort');}if(obj.type==='clientbuild')req(obj.cbAssetsStatus==='Received'||obj.assetsReceived,'Required Assets Received');return m;}
 function schema2CloseMissing(obj){const m=[],t=obj.type,req=(ok,l)=>{if(!ok)m.push(l)};const terminal=t==='change'?['released','verified','closed'].includes(obj.changeStatus):t==='industryprofile'?obj.ipStatus==='Verified':t==='automation'?obj.autoLifecycleStatus==='Live':t==='workflow'?obj.wfStatus==='Live':obj.status==='done';if(!terminal)return m;
   if(t==='goal')req(obj.smart_m,'M — Measurable');
+  else if(t==='project')req(obj.projectResult&&String(obj.projectResult).trim(),'Project Result');
   else if(t==='ask'){if(obj.responseStatus==='no')req(obj.rejectionType,'Rejection Type');if(obj.responseStatus==='yes'&&['Revenue','Savings','Discount'].includes(obj.askOutcomeType))req(obj.askOutcomeValue!==''&&obj.askOutcomeValue!=null,'Outcome Value');}
   else if(t==='content'){const internal=['SOP','Policy','Template'].includes(obj.contentType);req(obj.contentFinalUrl||obj.refLink,'Final Asset / Document URL');if(internal){req(obj.contentVersion,'Version');req(obj.contentOwner,'Owner');if(obj.contentType==='Policy')req(obj.contentEffectiveDate,'Effective Date');}else{req(obj.contentCTA,'CTA');}}
   else if(t==='course'){req(obj.completedDate,'Completion Date');if(obj.certificateEarned==='Yes')req(obj.certificateUrl,'Certificate URL');}
@@ -6034,6 +6048,7 @@ function makeItem(o){
     categories:cats,status,progress:o.progress||0,date:tcd,notes:o.notes||'',
     cancellationReason:o.cancellationReason||'',onHoldReason:o.onHoldReason||'',
     smart_s:o.smart_s||'',smart_m:o.smart_m||'',smart_a:o.smart_a||'',smart_r:o.smart_r||'',
+    gpClassFinish:o.gpClassFinish||'',gpClassBreakdown:o.gpClassBreakdown||'',gpClassNature:o.gpClassNature||'',gpClassCompletion:o.gpClassCompletion||'',
     focusPeriods:o.focusPeriods||[],
     linkedGoals:o.linkedGoals||[],linkedProjects:o.linkedProjects||[],linkedTasks:o.linkedTasks||[],linkedPatches:o.linkedPatches||o.linkedBadges||[],linkedChallenges:o.linkedChallenges||[],linkedProducts:o.linkedProducts||[],linkedPhases:o.linkedPhases||[],linkedInventory:o.linkedInventory||[],linkedRooms:o.linkedRooms||[],linkedAutomations:o.linkedAutomations||[],
     roomLocNum:o.roomLocNum||'',roomZone:o.roomZone||'',roomFlooring:o.roomFlooring||'',roomSqFt:o.roomSqFt||'',roomCover:o.roomCover||'',
@@ -6226,6 +6241,7 @@ function makeItem(o){
     priority:o.priority||'',
     checkinDate:o.checkinDate||'',
     budget:o.budget||'',
+    desiredOutcome:o.desiredOutcome||'',successCriteria:o.successCriteria||'',projectResult:o.projectResult||'',
     blockers:o.blockers||'',
     tags:o.tags||[],
     func:o.func||'',
@@ -7137,12 +7153,15 @@ function renderModalBody(type,item,prefill){
     const advP=advOpen('project');
     html+=`<div class="type-widget tw-project">
       <div class="type-widget-head"><span class="type-widget-ttl">📁 Project Details</span></div>
+      <div class="field" style="margin-bottom:10px"><label>Desired Outcome <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:#1D4ED8">(required for In Progress)</span></label><textarea id="m-desired-outcome" rows="2" placeholder="What should be true when this project is finished?">${esc(item?.desiredOutcome||'')}</textarea></div>
+      <div class="field" style="margin-bottom:10px"><label>Success Criteria <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:#1D4ED8">(required for In Progress)</span></label><textarea id="m-success-criteria" rows="2" placeholder="How will you know this project was successfully completed?">${esc(item?.successCriteria||'')}</textarea></div>
+      ${item?.status==='done'?`<div class="field" style="margin-bottom:10px"><label>Project Result <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:#15803D">(required for Done)</span></label><textarea id="m-project-result" rows="2" placeholder="What actually happened?">${esc(item?.projectResult||'')}</textarea></div>`:`<input type="hidden" id="m-project-result" value="${esc(item?.projectResult||'')}">`}
       ${listNumFields?`<div class="field" style="margin-bottom:10px"><label>List Sequence #s</label>${listNumFields}</div>`:''}
       <button type="button" class="adv-toggle" onclick="advToggle('project',this)">${advP?'▲ Hide Advanced':'▼ Show Advanced'}</button>
       <div id="adv-project" style="display:${advP?'block':'none'}">
       <div class="g2" style="margin-bottom:10px">
-        <div class="field" style="margin:0"><label>Priority <span class="req">*</span> <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:#1D4ED8">(req. for Done)</span></label><select id="m-priority">${priorityOpts}</select></div>
-        <div class="field" style="margin:0"><label>Review / Check-in Date</label><input id="m-checkin" type="date" value="${esc(item?.checkinDate||'')}"></div>
+        <div class="field" style="margin:0"><label>Priority <span style="font-size:9px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional)</span></label><select id="m-priority">${priorityOpts}</select></div>
+        <div class="field" style="margin:0"><label>Next Review Date</label><input id="m-checkin" type="date" value="${esc(item?.checkinDate||'')}"></div>
       </div>
       <div class="field" style="margin-bottom:10px"><label>Budget / Cost Estimate <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">(optional)</span></label><input id="m-budget" placeholder="e.g. $500, ~$1,200..." value="${esc(item?.budget||'')}"></div>
       <div class="field" style="margin-bottom:10px"><label>Blockers / Dependencies <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3)">link items blocking this project</span></label>${buildLF('task',ML.linkedTasks,'blockers')}<div style="margin-top:4px;font-size:10px;color:var(--txt3)">Search and link action items blocking this project.</div></div>
@@ -9147,6 +9166,11 @@ function saveItemInner(){
   // Date-driven status auto-flip now applies to all types, including content (Stage no longer exempts it)
   if((tcd||mStart)&&(status==='notstarted'||status==='placeholder'))status='planned';
   if(tcd&&daysUntil(tcd)<0&&status!=='done'&&status!=='cancelled'&&status!=='onhold')status='behind';
+  if(type==='project'&&status==='inprogress'){
+    const _po=(document.getElementById('m-desired-outcome')?.value||'').trim(),_psc=(document.getElementById('m-success-criteria')?.value||'').trim(),_pm=[];
+    if(!_po)_pm.push('Desired Outcome');if(!_psc)_pm.push('Success Criteria');
+    if(_pm.length)return alert('Required for In Progress: '+_pm.join(', '));
+  }
   let autoCompletedDate=document.getElementById('m-completed')?.value||'';
   if(status==='done'&&!autoCompletedDate)autoCompletedDate=today();
   if(status==='done'){
@@ -9158,11 +9182,8 @@ function saveItemInner(){
       if(!ms||!mm||!ma||!mr)return alert('SMART fields required. Please fill in all four SMART fields before marking a Goal as Done.');
     }
     if(type==='project'){
-      const pri=document.getElementById('m-priority')?.value||'';
-      const eff=document.getElementById('m-effort')?.value||'';
-      const missing=[];
-      if(!pri)missing.push('Priority');
-      if(!eff)missing.push('Effort Level');
+      const eff=document.getElementById('m-effort')?.value||'',result=document.getElementById('m-project-result')?.value||'',missing=[];
+      if(!eff)missing.push('Effort Level');if(!result.trim())missing.push('Project Result');
       if(missing.length)return alert('Required for Done: '+missing.join(', '));
     }
     if(type==='ask'){
@@ -9461,6 +9482,7 @@ function saveItemInner(){
     ...cbFields,...eventFields,...releaseFields,...changeFields,...patchAskFields,...courseFields,...contentFields,...productFields,...workflowFields,...transactionFields,...recurringExpenseFields,...themeFields,
     ...schema2CollectSingle(type,S.editId?getItem(S.editId):null),
     id:S.editId||uid(),name,type,
+    gpClassFinish:['goal','project'].includes(type)?gpClassValue('gpClassFinish'):'',gpClassBreakdown:['goal','project'].includes(type)?gpClassValue('gpClassBreakdown'):'',gpClassNature:['goal','project'].includes(type)?gpClassValue('gpClassNature'):'',gpClassCompletion:['goal','project'].includes(type)?gpClassValue('gpClassCompletion'):'',
     testResult:type==='change'?(document.getElementById('m-testresult')?.value||''):(_cbEx?.testResult||''), // Test Result is Change-only; Releases use Core Status
     listIds:ML.listIds,categories:ML.categories,status,date:(type==='transaction'||type==='recurringexpense')?'':tcd,
     progress:type==='task'?(status==='done'?100:0):parseInt(document.getElementById('m-prog')?.value||0),
@@ -9532,6 +9554,7 @@ function saveItemInner(){
     priority:document.getElementById('m-priority')?.value||'',
     checkinDate:document.getElementById('m-checkin')?.value||'',
     budget:document.getElementById('m-budget')?.value||'',
+    desiredOutcome:document.getElementById('m-desired-outcome')?.value||'',successCriteria:document.getElementById('m-success-criteria')?.value||'',projectResult:document.getElementById('m-project-result')?.value||'',
     blockers:document.getElementById('m-blockers')?.value||'',
     tags:(document.getElementById('m-tags')?.value||'').split(',').map(t=>t.trim()).filter(Boolean),
     timedNotes:(()=>{const existing=(S.editId?getItem(S.editId):null)?.timedNotes||[];const newNote=(document.getElementById('m-new-note')?.value||'').trim();if(newNote){existing.push({ts:new Date().toISOString(),text:newNote});}return existing;})(),
@@ -11838,73 +11861,98 @@ function toggleSelectAll(checked){
 }
 
 
-// v484 — Goal / Project Classification Assist.
-// Deterministic and explainable; it never silently changes the Action Item type.
-function goalProjectClassification(itemLike){
-  const x=itemLike||{},reasonsGoal=[],reasonsProject=[];let goal=0,project=0;
-  const linkedGoals=(x.linkedGoals||[]).length,linkedProjects=(x.linkedProjects||[]).length;
-  const linkedPhases=(x.linkedPhases||[]).length,linkedTasks=(x.linkedTasks||[]).length;
-  const measurable=(x.smart_m||'').trim();
-  if(linkedProjects){goal+=4;reasonsGoal.push(`${linkedProjects} linked project${linkedProjects===1?'':'s'} — goals can contain projects`);}
-  if(measurable){goal+=3;reasonsGoal.push('has a measurable success/outcome statement');}
-  if(!linkedGoals&&linkedProjects){goal+=1;reasonsGoal.push('is not linked under another goal');}
-  if(linkedGoals){project+=5;reasonsProject.push(`linked to ${linkedGoals} goal${linkedGoals===1?'':'s'} — projects execute a larger outcome`);}
-  if(linkedPhases){project+=3;reasonsProject.push(`${linkedPhases} phase${linkedPhases===1?'':'s'} — phased work is a strong project signal`);}
-  if(linkedTasks>=2){project+=2;reasonsProject.push(`${linkedTasks} linked tasks — executable work structure`);}
-  else if(linkedTasks===1){project+=1;reasonsProject.push('has a linked task');}
-  if(!measurable&&(linkedPhases||linkedTasks)){project+=1;reasonsProject.push('has work structure but no measurable outcome statement yet');}
+
+// v485 — Goal / Project Classification Assist.
+// Four explicit questions determine the recommendation. A fully answered item whose
+// recommendation matches its saved Type is considered reviewed and leaves the review queue.
+const GP_CLASS_FIELDS=['gpClassFinish','gpClassBreakdown','gpClassNature','gpClassCompletion'];
+function goalProjectClassification(x){
+  x=x||{};let goal=0,project=0;const reasons=[];
+  if(x.gpClassFinish==='finish'){project++;reasons.push('Natural finish line → Project');}
+  else if(x.gpClassFinish==='ongoing'){goal++;reasons.push('Ongoing / directional → Goal');}
+  if(x.gpClassBreakdown==='tasks'){project++;reasons.push('Breaks into tasks / phases → Project');}
+  else if(x.gpClassBreakdown==='projects'){goal++;reasons.push('Breaks into projects / habits / metrics → Goal');}
+  if(x.gpClassNature==='why'){goal++;reasons.push('Represents the outcome / why → Goal');}
+  else if(x.gpClassNature==='what'){project++;reasons.push('Represents concrete work / what → Project');}
+  if(x.gpClassCompletion==='metric'){goal++;reasons.push('Tracked by an ongoing metric / milestone → Goal');}
+  else if(x.gpClassCompletion==='checklist'){project++;reasons.push('Ends when the checklist is complete → Project');}
+  const answered=GP_CLASS_FIELDS.filter(k=>!!x[k]).length;
   let recommendation='review',confidence='Needs Review';
-  if(goal>=project+2){recommendation='goal';confidence=goal>=6?'Strong':'Likely';}
-  else if(project>=goal+2){recommendation='project';confidence=project>=6?'Strong':'Likely';}
-  const reasons=recommendation==='goal'?reasonsGoal:recommendation==='project'?reasonsProject:[...reasonsGoal.slice(0,2),...reasonsProject.slice(0,2)];
-  return {recommendation,confidence,goalScore:goal,projectScore:project,reasons};
+  if(answered===4&&goal>project){recommendation='goal';confidence=goal===4?'Strong':'Likely';}
+  else if(answered===4&&project>goal){recommendation='project';confidence=project===4?'Strong':'Likely';}
+  return {recommendation,confidence,goalScore:goal,projectScore:project,answered,reasons};
+}
+function gpClassValue(key){
+  const el=document.querySelector(`input[name="${key}"]:checked`);
+  return el?.value||'';
 }
 function modalGoalProjectSnapshot(){
   const item=S.editId?getItem(S.editId):{};
   return {...(item||{}),type:document.getElementById('m-type')?.value||item?.type||'',
-    smart_m:document.getElementById('m-m')?.value??item?.smart_m??'',
-    linkedGoals:(ML.linkedGoals||[]).slice(),linkedProjects:(ML.linkedProjects||[]).slice(),
-    linkedPhases:(ML.linkedPhases||[]).slice(),linkedTasks:(ML.linkedTasks||[]).slice()};
+    gpClassFinish:gpClassValue('gpClassFinish')||item?.gpClassFinish||'',
+    gpClassBreakdown:gpClassValue('gpClassBreakdown')||item?.gpClassBreakdown||'',
+    gpClassNature:gpClassValue('gpClassNature')||item?.gpClassNature||'',
+    gpClassCompletion:gpClassValue('gpClassCompletion')||item?.gpClassCompletion||''};
+}
+function gpClassQuestion(key,num,q,aVal,aLabel,bVal,bLabel,current){
+  return `<div style="padding:8px 0;border-top:${num===1?'0':'1px solid rgba(0,0,0,.08)'}">
+    <div style="font-size:10px;font-weight:700;margin-bottom:5px">${num}. ${q}</div>
+    <label style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;font-size:9.5px;cursor:pointer"><input type="radio" name="${key}" value="${aVal}" ${current===aVal?'checked':''} onchange="renderGoalProjectClassificationAssist()"> ${aLabel}</label>
+    <label style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;cursor:pointer"><input type="radio" name="${key}" value="${bVal}" ${current===bVal?'checked':''} onchange="renderGoalProjectClassificationAssist()"> ${bLabel}</label>
+  </div>`;
 }
 function renderGoalProjectClassificationAssist(){
   const box=document.getElementById('gp-classification-assist');if(!box)return;
-  const x=modalGoalProjectSnapshot();if(!['goal','project'].includes(x.type)){box.innerHTML='';return;}
-  const r=goalProjectClassification(x),same=r.recommendation===x.type;
+  const item=S.editId?getItem(S.editId):{}, type=document.getElementById('m-type')?.value||item?.type||'';
+  if(!['goal','project'].includes(type)){box.innerHTML='';return;}
+  const x=modalGoalProjectSnapshot(),r=goalProjectClassification(x),same=r.recommendation===type;
   const recLabel=r.recommendation==='goal'?'Goal':r.recommendation==='project'?'Project':'Needs Review';
-  const bg=r.recommendation==='review'?'#FFF7ED':same?'#ECFDF5':'#EFF6FF';
-  const bd=r.recommendation==='review'?'#FDBA74':same?'#86EFAC':'#93C5FD';
-  const fg=r.recommendation==='review'?'#9A3412':same?'#166534':'#1D4ED8';
-  const why=r.reasons.length?r.reasons.map(v=>`<li>${esc(v)}</li>`).join(''):'<li>Add M — Measurable and/or hierarchy links for a stronger recommendation.</li>';
+  const bg=r.recommendation==='review'?'#FFF7ED':same?'#ECFDF5':'#EFF6FF',bd=r.recommendation==='review'?'#FDBA74':same?'#86EFAC':'#93C5FD',fg=r.recommendation==='review'?'#9A3412':same?'#166534':'#1D4ED8';
   box.innerHTML=`<div style="border:1px solid ${bd};background:${bg};border-radius:10px;padding:10px 12px">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:11px;color:${fg}">💡 Classification Assist: ${r.confidence} ${recLabel}</b>
-    <span style="font-size:9px;color:var(--txt3)">Goal ${r.goalScore} · Project ${r.projectScore}</span>
-    ${r.recommendation!=='review'&&!same?`<button type="button" class="btn xs" style="margin-left:auto" onclick="applyGoalProjectRecommendation('${r.recommendation}')">Change to ${recLabel}</button>`:''}
-    ${same?`<span style="margin-left:auto;font-size:9px;font-weight:600;color:${fg}">Current type fits</span>`:''}</div>
-    <ul style="margin:6px 0 0 17px;padding:0;font-size:9.5px;line-height:1.45;color:var(--txt2)">${why}</ul>
-    <div style="font-size:9px;color:var(--txt3);margin-top:5px">Recommendation only — LCC never changes Goal/Project automatically.</div></div>`;
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px"><b style="font-size:11px;color:${fg}">💡 Goal vs Project Classification</b><span style="font-size:9px;color:var(--txt3)">${r.answered}/4 answered</span></div>
+    ${gpClassQuestion('gpClassFinish',1,'Does it have a natural finish line?','finish','Yes — it can be finished','ongoing','No — it is ongoing / directional',x.gpClassFinish)}
+    ${gpClassQuestion('gpClassBreakdown',2,'What does it primarily break down into?','tasks','Tasks / phases','projects','Projects / habits / metrics',x.gpClassBreakdown)}
+    ${gpClassQuestion('gpClassNature',3,'Is this the outcome (why) or the concrete work (what)?','why','Outcome / WHY','what','Concrete work / WHAT',x.gpClassNature)}
+    ${gpClassQuestion('gpClassCompletion',4,'What does completion look like?','metric','Ongoing metric / milestone','checklist','Finished checklist',x.gpClassCompletion)}
+    <div style="border-top:1px solid rgba(0,0,0,.1);padding-top:8px;margin-top:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <b style="font-size:11px;color:${fg}">Recommendation: ${r.confidence} ${recLabel}</b>
+      <span style="font-size:9px;color:var(--txt3)">Goal ${r.goalScore} · Project ${r.projectScore}</span>
+      ${r.recommendation!=='review'&&!same?`<button type="button" class="btn xs" style="margin-left:auto" onclick="applyGoalProjectRecommendation('${r.recommendation}')">Change to ${recLabel}</button>`:''}
+      ${r.answered===4&&same?`<span style="margin-left:auto;font-size:9px;font-weight:700;color:${fg}">✓ Type matches — saves as reviewed</span>`:''}
+    </div>
+    ${r.answered===4&&r.recommendation==='review'?`<div style="font-size:9px;color:${fg};margin-top:5px">The answers split 2–2, so LCC will keep this in Classification Review.</div>`:''}
+    <div style="font-size:9px;color:var(--txt3);margin-top:5px">LCC never changes the type automatically. Once all four are answered and the saved Type matches the recommendation, this item leaves Classification Review.</div>
+  </div>`;
 }
 function applyGoalProjectRecommendation(type){
-  if(!['goal','project'].includes(type))return;const sel=document.getElementById('m-type');if(!sel)return;sel.value=type;switchType();
+  if(!['goal','project'].includes(type))return;
+  const vals={};GP_CLASS_FIELDS.forEach(k=>vals[k]=gpClassValue(k));
+  const sel=document.getElementById('m-type');if(!sel)return;sel.value=type;switchType();
+  setTimeout(()=>{GP_CLASS_FIELDS.forEach(k=>{const el=document.querySelector(`input[name="${k}"][value="${vals[k]}"]`);if(el)el.checked=true;});renderGoalProjectClassificationAssist();},0);
+}
+function goalProjectClassificationReviewed(i){
+  if(!i||!['goal','project'].includes(i.type))return false;
+  const r=goalProjectClassification(i);
+  return r.answered===4&&r.recommendation===i.type;
 }
 function openGoalProjectClassificationReview(){
   const excluded=new Set(['done','cancelled','placeholder']);
-  const items=(S.items||[]).filter(i=>['goal','project'].includes(i.type)&&!excluded.has(i.status));
-  if(!items.length){toast('No active Goals or Projects to review');return;}
-  const byName=new Map();items.forEach(i=>{const k=(i.name||'').trim().toLowerCase().replace(/\s+/g,' ');if(k){if(!byName.has(k))byName.set(k,[]);byName.get(k).push(i);}});
-  const rows=items.map(i=>{const r=goalProjectClassification(i),same=r.recommendation===i.type;
-    const key=(i.name||'').trim().toLowerCase().replace(/\s+/g,' '),dup=(byName.get(key)||[]).length>1;
-    const flag=dup?'Possible duplicate Goal/Project':r.recommendation==='review'?'Needs classification review':same?'Likely correct':`Review as ${r.recommendation==='goal'?'Goal':'Project'}`;
+  const active=(S.items||[]).filter(i=>['goal','project'].includes(i.type)&&!excluded.has(i.status));
+  const items=active.filter(i=>!goalProjectClassificationReviewed(i));
+  if(!items.length){toast('All active Goals and Projects are classified and match their recommendation');return;}
+  const byName=new Map();active.forEach(i=>{const k=(i.name||'').trim().toLowerCase().replace(/\s+/g,' ');if(k){if(!byName.has(k))byName.set(k,[]);byName.get(k).push(i);}});
+  const rows=items.map(i=>{const r=goalProjectClassification(i),key=(i.name||'').trim().toLowerCase().replace(/\s+/g,' '),dup=(byName.get(key)||[]).length>1;
+    const flag=dup?'Possible duplicate Goal/Project':r.answered<4?`Answer classification questions (${r.answered}/4)`:r.recommendation==='review'?'Answers split — decide/review':`Review as ${r.recommendation==='goal'?'Goal':'Project'}`;
     const list=(i.listIds||[]).map(id=>(S.lists||[]).find(x=>String(x.id)===String(id))?.name).filter(Boolean).join(', ')||'—';
-    return {i,r,same,dup,flag,list,reasons:r.reasons.join('; ')||'Not enough structure yet'};})
-    .sort((a,b)=>(a.same&&!a.dup?1:0)-(b.same&&!b.dup?1:0)||(a.i.name||'').localeCompare(b.i.name||''));
-  const counts={total:rows.length,review:rows.filter(x=>!x.same||x.r.recommendation==='review'||x.dup).length,duplicates:rows.filter(x=>x.dup).length,fits:rows.filter(x=>x.same&&x.r.recommendation!=='review'&&!x.dup).length};
-  const body=rows.map(x=>`<tr><td>${esc(x.i.name||'(Untitled)')}</td><td>${x.i.type==='goal'?'Goal':'Project'}</td><td><b>${esc(x.flag)}</b><div class="why">${esc(x.reasons)}</div></td><td>${esc(x.list)}</td><td>${x.r.goalScore}</td><td>${x.r.projectScore}</td></tr>`).join('');
+    return {i,r,dup,flag,list};}).sort((a,b)=>a.r.answered-b.r.answered||(a.i.name||'').localeCompare(b.i.name||''));
+  const counts={total:active.length,pending:items.length,complete:active.length-items.length,duplicates:rows.filter(x=>x.dup).length};
+  const body=rows.map(x=>`<tr><td>${esc(x.i.name||'(Untitled)')}</td><td>${x.i.type==='goal'?'Goal':'Project'}</td><td><b>${esc(x.flag)}</b><div class="why">${x.r.reasons.map(esc).join(' · ')||'No classification answers saved yet'}</div></td><td>${esc(x.list)}</td><td>${x.r.answered}/4</td><td>${x.r.goalScore}</td><td>${x.r.projectScore}</td></tr>`).join('');
   const w=window.open('','_blank');if(!w){toast('Allow pop-ups to open Classification Review');return;}
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Goal vs Project Classification Review</title><style>
   body{font-family:Arial,sans-serif;color:#20202a;margin:24px;font-size:11px}h1{margin:0 0 4px}.sub{color:#666;margin-bottom:14px}.summary{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.sum{border:1px solid #d7d0e5;border-radius:8px;padding:8px 12px;min-width:100px}.sum b{display:block;font-size:20px;color:#4C1D95}.sum span{font-size:9px;text-transform:uppercase;color:#666}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:7px;vertical-align:top}th{background:#f2eefb;text-align:left}.why{font-size:9px;color:#666;margin-top:4px;line-height:1.35}</style></head><body>
-  <h1>Goal vs Project Classification Review</h1><div class="sub">Active Goals and Projects only. Recommendations are explainable and do not change your data.</div>
-  <div class="summary"><div class="sum"><b>${counts.total}</b><span>Total Active</span></div><div class="sum"><b>${counts.review}</b><span>Needs Review</span></div><div class="sum"><b>${counts.duplicates}</b><span>Possible Duplicates</span></div><div class="sum"><b>${counts.fits}</b><span>Likely Fits</span></div></div>
-  <table><thead><tr><th>Action Item</th><th>Current Type</th><th>Classification</th><th>List</th><th>Goal Score</th><th>Project Score</th></tr></thead><tbody>${body}</tbody></table></body></html>`);w.document.close();
+  <h1>Goal vs Project Classification Review</h1><div class="sub">Only active Goals/Projects still needing classification are shown. Fully answered records disappear once their recommendation matches their saved Type.</div>
+  <div class="summary"><div class="sum"><b>${counts.total}</b><span>Total Active</span></div><div class="sum"><b>${counts.pending}</b><span>Needs Review</span></div><div class="sum"><b>${counts.complete}</b><span>Classified</span></div><div class="sum"><b>${counts.duplicates}</b><span>Possible Duplicates</span></div></div>
+  <table><thead><tr><th>Action Item</th><th>Current Type</th><th>What Needs Review</th><th>List</th><th>Answered</th><th>Goal</th><th>Project</th></tr></thead><tbody>${body}</tbody></table></body></html>`);w.document.close();
 }
 
 // v482 — printable planning structure reports.
@@ -11957,6 +12005,7 @@ function printPlanningStructureReport(type){
   const statusSummary=Object.entries(statusCounts)
     .sort((a,b)=>b[1]-a[1]||(statusLabels[a[0]]||a[0]).localeCompare(statusLabels[b[0]]||b[0]))
     .map(([k,v])=>`<div class="sum"><b>${v}</b><span>${esc(statusLabels[k]||k)}</span></div>`).join('');
+  const missingRequiredCount=anchors.filter(i=>(typeof baseMissingFields==='function'?baseMissingFields(i):[]).length>0).length;
 
   const groups=new Map();
   anchors.forEach(i=>{const sp=planningReportSprint(i);if(!groups.has(sp.key))groups.set(sp.key,{sp,items:[]});groups.get(sp.key).items.push(i);});
@@ -11979,6 +12028,8 @@ function printPlanningStructureReport(type){
       const info=planningReportCounts(i),c=info.counts;
       const structure=typeOrder.filter(k=>c[k]).map(k=>`${c[k]} ${labelMap[k]}`).join(' · ')||'No linked child items';
       const prog=typeof calcProg==='function'?calcProg(i):0;
+      const missing=(typeof baseMissingFields==='function'?baseMissingFields(i):[]);
+      const missingHtml=missing.length?`<div class="missing"><b>⚠ ${missing.length} missing</b><span>${missing.map(esc).join(' · ')}</span></div>`:`<div class="complete">✓ Complete</div>`;
       return `<tr>
         <td><div class="nm">${esc(i.name||'(Untitled)')}</div><div class="meta">${esc(statusLabels[i.status]||i.status||'Not Started')}</div></td>
         <td>${esc(reportLists(i))}</td>
@@ -11986,12 +12037,13 @@ function printPlanningStructureReport(type){
         <td>${i.date?fmtMDY(i.date):'—'}</td>
         <td>${esc(reportDuration(i))}</td>
         <td>${Math.round(prog||0)}%</td>
+        <td>${missingHtml}</td>
         <td>${esc(structure)}</td>
         <td class="notes"></td>
       </tr>`;
     }).join('');
     return `<section><div class="sprint"><div><b>${esc(g.sp.label)}</b><span>${esc(g.sp.range)}</span></div><strong>${g.items.length} active ${type==='goal'?'goal':'project'}${g.items.length!==1?'s':''}</strong></div>
-      <table><thead><tr><th>${type==='goal'?'Goal':'Project'}</th><th>List</th><th>Start</th><th>Due</th><th>Duration</th><th>Progress</th><th>Structure Under It</th><th>Planning Notes</th></tr></thead><tbody>${body}</tbody></table></section>`;
+      <table><thead><tr><th>${type==='goal'?'Goal':'Project'}</th><th>List</th><th>Start</th><th>Due</th><th>Duration</th><th>Progress</th><th>Missing Required Fields</th><th>Structure Under It</th><th>Planning Notes</th></tr></thead><tbody>${body}</tbody></table></section>`;
   }).join('');
 
   const title=type==='goal'?'Goals Planning Report':'Projects Planning Report';
@@ -12002,10 +12054,10 @@ function printPlanningStructureReport(type){
     h1{font-size:22px;margin:0 0 3px}.sub{color:#666;margin-bottom:10px}.summary{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}.sum{border:1px solid #cfc7df;border-radius:6px;padding:6px 10px;min-width:76px;background:#faf8ff}.sum b{font-size:16px;color:#4C1D95;display:block}.sum span{font-size:8px;text-transform:uppercase;letter-spacing:.4px;color:#555}
     .sprint{display:flex;justify-content:space-between;align-items:end;border-bottom:2px solid #4C1D95;padding:8px 0 5px;margin-top:12px}.sprint b{font-size:14px;color:#4C1D95}.sprint span{display:block;font-size:8px;color:#666;margin-top:2px}.sprint strong{font-size:9px}
     table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:4px}tr{page-break-inside:avoid}th,td{border:1px solid #bbb;padding:5px;vertical-align:top}th{background:#f2eefb;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:.3px}
-    th:nth-child(1){width:19%}th:nth-child(2){width:11%}th:nth-child(3),th:nth-child(4){width:7%}th:nth-child(5){width:7%}th:nth-child(6){width:6%}th:nth-child(7){width:25%}th:nth-child(8){width:18%}
-    .nm{font-weight:700;font-size:10px}.meta{color:#666;font-size:8px;margin-top:3px}.notes{height:32px}.footer{margin-top:14px;color:#777;font-size:8px}
+    th:nth-child(1){width:16%}th:nth-child(2){width:9%}th:nth-child(3),th:nth-child(4){width:6%}th:nth-child(5){width:6%}th:nth-child(6){width:5%}th:nth-child(7){width:17%}th:nth-child(8){width:20%}th:nth-child(9){width:15%}
+    .nm{font-weight:700;font-size:10px}.meta{color:#666;font-size:8px;margin-top:3px}.missing{color:#92400E;background:#FFF7ED;border:1px solid #FCD9A8;border-radius:5px;padding:4px}.missing b{display:block;font-size:8px}.missing span{display:block;font-size:7.5px;margin-top:2px;line-height:1.3}.complete{color:#166534;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:5px;padding:4px;font-weight:700;font-size:8px}.notes{height:32px}.footer{margin-top:14px;color:#777;font-size:8px}
   </style></head><body><h1>${title}</h1><div class="sub">Active ${type==='goal'?'goals':'projects'} only · Completed and Cancelled excluded · grouped by sprint · linked hierarchy counts shown for planning.</div>
-  <div class="summary"><div class="sum"><b>${anchors.length}</b><span>Total Active</span></div>${statusSummary}</div>
+  <div class="summary"><div class="sum"><b>${anchors.length}</b><span>Total Active</span></div><div class="sum"><b>${missingRequiredCount}</b><span>Missing Required Fields</span></div>${statusSummary}</div>
   ${rows}<div class="footer">Generated ${new Date().toLocaleString()}</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);
   w.document.close();
 }
@@ -29379,6 +29431,15 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v484 — Goal/Project Action Items display an explainable Classification Assist. Planning Queue includes Review Goal vs Project for active-record auditing. Recommendations never auto-change type. -->
 <!-- CHANGE LOG: v484 — Added deterministic Goal/Project classification scoring using existing M — Measurable and hierarchy links; added explicit apply-recommendation control and active classification review with duplicate-name detection. No new persistent field or controlled value added, so Bulk Add/Bulk Update/export schema remain unchanged. -->
 <!-- RELEASE NOTES: v484 — LCC can now help distinguish Goals from Projects while keeping the final classification decision with the user. -->
+<!-- USER GUIDE: v485 — Answer the four Goal/Project Classification questions. A completed 3–1 or 4–0 recommendation that matches the saved Type removes the item from Classification Review; a mismatch, incomplete answers, or 2–2 split stays in review. -->
+<!-- CHANGE LOG: v485 — Replaced link-based classification with explicit finish-line/decomposition/why-vs-what/completion-style questions. Persisted four classification fields; added them to universal Bulk Add/Bulk Update field catalogs and Excel export. Classification Review is now a true exception queue. -->
+<!-- RELEASE NOTES: v485 — Goal vs Project classification now follows the user's four-question decision logic and self-clears reviewed/matching records. -->
+<!-- USER GUIDE: v486 — Goal and Project planning reports now show a top count of records missing required information and an exact Missing Required Fields callout on every row. -->
+<!-- CHANGE LOG: v486 — Added required-field data-quality callouts to both planning reports using baseMissingFields(); behavioral guardrails are intentionally excluded. Project Action Item form was not changed pending field-design approval. -->
+<!-- RELEASE NOTES: v486 — Planning reports now identify exactly which active Goals and Projects are incomplete. -->
+<!-- USER GUIDE: v487 — Projects require Desired Outcome + Success Criteria before In Progress and Project Result before Done. Priority is optional. -->
+<!-- CHANGE LOG: v487 — Added Project lifecycle fields to the form, validation, Bulk Add/Bulk Update, export, and report missing-field logic; removed Priority as a Project requirement; renamed Next Review Date. -->
+<!-- RELEASE NOTES: v487 — Project records now enforce planning before execution and result capture at close-out. -->
 </body>
 
 
