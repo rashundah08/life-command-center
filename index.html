@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v481</title>
+<title>LCC v482</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v481</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v482</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1095,6 +1095,11 @@ Item 3
 <button class="btn xs" onclick="copyKeepFocus('Quarter')">Quarter</button>
 <button class="btn xs" onclick="copyKeepFocus('Year')">Year</button>
 <span style="font-size:10px;color:var(--txt3)">Copies that period's ⭐ focus items to your clipboard — paste into your pinned Keep notes.</span>
+<div style="margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+<span style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)">🖨 Planning Reports</span>
+<button class="btn xs" onclick="printPlanningStructureReport('goal')">Print Goals</button>
+<button class="btn xs" onclick="printPlanningStructureReport('project')">Print Projects</button>
+</div>
 </div>
 <div id="hub-focus-periods-wrap" style="margin-bottom:24px"></div>
 <div id="v360-planning-active"></div>
@@ -1291,11 +1296,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v481 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v482 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v481</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v482</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3806,7 +3811,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV481();
+  const _v475ReleaseAdded=ensureReleaseV482();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4000,11 +4005,11 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV481(){
+function ensureReleaseV482(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v481'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v482'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v481',name:'LCC v481 — Restore LCC Classification Tools',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'481',releaseType:'enhancement',releaseModules:['All Action Items','Core Filters','Execution Center'],releaseChangelog:'Replaced the sprawling All Action Items filter matrix with a compact Core Filter toolbar. Add Filter now exposes searchable core-field values, active filters render as removable chips, Sprint/Tags/Categories/Lists stay collapsed until requested, and saved filter views can be stored locally. Expanded filtering to core controlled fields plus useful date/number/presence filters while preserving the existing search, sort, print, selection, and bulk actions.',releaseNotes:'v477 makes All Action Items filtering compact and scalable. Core fields are selected one at a time, large option sets are searchable, active filters stay visible as chips, and reusable saved views reduce repeated setup without consuming page space.',notes:'User Guide: In Execution Center → All Action Items, use the existing Search box for names/text and ＋ Add Filter for structured filtering. Choose a core field, search its available values, and select one or more options. Active filters appear as removable chips. Sprint, Tags, Categories, and Lists no longer display every value at once. Use Save View to store a commonly used filter combination locally, and Clear All to reset structured filters.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v482',name:'LCC v482 — Planning Organization & Sidebar Cleanup',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'482',releaseType:'enhancement',releaseModules:['Sidebar','Planning Queue','Print','Goals','Projects'],releaseChangelog:'Removed the remaining Business initiative group from the LCC sidebar, including RLA, Savvy Foundations, and Savvy Structure shortcuts. Reduced Planning Queue render work by skipping hidden Focus rendering and deferring annual/aging scans until those views need them. Added separate printable Goals and Projects planning reports grouped by sprint, with Start/Due dates, progress, linked descendant counts by type, and a blank Planning Notes column.',releaseNotes:'v482 removes the last business shortcuts from LCC navigation, improves Planning Queue responsiveness, and adds paper-friendly Goal and Project planning reports to help organize work by sprint and hierarchy.',notes:'User Guide: In Planning Queue, use Print Goals or Print Projects under Planning Reports. Each report groups the selected record type by sprint and shows its dates, progress, and the number of linked phases/tasks/other descendants underneath it. Use the blank Planning Notes column while planning on paper.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
 }
@@ -4046,7 +4051,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV481();
+  const _v475ReleaseAdded=ensureReleaseV482();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -11828,6 +11833,85 @@ function toggleSelectAll(checked){
   });
   updateBulkBar();
 }
+
+// v482 — printable planning structure reports.
+// Goals and Projects print separately, grouped by the anchor item's sprint.
+// Each row shows the hierarchy footprint underneath the anchor so planning can happen from paper.
+function planningReportChildIds(item){
+  if(!item)return[];
+  const fields=item.type==='goal'
+    ?['linkedProjects','linkedPhases','linkedTasks','linkedAsks','linkedPatches','linkedChallenges','linkedReleases','linkedChanges','linkedEvents','linkedCourses','linkedHabits','linkedInventory','linkedRooms','linkedAutomations','linkedDigital']
+    :['linkedPhases','linkedTasks','linkedAsks','linkedPatches','linkedChallenges','linkedReleases','linkedChanges','linkedEvents','linkedCourses','linkedHabits','linkedInventory','linkedRooms','linkedAutomations','linkedDigital'];
+  const out=[];
+  fields.forEach(f=>(item[f]||[]).forEach(id=>{if(id&&!out.includes(id))out.push(id);}));
+  return out;
+}
+function planningReportDescendants(anchor){
+  const seen=new Set(),stack=planningReportChildIds(anchor).slice();
+  while(stack.length){
+    const id=stack.shift();
+    if(!id||seen.has(id)||id===anchor.id)continue;
+    seen.add(id);
+    const child=getItem(id);
+    if(child)planningReportChildIds(child).forEach(cid=>{if(!seen.has(cid))stack.push(cid);});
+  }
+  return Array.from(seen).map(getItem).filter(Boolean);
+}
+function planningReportSprint(item){
+  const n=sprintNumForDate(item.startDate||item.date||'');
+  if(!n)return {key:'9999',label:'Unscheduled',range:'No sprint assigned from Start/Due Date'};
+  const sp=ALL_SPRINTS.find(x=>x.num===n);
+  return {key:String(n).padStart(4,'0'),label:`Sprint ${sp?sp.displayNum:n}${sp&&sp.year?` · ${sp.year}`:''}`,range:sp?`${fmtMDY(sp.start)} – ${fmtMDY(sp.end)}`:''};
+}
+function planningReportCounts(anchor){
+  const desc=planningReportDescendants(anchor),counts={};
+  desc.forEach(i=>counts[i.type]=(counts[i.type]||0)+1);
+  return {desc,counts};
+}
+function printPlanningStructureReport(type){
+  if(!['goal','project'].includes(type))return;
+  const anchors=S.items.filter(i=>i.type===type&&i.status!=='placeholder')
+    .sort((a,b)=>{
+      const sa=planningReportSprint(a),sb=planningReportSprint(b);
+      return sa.key.localeCompare(sb.key)||(a.name||'').localeCompare(b.name||'');
+    });
+  if(!anchors.length){toast(`No ${type==='goal'?'goals':'projects'} to print`);return;}
+  const groups=new Map();
+  anchors.forEach(i=>{const sp=planningReportSprint(i);if(!groups.has(sp.key))groups.set(sp.key,{sp,items:[]});groups.get(sp.key).items.push(i);});
+  const typeOrder=['project','phase','task','ask','challenge','patch','release','change','event','course','habit','inventory','room','automation','digital'];
+  const labelMap={project:'Projects',phase:'Phases',task:'Tasks',ask:'Asks',challenge:'Challenges',patch:'Patches',release:'Releases',change:'Changes',event:'Events',course:'Courses',habit:'Habits',inventory:'Inventory',room:'Rooms',automation:'Automations',digital:'Digital'};
+  const rows=Array.from(groups.values()).map(g=>{
+    const body=g.items.map(i=>{
+      const info=planningReportCounts(i),c=info.counts;
+      const structure=typeOrder.filter(k=>c[k]).map(k=>`${c[k]} ${labelMap[k]}`).join(' · ')||'No linked child items';
+      const prog=typeof calcProg==='function'?calcProg(i):0;
+      return `<tr>
+        <td><div class="nm">${esc(i.name||'(Untitled)')}</div><div class="meta">${tBadge(i.type,i)} · ${esc((i.status||'').replace(/([A-Z])/g,' $1'))}</div></td>
+        <td>${i.startDate?fmtMDY(i.startDate):'—'}</td>
+        <td>${i.date?fmtMDY(i.date):'—'}</td>
+        <td>${Math.round(prog||0)}%</td>
+        <td>${esc(structure)}</td>
+        <td class="notes"></td>
+      </tr>`;
+    }).join('');
+    return `<section><div class="sprint"><div><b>${esc(g.sp.label)}</b><span>${esc(g.sp.range)}</span></div><strong>${g.items.length} ${type==='goal'?'goal':'project'}${g.items.length!==1?'s':''}</strong></div>
+      <table><thead><tr><th>${type==='goal'?'Goal':'Project'}</th><th>Start</th><th>Due</th><th>Progress</th><th>Structure Under It</th><th>Planning Notes</th></tr></thead><tbody>${body}</tbody></table></section>`;
+  }).join('');
+  const title=type==='goal'?'Goals Planning Report':'Projects Planning Report';
+  const w=window.open('','_blank');
+  if(!w){toast('Allow pop-ups to print this report');return;}
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>
+    @page{size:landscape;margin:.45in}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#20202a;margin:0;font-size:10px}
+    h1{font-size:22px;margin:0 0 3px}.sub{color:#666;margin-bottom:16px}.sprint{display:flex;justify-content:space-between;align-items:end;border-bottom:2px solid #4C1D95;padding:8px 0 5px;margin-top:14px}
+    .sprint b{font-size:15px;color:#4C1D95}.sprint span{display:block;font-size:9px;color:#666;margin-top:2px}.sprint strong{font-size:10px}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:4px;page-break-inside:auto}tr{page-break-inside:avoid}th,td{border:1px solid #bbb;padding:6px;vertical-align:top}
+    th{background:#f2eefb;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.4px}th:nth-child(1){width:23%}th:nth-child(2),th:nth-child(3){width:9%}th:nth-child(4){width:7%}th:nth-child(5){width:31%}th:nth-child(6){width:21%}
+    .nm{font-weight:700;font-size:11px}.meta{color:#666;font-size:8px;margin-top:3px}.notes{height:34px}section{break-inside:auto}
+    .footer{margin-top:16px;color:#777;font-size:8px}
+  </style></head><body><h1>${title}</h1><div class="sub">Grouped by sprint · includes every non-placeholder ${type} · structure counts include linked descendants underneath each ${type}.</div>${rows}<div class="footer">Generated ${new Date().toLocaleString()}</div><script>window.onload=()=>setTimeout(()=>window.print(),150)<\/script></body></html>`);
+  w.document.close();
+}
+
 function togglePlanningSelectAll(checked){
   const rows=document.querySelectorAll('#planning-queue-list .ai-chk');
   rows.forEach(chk=>{
@@ -11862,9 +11946,11 @@ function planningMetricCard(label,value,sub,onclick=''){
 function renderPlanningQueue(){
   renderPlanningViewPills();
   const focusWrap=document.getElementById('hub-focus-periods-wrap');
-  const focusMode=planningQueueView==='annual'?'Year':planningQueueView==='overview'?null:'__none__';
-  renderHubFocusItems(focusMode); // V1 focus data remains intact; annual pill isolates Year focus.
-  if(focusWrap)focusWrap.style.display=(planningQueueView==='overview'||planningQueueView==='annual')?'block':'none';
+  const showFocus=(planningQueueView==='overview'||planningQueueView==='annual');
+  if(focusWrap)focusWrap.style.display=showFocus?'block':'none';
+  // v482 — focus rendering is one of the heavier Planning Queue operations.
+  // Only build it on the two views that actually display it; hidden views no longer pay that render cost.
+  if(showFocus)renderHubFocusItems(planningQueueView==='annual'?'Year':null);
   const pid=parkingListId();
   // v180 triage funnel. Base `all` = items that have cleared the Parking Lot (every required
   // non-scheduling field set) and are NOT closed, NOT placeholders, and NOT In Progress —
@@ -11953,9 +12039,11 @@ function renderPlanningQueue(){
     }
     return `<div style="margin-bottom:18px"><div ${forceOpen?'':`onclick="togglePlanningSection('${sec.key}')"`} style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;${forceOpen?'':'cursor:pointer;'}user-select:none;padding:8px 12px;background:${sec.color}11;border-radius:var(--r);border-left:3px solid ${sec.color}"><div><span style="font-size:13px;font-weight:700;color:${sec.color}">${sec.label}</span><span style="font-size:10px;color:var(--txt3);margin-left:8px">${sec.sub}</span></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;font-weight:700;color:${sec.color}">${items.length}</span>${forceOpen?'':`<span style="color:var(--txt2);font-size:11px">${collapsed?'▼':'▲'}</span>`}</div></div><div>${body}</div></div>`;
   };
-  const ageUniverse=[...all,...placeholders];
-  const annual=S.items.filter(i=>i.status!=='placeholder'&&(i.focusPeriods||[]).includes('Year')&&!['done','cancelled'].includes(i.status));
-  const aged30=ageUniverse.filter(i=>planningAgeDays(i)>30);
+  const needsAge=(planningQueueView==='overview'||planningQueueView==='aging'||planningQueueView==='insights');
+  const needsAnnual=(planningQueueView==='overview'||planningQueueView==='annual'||planningQueueView==='insights');
+  const ageUniverse=needsAge?[...all,...placeholders]:[];
+  const annual=needsAnnual?S.items.filter(i=>i.status!=='placeholder'&&(i.focusPeriods||[]).includes('Year')&&!['done','cancelled'].includes(i.status)):[];
+  const aged30=needsAge?ageUniverse.filter(i=>planningAgeDays(i)>30):[];
   const selection=document.getElementById('planning-selection-controls');
   if(selection)selection.style.display=['overview','parking','needsscheduling','future','ready','paused','placeholders','aging'].includes(planningQueueView)?'flex':'none';
   let viewHtml='';
@@ -13540,11 +13628,7 @@ function renderSb(){
       initiativeNavButtonV298('101g','🎯')+
       initiativeNavButtonV298('50b50','🎂')+
       initiativeNavButtonV298('ravyn','🎓')+
-      nosBtn+
-      `<div class="sb-sublbl">Business</div>`+
-      initiativeNavButtonV298('rla','●')+
-      initiativeNavButtonV298('sf','💼')+
-      initiativeNavButtonV298('ss','🧱');
+      nosBtn;
   }
   // Continuing Education is still a contextual shortcut and only appears when its List exists.
   const ce=document.getElementById('nav-ce');
@@ -29188,6 +29272,9 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v481 — Classification Center retains Core Lists, Action Item Tags, and Field Options for LCC. Business Workflows and Workflow Tag Library belong in BCC. -->
 <!-- CHANGE LOG: v481 — Corrected v480 over-removal by restoring/preserving Action Item Tags and Field Options. Removed only Workflow Tag Library and System Operations Workflows. Preserved S.itemTags and S.fieldLibrary; only S.tagLibrary is cleared as business workflow reference data. -->
 <!-- RELEASE NOTES: v481 — LCC classification tools are restored while business workflow management remains removed. -->
+<!-- USER GUIDE: v482 — Planning Queue now includes separate Print Goals and Print Projects reports. Reports group anchors by sprint and show dates, progress, linked descendant counts, and planning-note space. Business initiative shortcuts are no longer shown in the LCC sidebar. -->
+<!-- CHANGE LOG: v482 — Removed RLA/Savvy Foundations/Savvy Structure from dynamic sidebar initiatives; optimized Planning Queue hidden-view rendering; added separate Goal and Project planning print reports grouped by sprint with hierarchy counts. -->
+<!-- RELEASE NOTES: v482 — A planning-focused cleanup that removes remaining business navigation, reduces Planning Queue render work, and adds printable hierarchy summaries for Goals and Projects. -->
 </body>
 
 
