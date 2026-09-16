@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v487</title>
+<title>LCC v488</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v487</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v488</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -963,12 +963,27 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 </div>
 <div class="fbar" id="execution-view-tabs" style="margin-bottom:14px">
   <button class="fpill active" id="exec-tab-today" onclick="setExecutionView('today')">🎯 Today / Focus</button>
+  <button class="fpill" id="exec-tab-classification" onclick="setExecutionView('classification')">🧭 Classification Review</button>
+  <button class="fpill" id="exec-tab-goalreview" onclick="setExecutionView('goalreview')">🎯 Goals Review</button>
+  <button class="fpill" id="exec-tab-projectreview" onclick="setExecutionView('projectreview')">📁 Projects Review</button>
   <button class="fpill" id="exec-tab-all" onclick="setExecutionView('all')">All Action Items</button>
   <button class="fpill" id="exec-tab-projects" onclick="setExecutionView('projects')">Project Tasks</button>
 </div>
 <div id="execution-view-today">
   <div id="execution-today-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
   <div id="execution-today-list"></div>
+</div>
+<div id="execution-view-classification" style="display:none">
+  <div id="execution-classification-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
+  <div id="execution-classification-list"></div>
+</div>
+<div id="execution-view-goalreview" style="display:none">
+  <div id="execution-goalreview-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
+  <div id="execution-goalreview-list"></div>
+</div>
+<div id="execution-view-projectreview" style="display:none">
+  <div id="execution-projectreview-summary" style="font-size:11px;color:var(--txt2);margin-bottom:10px"></div>
+  <div id="execution-projectreview-list"></div>
 </div>
 <div id="execution-view-projects" style="display:none">
   <div style="margin-bottom:10px">
@@ -1297,11 +1312,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v487 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v488 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v487</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v488</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3812,7 +3827,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV487();
+  const _v475ReleaseAdded=ensureReleaseV488();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4006,11 +4021,11 @@ function ensureReleaseV474(){
   return true;
 }
 
-function ensureReleaseV487(){
+function ensureReleaseV488(){
   if(!S||!Array.isArray(S.items))return false;
-  if(S.items.some(i=>i&&i.id==='release-lcc-v487'))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v488'))return false;
   const now=Date.now(),day='2026-09-14';
-  S.items.push({id:'release-lcc-v487',name:'LCC v487 — Project Lifecycle Fields',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'487',releaseType:'enhancement',releaseModules:['Action Item Modal','Projects','Bulk Add','Bulk Update','Export','Planning Reports'],releaseChangelog:'Surfaced Desired Outcome, Success Criteria, and Project Result from the current Field Guide on Project Action Items. Desired Outcome and Success Criteria are required before saving a Project as In Progress. Project Result is required for Done. Priority remains available but is no longer a required Project field. Renamed Review / Check-in Date to Next Review Date. Added the three Project fields to Schema 2.0 Bulk Add/Bulk Update and Excel export. Shared missing-field validation now feeds the Goal/Project planning reports with these lifecycle requirements.',releaseNotes:'v487 gives Projects a clearer lifecycle: define the intended outcome and success criteria before execution, then capture the actual result at close-out. Priority is optional.',notes:'User Guide: Complete Desired Outcome and Success Criteria before changing a Project to In Progress. Enter Project Result before marking it Done. Priority is optional. Planning reports call out any lifecycle-required fields that are missing.',createdAt:now,updatedAt:now});
+  S.items.push({id:'release-lcc-v488',name:'LCC v488 — Execution Review Workspace',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'488',releaseType:'enhancement',releaseModules:['Execution Center','Goal/Project Classification','Goals','Projects'],releaseChangelog:'Added three live review tabs to Execution Center: Classification Review, Goals Review, and Projects Review. Classification Review contains active Goals/Projects whose four classification questions are incomplete, tied, or whose saved Type does not match the recommendation; completing the questions and matching Type removes the item from the tab automatically. Goals Review and Projects Review contain only active records whose classification is complete and matched. Required planning fields are editable inline and save in real time, with missing-required-field callouts recalculated after edits. Goal review includes Name, Status, Level, List, Category, Start Date, Target Date, auto Effort, and M — Measurable. Project review includes the same core fields plus Desired Outcome and Success Criteria, and Project Result when applicable. Full Item remains available for non-review fields.',releaseNotes:'v488 turns Execution Center into the working cleanup surface for Goal/Project classification and required planning data. Review queues update immediately as records become valid.',notes:'User Guide: In Execution Center, use Classification Review first. Answer all four questions and correct Type when needed; matched items leave that tab automatically. Then use Goals Review or Projects Review to complete required planning fields inline. Changes save in real time and missing-field warnings refresh automatically. Use Open Full Item for fields outside the review scope.',createdAt:now,updatedAt:now});
   invalidateItemIndex();
   return true;
 }
@@ -4052,7 +4067,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV487();
+  const _v475ReleaseAdded=ensureReleaseV488();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -11676,14 +11691,18 @@ let _itemsShown=100;
 let _itemsFullSorted=[];
 let executionView='today';
 function setExecutionView(view){
-  executionView=['today','all','projects'].includes(view)?view:'today';
-  ['today','all','projects'].forEach(v=>{
+  const views=['today','classification','goalreview','projectreview','all','projects'];
+  executionView=views.includes(view)?view:'today';
+  views.forEach(v=>{
     const pane=document.getElementById('execution-view-'+v);if(pane)pane.style.display=v===executionView?'block':'none';
     const tab=document.getElementById('exec-tab-'+v);if(tab)tab.classList.toggle('active',v===executionView);
   });
   clearSelection();
   if(executionView==='today')renderExecutionToday();
   else if(executionView==='projects')renderExecutionProjectTasks();
+  else if(executionView==='classification')renderExecutionClassificationReview();
+  else if(executionView==='goalreview')renderExecutionPlanningReview('goal');
+  else if(executionView==='projectreview')renderExecutionPlanningReview('project');
   else renderItems();
 }
 function executionActiveItems(){
@@ -11714,6 +11733,130 @@ function renderExecutionProjectTasks(){
   if(!rows.length){body.innerHTML='<div class="empty">No open items are currently assigned to the Project Tasks list.</div>';return;}
   renderCardsSorted(rows,'execution-project-list');
 }
+
+// v488 — Execution Center live Goal / Project review workspace.
+let _execReviewTimer=null;
+function execReviewEscAttr(v){return esc(String(v??'')).replace(/"/g,'&quot;')}
+function execReviewOptions(values,current,blank='— Select —'){
+  return `<option value="">${blank}</option>`+values.map(v=>`<option value="${execReviewEscAttr(v.value??v)}" ${(v.value??v)===current?'selected':''}>${esc(v.label??v)}</option>`).join('');
+}
+function execReviewListOptions(i){
+  const cur=(i.listIds||[])[0]||'', vals=(S.lists||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(x=>({value:x.id,label:x.name}));
+  return execReviewOptions(vals,cur,'— List —');
+}
+function execReviewCategoryOptions(i){
+  const cur=(i.categories||[])[0]||'', vals=[...new Set([...(typeof CATS!=='undefined'?CATS:[]),...(S.items||[]).flatMap(x=>x.categories||[])])].filter(Boolean).sort();
+  return execReviewOptions(vals,cur,'— Category —');
+}
+function execReviewStatusOptions(i){
+  const vals=[['notstarted','Not Started'],['planned','Planned'],['inprogress','In Progress'],['behind','Behind'],['onhold','On Hold'],['deferred','Deferred'],['done','Done'],['cancelled','Cancelled']];
+  return execReviewOptions(vals.map(x=>({value:x[0],label:x[1]})),i.status||'notstarted','— Status —');
+}
+function execReviewLevelOptions(i){
+  return execReviewOptions([{value:'primary',label:'Primary'},{value:'supporting',label:'Supporting'}],i.level||'','— Level —');
+}
+function execReviewSet(id,key,value,rerender=true){
+  const i=getItem(id);if(!i)return;
+  if(key==='list'){i.listIds=value?[value]:[];}
+  else if(key==='category'){i.categories=value?[value]:[];}
+  else i[key]=value;
+  if((key==='startDate'||key==='date')&&['goal','project'].includes(i.type))i.effort=effortFromDurationV422(i.startDate||'',i.date||'');
+  i.updatedAt=Date.now();save();
+  if(rerender){
+    clearTimeout(_execReviewTimer);
+    _execReviewTimer=setTimeout(()=>{if(executionView==='classification')renderExecutionClassificationReview();else if(executionView==='goalreview')renderExecutionPlanningReview('goal');else if(executionView==='projectreview')renderExecutionPlanningReview('project');},80);
+  }
+}
+function execReviewText(id,key,value){
+  const i=getItem(id);if(!i)return;i[key]=value;i.updatedAt=Date.now();save();
+  clearTimeout(_execReviewTimer);
+  _execReviewTimer=setTimeout(()=>{if(executionView==='classification')renderExecutionClassificationReview();else if(executionView==='goalreview')renderExecutionPlanningReview('goal');else if(executionView==='projectreview')renderExecutionPlanningReview('project');},450);
+}
+function execReviewClassSet(id,key,value){
+  execReviewSet(id,key,value,false);
+  const i=getItem(id),r=goalProjectClassification(i);
+  if(executionView==='classification'&&r.answered===4&&r.recommendation===i.type){
+    setTimeout(renderExecutionClassificationReview,100);
+  }else if(executionView==='classification')setTimeout(renderExecutionClassificationReview,100);
+  else if(executionView==='goalreview')setTimeout(()=>renderExecutionPlanningReview('goal'),100);
+  else if(executionView==='projectreview')setTimeout(()=>renderExecutionPlanningReview('project'),100);
+}
+function execReviewTypeSet(id,value){
+  const i=getItem(id);if(!i||!['goal','project'].includes(value))return;
+  i.type=value;i.updatedAt=Date.now();save();
+  setTimeout(()=>{if(executionView==='classification')renderExecutionClassificationReview();else renderExecutionPlanningReview(value);},100);
+}
+function execClassSelect(id,key,current,aVal,aLabel,bVal,bLabel){
+  return `<select onchange="execReviewClassSet('${id}','${key}',this.value)">${execReviewOptions([{value:aVal,label:aLabel},{value:bVal,label:bLabel}],current,'— Answer —')}</select>`;
+}
+function execReviewMissingBadge(i){
+  const m=baseMissingFields(i);
+  return m.length?`<div class="exec-miss"><b>⚠ ${m.length} missing</b><span>${m.map(esc).join(' · ')}</span></div>`:`<div class="exec-ok">✓ Required fields complete</div>`;
+}
+function execReviewStyles(){
+  return `<style>
+  .exec-review-grid{display:grid;gap:10px}.exec-review-card{border:1px solid var(--bdr2);border-radius:12px;background:var(--card);padding:12px}
+  .exec-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px}.exec-review-name{font-weight:800;color:var(--navy);font-size:12px}
+  .exec-review-fields{display:grid;grid-template-columns:repeat(4,minmax(145px,1fr));gap:8px}.exec-review-fields .wide{grid-column:span 2}.exec-review-fields .full{grid-column:1/-1}
+  .exec-review-fields label{display:block;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--txt3);margin-bottom:3px}
+  .exec-review-fields input,.exec-review-fields select,.exec-review-fields textarea{width:100%;box-sizing:border-box;border:1px solid var(--bdr2);border-radius:7px;background:var(--soft);color:var(--txt);font:10px 'DM Sans',sans-serif;padding:6px}
+  .exec-review-fields textarea{min-height:52px;resize:vertical}.exec-miss,.exec-ok{border-radius:7px;padding:6px 8px;font-size:9px}.exec-miss{background:#FFF7ED;border:1px solid #FCD9A8;color:#92400E}.exec-miss b,.exec-miss span{display:block}.exec-miss span{margin-top:2px}.exec-ok{background:#ECFDF5;border:1px solid #A7F3D0;color:#166534;font-weight:700}
+  .exec-class-result{font-size:9px;padding:5px 8px;border-radius:7px;background:var(--soft);color:var(--txt2)}@media(max-width:900px){.exec-review-fields{grid-template-columns:1fr 1fr}.exec-review-fields .wide{grid-column:span 2}}@media(max-width:600px){.exec-review-fields{grid-template-columns:1fr}.exec-review-fields .wide,.exec-review-fields .full{grid-column:span 1}}
+  </style>`;
+}
+function execClassificationCard(i){
+  const r=goalProjectClassification(i),rec=r.recommendation==='goal'?'Goal':r.recommendation==='project'?'Project':'Needs Review';
+  return `<div class="exec-review-card">
+    <div class="exec-review-head"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Answer all four questions and align Type with the recommendation. It will disappear from this tab automatically.</div></div>
+      <button class="btn xs" onclick="openModal('${i.id}')">Open Full Item</button></div>
+    <div class="exec-review-fields">
+      <div><label>Current Type</label><select onchange="execReviewTypeSet('${i.id}',this.value)">${execReviewOptions([{value:'goal',label:'Goal'},{value:'project',label:'Project'}],i.type,'— Type —')}</select></div>
+      <div><label>1 · Natural Finish Line</label>${execClassSelect(i.id,'gpClassFinish',i.gpClassFinish||'','finish','Yes — finish line','ongoing','No — ongoing')}</div>
+      <div><label>2 · Breaks Down Into</label>${execClassSelect(i.id,'gpClassBreakdown',i.gpClassBreakdown||'','tasks','Tasks / phases','projects','Projects / habits / metrics')}</div>
+      <div><label>3 · Outcome or Work</label>${execClassSelect(i.id,'gpClassNature',i.gpClassNature||'','why','Outcome / WHY','what','Concrete work / WHAT')}</div>
+      <div><label>4 · Completion Style</label>${execClassSelect(i.id,'gpClassCompletion',i.gpClassCompletion||'','metric','Ongoing metric / milestone','checklist','Finished checklist')}</div>
+      <div class="wide"><label>Recommendation</label><div class="exec-class-result"><b>${r.confidence} ${rec}</b> · ${r.answered}/4 answered · Goal ${r.goalScore} / Project ${r.projectScore}${r.answered===4&&r.recommendation!==i.type&&r.recommendation!=='review'?` · <b>Type does not match</b>`:''}</div></div>
+    </div></div>`;
+}
+function renderExecutionClassificationReview(){
+  const active=executionActiveItems().filter(i=>['goal','project'].includes(i.type));
+  const rows=active.filter(i=>!goalProjectClassificationReviewed(i));
+  const sum=document.getElementById('execution-classification-summary');
+  if(sum)sum.innerHTML=`<b>${rows.length}</b> need classification review · ${active.length-rows.length} already answered and matched`;
+  const body=document.getElementById('execution-classification-list');if(!body)return;
+  body.innerHTML=execReviewStyles()+(rows.length?`<div class="exec-review-grid">${rows.map(execClassificationCard).join('')}</div>`:'<div class="empty">✓ All active Goals and Projects have all four questions answered and match their recommended type.</div>');
+}
+function execPlanningCard(i,type){
+  const isGoal=type==='goal',r=goalProjectClassification(i);
+  return `<div class="exec-review-card">
+    <div class="exec-review-head"><div><div class="exec-review-name">${esc(i.name||'(Untitled)')}</div><div style="font-size:9px;color:var(--txt3)">Classification matched: ${r.confidence} ${isGoal?'Goal':'Project'}</div></div>
+      <button class="btn xs" onclick="openModal('${i.id}')">Open Full Item</button></div>
+    <div class="exec-review-fields">
+      <div class="wide"><label>Name</label><input value="${execReviewEscAttr(i.name||'')}" oninput="execReviewText('${i.id}','name',this.value)"></div>
+      <div><label>Status</label><select onchange="execReviewSet('${i.id}','status',this.value)">${execReviewStatusOptions(i)}</select></div>
+      <div><label>Level</label><select onchange="execReviewSet('${i.id}','level',this.value)">${execReviewLevelOptions(i)}</select></div>
+      <div><label>List</label><select onchange="execReviewSet('${i.id}','list',this.value)">${execReviewListOptions(i)}</select></div>
+      <div><label>Category</label><select onchange="execReviewSet('${i.id}','category',this.value)">${execReviewCategoryOptions(i)}</select></div>
+      <div><label>Start Date</label><input type="date" value="${execReviewEscAttr(i.startDate||'')}" onchange="execReviewSet('${i.id}','startDate',this.value)"></div>
+      <div><label>Target Date</label><input type="date" value="${execReviewEscAttr(i.date||'')}" onchange="execReviewSet('${i.id}','date',this.value)"></div>
+      <div><label>Effort · Auto</label><input value="${execReviewEscAttr(i.effort||'')}" readonly title="Auto-calculated from Start Date and Target Date"></div>
+      ${isGoal?`<div class="full"><label>M — Measurable</label><textarea oninput="execReviewText('${i.id}','smart_m',this.value)">${esc(i.smart_m||'')}</textarea></div>`:
+      `<div class="wide"><label>Desired Outcome</label><textarea oninput="execReviewText('${i.id}','desiredOutcome',this.value)">${esc(i.desiredOutcome||'')}</textarea></div>
+       <div class="wide"><label>Success Criteria</label><textarea oninput="execReviewText('${i.id}','successCriteria',this.value)">${esc(i.successCriteria||'')}</textarea></div>
+       ${i.status==='done'?`<div class="full"><label>Project Result</label><textarea oninput="execReviewText('${i.id}','projectResult',this.value)">${esc(i.projectResult||'')}</textarea></div>`:''}`}
+      <div class="full">${execReviewMissingBadge(i)}</div>
+    </div></div>`;
+}
+function renderExecutionPlanningReview(type){
+  const rows=executionActiveItems().filter(i=>i.type===type&&goalProjectClassificationReviewed(i));
+  const missing=rows.filter(i=>baseMissingFields(i).length).length;
+  const id=type==='goal'?'goalreview':'projectreview';
+  const sum=document.getElementById('execution-'+id+'-summary');
+  if(sum)sum.innerHTML=`<b>${rows.length}</b> classified ${type==='goal'?'Goal':'Project'}${rows.length!==1?'s':''} · <b>${missing}</b> with missing required fields · edits save in real time`;
+  const body=document.getElementById('execution-'+id+'-list');if(!body)return;
+  body.innerHTML=execReviewStyles()+(rows.length?`<div class="exec-review-grid">${rows.map(i=>execPlanningCard(i,type)).join('')}</div>`:`<div class="empty">No active ${type==='goal'?'Goals':'Projects'} have completed classification and matched the recommended type yet.</div>`);
+}
+
 function openExecutionAll(){
   executionView='all';
   showPage('items',document.getElementById('nav-items'));
@@ -29440,6 +29583,9 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v487 — Projects require Desired Outcome + Success Criteria before In Progress and Project Result before Done. Priority is optional. -->
 <!-- CHANGE LOG: v487 — Added Project lifecycle fields to the form, validation, Bulk Add/Bulk Update, export, and report missing-field logic; removed Priority as a Project requirement; renamed Next Review Date. -->
 <!-- RELEASE NOTES: v487 — Project records now enforce planning before execution and result capture at close-out. -->
+<!-- USER GUIDE: v488 — Execution Center now has Classification Review, Goals Review, and Projects Review. Classification exceptions self-clear when questions are complete and Type matches; planning fields edit/save inline in real time. -->
+<!-- CHANGE LOG: v488 — Added three Execution Center review tabs with live classification routing, inline required-field editing, auto effort recalculation from dates, and real-time missing-field refresh. No new data fields or Action Item types were added. -->
+<!-- RELEASE NOTES: v488 — Goal/Project cleanup can now be completed directly from Execution Center instead of relying on printed reports or opening every record. -->
 </body>
 
 
