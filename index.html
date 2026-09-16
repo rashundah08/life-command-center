@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v491</title>
+<title>LCC v493</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -820,6 +820,13 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 .hq-orbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px}.hq-orb{position:relative;aspect-ratio:1.55;border-radius:999px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:11px;font-weight:700;cursor:pointer;box-shadow:inset 0 0 28px rgba(255,255,255,.22),0 6px 18px rgba(71,44,110,.18);overflow:hidden}.hq-orb:after{content:'';position:absolute;width:55%;height:35%;left:14%;top:10%;border-radius:50%;background:rgba(255,255,255,.22);filter:blur(4px)}.hq-orb span{position:relative;z-index:1}
 .hq-alertrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr)}.hq-alertrow:last-child{border-bottom:0}.hq-alertdot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}.hq-alertmain{flex:1;min-width:0}.hq-alerttitle{font-size:11.5px;font-weight:700;color:var(--navy)}.hq-alertsub{font-size:9.5px;color:var(--txt3);margin-top:1px}.hq-alertnum{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700}
 .hq-art-corner{position:absolute;right:-2px;bottom:-5px;height:115px;opacity:.95;pointer-events:none}
+
+/* v492 — Home Focus Board */
+.focus-board{margin:0 0 20px;background:linear-gradient(135deg,#FFFDF7,#F8F5FF);border:1px solid #E6DFF4;border-radius:var(--rxl);box-shadow:var(--sh);overflow:hidden}
+.focus-board-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid #E9E3F2}.focus-board-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)}.focus-board-sub{font-size:10px;color:var(--txt3);margin-top:2px}
+.focus-board-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:0}.focus-zone{padding:15px 18px;border-right:1px solid #E9E3F2;border-bottom:1px solid #E9E3F2}.focus-zone:nth-child(even){border-right:0}.focus-zone-label{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#6D28D9;margin-bottom:8px}.focus-line{display:flex;align-items:center;gap:8px;padding:7px 8px;border:1px solid #E8E3EF;border-radius:10px;background:#fff;margin-bottom:6px;min-height:35px}.focus-line-main{flex:1;min-width:0;font-size:11px;font-weight:600;color:var(--txt)}.focus-line-meta{font-size:9px;color:var(--txt3);margin-top:2px}.focus-empty{font-size:11px;color:var(--txt3);font-style:italic;padding:6px 0}.focus-controls{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}.focus-controls select,.focus-controls input,.focus-controls textarea{font:11px 'DM Sans',sans-serif;border:1px solid var(--bdr2);border-radius:8px;padding:7px 8px;background:#fff;color:var(--txt)}.focus-controls select{flex:1;min-width:150px}.focus-win{grid-column:1/-1;border-right:0;background:linear-gradient(135deg,#FFF9E8,#FFFDF7)}.focus-win .focus-zone-label{color:#9A6700}.focus-quarter-list{margin:0;padding-left:18px}.focus-quarter-list li{font-size:11px;color:var(--txt);margin:5px 0}.focus-period{font-size:10px;color:var(--txt2);font-weight:600}.focus-modal-strip{border:1px solid #DDD6FE;background:#F8F7FF;border-radius:12px;padding:10px 12px;margin-bottom:13px}.focus-modal-strip-title{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6D28D9;margin-bottom:7px}
+@media(max-width:760px){.focus-board-grid{grid-template-columns:1fr}.focus-zone{border-right:0}.focus-win{grid-column:auto}.focus-board-head{align-items:flex-start;flex-direction:column}}
+
 .home-view-tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 18px;padding:7px;background:var(--soft);border:1px solid var(--bdr);border-radius:18px;box-shadow:var(--sh)}.home-view-tab{border:0;background:transparent;color:var(--txt2);font:700 11px 'DM Sans',sans-serif;padding:9px 15px;border-radius:13px;cursor:pointer;transition:.15s}.home-view-tab:hover{background:rgba(124,58,237,.08);color:var(--navy)}.home-view-tab.active{background:var(--navy);color:#fff;box-shadow:0 3px 10px rgba(59,31,94,.18)}.home-view-note{margin-left:auto;font-size:10px;color:var(--txt3);padding:0 8px}
 @media(max-width:850px){.hq-hero-copy{max-width:100%}.hq-group{opacity:.22;width:45%}.hq-s4,.hq-s5,.hq-s7,.hq-s8{grid-column:1/-1}}
 @media(max-width:620px){.hq-console-strip{grid-template-columns:repeat(2,1fr)}.hq-checkin-emotions{grid-template-columns:repeat(3,1fr)}.hq-islands{grid-template-columns:repeat(2,1fr)}.hq-title{font-size:31px}}
@@ -833,7 +840,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v491</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v493</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1281,11 +1288,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v491 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v493 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v491</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v493</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -1306,6 +1313,8 @@ Item 3
 </div>
 </div>
 </div>
+<!-- v492 — Home Focus Board: independent planning horizons, linked to existing records where appropriate -->
+<div id="home-focus-board" class="focus-board"></div>
 <!-- v301 — Master Plan time lenses -->
 <div class="mp-lens-wrap">
 <div class="mp-lens-pills" id="mp-lens-pills">
@@ -3397,7 +3406,7 @@ function currentListsForUi(){
   enforceV305KeeperLists();
   return S.lists;
 }
-let S={lists:[...DEFAULT_LISTS.map(l=>({...l}))],items:[],knowledge:[],knowledgeCategories:[],brainDumps:[],filter:'all',cats:[],activeList:null,editId:null,pendingClId:null,dashPanel:null,bulkMode:'add',pendingSaveObj:null,catalogSettings:{},companySops:{}};
+let S={lists:[...DEFAULT_LISTS.map(l=>({...l}))],items:[],knowledge:[],knowledgeCategories:[],brainDumps:[],focusBoard:{quarter:{label:'',start:'',end:'',statements:[]},monthly:{},weekly:{},daily:{}},filter:'all',cats:[],activeList:null,editId:null,pendingClId:null,dashPanel:null,bulkMode:'add',pendingSaveObj:null,catalogSettings:{},companySops:{}};
 let ML={linkedGoals:[],linkedProjects:[],linkedTasks:[],linkedAsks:[],linkedPatches:[],linkedChallenges:[],linkedPhases:[],linkedReleases:[],linkedProducts:[],linkedEvents:[],linkedClientBuilds:[],linkedIndustryProfiles:[],linkedWorkflows:[],linkedHabits:[],linkedInventory:[],linkedRooms:[],linkedAutomations:[],linkedDigital:[],listIds:[],categories:[]};
 
 // ═══════════════════════════════════════════════
@@ -3781,6 +3790,7 @@ function loadFromDriveData(p){
       S.knowledge=p.knowledge||[];
       S.knowledgeCategories=p.knowledgeCategories||[];
       S.brainDumps=p.brainDumps||[];
+      S.focusBoard=p.focusBoard||{quarter:{label:'',start:'',end:'',statements:[]},monthly:{},weekly:{},daily:{}};
   if(p.sot)S.sot=p.sot;
   if(p.rewards)S.rewards=p.rewards;
   if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
@@ -3797,7 +3807,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV491();
+  const _v475ReleaseAdded=ensureReleaseV493();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4015,6 +4025,19 @@ function ensureReleaseV491(){
 }
 
 
+function ensureReleaseV492(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v492'))return false;
+  const now=Date.now(),day='2026-09-16';
+  S.items.push({id:'release-lcc-v492',name:'LCC v492 — Home Focus Board',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'492',releaseType:'enhancement',releaseModules:['Home','Focus Board','Action Items'],releaseChangelog:'Added a front-and-center Home Focus Board with four independent planning horizons: 90-Day Focus statements, exactly up to three Monthly Goals linked to existing Goal records, up to three Weekly Big 3 linked to existing Task records, and one Daily Most Important Win linked to any existing Action Item or saved as a standalone win. Added period-aware selection history and record-modal shortcuts for marking Goals, Tasks, and Action Items.',releaseNotes:'v492 adds an intentional Focus Board to Home. The 90-day direction, monthly goals, weekly priorities, and daily win can support one another without requiring a rigid hierarchy. Existing Goal/Task selections reference the canonical records rather than duplicating them.',notes:'User Guide: On Home, use Edit 90-Day Focus to enter the current focus period and one focus statement per line. Use Choose Goal for up to three current-month Goal records, Choose Task for up to three current-week Task records, and Choose Win for one Action Item or type a standalone Daily Win. You can also mark a saved Goal, Task, or Action Item from its record using the Focus Board shortcuts. Selections are stored by month, week, and day, so prior periods fall off Home automatically without deleting the underlying records.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+function ensureReleaseV493(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v493'))return false;
+  const now=new Date().toISOString(),day=now.slice(0,10);
+  S.items.push({id:'release-lcc-v493',name:'LCC v493 — Chrome Performance Repair',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'493',releaseType:'bugfix',releaseModules:['Home','Brain Dump','Focus Board'],releaseChangelog:'Replaced repeated Brain Dump destination scans with a cached Set lookup, changed Home Focus Board record selection from thousands of rendered dropdown options to on-demand search, reused one Master Plan collection during each Home render, and stopped the one-minute clock timer from rebuilding the full Home dashboard.',releaseNotes:'v493 is a performance repair for Chrome freezes on large LCC datasets. Brain Dump protection and the Home Focus Board remain intact, but high-cost repeated scans and giant selectors are removed.',notes:'User Guide: Home Focus Board now uses Search buttons to choose Monthly Goals, Weekly Tasks, and the Daily Win. Type part of the record name, then choose from up to 20 matches. The Brain Dump clean-routing workflow is unchanged. Home time still updates every minute without rerendering the full dashboard.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
+
 function retireBCCOwnedTypesV478(){
   const retired=new Set(['clientbuild','content','industryprofile','product','workflow']);
   const before=(S.items||[]).length;
@@ -4043,6 +4066,7 @@ async function load(){
   if(p.fieldLibrary)S.fieldLibrary=p.fieldLibrary; // v197
   if(p.dreamFund)S.dreamFund=p.dreamFund; // v201 — Dream Life Fund
   if(p.digitalLibrary)S.digitalLibrary=p.digitalLibrary; // v361 — Digital Library
+  if(p.focusBoard)S.focusBoard=p.focusBoard; // v492 — Home Focus Board
       if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;if(p.wfV194Migrated)S.wfV194Migrated=p.wfV194Migrated;if(p.v203Migrated)S.v203Migrated=p.v203Migrated;
       if(p.companySops)S.companySops=p.companySops; // v156 — Company SOP link registry
       // v324 — init() performs the single post-migration recalc.
@@ -4052,7 +4076,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV491();
+  const _v475ReleaseAdded=ensureReleaseV493();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -6031,7 +6055,7 @@ function stripEmptyFields(item){
   return out;
 }
 function buildSavePayload(){
-  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],brainDumps:S.brainDumps||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
+  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],brainDumps:S.brainDumps||[],focusBoard:S.focusBoard||{quarter:{label:'',start:'',end:'',statements:[]},monthly:{},weekly:{},daily:{}},sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
 }
 function makeItem(o){
   const tcd=o.date||'';
@@ -6392,16 +6416,21 @@ let brainDumpView='today';
 function bdInit(){if(!Array.isArray(S.brainDumps))S.brainDumps=[];}
 function bdDate(ts){try{return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}catch(e){return'';}}
 function bdPending(){bdInit();return S.brainDumps.flatMap(b=>(b.thoughts||[]).filter(t=>!t.decision).map(t=>({batch:b,thought:t})));}
-function bdIsManagedDestination(id){
-  if(!id)return false;bdInit();
-  return S.brainDumps.some(b=>(b.thoughts||[]).some(t=>t.destinationId===id&&!t.decision));
+let _bdManagedDestinationIds=null;
+function bdInvalidateManagedDestinationCache(){_bdManagedDestinationIds=null;}
+function bdManagedDestinationIds(){
+  if(_bdManagedDestinationIds)return _bdManagedDestinationIds;
+  bdInit();const ids=new Set();
+  S.brainDumps.forEach(b=>(b.thoughts||[]).forEach(t=>{if(t.destinationId&&!t.decision)ids.add(t.destinationId);}));
+  return (_bdManagedDestinationIds=ids);
 }
+function bdIsManagedDestination(id){return !!id&&bdManagedDestinationIds().has(id);}
 function setBrainDumpView(v){brainDumpView=v||'today';renderBrainDumpQueue();}
 function saveBrainDumpBatch(){
   bdInit();const raw=(document.getElementById('dump-in')?.value||'').trim();if(!raw){toast('Paste at least one thought');return;}
   const lines=raw.split(/\n+/).map(x=>x.replace(/^[-*•\d.)\s]+/,'').trim()).filter(x=>x.length>1);
   if(!lines.length){toast('No thoughts found');return;}
-  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',routeMode:'',processedAt:null}))});
+  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',routeMode:'',processedAt:null}))});bdInvalidateManagedDestinationCache();
   document.getElementById('dump-in').value='';save();brainDumpView='process';renderBrainDumpQueue();toast(lines.length+' thoughts added to protected Brain Dump queue');
 }
 function bdCreateManagedDestination(b,t,mode){
@@ -6410,7 +6439,7 @@ function bdCreateManagedDestination(b,t,mode){
   if(mode==='classification'){type='project';label='Needs Classification';}
   if(mode==='event'){type='event';label='Calendar / Event';}
   const item=makeItem({name:t.text,type,status:'notstarted',listIds:['uncat'],categories:[],notes:'Routed from Daily Brain Dump · '+label});
-  S.items.push(item);t.destinationId=item.id;t.routeMode=mode;t.processedAt=null;save();renderSb();renderBrainDumpQueue();
+  S.items.push(item);t.destinationId=item.id;t.routeMode=mode;t.processedAt=null;bdInvalidateManagedDestinationCache();save();renderSb();renderBrainDumpQueue();
   toast(label+' created — complete its required fields to finish routing');openModal(null,null,null,item.id);
 }
 function bdStartAction(batchId,thoughtId){
@@ -6427,25 +6456,25 @@ function bdFinalizeManaged(batchId,thoughtId){
   }
   const miss=missingFields(item);
   if(miss.length){toast('Still missing: '+miss.slice(0,4).join(', ')+(miss.length>4?' +'+(miss.length-4)+' more':''),5000);openModal(null,null,null,item.id);return;}
-  t.decision=t.routeMode==='classification'?'Actionable · Classified '+(item.type==='goal'?'Goal':'Project'):t.routeMode==='event'?'Calendar / Event':'Actionable · Task';
+  bdInvalidateManagedDestinationCache();t.decision=t.routeMode==='classification'?'Actionable · Classified '+(item.type==='goal'?'Goal':'Project'):t.routeMode==='event'?'Calendar / Event':'Actionable · Task';
   t.processedAt=Date.now();save();recalc();renderSb();renderBrainDumpQueue();toast('Clean routing complete — this item will not enter Inbox for missing fields');
 }
 function bdDecision(batchId,thoughtId,decision){
   bdInit();const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;
-  if(decision==='discard'){t.decision='Discarded';t.processedAt=Date.now();save();renderBrainDumpQueue();return;}
+  if(decision==='discard'){bdInvalidateManagedDestinationCache();t.decision='Discarded';t.processedAt=Date.now();save();renderBrainDumpQueue();return;}
   if(decision==='reference'){
-    if(!Array.isArray(S.knowledge))S.knowledge=[];const id='kh-'+Date.now().toString(36);S.knowledge.push({id,title:t.text,knowledgeType:'Note',category:'',tags:'',summary:'',details:'',source:'Daily Brain Dump',sourceRef:bdDate(b.createdAt),attachmentRef:'',status:'Inbox',favorite:false,reviewFrequency:'Never',nextReviewDate:'',linkedItemIds:[],createdAt:Date.now(),updatedAt:Date.now()});t.decision='Keep / Reference';t.destinationId=id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Saved to Knowledge Hub');return;
+    if(!Array.isArray(S.knowledge))S.knowledge=[];const id='kh-'+Date.now().toString(36);S.knowledge.push({id,title:t.text,knowledgeType:'Note',category:'',tags:'',summary:'',details:'',source:'Daily Brain Dump',sourceRef:bdDate(b.createdAt),attachmentRef:'',status:'Inbox',favorite:false,reviewFrequency:'Never',nextReviewDate:'',linkedItemIds:[],createdAt:Date.now(),updatedAt:Date.now()});bdInvalidateManagedDestinationCache();t.decision='Keep / Reference';t.destinationId=id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Saved to Knowledge Hub');return;
   }
   if(decision==='someday'){
-    ensureParkingList();const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:[parkingListId()],categories:[],notes:'Routed from Daily Brain Dump · Someday / Maybe'});S.items.push(item);t.decision='Someday / Maybe';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Routed to Parking Lot');return;
+    ensureParkingList();const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:[parkingListId()],categories:[],notes:'Routed from Daily Brain Dump · Someday / Maybe'});S.items.push(item);bdInvalidateManagedDestinationCache();t.decision='Someday / Maybe';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Routed to Parking Lot');return;
   }
   if(decision==='action'){bdStartAction(batchId,thoughtId);return;}
   if(decision==='event'){bdCreateManagedDestination(b,t,'event');return;}
   if(decision==='existing'){
-    const q=prompt('Search existing Action Items for:');if(!q)return;const hits=S.items.filter(i=>i.status!=='placeholder'&&(i.name||'').toLowerCase().includes(q.toLowerCase())).slice(0,8);if(!hits.length){alert('No matching Action Items found. Try a different search.');return;}const msg=hits.map((i,n)=>(n+1)+'. '+i.name+' ['+i.type+']').join('\n');const pick=parseInt(prompt('Enter the number to link this thought to:\n\n'+msg)||'',10)-1;if(!hits[pick])return;t.decision='Already Exists';t.destinationId=hits[pick].id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Linked to existing Action Item');
+    const q=prompt('Search existing Action Items for:');if(!q)return;const hits=S.items.filter(i=>i.status!=='placeholder'&&(i.name||'').toLowerCase().includes(q.toLowerCase())).slice(0,8);if(!hits.length){alert('No matching Action Items found. Try a different search.');return;}const msg=hits.map((i,n)=>(n+1)+'. '+i.name+' ['+i.type+']').join('\n');const pick=parseInt(prompt('Enter the number to link this thought to:\n\n'+msg)||'',10)-1;if(!hits[pick])return;bdInvalidateManagedDestinationCache();t.decision='Already Exists';t.destinationId=hits[pick].id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Linked to existing Action Item');
   }
 }
-function bdReopen(batchId,thoughtId){const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;t.decision='';t.destinationId='';t.routeMode='';t.processedAt=null;save();brainDumpView='process';renderBrainDumpQueue();}
+function bdReopen(batchId,thoughtId){const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;bdInvalidateManagedDestinationCache();t.decision='';t.destinationId='';t.routeMode='';t.processedAt=null;save();brainDumpView='process';renderBrainDumpQueue();}
 function renderBrainDumpQueue(){
   bdInit();const ws=document.getElementById('bd-workspace');if(!ws)return;const pending=bdPending(),total=S.brainDumps.reduce((n,b)=>n+(b.thoughts||[]).length,0),processed=total-pending.length;
   const sm=document.getElementById('bd-summary');if(sm)sm.innerHTML=`<div class="mc"><div class="mc-val">${pending.length}</div><div class="mc-lbl">Waiting</div><div class="mc-sub">Protected queue</div></div><div class="mc"><div class="mc-val">${S.brainDumps.length}</div><div class="mc-lbl">Dump Sessions</div><div class="mc-sub">Saved history</div></div><div class="mc"><div class="mc-val">${processed}</div><div class="mc-lbl">Processed</div><div class="mc-sub">Cleanly routed</div></div>`;
@@ -8149,6 +8178,9 @@ function renderModalBody(type,item,prefill){
   }
 
   if(!_wiabOpen){html+=`<input type="hidden" id="m-theme-month" value="${esc(item?.themeMonth||'')}"><input type="hidden" id="m-wiab"><input type="hidden" id="m-is-selfcare"><input type="hidden" id="m-is-weeklyfocus"><input type="hidden" id="m-is-datenight"><input type="hidden" id="m-date-with" value="${esc(item?.dateWith||'')}">`;}
+
+  // v492 — mark saved records for the Home Focus Board without duplicating them.
+  if(item?.id)html+=fbModalStrip(item);
 
   // LINKED ITEMS (collapsible)
   const totalLinked=ML.linkedGoals.length+ML.linkedProjects.length+ML.linkedTasks.length+(ML.linkedAsks||[]).length+ML.linkedPatches.length+(ML.linkedChallenges||[]).length+(ML.linkedContent||[]).length+(ML.linkedProducts||[]).length+(ML.linkedEvents||[]).length+(ML.linkedPhases||[]).length+(ML.linkedClientBuilds||[]).length+(ML.linkedWorkflows||[]).length+(ML.linkedDigital||[]).length;
@@ -15334,6 +15366,7 @@ function editSOPs(){
 function renderHubWidgets(){
   const d=loadMPWidgets();
   const el=id=>document.getElementById(id);
+  renderFocusBoard(); // v492 — front-and-center Focus Board
 
   // This Month's Focus — pull from items flagged pinnedFocus
   const focusEl=el('hub-month-focus-display');
@@ -15764,12 +15797,93 @@ function renderHubPeriodLens(){
   const labels={week:'This Week',month:'This Month',quarter:'This Quarter'},visible=cards.slice().sort((a,b)=>(hubPeriodItemDate(a)||'9999').localeCompare(hubPeriodItemDate(b)||'9999'));
   view.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--txt2)">${labels[hubPeriod]||'Period'} · Card View</div><div style="font-size:11px;color:var(--txt3)">${visible.length} item${visible.length===1?'':'s'}</div></div>${visible.length?`<div class="mp-lens-grid">${visible.map(hubPeriodCard).join('')}</div>`:'<div class="mp-lens-empty">Nothing is scheduled in this view yet.</div>'}`;
 }
+
+// v492 — Home Focus Board. Planning horizons are intentionally independent.
+function fbInit(){
+  if(!S.focusBoard||typeof S.focusBoard!=='object')S.focusBoard={};
+  if(!S.focusBoard.quarter)S.focusBoard.quarter={label:'',start:'',end:'',statements:[]};
+  if(!S.focusBoard.monthly)S.focusBoard.monthly={};
+  if(!S.focusBoard.weekly)S.focusBoard.weekly={};
+  if(!S.focusBoard.daily)S.focusBoard.daily={};
+  return S.focusBoard;
+}
+function fbLocalDay(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),x=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${x}`;}
+function fbMonthKey(d=new Date()){return fbLocalDay(d).slice(0,7);}
+function fbWeekKey(d=new Date()){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()),day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return fbLocalDay(x);}
+function fbWeekLabel(){const s=new Date(fbWeekKey()+'T12:00:00'),e=new Date(s);e.setDate(e.getDate()+6);return `${s.toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${e.toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;}
+function fbMonthLabel(){return new Date(fbMonthKey()+'-01T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'});}
+function fbSearchPick(kind){
+  fbInit();const q=(prompt(kind==='monthly'?'Search existing Goals:':kind==='weekly'?'Search existing Tasks:':'Search existing Action Items:')||'').trim().toLowerCase();if(!q)return;
+  const type=kind==='monthly'?'goal':kind==='weekly'?'task':null;
+  const hits=(S.items||[]).filter(i=>i&&i.status!=='placeholder'&&i.status!=='cancelled'&&i.type!=='release'&&(!type||i.type===type)&&String(i.name||'').toLowerCase().includes(q)).slice(0,20);
+  if(!hits.length)return alert('No matching records found.');
+  const msg=hits.map((i,n)=>`${n+1}. ${i.name||'Untitled'} [${i.type||'item'}]`).join('\n');
+  const pick=parseInt(prompt('Choose a result:\n\n'+msg)||'',10)-1;if(!hits[pick])return;
+  const id=hits[pick].id;
+  if(kind==='daily'){S.focusBoard.daily[fbLocalDay()]={itemId:id,text:'',won:false};fbSave();toast("Today's Most Important Win set");return;}
+  const key=kind==='monthly'?fbMonthKey():fbWeekKey(),arr=Array.isArray(S.focusBoard[kind][key])?S.focusBoard[kind][key]:[];
+  if(arr.includes(id))return toast('Already selected');if(arr.length>=3)return alert(kind==='monthly'?'Monthly Goals are capped at 3. Remove one before adding another.':'Weekly Big 3 is capped at 3. Remove one before adding another.');
+  arr.push(id);S.focusBoard[kind][key]=arr;fbSave();toast(kind==='monthly'?'Added to this month':'Added to this week');
+}
+function fbOpen(id){if(getItem(id))openModal(null,null,null,id);}
+function fbSave(){save();renderFocusBoard();}
+function fbEditQuarter(){
+  fbInit();const q=S.focusBoard.quarter||{};
+  const label=prompt('90-Day Focus label (example: Q4 2026)',q.label||'');if(label===null)return;
+  const start=prompt('Start date (YYYY-MM-DD)',q.start||'');if(start===null)return;
+  const end=prompt('End date (YYYY-MM-DD)',q.end||'');if(end===null)return;
+  const statements=prompt('Focus statements — one per line',(q.statements||[]).join('\n'));if(statements===null)return;
+  S.focusBoard.quarter={label:label.trim(),start:start.trim(),end:end.trim(),statements:statements.split('\n').map(x=>x.trim()).filter(Boolean)};fbSave();toast('90-Day Focus updated');
+}
+function fbRemove(kind,key,id){fbInit();const a=S.focusBoard[kind]?.[key]||[];S.focusBoard[kind][key]=a.filter(x=>x!==id);fbSave();}
+function fbSetWin(){
+  fbInit();const txt=(document.getElementById('fb-win-text')?.value||'').trim();
+  if(!txt)return alert('Type a standalone win or use Choose Action Item.');
+  S.focusBoard.daily[fbLocalDay()]={itemId:'',text:txt,won:false};fbSave();toast("Today's Most Important Win set");
+}
+function fbToggleWin(){fbInit();const k=fbLocalDay(),w=S.focusBoard.daily[k];if(!w)return;w.won=!w.won;fbSave();}
+function fbClearWin(){fbInit();delete S.focusBoard.daily[fbLocalDay()];fbSave();}
+function fbMarkItem(id,kind){
+  fbInit();const i=getItem(id);if(!i)return;
+  if(kind==='monthly'){
+    if(i.type!=='goal')return alert('Monthly Focus accepts Goal records.');const k=fbMonthKey(),a=S.focusBoard.monthly[k]||[];if(!a.includes(id)&&a.length>=3)return alert('Monthly Goals are capped at 3.');if(!a.includes(id))a.push(id);S.focusBoard.monthly[k]=a;
+  }else if(kind==='weekly'){
+    if(i.type!=='task')return alert('Weekly Big 3 accepts Task records.');const k=fbWeekKey(),a=S.focusBoard.weekly[k]||[];if(!a.includes(id)&&a.length>=3)return alert('Weekly Big 3 is capped at 3.');if(!a.includes(id))a.push(id);S.focusBoard.weekly[k]=a;
+  }else if(kind==='daily'){S.focusBoard.daily[fbLocalDay()]={itemId:id,text:'',won:false};}
+  save();renderFocusBoard();toast('Focus Board updated');
+}
+function fbModalStrip(item){
+  if(!item?.id)return'';fbInit();const mk=fbMonthKey(),wk=fbWeekKey(),dk=fbLocalDay(),m=S.focusBoard.monthly[mk]||[],w=S.focusBoard.weekly[wk]||[],d=S.focusBoard.daily[dk]||{};
+  let b=[];
+  if(item.type==='goal')b.push(`<button type="button" class="btn xs ${m.includes(item.id)?'primary':'ghost'}" onclick="fbMarkItem('${item.id}','monthly')">${m.includes(item.id)?'✓ This Month':'📅 Add to This Month'}</button>`);
+  if(item.type==='task')b.push(`<button type="button" class="btn xs ${w.includes(item.id)?'primary':'ghost'}" onclick="fbMarkItem('${item.id}','weekly')">${w.includes(item.id)?'✓ Weekly Big 3':'🗓️ Add to Weekly Big 3'}</button>`);
+  if(item.type!=='release'&&item.status!=='placeholder')b.push(`<button type="button" class="btn xs ${d.itemId===item.id?'primary':'ghost'}" onclick="fbMarkItem('${item.id}','daily')">${d.itemId===item.id?'⭐ Today’s Win':'⭐ Make Today’s Win'}</button>`);
+  return b.length?`<div class="focus-modal-strip"><div class="focus-modal-strip-title">🎯 Home Focus Board</div><div style="display:flex;gap:6px;flex-wrap:wrap">${b.join('')}</div></div>`:'';
+}
+function renderFocusBoard(){
+  fbInit();const el=document.getElementById('home-focus-board');if(!el)return;
+  const q=S.focusBoard.quarter||{},mk=fbMonthKey(),wk=fbWeekKey(),dk=fbLocalDay();
+  const mids=(S.focusBoard.monthly[mk]||[]).filter(id=>getItem(id)),wids=(S.focusBoard.weekly[wk]||[]).filter(id=>getItem(id)),win=S.focusBoard.daily[dk]||null;
+  const qPeriod=[q.start,q.end].filter(Boolean).join(' → ');
+  const line=(id,kind,key)=>{const i=getItem(id);return i?`<div class="focus-line"><div class="focus-line-main" onclick="fbOpen('${id}')" style="cursor:pointer">${esc(i.name||'Untitled')}<div class="focus-line-meta">${tBadge(i.type)} · ${statusLabel(i.status||'notstarted')}</div></div><button class="btn xs ghost" onclick="fbRemove('${kind}','${key}','${id}')" title="Remove from Focus Board">×</button></div>`:''};
+  let winHtml='<div class="focus-empty">Choose one thing that would make today a win.</div>';
+  if(win){const i=win.itemId?getItem(win.itemId):null,name=i?.name||win.text||'Most Important Win';winHtml=`<div class="focus-line" style="border-color:#F0D48A"><input type="checkbox" ${win.won?'checked':''} onchange="fbToggleWin()" style="accent-color:#7C3AED"><div class="focus-line-main" ${i?`onclick="fbOpen('${i.id}')" style="cursor:pointer;${win.won?'text-decoration:line-through;opacity:.65':''}"`:`style="${win.won?'text-decoration:line-through;opacity:.65':''}"`}>⭐ ${esc(name)}${i?`<div class="focus-line-meta">${tBadge(i.type)} · ${statusLabel(i.status||'notstarted')}</div>`:'<div class="focus-line-meta">Standalone Daily Win</div>'}</div><button class="btn xs ghost" onclick="fbClearWin()">×</button></div>`;}
+  el.innerHTML=`<div class="focus-board-head"><div><div class="focus-board-title">🎯 My Focus</div><div class="focus-board-sub">Direction, goals, priorities, and today's win — connected when useful, independent when needed.</div></div><div class="focus-period">${esc(q.label||'90-Day Focus not set')}</div></div><div class="focus-board-grid">
+    <section class="focus-zone"><div class="focus-zone-label">🎯 90-Day Focus</div>${qPeriod?`<div class="focus-period">${esc(qPeriod)}</div>`:''}${(q.statements||[]).length?`<ul class="focus-quarter-list">${q.statements.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<div class="focus-empty">Add the commitments or direction guiding this 90-day period.</div>'}<div class="focus-controls"><button class="btn xs ghost" onclick="fbEditQuarter()">✏️ Edit 90-Day Focus</button></div></section>
+    <section class="focus-zone"><div class="focus-zone-label">📅 ${esc(fbMonthLabel())} — My 3 Goals</div>${mids.map(id=>line(id,'monthly',mk)).join('')||'<div class="focus-empty">No monthly Goals selected.</div>'}<div class="focus-controls"><button class="btn xs" onclick="fbSearchPick('monthly')" ${mids.length>=3?'disabled':''}>🔎 Choose Goal</button></div></section>
+    <section class="focus-zone"><div class="focus-zone-label">🗓️ This Week — My Big 3</div><div class="focus-period">${esc(fbWeekLabel())}</div>${wids.map(id=>line(id,'weekly',wk)).join('')||'<div class="focus-empty">No weekly Tasks selected.</div>'}<div class="focus-controls"><button class="btn xs" onclick="fbSearchPick('weekly')" ${wids.length>=3?'disabled':''}>🔎 Choose Task</button></div></section>
+    <section class="focus-zone"><div class="focus-zone-label">🔗 Selection Rule</div><div style="font-size:11px;color:var(--txt2);line-height:1.55">Monthly Goals, Weekly Tasks, and the Daily Win are intentional selections. They do not have to roll up to one another. Existing records stay canonical; Home only spotlights them for the current period.</div></section>
+    <section class="focus-zone focus-win"><div class="focus-zone-label">⭐ Today's Most Important Win</div>${winHtml}<div class="focus-controls"><button class="btn xs" onclick="fbSearchPick('daily')">🔎 Choose Action Item</button><span style="font-size:10px;color:var(--txt3)">or</span><input id="fb-win-text" placeholder="Type a standalone win…" style="flex:1;min-width:180px"><button class="btn xs" onclick="fbSetWin()">Set Standalone Win</button></div></section>
+  </div>`;
+}
+
 function renderHub(){
   const now=new Date();
   const ctOpts={timeZone:'America/Chicago'};
   const dateStr=now.toLocaleDateString('en-US',{...ctOpts,weekday:'long',month:'long',day:'numeric',year:'numeric'});
   const timeStr=now.toLocaleTimeString('en-US',{...ctOpts,hour:'numeric',minute:'2-digit',hour12:true});
   const el=id=>document.getElementById(id);
+  const hubItems=masterPlanItems(); // v493 — one canonical scan for this Home render
   if(el('hub-date'))el('hub-date').textContent=dateStr;
   if(el('hub-time'))el('hub-time').textContent=timeStr;
   const cw=getCalendarWeek();
@@ -15789,7 +15903,7 @@ function renderHub(){
   // v310 — Ravyn Senior Year is an Initiative tag, not a List.
   const ravynTarget='2027-05-31';
   const ravynDays=Math.max(0,daysUntilDate(ravynTarget));
-  const ravynItems=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'ravyn')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const ravynItems=hubItems.filter(i=>itemHasInitiativeTag(i,'ravyn')&&i.status!=='placeholder'&&i.level!=='supporting');
   const ravynDone=ravynItems.filter(i=>i.status==='done').length;
   const ravynPct=ravynItems.length?Math.round(ravynDone/ravynItems.length*100):0;
   if(el('hub-ravyn-days'))el('hub-ravyn-days').textContent=ravynDays;
@@ -15810,7 +15924,7 @@ function renderHub(){
   if(el('hub-days-bar'))el('hub-days-bar').style.width=Math.min(100,Math.round(daysDone/10))+'%';
 
   // v310 — 101 in 1000 Days is tag-backed; Supporting sub-items do not count toward the 101.
-  const items101=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'101g')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const items101=hubItems.filter(i=>itemHasInitiativeTag(i,'101g')&&i.status!=='placeholder'&&i.level!=='supporting');
   const done101=items101.filter(i=>i.status==='done').length;
   const total101=101;
   const pct101=Math.round(done101/total101*100);
@@ -15819,7 +15933,7 @@ function renderHub(){
   if(el('hub-101-bar'))el('hub-101-bar').style.width=pct101+'%';
 
   // v310 — 50 Before 50 is tag-backed; Supporting sub-items do not count toward the 50.
-  const items50=masterPlanItems().filter(i=>itemHasInitiativeTag(i,'50b50')&&i.status!=='placeholder'&&i.level!=='supporting');
+  const items50=hubItems.filter(i=>itemHasInitiativeTag(i,'50b50')&&i.status!=='placeholder'&&i.level!=='supporting');
   const done50=items50.filter(i=>i.status==='done').length;
   const total50=50;
   const pct50=Math.round(done50/total50*100);
@@ -15828,7 +15942,7 @@ function renderHub(){
   if(el('hub-50-bar'))el('hub-50-bar').style.width=pct50+'%';
 
   // v310 — 1,000 NOs page is the Ask registry; no retired List dependency.
-  const askItems=masterPlanItems().filter(i=>i.type==='ask'&&i.status!=='placeholder');
+  const askItems=hubItems.filter(i=>i.type==='ask'&&i.status!=='placeholder');
   const totalAsks=askItems.length;
   const yesAsks=askItems.filter(i=>i.responseStatus==='yes').length;
   const noAsks=askItems.filter(i=>i.responseStatus==='no').length;
@@ -15863,7 +15977,7 @@ function renderHub(){
     const badgeEl=el('hub-'+key+'-badge');
     const tasksEl=el('hub-'+key+'-tasks');
     if(weeksEl)weeksEl.innerHTML='';
-    const catTasks=masterPlanItems().filter(i=>
+    const catTasks=hubItems.filter(i=>
       (i.categories||[]).includes(cat)&&
       (i.type==='task'||i.type==='ask')&&
       i.rotationWeek===displayRot
@@ -16931,9 +17045,14 @@ function logAsk(){
   openModal(null,'Ask #'+nextNum,'ask');
 }
 
-// Update clock every minute
+// v493 — update Home clock only; do not rebuild the full 8k+ item dashboard every minute.
 setInterval(()=>{
-  if(document.getElementById('pg-hub')?.style.display!=='none')renderHub();
+  if(document.getElementById('pg-hub')?.style.display==='none')return;
+  const now=new Date(),ctOpts={timeZone:'America/Chicago'};
+  const timeStr=now.toLocaleTimeString('en-US',{...ctOpts,hour:'numeric',minute:'2-digit',hour12:true});
+  const dateStr=now.toLocaleDateString('en-US',{...ctOpts,weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  const h=document.getElementById('hub-time'),d=document.getElementById('hub-date'),sbt=document.getElementById('sb-lcc-time');
+  if(h)h.textContent=timeStr;if(d)d.textContent=dateStr;if(sbt)sbt.textContent=`${timeStr} CT`;
 },60000);
 
 // SEED
