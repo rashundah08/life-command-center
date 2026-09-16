@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v490</title>
+<title>LCC v491</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -833,7 +833,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v490</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v491</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1149,7 +1149,7 @@ Item 3
 </div>
 <div id="inbox-capture-panel">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">🧠 Daily Brain Dump</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Write by hand for 5 minutes, have ChatGPT transcribe it one thought per line, then paste the transcription here. Brain Dump stays separate from the main Inbox until you deliberately route each thought.</div></div>
+<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">🧠 Daily Brain Dump</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Write by hand for 5 minutes, have ChatGPT transcribe it one thought per line, then paste the transcription here. Brain Dump stays protected until each thought reaches a clean destination. Actionable items must clear the same required-field rules used by the rest of LCC before the thought is marked Processed.</div></div>
 <button class="btn primary sm" onclick="openQuickCapture()">⚡ Quick Capture</button>
 </div>
 <div id="bd-summary" class="metrics" style="margin-bottom:12px"></div>
@@ -1281,11 +1281,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v490 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v491 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v490</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v491</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3797,7 +3797,7 @@ function loadFromDriveData(p){
   if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
   runSchemaMigration();
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV490();
+  const _v475ReleaseAdded=ensureReleaseV491();
   recalc();
   renderAll();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
@@ -4007,6 +4007,14 @@ function ensureReleaseV490(){
   S.items.push({id:'release-lcc-v490',name:'LCC v490 — Protected Daily Brain Dump Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'490',releaseType:'enhancement',releaseModules:['Inbox','Brain Dump','Knowledge Hub','Action Items'],releaseChangelog:'Reworked Inbox Capture into a protected Daily Brain Dump processing workflow for handwritten dumps transcribed externally. Added persistent dated Brain Dump batches, a To Process queue, History, explicit routing decisions, destination links, and queue counts. Brain Dump thoughts no longer enter the main Inbox merely because they were pasted.',releaseNotes:'v490 keeps handwritten brain-dump thoughts visible until each one is deliberately routed, preventing new thoughts from disappearing into the existing Inbox backlog.',notes:'User Guide: Handwrite for five minutes, upload the page to the Daily Brain Dump ChatGPT project for transcription, then paste the one-thought-per-line result into Inbox → Capture. Save the batch, open To Process, and route every thought as Actionable, Keep / Reference, Someday / Maybe, Already Exists, or Discard. The queue is complete when Waiting reaches 0.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
+function ensureReleaseV491(){
+  if(!S||!Array.isArray(S.items))return false;
+  if(S.items.some(i=>i&&i.id==='release-lcc-v491'))return false;
+  const now=Date.now(),day='2026-09-16';
+  S.items.push({id:'release-lcc-v491',name:'LCC v491 — Brain Dump Clean Routing Gate',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'491',releaseType:'enhancement',releaseModules:['Inbox','Brain Dump','Action Items','Classification Review','Events'],releaseChangelog:'Changed Brain Dump Actionable routing so an Action Item is not considered processed until its canonical missingFields() requirements are complete. Added Task vs Needs Classification routing, Calendar / Event routing, pending-destination repair cards, and a clean-routing finish check. Brain-Dump-managed Action Items are temporarily excluded from automatic Parking Lot / Inbox routing while intake is unfinished.',releaseNotes:'v491 makes clean routing—not record creation—the Brain Dump finish line. Actionable thoughts remain in the protected Brain Dump queue until the resulting Task, Goal/Project classification item, or Event clears its required-field rules.',notes:'User Guide: In Brain Dump → To Process, choose Actionable and select Task or Needs Classification, or choose Calendar / Event. LCC creates the destination record but keeps the thought waiting. Complete the destination fields, then choose Check & Finish Routing. LCC uses the same missingFields() rules as the rest of the system and only marks the thought Processed when the destination is complete enough to avoid missing-field Inbox routing. Needs Classification must also complete Goal vs Project Classification before it can finish routing.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
+
 function retireBCCOwnedTypesV478(){
   const retired=new Set(['clientbuild','content','industryprofile','product','workflow']);
   const before=(S.items||[]).length;
@@ -4044,7 +4052,7 @@ async function load(){
     }
   }catch(e){console.warn('Load failed:',e);}
   const _v473HabitRepair=(typeof habitReconcileInactiveOccurrences==='function')?habitReconcileInactiveOccurrences():0;
-  const _v475ReleaseAdded=ensureReleaseV490();
+  const _v475ReleaseAdded=ensureReleaseV491();
   if((_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
@@ -4484,7 +4492,7 @@ function missingFields(item){
   guardrailFlagsV326(item).forEach(x=>{if(!m.includes(x))m.push(x);});
   return m;
 }
-function needsAttn(item){return missingFields(item).length>0}
+function needsAttn(item){return !(typeof bdIsManagedDestination==='function'&&bdIsManagedDestination(item?.id))&&missingFields(item).length>0}
 
 // ── 0189 (v217) — LIVE "what's missing" callout at the top of the edit modal ──
 // Builds a draft item from the CURRENT modal form state (not the saved copy) so
@@ -5609,6 +5617,9 @@ function routeParkingLot(){
   if(!pid)return;
   S.items.forEach(i=>{
     if(i.status==='done'||i.status==='cancelled'||i.status==='placeholder')return;
+    // v491 — unfinished Brain Dump routing stays in the protected Brain Dump queue,
+    // not the operational Parking Lot / Inbox. missingFields() remains the completion gate.
+    if(typeof bdIsManagedDestination==='function'&&bdIsManagedDestination(i.id))return;
     // v323 — missingFields is the expensive validator. Compute it ONCE per item and
     // derive both Parking Lot membership and completeness from that same result.
     const allMissing=missingFields(i);
@@ -6376,18 +6387,48 @@ const CLS_G=['reach','hit','earn','save','lose','gain','grow','complete','become
 const CLS_ASK=['ask','pitch','email','dm','reach out','submit','request','apply','contact','propose'];
 function classify(t){const l=t.toLowerCase();if(CLS_ASK.some(k=>l.includes(k)))return'ask';if(CLS_P.some(k=>l.includes(k)))return'project';if(CLS_G.some(k=>l.includes(k)))return'goal';return'task';}
 
-// v490 — protected Daily Brain Dump queue. Capture is persisted separately from Action Items/Inbox until explicitly routed.
+// v491 — protected Daily Brain Dump queue with clean-routing completion gate.
 let brainDumpView='today';
 function bdInit(){if(!Array.isArray(S.brainDumps))S.brainDumps=[];}
 function bdDate(ts){try{return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}catch(e){return'';}}
 function bdPending(){bdInit();return S.brainDumps.flatMap(b=>(b.thoughts||[]).filter(t=>!t.decision).map(t=>({batch:b,thought:t})));}
+function bdIsManagedDestination(id){
+  if(!id)return false;bdInit();
+  return S.brainDumps.some(b=>(b.thoughts||[]).some(t=>t.destinationId===id&&!t.decision));
+}
 function setBrainDumpView(v){brainDumpView=v||'today';renderBrainDumpQueue();}
 function saveBrainDumpBatch(){
   bdInit();const raw=(document.getElementById('dump-in')?.value||'').trim();if(!raw){toast('Paste at least one thought');return;}
   const lines=raw.split(/\n+/).map(x=>x.replace(/^[-*•\d.)\s]+/,'').trim()).filter(x=>x.length>1);
   if(!lines.length){toast('No thoughts found');return;}
-  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',processedAt:null}))});
+  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',routeMode:'',processedAt:null}))});
   document.getElementById('dump-in').value='';save();brainDumpView='process';renderBrainDumpQueue();toast(lines.length+' thoughts added to protected Brain Dump queue');
+}
+function bdCreateManagedDestination(b,t,mode){
+  if(t.destinationId){const existing=getItem(t.destinationId);if(existing){openModal(null,null,null,existing.id);return;}}
+  let type='task',label='Task';
+  if(mode==='classification'){type='project';label='Needs Classification';}
+  if(mode==='event'){type='event';label='Calendar / Event';}
+  const item=makeItem({name:t.text,type,status:'notstarted',listIds:['uncat'],categories:[],notes:'Routed from Daily Brain Dump · '+label});
+  S.items.push(item);t.destinationId=item.id;t.routeMode=mode;t.processedAt=null;save();renderSb();renderBrainDumpQueue();
+  toast(label+' created — complete its required fields to finish routing');openModal(null,null,null,item.id);
+}
+function bdStartAction(batchId,thoughtId){
+  bdInit();const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;
+  const pick=(prompt('Route this actionable thought as:\n\n1. Task\n2. Needs Classification (Goal vs Project)\n\nEnter 1 or 2:')||'').trim();
+  if(pick==='1')bdCreateManagedDestination(b,t,'task');
+  else if(pick==='2')bdCreateManagedDestination(b,t,'classification');
+}
+function bdFinalizeManaged(batchId,thoughtId){
+  const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId),item=t?.destinationId?getItem(t.destinationId):null;
+  if(!t||!item){toast('Destination record not found');return;}
+  if(t.routeMode==='classification'&&!goalProjectClassificationReviewed(item)){
+    toast('Finish the Goal vs Project classification questions first');openModal(null,null,null,item.id);return;
+  }
+  const miss=missingFields(item);
+  if(miss.length){toast('Still missing: '+miss.slice(0,4).join(', ')+(miss.length>4?' +'+(miss.length-4)+' more':''),5000);openModal(null,null,null,item.id);return;}
+  t.decision=t.routeMode==='classification'?'Actionable · Classified '+(item.type==='goal'?'Goal':'Project'):t.routeMode==='event'?'Calendar / Event':'Actionable · Task';
+  t.processedAt=Date.now();save();recalc();renderSb();renderBrainDumpQueue();toast('Clean routing complete — this item will not enter Inbox for missing fields');
 }
 function bdDecision(batchId,thoughtId,decision){
   bdInit();const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;
@@ -6398,20 +6439,19 @@ function bdDecision(batchId,thoughtId,decision){
   if(decision==='someday'){
     ensureParkingList();const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:[parkingListId()],categories:[],notes:'Routed from Daily Brain Dump · Someday / Maybe'});S.items.push(item);t.decision='Someday / Maybe';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Routed to Parking Lot');return;
   }
-  if(decision==='action'){
-    const item=makeItem({name:t.text,type:classify(t.text),status:'notstarted',listIds:['uncat'],categories:[],notes:'Routed from Daily Brain Dump'});S.items.push(item);t.decision='Actionable';t.destinationId=item.id;t.processedAt=Date.now();save();renderSb();renderBrainDumpQueue();toast('Created Action Item');return;
-  }
+  if(decision==='action'){bdStartAction(batchId,thoughtId);return;}
+  if(decision==='event'){bdCreateManagedDestination(b,t,'event');return;}
   if(decision==='existing'){
     const q=prompt('Search existing Action Items for:');if(!q)return;const hits=S.items.filter(i=>i.status!=='placeholder'&&(i.name||'').toLowerCase().includes(q.toLowerCase())).slice(0,8);if(!hits.length){alert('No matching Action Items found. Try a different search.');return;}const msg=hits.map((i,n)=>(n+1)+'. '+i.name+' ['+i.type+']').join('\n');const pick=parseInt(prompt('Enter the number to link this thought to:\n\n'+msg)||'',10)-1;if(!hits[pick])return;t.decision='Already Exists';t.destinationId=hits[pick].id;t.processedAt=Date.now();save();renderBrainDumpQueue();toast('Linked to existing Action Item');
   }
 }
-function bdReopen(batchId,thoughtId){const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;t.decision='';t.destinationId='';t.processedAt=null;save();brainDumpView='process';renderBrainDumpQueue();}
+function bdReopen(batchId,thoughtId){const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;t.decision='';t.destinationId='';t.routeMode='';t.processedAt=null;save();brainDumpView='process';renderBrainDumpQueue();}
 function renderBrainDumpQueue(){
   bdInit();const ws=document.getElementById('bd-workspace');if(!ws)return;const pending=bdPending(),total=S.brainDumps.reduce((n,b)=>n+(b.thoughts||[]).length,0),processed=total-pending.length;
-  const sm=document.getElementById('bd-summary');if(sm)sm.innerHTML=`<div class="mc"><div class="mc-val">${pending.length}</div><div class="mc-lbl">Waiting</div><div class="mc-sub">Protected queue</div></div><div class="mc"><div class="mc-val">${S.brainDumps.length}</div><div class="mc-lbl">Dump Sessions</div><div class="mc-sub">Saved history</div></div><div class="mc"><div class="mc-val">${processed}</div><div class="mc-lbl">Processed</div><div class="mc-sub">Explicitly routed</div></div>`;
+  const sm=document.getElementById('bd-summary');if(sm)sm.innerHTML=`<div class="mc"><div class="mc-val">${pending.length}</div><div class="mc-lbl">Waiting</div><div class="mc-sub">Protected queue</div></div><div class="mc"><div class="mc-val">${S.brainDumps.length}</div><div class="mc-lbl">Dump Sessions</div><div class="mc-sub">Saved history</div></div><div class="mc"><div class="mc-val">${processed}</div><div class="mc-lbl">Processed</div><div class="mc-sub">Cleanly routed</div></div>`;
   ['today','process','history'].forEach(v=>{const x=document.getElementById('bd-tab-'+v);if(x)x.classList.toggle('primary',brainDumpView===v);});const cap=document.getElementById('bd-capture-box');if(cap)cap.style.display=brainDumpView==='today'?'block':'none';
-  const card=(b,t)=>`<div class="ai" style="cursor:default"><div class="ai-top"><div class="ai-name">${esc(t.text)}</div><span style="font-size:9.5px;color:var(--txt3);white-space:nowrap">${bdDate(b.createdAt)}</span></div>${t.decision?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="sb2 sb-done">✓ ${esc(t.decision)}</span>${t.destinationId&&getItem(t.destinationId)?`<button class="btn xs" onclick="openModal(null,null,null,'${t.destinationId}')">Open Destination</button>`:''}<button class="btn xs ghost" onclick="bdReopen('${b.id}','${t.id}')">Reopen</button></div>`:`<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action')">✓ Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference')">💡 Keep / Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday')">⏳ Someday / Maybe</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing')">🔗 Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard')">Discard</button></div>`}</div>`;
-  if(brainDumpView==='process'){ws.innerHTML=pending.length?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="panel-ttl">To Process</div><div style="font-size:11px;color:var(--txt2)">${pending.length} thought${pending.length===1?'':'s'} waiting · goal = 0</div></div>`+pending.map(x=>card(x.batch,x.thought)).join(''):`<div class="empty"><p>Brain Dump queue is clear. 🎉</p><div style="font-size:11px">Nothing can get lost here: every captured thought has been explicitly routed.</div></div>`;return;}
+  const card=(b,t)=>{const dest=t.destinationId?getItem(t.destinationId):null,miss=dest&&!t.decision?missingFields(dest):[];return `<div class="ai" style="cursor:default"><div class="ai-top"><div class="ai-name">${esc(t.text)}</div><span style="font-size:9.5px;color:var(--txt3);white-space:nowrap">${bdDate(b.createdAt)}</span></div>${t.decision?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="sb2 sb-done">✓ ${esc(t.decision)}</span>${dest?`<button class="btn xs" onclick="openModal(null,null,null,'${t.destinationId}')">Open Destination</button>`:''}<button class="btn xs ghost" onclick="bdReopen('${b.id}','${t.id}')">Reopen</button></div>`:dest?`<div style="border:1px solid #F59E0B;background:#FFFBEB;border-radius:9px;padding:8px 10px"><div style="font-size:10px;font-weight:700;color:#92400E;margin-bottom:5px">Routing in progress · ${t.routeMode==='classification'?'Needs Classification':t.routeMode==='event'?'Calendar / Event':'Task'}</div>${t.routeMode==='classification'&&!goalProjectClassificationReviewed(dest)?`<div style="font-size:9.5px;color:#92400E;margin-bottom:5px">Classification Review is not complete yet.</div>`:''}${miss.length?`<div style="font-size:9.5px;color:#92400E;margin-bottom:6px">Missing required: ${esc(miss.join(', '))}</div>`:`<div style="font-size:9.5px;color:#166534;margin-bottom:6px">✓ Required fields are complete.</div>`}<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs" onclick="openModal(null,null,null,'${dest.id}')">Edit Destination</button><button class="btn xs primary" onclick="bdFinalizeManaged('${b.id}','${t.id}')">Check & Finish Routing</button></div></div>`:`<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action')">✓ Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','event')">📅 Calendar / Event</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference')">💡 Keep / Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday')">⏳ Someday / Maybe</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing')">🔗 Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard')">Discard</button></div>`}</div>`;};
+  if(brainDumpView==='process'){ws.innerHTML=pending.length?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="panel-ttl">To Process</div><div style="font-size:11px;color:var(--txt2)">${pending.length} thought${pending.length===1?'':'s'} waiting · goal = 0</div></div>`+pending.map(x=>card(x.batch,x.thought)).join(''):`<div class="empty"><p>Brain Dump queue is clear. 🎉</p><div style="font-size:11px">Every captured thought has reached a deliberate, clean destination.</div></div>`;return;}
   if(brainDumpView==='history'){ws.innerHTML=S.brainDumps.length?S.brainDumps.map(b=>{const n=(b.thoughts||[]).length,p=(b.thoughts||[]).filter(t=>t.decision).length;return `<details class="tblock" ${p<n?'open':''}><summary style="cursor:pointer;font-weight:700;color:var(--navy)">${bdDate(b.createdAt)} · ${n} thoughts · ${p===n?'✓ Processed':(n-p)+' waiting'}</summary><div style="margin-top:10px">${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div></details>`}).join(''):`<div class="empty"><p>No Brain Dump history yet.</p></div>`;return;}
   const today=new Date().toDateString(),b=S.brainDumps.find(x=>new Date(x.createdAt).toDateString()===today);ws.innerHTML=b?`<div style="margin-top:12px"><div class="panel-ttl" style="margin-bottom:8px">Today's Saved Dump</div>${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div>`:'';
 }
@@ -29618,6 +29658,9 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v490 — Handwrite the five-minute brain dump, use the Daily Brain Dump ChatGPT project to transcribe it one thought per line, then paste it into Inbox → Capture. Saving creates a protected dated batch, not Action Items. Process the queue to zero by routing each thought as Actionable, Keep / Reference, Someday / Maybe, Already Exists, or Discard. History preserves every batch and its routing status. -->
 <!-- CHANGE LOG: v490 — Added persistent protected Brain Dump batches, To Process and History views, explicit five-way routing, destination links, and waiting/processed counts. Brain Dump capture is now separate from the 8,710+ item operational Inbox until the user explicitly routes a thought. Added only the v490 Release record. No new Action Item type, Action Item field, controlled value, linkable object, required-field rule, progress rule, applyFilter type branch, Bulk Add/Bulk Update type option, inline type selector option, tBadge case, or export field was added; therefore the mandatory new-type/field integration checklist required no schema changes. -->
 <!-- RELEASE NOTES: v490 — Daily Brain Dump is now a protected processing queue designed for handwritten capture + ChatGPT transcription. New thoughts remain visible until explicitly routed and cannot silently disappear into the general Inbox. -->
+<!-- USER GUIDE: v491 — For an Actionable Brain Dump thought, choose Task or Needs Classification; Calendar / Event is also available directly. LCC creates the destination but keeps the thought in To Process while required fields are incomplete. Use Edit Destination, then Check & Finish Routing. The finish check uses canonical missingFields(); Goal/Project candidates must also complete Classification Review. Unfinished Brain Dump destinations are temporarily excluded from automatic Parking Lot / Inbox routing. -->
+<!-- CHANGE LOG: v491 — Added clean-routing completion gate, Task vs Needs Classification choice, Calendar / Event route, pending destination repair state, canonical missingFields() finish validation, and temporary exclusion of unfinished Brain Dump destinations from needsAttn()/routeParkingLot(). Added only the v491 Release record. No new Action Item type, field, controlled value, or linkable object was introduced, so Bulk Add, Bulk Update, type filters, inline type selector, keyMap/linked items, tBadge, recalc/calcProg type logic, applyFilter type branches, and export schema required no additions. -->
+<!-- RELEASE NOTES: v491 — Brain Dump processing now ends only after actionable destinations are complete enough to avoid missing-field Inbox routing. Record creation alone no longer counts as processed. -->
 </body>
 
 
