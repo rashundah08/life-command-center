@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v497</title>
+<title>LCC v498</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1156,7 +1156,7 @@ Item 3
 </div>
 <div id="inbox-capture-panel">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">🧠 Daily Brain Dump</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Write by hand for 5 minutes, have ChatGPT transcribe it one thought per line, then paste the transcription here. Brain Dump stays protected until each thought reaches a clean destination. Actionable items must clear the same required-field rules used by the rest of LCC before the thought is marked Processed.</div></div>
+<div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)">🧠 Daily Brain Dump</div><div style="font-size:11px;color:var(--txt2);margin-top:2px">Write by hand for 5 minutes, have ChatGPT transcribe it one thought per line, then paste the transcription here. Brain Dump stays protected until each thought reaches a clean destination. Tasks and Events finish after their routing requirements are complete; Goal/Project candidates only need the four classification answers plus a matching Type to leave Brain Dump, then planning continues in Goal/Project Review.</div></div>
 <button class="btn primary sm" onclick="openQuickCapture()">⚡ Quick Capture</button>
 </div>
 <div id="bd-summary" class="metrics" style="margin-bottom:12px"></div>
@@ -1292,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v497 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v498 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v497</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v498</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -2877,6 +2877,7 @@ Donate clothes,notstarted,easy,2026-07-02,2026-07-04,30,Home &amp; Environment,"
 <strong>Content rows:</strong> when Type = <code>content</code>, you can also import Content Type, Stage, Purpose, Pillar, Campaign, Audience, Offer, CTA, Platforms, Brand, Publish Date, family-specific writing fields, document fields, and content performance metrics.
         </div>
 <div class="bprev" id="ba-csv-preview"></div>
+<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn xs ghost" type="button" onclick="baShowImportHistory()">📋 Import History</button></div>
 </div>
 </div>
 <!-- UPDATE TAB -->
@@ -4082,6 +4083,7 @@ async function load(){
   if(p.dreamFund)S.dreamFund=p.dreamFund; // v201 — Dream Life Fund
   if(p.digitalLibrary)S.digitalLibrary=p.digitalLibrary; // v361 — Digital Library
   if(p.focusBoard)S.focusBoard=p.focusBoard; // v492 — Home Focus Board
+  if(Array.isArray(p.bulkImportHistory))S.bulkImportHistory=p.bulkImportHistory; // v498 — durable Bulk Add reconciliation history
       if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;if(p.wfV194Migrated)S.wfV194Migrated=p.wfV194Migrated;if(p.v203Migrated)S.v203Migrated=p.v203Migrated;
       if(p.companySops)S.companySops=p.companySops; // v156 — Company SOP link registry
       // v324 — init() performs the single post-migration recalc.
@@ -4096,7 +4098,8 @@ async function load(){
   const _v495ReleaseAdded=ensureReleaseV495();
   const _v496ReleaseAdded=ensureReleaseV496();
   const _v497ReleaseAdded=ensureReleaseV497();
-  if((_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  const _v498ReleaseAdded=ensureReleaseV498();
+  if((_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4115,6 +4118,12 @@ function ensureReleaseV497(){
   if(S.items.some(i=>i&&i.id==='release-lcc-v497'))return false;
   const now=Date.now(),day=today();
   S.items.push({id:'release-lcc-v497',name:'LCC v497 — Brain Dump Pulse + Home Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'497',releaseType:'enhancement',releaseModules:['Home','Brain Dump','Pulse / Headquarters','Execution Center'],releaseChangelog:'Added a collapsible Brain Dump To Process queue and story metrics to Home; added Brain Dump Pulse emotion capture using the existing Pulse emotion vocabulary; changed classified Goal/Project Brain Dump routing so all four classification questions plus matching recommended type are sufficient to leave Brain Dump and continue planning in Goal/Project Review; aligned Home Today/Overdue metric widgets to the exact same eligibility used by the visible Today Focus list.',releaseNotes:'v497 turns Brain Dump into an acknowledge-and-route workflow rather than a complete-every-field gate. Home keeps pending thoughts visible, Brain Dump Pulse records the emotion at the console, and Today/Overdue counts now match the visible focus list.',notes:'User Guide: Expand Brain Dump — To Process on Home to process pending thoughts without losing sight of them. For Goal/Project candidates, answer all four classification questions and make the saved Type match the recommendation, then Check & Route; remaining planning fields continue in Goal Review or Project Review. Brain Dump Pulse uses the same emotions as Pulse / Headquarters and Home summarizes captured, already-existing, actionable, and waiting thoughts as a mental-load story.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
+function ensureReleaseV498(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v498'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v498',name:'LCC v498 — Bulk Import Reconciliation + Brain Dump Goal Routing Repair',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'498',releaseType:'bugfix',releaseModules:['Bulk Add','CSV Import','Brain Dump','Goals','Projects'],releaseChangelog:'Replaced disappearing Bulk Add CSV outcome toasts with a persistent row-level Import Results report, added bounded Import History and failed-row CSV download, and repaired Brain Dump Goal/Project classification saves so Brain-Dump-managed classification records can answer the four routing questions without first completing List/Category or later planning fields.',releaseNotes:'v498 makes large CSV imports auditable and keeps Brain Dump classification focused on classification. Every import now leaves a durable reconciliation trail, while Goal/Project thoughts can leave Brain Dump after the four classification answers and matching Type are complete.',notes:'User Guide: After a Bulk Add CSV import, review the persistent Import Results window. Confirm Total Rows = Imported + Failed + Skipped, use the tabs to inspect row-level outcomes, and download Failed Rows CSV to correct only unsuccessful records. Open Import History from Bulk Add to revisit recent reports. For Brain Dump Goal/Project candidates, answer the four classification questions and make Type match the recommendation; List, Category, dates, effort, SMART details, and other planning fields can be completed later in Goal/Project Review.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
 function exportItemsExcel(){
@@ -9715,7 +9724,8 @@ function saveItemInner(){
   schema2NormalizeRecord(obj);
   // v315 — Cancelled / On Hold are exempt from all other schema completeness gates.
   if(!['cancelled','onhold'].includes(obj.status)){
-    const _s2Capture=schema2CaptureMissing(obj);if(_s2Capture.length)return alert('Required for Entry ('+(ACTION_SCHEMA_2[type]?.label||type)+'): '+_s2Capture.join(', '));
+    const _bdClassDraft=!!(S.editId&&typeof bdIsManagedDestination==='function'&&bdIsManagedDestination(S.editId)&&['goal','project'].includes(type));
+    const _s2Capture=schema2CaptureMissing(obj);if(_s2Capture.length&&!_bdClassDraft)return alert('Required for Entry ('+(ACTION_SCHEMA_2[type]?.label||type)+'): '+_s2Capture.join(', '));
     const _s2Close=schema2CloseMissing(obj);if(_s2Close.length)return alert('Required for Close ('+(ACTION_SCHEMA_2[type]?.label||type)+'): '+_s2Close.join(', '));
   }
   doSave(obj);
@@ -10812,6 +10822,43 @@ function previewBaCsv(){
 const _schema2OrigBulkTypeChange=onBulkTypeChange;
 onBulkTypeChange=function(prefix){const r=_schema2OrigBulkTypeChange.apply(this,arguments);setTimeout(()=>{schema2EnsureBulkEditors();schema2RenderBulkRows(prefix);},0);return r;};
 
+// v498 — durable Bulk Add CSV reconciliation. Reports are bounded to protect large-data performance.
+let _baImportReportActive=null;
+function baImportHistory(){if(!Array.isArray(S.bulkImportHistory))S.bulkImportHistory=[];return S.bulkImportHistory;}
+function baImportFileName(){const f=document.getElementById('ba-csv-file')?.files?.[0];return f?.name||'Pasted CSV';}
+function baRecordImportReport(report){
+  report={id:report.id||('bir-'+Date.now().toString(36)),createdAt:report.createdAt||Date.now(),fileName:report.fileName||baImportFileName(),results:report.results||[],...report};
+  report.total=Number(report.total??report.results.length)||0;
+  report.imported=report.results.filter(x=>x.status==='Imported').length;
+  report.failed=report.results.filter(x=>x.status==='Failed').length;
+  report.skipped=report.results.filter(x=>x.status==='Skipped').length;
+  report.status=report.failed||report.skipped?'PARTIAL':'COMPLETE';
+  const hist=baImportHistory();hist.unshift(report);if(hist.length>12)hist.length=12;
+  _baImportReportActive=report;save();baShowImportReport(report.id);
+}
+function baImportReportById(id){return baImportHistory().find(x=>x.id===id)||(_baImportReportActive?.id===id?_baImportReportActive:null);}
+function baImportTab(id,tab){const r=baImportReportById(id);if(!r)return;document.querySelectorAll('#ba-import-report .ba-ir-tab').forEach(b=>b.classList.toggle('primary',b.dataset.tab===tab));const body=document.getElementById('ba-ir-body');if(body)body.innerHTML=baImportRowsHtml(r,tab);}
+function baImportRowsHtml(r,tab){
+  const rows=(r.results||[]).filter(x=>tab==='All'||x.status===tab);
+  if(!rows.length)return '<div class="empty"><p>No rows in this result.</p></div>';
+  return `<div style="max-height:52vh;overflow:auto;border:1px solid var(--bdr);border-radius:10px"><table style="width:100%;border-collapse:collapse;font-size:10px"><thead style="position:sticky;top:0;background:var(--soft);z-index:1"><tr><th style="padding:7px;text-align:left">CSV Row</th><th style="padding:7px;text-align:left">Name</th><th style="padding:7px;text-align:left">Type</th><th style="padding:7px;text-align:left">Result</th><th style="padding:7px;text-align:left">Reason</th></tr></thead><tbody>${rows.map(x=>`<tr style="border-top:1px solid var(--bdr)"><td style="padding:7px">${x.row||''}</td><td style="padding:7px;font-weight:600">${esc(x.name||'(Unnamed)')}</td><td style="padding:7px">${esc(x.type||'')}</td><td style="padding:7px"><b>${x.status==='Imported'?'🟢':x.status==='Failed'?'🔴':'🟡'} ${esc(x.status)}</b></td><td style="padding:7px">${esc(x.reason||'')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function baShowImportReport(id){
+  const r=baImportReportById(id);if(!r)return;
+  document.getElementById('ba-import-report')?.remove();const ov=document.createElement('div');ov.id='ba-import-report';ov.className='overlay';ov.style.display='flex';
+  ov.innerHTML=`<div class="modal" style="max-width:980px"><div class="modal-head"><div><h2>Bulk Add · Import Results</h2><div style="font-size:10px;color:var(--txt3);margin-top:2px">${esc(r.fileName||'CSV')} · ${new Date(r.createdAt).toLocaleString()}</div></div><button class="xbtn" onclick="document.getElementById('ba-import-report').remove()">×</button></div><div class="modal-body"><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px"><div class="mc"><div class="mc-val">${r.total}</div><div class="mc-lbl">Total Rows</div></div><div class="mc"><div class="mc-val">${r.imported}</div><div class="mc-lbl">Imported</div></div><div class="mc"><div class="mc-val">${r.failed}</div><div class="mc-lbl">Failed</div></div><div class="mc"><div class="mc-val">${r.skipped}</div><div class="mc-lbl">Skipped</div></div><div class="mc"><div class="mc-val" style="font-size:18px">${esc(r.status)}</div><div class="mc-lbl">Import Status</div></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><button class="btn xs primary ba-ir-tab" data-tab="All" onclick="baImportTab('${r.id}','All')">All (${r.total})</button><button class="btn xs ba-ir-tab" data-tab="Imported" onclick="baImportTab('${r.id}','Imported')">Imported (${r.imported})</button><button class="btn xs ba-ir-tab" data-tab="Failed" onclick="baImportTab('${r.id}','Failed')">Failed (${r.failed})</button><button class="btn xs ba-ir-tab" data-tab="Skipped" onclick="baImportTab('${r.id}','Skipped')">Skipped (${r.skipped})</button></div><div id="ba-ir-body">${baImportRowsHtml(r,'All')}</div></div><div class="modal-foot"><button class="btn ghost" onclick="baShowImportHistory()">Import History</button>${r.failed?`<button class="btn" onclick="baDownloadFailedRows('${r.id}')">⬇ Download Failed Rows CSV</button>`:''}<button class="btn primary" onclick="document.getElementById('ba-import-report').remove()">Close</button></div></div>`;document.body.appendChild(ov);
+}
+function baShowImportHistory(){
+  document.getElementById('ba-import-history')?.remove();const hist=baImportHistory(),ov=document.createElement('div');ov.id='ba-import-history';ov.className='overlay';ov.style.display='flex';
+  ov.innerHTML=`<div class="modal" style="max-width:850px"><div class="modal-head"><h2>Bulk Add · Import History</h2><button class="xbtn" onclick="document.getElementById('ba-import-history').remove()">×</button></div><div class="modal-body">${hist.length?`<div style="max-height:60vh;overflow:auto">${hist.map(r=>`<div style="display:grid;grid-template-columns:1.4fr .7fr repeat(4,.55fr);gap:8px;align-items:center;padding:9px;border-bottom:1px solid var(--bdr);font-size:10px"><button class="btn xs ghost" style="text-align:left" onclick="document.getElementById('ba-import-history').remove();baShowImportReport('${r.id}')">${esc(r.fileName||'CSV')}<br><span style="font-size:9px;color:var(--txt3)">${new Date(r.createdAt).toLocaleString()}</span></button><b>${esc(r.status||'')}</b><span>${r.total} rows</span><span>🟢 ${r.imported}</span><span>🔴 ${r.failed}</span><span>🟡 ${r.skipped}</span></div>`).join('')}</div>`:'<div class="empty"><p>No Bulk Add import history yet.</p></div>'}</div><div class="modal-foot"><button class="btn primary" onclick="document.getElementById('ba-import-history').remove()">Close</button></div></div>`;document.body.appendChild(ov);
+}
+function baCsvQ(v){v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function baDownloadFailedRows(id){
+  const r=baImportReportById(id);if(!r)return;const failed=(r.results||[]).filter(x=>x.status==='Failed');if(!failed.length){toast('No failed rows to download');return;}
+  const headers=['CSV Row','Name','Type','Status','Start Date','Target/Due Date','Lists','Categories','Tags','Notes','Linked Item','Import Error'];
+  const lines=[headers, ...failed.map(x=>{const z=x.data||{};return [x.row,z.name||x.name,z.type||x.type,z.status||'',z.startDate||'',z.date||'',(z.lists||[]).join(';'),(z.categories||[]).join(';'),(z.tags||[]).join(';'),z.notes||'',z.linkedItem||'',x.reason||''];})].map(a=>a.map(baCsvQ).join(','));
+  const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LCC-Bulk-Add-Failed-Rows-'+today()+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
 function saveBulk(){
   var _bCSkipped=0; // v191 — content items blocked from Stage=Published by the checklist gate
   if(currentBulkTab==='add'){
@@ -10825,7 +10872,7 @@ function saveBulk(){
       if(!names.length)return alert('Add at least one item name');
       rows=names.map(n=>({name:n}));
     }
-    let _schema2BulkAddErrors=[];let _schema2BulkAddedCount=0;
+    let _schema2BulkAddErrors=[];let _schema2BulkAddedCount=0;let _baImportResults=[];
     const type=document.getElementById('ba-type')?.value||'';
     const status=document.getElementById('ba-status')?.value||'notstarted';
     const effort=document.getElementById('ba-effort')?.value||'';
@@ -10942,11 +10989,14 @@ function saveBulk(){
       const badCats=[...new Set(rows.flatMap(r=>r.categories||[]).filter(x=>!validCats.has(String(x).toLowerCase())))];
       const badPlanning=[...new Set(rows.filter(r=>r._rawPlanningInvalid).map(r=>r._rawPlanningInvalid))];
       if(badLists.length||badCats.length||badPlanning.length){
-        let msg='Bulk Add blocked — correct the controlled values first.';
-        if(badLists.length)msg+='\n\nInvalid Lists:\n• '+badLists.join('\n• ');
-        if(badCats.length)msg+='\n\nInvalid Categories:\n• '+badCats.join('\n• ');
-        if(badPlanning.length)msg+='\n\nInvalid Planning Stages:\n• '+badPlanning.join('\n• ');
-        return alert(msg);
+        const reasons=[];
+        if(badLists.length)reasons.push('Invalid List(s): '+badLists.join(', '));
+        if(badCats.length)reasons.push('Invalid Category/Categories: '+badCats.join(', '));
+        if(badPlanning.length)reasons.push('Invalid Planning Stage(s): '+badPlanning.join(', '));
+        const reason='Preflight blocked import — '+reasons.join(' · ');
+        const results=rows.map(r=>({row:(r._importOrder??0)+2,name:r.name,type:r.type||type||'',status:'Failed',reason,data:{...r}}));
+        baRecordImportReport({fileName:baImportFileName(),total:rows.length,results});
+        return;
       }
     }
     rows.forEach((row,idx)=>{
@@ -11100,12 +11150,14 @@ function saveBulk(){
           const _linkName=row.linkedItem.toLowerCase().trim();
           const matchedLink=S.items.find(li=>li.name&&li.name.toLowerCase().trim()===_linkName);
           if(!matchedLink){
-            _schema2BulkAddErrors.push((item.name||'Item')+': Linked Item "'+row.linkedItem+'" was not found. Put the parent in the same file or use an existing exact item name.');
+            const _err=(item.name||'Item')+': Linked Item "'+row.linkedItem+'" was not found. Put the parent in the same file or use an existing exact item name.';
+            _schema2BulkAddErrors.push(_err);_baImportResults.push({row:(row._importOrder??idx)+2,name:item.name||'',type:rowType,status:'Failed',reason:_err,data:{...row}});
             return;
           }
           const _hv=hierarchyLinkValidationV314(matchedLink,rowType);
           if(!_hv.ok&&['project','phase','task'].includes(rowType)){
-            _schema2BulkAddErrors.push((item.name||'Item')+': '+_hv.msg);
+            const _err=(item.name||'Item')+': '+_hv.msg;
+            _schema2BulkAddErrors.push(_err);_baImportResults.push({row:(row._importOrder??idx)+2,name:item.name||'',type:rowType,status:'Failed',reason:_err,data:{...row}});
             return;
           }
           applyLink(matchedLink.id,item);
@@ -11207,6 +11259,7 @@ function saveBulk(){
       autoNumberItem(item);
       S.items.push(item);
       _schema2BulkAddedCount++;
+      if(csvMode)_baImportResults.push({row:(row._importOrder??idx)+2,name:item.name||'',type:rowType,status:'Imported',reason:_s2AddMiss.length?'Imported; planning/attention fields still missing: '+_s2AddMiss.join(', '):'Imported successfully',data:{...row}});
       // Phases must always be linked — establish the required parent link now
       if(rowType==='phase'&&baPhaseParent){
         const phaseParent=getItem(baPhaseParent);
@@ -11239,7 +11292,9 @@ function saveBulk(){
     if(newCatsCreated.length)summaryMsg+=' Created category(s): '+[...new Set(newCatsCreated)].join(', ')+'.';
     if(skippedListVals.size)summaryMsg+=' ⚠️ Skipped unmatched list(s) (not created): '+[...skippedListVals].join(', ')+'.';
     if(skippedCatVals.size)summaryMsg+=' ⚠️ Skipped unmatched category(s) (not created): '+[...skippedCatVals].join(', ')+'.';
-    toast(summaryMsg,(skippedListVals.size||skippedCatVals.size)?8000:4000);
+    if(csvMode){
+      baRecordImportReport({fileName:baImportFileName(),total:rows.length,results:_baImportResults});
+    }else toast(summaryMsg,(skippedListVals.size||skippedCatVals.size)?8000:4000);
     setTimeout(resetBulkForm,100);
   } else if(currentBulkTab==='update'){
     const sel=document.getElementById('bu-items');
@@ -29844,6 +29899,9 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v497 — Brain Dump To Process is collapsible on Home. Brain Dump Pulse uses the same emotion vocabulary as Pulse / Headquarters. Classified Goals/Projects can route after all four classification questions are answered and Type matches the recommendation; remaining planning fields continue in Goal/Project Review. Home Today/Overdue metrics use the same eligibility as the visible Today Focus list. -->
 <!-- CHANGE LOG: v497 — Added Home Brain Dump queue + story metrics, Brain Dump Pulse before/after emotion fields, classification-only routing gate for Goal/Project candidates, and corrected Today/Overdue metric alignment. No new Action Item type or Action Item schema field was added. -->
 <!-- RELEASE NOTES: v497 — Brain Dump now supports mental-load storytelling and faster routing while Home counts match the visible work list. -->
+<!-- USER GUIDE: v498 — Bulk Add CSV imports now open a persistent Import Results report with exact row counts, row-level reasons, Failed Rows CSV download, and recent Import History. Brain Dump Goal/Project candidates may save classification answers without List/Category or planning fields; routing completes after all four classification answers are present and Type matches the recommendation. -->
+<!-- CHANGE LOG: v498 — Added durable Bulk Add CSV reconciliation/history and repaired the Brain Dump managed Goal/Project save gate. No new Action Item type, Action Item field, linkable object, controlled value, progress rule, applyFilter branch, or export schema field was added. -->
+<!-- RELEASE NOTES: v498 — Large CSV imports are now auditable instead of disappearing into a toast, and Brain Dump Goal/Project routing no longer forces planning fields before classification can finish. -->
 </body>
 
 
