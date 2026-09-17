@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v495</title>
+<title>LCC v497</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -840,7 +840,7 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:var(
 <div class="sb-logo">
 <div class="sb-eye">Life Command Center</div>
 <div class="sb-name">Rashunda<span>.</span></div>
-<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v495</div>
+<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:8px">LCC v496</div>
 <div id="sb-lcc-date" style="font-size:9.5px;color:rgba(255,255,255,.62);margin-top:5px;line-height:1.45">--</div>
 <div id="sb-lcc-rot" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Rotation Week -- of 13</div>
 <div id="sb-lcc-calwk" style="font-size:9.5px;color:rgba(255,255,255,.62);line-height:1.45">Calendar Week -- of 53</div>
@@ -1169,6 +1169,10 @@ Item 3
 <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px">Paste today's transcription</div>
 <div style="font-size:10.5px;color:var(--txt3);margin-bottom:9px">One thought per line. Nothing is added to Action Items or Inbox when you save this batch.</div>
 <textarea id="dump-in" placeholder="Paste the transcription from ChatGPT here — one thought per line."></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+<div><label style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)">💜 Brain Dump Pulse · What had the console?</label><select id="bd-pulse-before" style="width:100%;margin-top:4px"><option value="">— Select emotion —</option>${['Joy','Sadness','Anger','Fear','Disgust','Anxiety','Ennui','Embarrassment','Envy'].map(v=>`<option>${v}</option>`).join('')}</select></div>
+<div><label style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)">After processing</label><select id="bd-pulse-after" style="width:100%;margin-top:4px"><option value="">— Add later —</option>${['Joy','Sadness','Anger','Fear','Disgust','Anxiety','Ennui','Embarrassment','Envy'].map(v=>`<option>${v}</option>`).join('')}</select></div>
+</div>
 <div style="height:1px;background:var(--bdr);margin:11px 0"></div>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
 <span style="font-size:11px;color:var(--txt3)">The original batch remains available in History after processing.</span>
@@ -1288,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v495 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v497 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v495</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v497</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -1314,7 +1318,9 @@ Item 3
 </div>
 </div>
 <!-- v492 — Home Focus Board: independent planning horizons, linked to existing records where appropriate -->
-<div id="home-focus-board" class="focus-board"></div>
+<div id="home-focus-board" class="focus-board"><div class="focus-board-head"><div><div class="focus-board-title">🎯 My Focus</div><div class="focus-board-sub">Loading your 90-day focus, monthly goals, weekly priorities, and today’s win…</div></div></div></div>
+<!-- v497 — Brain Dump queue stays visible on Home without duplicating records -->
+<div id="home-brain-dump" style="margin-bottom:20px"></div>
 <!-- v301 — Master Plan time lenses -->
 <div class="mp-lens-wrap">
 <div class="mp-lens-pills" id="mp-lens-pills">
@@ -4088,7 +4094,9 @@ async function load(){
   const _v475ReleaseAdded=ensureReleaseV493();
   const _v494ReleaseAdded=ensureReleaseV494();
   const _v495ReleaseAdded=ensureReleaseV495();
-  if((_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  const _v496ReleaseAdded=ensureReleaseV496();
+  const _v497ReleaseAdded=ensureReleaseV497();
+  if((_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4097,6 +4105,18 @@ function ensureReleaseV495(){
   const now=Date.now(),day=today();
   S.items.push({id:'release-lcc-v495',name:'LCC v495 — Home Load Stability Repair',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'495',releaseType:'bugfix',releaseModules:['Home','Focus Board','Master Plan'],releaseChangelog:'Removed the v494 cross-render Home cache, restored stable canonical item reads, moved Focus Board rendering after the basic Home shell, normalized rotation categories, and fault-isolated downstream Home widgets so one bad section cannot leave the page stuck on Loading.',releaseNotes:'v495 is a Home load-stability repair after v494 could partially render or stall. The Focus Board remains intact and Home now degrades section-by-section instead of failing as one monolithic render.',notes:'User Guide: Home now paints its date/time and Focus Board before the heavier dashboard sections. If one Home section encounters malformed legacy data, the remaining sections continue loading. Monthly Focus remains Goal-based, Weekly Big 3 remains Task-based, and any saved non-placeholder Action Item can be Today’s Most Important Win.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
+function ensureReleaseV496(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v496'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v496',name:'LCC v496 — Home Focus Visibility Repair',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'496',releaseType:'bugfix',releaseModules:['Home','Focus Board'],releaseChangelog:'Made the Home Focus Board shell render directly in Home, hardened saved Focus Board state normalization, added visible retry/error handling, and added a post-paint Focus Board retry so malformed or legacy focus data cannot make the entire section disappear.',releaseNotes:'v496 repairs the Home Focus Board visibility issue seen in v495. The board is now always present on Home and safely normalizes prior saved focus data before rendering.',notes:'User Guide: My Focus appears directly below the purple Home hero. Use Edit 90-Day Focus, Choose Goal, Choose Task, and Choose Action Item to manage the current planning horizons. If legacy saved focus data cannot be rendered, the board remains visible and offers Retry rather than disappearing.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
+function ensureReleaseV497(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v497'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v497',name:'LCC v497 — Brain Dump Pulse + Home Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'497',releaseType:'enhancement',releaseModules:['Home','Brain Dump','Pulse / Headquarters','Execution Center'],releaseChangelog:'Added a collapsible Brain Dump To Process queue and story metrics to Home; added Brain Dump Pulse emotion capture using the existing Pulse emotion vocabulary; changed classified Goal/Project Brain Dump routing so all four classification questions plus matching recommended type are sufficient to leave Brain Dump and continue planning in Goal/Project Review; aligned Home Today/Overdue metric widgets to the exact same eligibility used by the visible Today Focus list.',releaseNotes:'v497 turns Brain Dump into an acknowledge-and-route workflow rather than a complete-every-field gate. Home keeps pending thoughts visible, Brain Dump Pulse records the emotion at the console, and Today/Overdue counts now match the visible focus list.',notes:'User Guide: Expand Brain Dump — To Process on Home to process pending thoughts without losing sight of them. For Goal/Project candidates, answer all four classification questions and make the saved Type match the recommendation, then Check & Route; remaining planning fields continue in Goal Review or Project Review. Brain Dump Pulse uses the same emotions as Pulse / Headquarters and Home summarizes captured, already-existing, actionable, and waiting thoughts as a mental-load story.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
 function exportItemsExcel(){
   try{
     const items=(S.items||[]).filter(i=>i.status!=='placeholder');
@@ -6446,7 +6466,7 @@ function saveBrainDumpBatch(){
   bdInit();const raw=(document.getElementById('dump-in')?.value||'').trim();if(!raw){toast('Paste at least one thought');return;}
   const lines=raw.split(/\n+/).map(x=>x.replace(/^[-*•\d.)\s]+/,'').trim()).filter(x=>x.length>1);
   if(!lines.length){toast('No thoughts found');return;}
-  const now=Date.now();S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',routeMode:'',processedAt:null}))});bdInvalidateManagedDestinationCache();
+  const now=Date.now(),pulseBefore=(document.getElementById('bd-pulse-before')?.value||''),pulseAfter=(document.getElementById('bd-pulse-after')?.value||'');S.brainDumps.unshift({id:'bd-'+now.toString(36),createdAt:now,pulseBefore,pulseAfter,thoughts:lines.map((text,i)=>({id:'bdt-'+now.toString(36)+'-'+i,text,decision:'',destinationId:'',routeMode:'',processedAt:null}))});bdInvalidateManagedDestinationCache();
   document.getElementById('dump-in').value='';save();brainDumpView='process';renderBrainDumpQueue();toast(lines.length+' thoughts added to protected Brain Dump queue');
 }
 function bdCreateManagedDestination(b,t,mode){
@@ -6468,12 +6488,12 @@ function bdFinalizeManaged(batchId,thoughtId){
   const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId),item=t?.destinationId?getItem(t.destinationId):null;
   if(!t||!item){toast('Destination record not found');return;}
   if(t.routeMode==='classification'&&!goalProjectClassificationReviewed(item)){
-    toast('Finish the Goal vs Project classification questions first');openModal(null,null,null,item.id);return;
+    toast('Answer all 4 Goal vs Project questions and match the recommended type first');openModal(null,null,null,item.id);return;
   }
   const miss=missingFields(item);
-  if(miss.length){toast('Still missing: '+miss.slice(0,4).join(', ')+(miss.length>4?' +'+(miss.length-4)+' more':''),5000);openModal(null,null,null,item.id);return;}
+  if(t.routeMode!=='classification'&&miss.length){toast('Still missing: '+miss.slice(0,4).join(', ')+(miss.length>4?' +'+(miss.length-4)+' more':''),5000);openModal(null,null,null,item.id);return;}
   bdInvalidateManagedDestinationCache();t.decision=t.routeMode==='classification'?'Actionable · Classified '+(item.type==='goal'?'Goal':'Project'):t.routeMode==='event'?'Calendar / Event':'Actionable · Task';
-  t.processedAt=Date.now();save();recalc();renderSb();renderBrainDumpQueue();toast('Clean routing complete — this item will not enter Inbox for missing fields');
+  t.processedAt=Date.now();save();recalc();renderSb();renderBrainDumpQueue();if(typeof renderHomeBrainDump==='function')renderHomeBrainDump();toast(t.routeMode==='classification'?'Classification complete — routed to '+(item.type==='goal'?'Goal':'Project')+' Review for planning fields':'Clean routing complete — this item will not enter Inbox for missing fields');
 }
 function bdDecision(batchId,thoughtId,decision){
   bdInit();const b=S.brainDumps.find(x=>x.id===batchId),t=b?.thoughts?.find(x=>x.id===thoughtId);if(!t)return;
@@ -6495,7 +6515,7 @@ function renderBrainDumpQueue(){
   bdInit();const ws=document.getElementById('bd-workspace');if(!ws)return;const pending=bdPending(),total=S.brainDumps.reduce((n,b)=>n+(b.thoughts||[]).length,0),processed=total-pending.length;
   const sm=document.getElementById('bd-summary');if(sm)sm.innerHTML=`<div class="mc"><div class="mc-val">${pending.length}</div><div class="mc-lbl">Waiting</div><div class="mc-sub">Protected queue</div></div><div class="mc"><div class="mc-val">${S.brainDumps.length}</div><div class="mc-lbl">Dump Sessions</div><div class="mc-sub">Saved history</div></div><div class="mc"><div class="mc-val">${processed}</div><div class="mc-lbl">Processed</div><div class="mc-sub">Cleanly routed</div></div>`;
   ['today','process','history'].forEach(v=>{const x=document.getElementById('bd-tab-'+v);if(x)x.classList.toggle('primary',brainDumpView===v);});const cap=document.getElementById('bd-capture-box');if(cap)cap.style.display=brainDumpView==='today'?'block':'none';
-  const card=(b,t)=>{const dest=t.destinationId?getItem(t.destinationId):null,miss=dest&&!t.decision?missingFields(dest):[];return `<div class="ai" style="cursor:default"><div class="ai-top"><div class="ai-name">${esc(t.text)}</div><span style="font-size:9.5px;color:var(--txt3);white-space:nowrap">${bdDate(b.createdAt)}</span></div>${t.decision?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="sb2 sb-done">✓ ${esc(t.decision)}</span>${dest?`<button class="btn xs" onclick="openModal(null,null,null,'${t.destinationId}')">Open Destination</button>`:''}<button class="btn xs ghost" onclick="bdReopen('${b.id}','${t.id}')">Reopen</button></div>`:dest?`<div style="border:1px solid #F59E0B;background:#FFFBEB;border-radius:9px;padding:8px 10px"><div style="font-size:10px;font-weight:700;color:#92400E;margin-bottom:5px">Routing in progress · ${t.routeMode==='classification'?'Needs Classification':t.routeMode==='event'?'Calendar / Event':'Task'}</div>${t.routeMode==='classification'&&!goalProjectClassificationReviewed(dest)?`<div style="font-size:9.5px;color:#92400E;margin-bottom:5px">Classification Review is not complete yet.</div>`:''}${miss.length?`<div style="font-size:9.5px;color:#92400E;margin-bottom:6px">Missing required: ${esc(miss.join(', '))}</div>`:`<div style="font-size:9.5px;color:#166534;margin-bottom:6px">✓ Required fields are complete.</div>`}<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs" onclick="openModal(null,null,null,'${dest.id}')">Edit Destination</button><button class="btn xs primary" onclick="bdFinalizeManaged('${b.id}','${t.id}')">Check & Finish Routing</button></div></div>`:`<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action')">✓ Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','event')">📅 Calendar / Event</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference')">💡 Keep / Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday')">⏳ Someday / Maybe</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing')">🔗 Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard')">Discard</button></div>`}</div>`;};
+  const card=(b,t)=>{const dest=t.destinationId?getItem(t.destinationId):null,miss=dest&&!t.decision?missingFields(dest):[];return `<div class="ai" style="cursor:default"><div class="ai-top"><div class="ai-name">${esc(t.text)}</div><span style="font-size:9.5px;color:var(--txt3);white-space:nowrap">${bdDate(b.createdAt)}</span></div>${t.decision?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="sb2 sb-done">✓ ${esc(t.decision)}</span>${dest?`<button class="btn xs" onclick="openModal(null,null,null,'${t.destinationId}')">Open Destination</button>`:''}<button class="btn xs ghost" onclick="bdReopen('${b.id}','${t.id}')">Reopen</button></div>`:dest?`<div style="border:1px solid #F59E0B;background:#FFFBEB;border-radius:9px;padding:8px 10px"><div style="font-size:10px;font-weight:700;color:#92400E;margin-bottom:5px">Routing in progress · ${t.routeMode==='classification'?'Needs Classification':t.routeMode==='event'?'Calendar / Event':'Task'}</div>${t.routeMode==='classification'&&!goalProjectClassificationReviewed(dest)?`<div style="font-size:9.5px;color:#92400E;margin-bottom:5px">Classification Review is not complete yet.</div>`:''}${t.routeMode==='classification'&&goalProjectClassificationReviewed(dest)?`<div style="font-size:9.5px;color:#166534;margin-bottom:6px">✓ Classification complete. Route now; planning fields can be completed in Goal/Project Review.</div>`:miss.length?`<div style="font-size:9.5px;color:#92400E;margin-bottom:6px">Missing required: ${esc(miss.join(', '))}</div>`:`<div style="font-size:9.5px;color:#166534;margin-bottom:6px">✓ Required fields are complete.</div>`}<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs" onclick="openModal(null,null,null,'${dest.id}')">Edit Destination</button><button class="btn xs primary" onclick="bdFinalizeManaged('${b.id}','${t.id}')">Check & Finish Routing</button></div></div>`:`<div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action')">✓ Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','event')">📅 Calendar / Event</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference')">💡 Keep / Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday')">⏳ Someday / Maybe</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing')">🔗 Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard')">Discard</button></div>`}</div>`;};
   if(brainDumpView==='process'){ws.innerHTML=pending.length?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="panel-ttl">To Process</div><div style="font-size:11px;color:var(--txt2)">${pending.length} thought${pending.length===1?'':'s'} waiting · goal = 0</div></div>`+pending.map(x=>card(x.batch,x.thought)).join(''):`<div class="empty"><p>Brain Dump queue is clear. 🎉</p><div style="font-size:11px">Every captured thought has reached a deliberate, clean destination.</div></div>`;return;}
   if(brainDumpView==='history'){ws.innerHTML=S.brainDumps.length?S.brainDumps.map(b=>{const n=(b.thoughts||[]).length,p=(b.thoughts||[]).filter(t=>t.decision).length;return `<details class="tblock" ${p<n?'open':''}><summary style="cursor:pointer;font-weight:700;color:var(--navy)">${bdDate(b.createdAt)} · ${n} thoughts · ${p===n?'✓ Processed':(n-p)+' waiting'}</summary><div style="margin-top:10px">${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div></details>`}).join(''):`<div class="empty"><p>No Brain Dump history yet.</p></div>`;return;}
   const today=new Date().toDateString(),b=S.brainDumps.find(x=>new Date(x.createdAt).toDateString()===today);ws.innerHTML=b?`<div style="margin-top:12px"><div class="panel-ttl" style="margin-bottom:8px">Today's Saved Dump</div>${(b.thoughts||[]).map(t=>card(b,t)).join('')}</div>`:'';
@@ -14841,7 +14861,7 @@ function showPage(page,btn){
   if(page==='lists')setClassificationTab(classificationTab);
   if(page==='initiative'&&typeof renderInitiativeDashboardV298==='function')renderInitiativeDashboardV298();
   if(page==='systemops')setSystemOpsTab(systemOpsTab);
-  if(page==='hub'){renderHub();setTimeout(()=>{if(typeof renderWIAB==='function')renderWIAB();},100);syncHomeView();if(homeView==='attention'){renderDash();const panel=document.getElementById('dash-panel');if(panel)panel.innerHTML='';}if(homeView==='pulse')renderHeadquarters();}
+  if(page==='hub'){renderHub();setTimeout(()=>{try{renderFocusBoard();}catch(e){console.error('Focus Board retry failed',e);}if(typeof renderWIAB==='function')renderWIAB();},100);syncHomeView();if(homeView==='attention'){renderDash();const panel=document.getElementById('dash-panel');if(panel)panel.innerHTML='';}if(homeView==='pulse')renderHeadquarters();}
   if(page==='sot')renderSot();
   if(page==='hierarchy')renderHierarchy(); // 0381 (v234)
   if(page==='parking'){syncInboxWorkspace();if(inboxWorkspace==='triage')renderParking();}
@@ -15781,11 +15801,12 @@ window.isBCCMasterPlanItem=isMasterPlanBusinessItem;
 function renderHubPeriodLens(){
   const metrics=document.getElementById('mp-lens-metrics'),view=document.getElementById('mp-period-view');if(!metrics||!view)return;
   const td=today(),all=masterPlanItems(),active=i=>i.status!=='placeholder'&&!['done','cancelled'].includes(i.status)&&!['transaction','recurringexpense','inventory'].includes(i.type);
-  const overdue=all.filter(i=>active(i)&&hubPeriodItemDate(i)&&hubPeriodItemDate(i)<td).length;
+  const focusEligible=i=>i.type!=='habit'&&i.status!=='done'&&i.status!=='placeholder'&&i.status!=='cancelled'&&i.status!=='onhold'&&(i.status==='behind'||i.date===td);
+  const focusNow=all.filter(focusEligible),overdue=focusNow.filter(i=>i.status==='behind').length,dueToday=focusNow.filter(i=>i.date===td&&i.status!=='behind').length;
   let cards=hubPeriodItems(hubPeriod,true),m=[];
   if(hubPeriod==='today'){
-    const due=cards.filter(i=>active(i)).length,done=cards.filter(i=>i.status==='done').length;
-    m=[['Due Today',due],['Completed Today',done],['Overdue',overdue],['Remaining',due]];
+    const done=cards.filter(i=>i.status==='done').length;
+    m=[['Due Today',dueToday],['Completed Today',done],['Overdue',overdue],['Remaining',focusNow.length]];
   }else if(hubPeriod==='week'||hubPeriod==='month'){
     const activeN=cards.filter(active).length,done=cards.filter(i=>i.status==='done').length,behind=cards.filter(i=>i.status==='behind'||(active(i)&&hubPeriodItemDate(i)<td)).length;
     m=[[hubPeriod==='week'?'Due This Week':'Due This Month',activeN],['Completed',done],['Overdue / Behind',behind],['Remaining',activeN]];
@@ -15816,11 +15837,14 @@ function renderHubPeriodLens(){
 
 // v492 — Home Focus Board. Planning horizons are intentionally independent.
 function fbInit(){
-  if(!S.focusBoard||typeof S.focusBoard!=='object')S.focusBoard={};
-  if(!S.focusBoard.quarter)S.focusBoard.quarter={label:'',start:'',end:'',statements:[]};
-  if(!S.focusBoard.monthly)S.focusBoard.monthly={};
-  if(!S.focusBoard.weekly)S.focusBoard.weekly={};
-  if(!S.focusBoard.daily)S.focusBoard.daily={};
+  if(!S.focusBoard||typeof S.focusBoard!=='object'||Array.isArray(S.focusBoard))S.focusBoard={};
+  if(!S.focusBoard.quarter||typeof S.focusBoard.quarter!=='object'||Array.isArray(S.focusBoard.quarter))S.focusBoard.quarter={label:'',start:'',end:'',statements:[]};
+  const q=S.focusBoard.quarter;q.label=typeof q.label==='string'?q.label:'';q.start=typeof q.start==='string'?q.start:'';q.end=typeof q.end==='string'?q.end:'';q.statements=Array.isArray(q.statements)?q.statements.filter(x=>typeof x==='string'):[];
+  if(!S.focusBoard.monthly||typeof S.focusBoard.monthly!=='object'||Array.isArray(S.focusBoard.monthly))S.focusBoard.monthly={};
+  if(!S.focusBoard.weekly||typeof S.focusBoard.weekly!=='object'||Array.isArray(S.focusBoard.weekly))S.focusBoard.weekly={};
+  if(!S.focusBoard.daily||typeof S.focusBoard.daily!=='object'||Array.isArray(S.focusBoard.daily))S.focusBoard.daily={};
+  Object.keys(S.focusBoard.monthly).forEach(k=>{if(!Array.isArray(S.focusBoard.monthly[k]))S.focusBoard.monthly[k]=[];});
+  Object.keys(S.focusBoard.weekly).forEach(k=>{if(!Array.isArray(S.focusBoard.weekly[k]))S.focusBoard.weekly[k]=[];});
   return S.focusBoard;
 }
 function fbLocalDay(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),x=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${x}`;}
@@ -15878,9 +15902,11 @@ function fbModalStrip(item){
   return b.length?`<div class="focus-modal-strip"><div class="focus-modal-strip-title">🎯 Home Focus Board</div><div style="display:flex;gap:6px;flex-wrap:wrap">${b.join('')}</div><div style="font-size:9px;color:var(--txt3);margin-top:6px">${rule}</div></div>`:'';
 }
 function renderFocusBoard(){
-  fbInit();const el=document.getElementById('home-focus-board');if(!el)return;
+  const el=document.getElementById('home-focus-board');if(!el)return;
+  try{
+  fbInit();
   const q=S.focusBoard.quarter||{},mk=fbMonthKey(),wk=fbWeekKey(),dk=fbLocalDay();
-  const mids=(S.focusBoard.monthly[mk]||[]).filter(id=>getItem(id)),wids=(S.focusBoard.weekly[wk]||[]).filter(id=>getItem(id)),win=S.focusBoard.daily[dk]||null;
+  const mids=(Array.isArray(S.focusBoard.monthly[mk])?S.focusBoard.monthly[mk]:[]).filter(id=>getItem(id)),wids=(Array.isArray(S.focusBoard.weekly[wk])?S.focusBoard.weekly[wk]:[]).filter(id=>getItem(id)),win=(S.focusBoard.daily[dk]&&typeof S.focusBoard.daily[dk]==='object')?S.focusBoard.daily[dk]:null;
   const qPeriod=[q.start,q.end].filter(Boolean).join(' → ');
   const line=(id,kind,key)=>{const i=getItem(id);return i?`<div class="focus-line"><div class="focus-line-main" onclick="fbOpen('${id}')" style="cursor:pointer">${esc(i.name||'Untitled')}<div class="focus-line-meta">${tBadge(i.type)} · ${statusLabel(i.status||'notstarted')}</div></div><button class="btn xs ghost" onclick="fbRemove('${kind}','${key}','${id}')" title="Remove from Focus Board">×</button></div>`:''};
   let winHtml='<div class="focus-empty">Choose one thing that would make today a win.</div>';
@@ -15892,8 +15918,23 @@ function renderFocusBoard(){
     <section class="focus-zone"><div class="focus-zone-label">🔗 Selection Rule</div><div style="font-size:11px;color:var(--txt2);line-height:1.55">Monthly Goals, Weekly Tasks, and the Daily Win are intentional selections. They do not have to roll up to one another. Existing records stay canonical; Home only spotlights them for the current period.</div></section>
     <section class="focus-zone focus-win"><div class="focus-zone-label">⭐ Today's Most Important Win</div>${winHtml}<div class="focus-controls"><button class="btn xs" onclick="fbSearchPick('daily')">🔎 Choose Action Item</button><span style="font-size:10px;color:var(--txt3)">or</span><input id="fb-win-text" placeholder="Type a standalone win…" style="flex:1;min-width:180px"><button class="btn xs" onclick="fbSetWin()">Set Standalone Win</button></div></section>
   </div>`;
+  }catch(e){console.error('Home Focus Board render failed',e);el.innerHTML=`<div class="focus-board-head"><div><div class="focus-board-title">🎯 My Focus</div><div class="focus-board-sub">Focus Board could not finish loading. Your saved records are unchanged.</div></div><button class="btn xs ghost" onclick="renderFocusBoard()">↻ Retry</button></div>`;}
 }
 
+function bdSetPulse(batchId,which,value){bdInit();const b=S.brainDumps.find(x=>x.id===batchId);if(!b)return;b[which==='after'?'pulseAfter':'pulseBefore']=value||'';save();renderBrainDumpQueue();renderHomeBrainDump();}
+function bdInsightData(){
+  bdInit();const thoughts=S.brainDumps.flatMap(b=>(b.thoughts||[]).map(t=>({b,t}))),processed=thoughts.filter(x=>x.t.decision),pending=thoughts.length-processed.length;
+  const count=rx=>processed.filter(x=>rx.test(x.t.decision||'')).length;
+  const existing=count(/^Already Exists$/),actions=count(/^Actionable/),projects=processed.filter(x=>/^Actionable · Classified/.test(x.t.decision||'')).length,parked=count(/^Someday/),reference=count(/^Keep \/ Reference$/),discarded=count(/^Discarded$/);
+  const emos={};S.brainDumps.forEach(b=>{if(b.pulseBefore)emos[b.pulseBefore]=(emos[b.pulseBefore]||0)+1;});const topEmotion=Object.entries(emos).sort((a,b)=>b[1]-a[1])[0];
+  return{total:thoughts.length,processed:processed.length,pending,existing,actions,projects,parked,reference,discarded,topEmotion};
+}
+function renderHomeBrainDump(){
+  const el=document.getElementById('home-brain-dump');if(!el)return;bdInit();const pending=bdPending(),d=bdInsightData(),oldest=pending.length?Math.min(...pending.map(x=>x.batch.createdAt)):null;
+  const story=d.existing?`${d.existing} thought${d.existing===1?' was':'s were'} already in LCC — your system already had ${d.existing===1?'it':'them'} on your radar.`:d.processed?`${d.processed} thought${d.processed===1?' has':'s have'} been acknowledged and routed.`:'Your Brain Dump story will build as you process thoughts.';
+  const rows=pending.slice(0,12).map(({batch:b,thought:t})=>{const dest=t.destinationId?getItem(t.destinationId):null;return `<div style="padding:8px 0;border-top:1px solid var(--bdr)"><div style="font-size:11px;font-weight:600;color:var(--txt);margin-bottom:5px">${esc(t.text)}</div>${dest?`<div style="display:flex;gap:5px;flex-wrap:wrap"><span style="font-size:9px;color:var(--txt3)">Routing: ${esc(t.routeMode||'action')}</span><button class="btn xs" onclick="openModal(null,null,null,'${dest.id}')">Edit Destination</button><button class="btn xs primary" onclick="bdFinalizeManaged('${b.id}','${t.id}')">${t.routeMode==='classification'?'Check & Route':'Check & Finish'}</button></div>`:`<div style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn xs primary" onclick="bdDecision('${b.id}','${t.id}','action');setTimeout(renderHomeBrainDump,80)">Actionable</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','event');setTimeout(renderHomeBrainDump,80)">Event</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','reference');setTimeout(renderHomeBrainDump,80)">Reference</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','someday');setTimeout(renderHomeBrainDump,80)">Someday</button><button class="btn xs" onclick="bdDecision('${b.id}','${t.id}','existing');setTimeout(renderHomeBrainDump,80)">Already Exists</button><button class="btn xs danger" onclick="bdDecision('${b.id}','${t.id}','discard');setTimeout(renderHomeBrainDump,80)">Discard</button></div>`}</div>`}).join('');
+  el.innerHTML=`<details ${pending.length?'open':''} style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--rxl);box-shadow:var(--sh);overflow:hidden"><summary style="cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:10px;list-style:none"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy);flex:1">🧠 Brain Dump — ${pending.length?pending.length+' To Process':'Clear ✓'}</div><div style="font-size:10px;color:var(--txt3)">${oldest?'Oldest '+bdDate(oldest):'Everything acknowledged'}</div></summary><div style="padding:0 18px 16px"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px"><div class="mc"><div class="mc-val">${d.total}</div><div class="mc-lbl">Captured</div></div><div class="mc"><div class="mc-val">${d.existing}</div><div class="mc-lbl">Already Existed</div></div><div class="mc"><div class="mc-val">${d.actions}</div><div class="mc-lbl">Became Actions</div></div><div class="mc"><div class="mc-val">${d.pending}</div><div class="mc-lbl">Still Waiting</div></div></div><div style="background:var(--soft);border-radius:10px;padding:9px 11px;font-size:10.5px;color:var(--txt2);margin-bottom:8px"><b style="color:var(--navy)">The story:</b> ${esc(story)}${d.topEmotion?` <b>${esc(d.topEmotion[0])}</b> has had the Brain Dump console most often (${d.topEmotion[1]} session${d.topEmotion[1]===1?'':'s'}).`:''}</div>${rows}${pending.length>12?`<div style="font-size:10px;color:var(--txt3);margin-top:8px">+ ${pending.length-12} more waiting in Brain Dump</div>`:''}<div style="margin-top:10px"><button class="btn xs ghost" onclick="showPage('parking',document.getElementById('nav-parking'));setTimeout(()=>setInboxWorkspace('capture'),60)">Open Full Brain Dump →</button></div></div></details>`;
+}
 function renderHub(){
   const now=new Date();
   const ctOpts={timeZone:'America/Chicago'};
@@ -15916,6 +15957,7 @@ function renderHub(){
   if(el('sb-lcc-sprint'))el('sb-lcc-sprint').textContent=_sp?`Sprint ${_sp.displayNum} of 26 · ${Math.max(0,daysUntil(_sp.end))}d left`:'Sprint --';
   if(el('sb-lcc-time'))el('sb-lcc-time').textContent=`${timeStr} CT`;
   try{renderFocusBoard();}catch(e){console.error('Home Focus Board render failed',e);}
+  try{renderHomeBrainDump();}catch(e){console.error('Home Brain Dump render failed',e);}
 
   // v311 — Bulk Add full core-field CSV/Excel importer.
   // v310 — Ravyn Senior Year is an Initiative tag, not a List.
@@ -29799,6 +29841,9 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v491 — For an Actionable Brain Dump thought, choose Task or Needs Classification; Calendar / Event is also available directly. LCC creates the destination but keeps the thought in To Process while required fields are incomplete. Use Edit Destination, then Check & Finish Routing. The finish check uses canonical missingFields(); Goal/Project candidates must also complete Classification Review. Unfinished Brain Dump destinations are temporarily excluded from automatic Parking Lot / Inbox routing. -->
 <!-- CHANGE LOG: v491 — Added clean-routing completion gate, Task vs Needs Classification choice, Calendar / Event route, pending destination repair state, canonical missingFields() finish validation, and temporary exclusion of unfinished Brain Dump destinations from needsAttn()/routeParkingLot(). Added only the v491 Release record. No new Action Item type, field, controlled value, or linkable object was introduced, so Bulk Add, Bulk Update, type filters, inline type selector, keyMap/linked items, tBadge, recalc/calcProg type logic, applyFilter type branches, and export schema required no additions. -->
 <!-- RELEASE NOTES: v491 — Brain Dump processing now ends only after actionable destinations are complete enough to avoid missing-field Inbox routing. Record creation alone no longer counts as processed. -->
+<!-- USER GUIDE: v497 — Brain Dump To Process is collapsible on Home. Brain Dump Pulse uses the same emotion vocabulary as Pulse / Headquarters. Classified Goals/Projects can route after all four classification questions are answered and Type matches the recommendation; remaining planning fields continue in Goal/Project Review. Home Today/Overdue metrics use the same eligibility as the visible Today Focus list. -->
+<!-- CHANGE LOG: v497 — Added Home Brain Dump queue + story metrics, Brain Dump Pulse before/after emotion fields, classification-only routing gate for Goal/Project candidates, and corrected Today/Overdue metric alignment. No new Action Item type or Action Item schema field was added. -->
+<!-- RELEASE NOTES: v497 — Brain Dump now supports mental-load storytelling and faster routing while Home counts match the visible work list. -->
 </body>
 
 
