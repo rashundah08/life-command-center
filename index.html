@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v500</title>
+<title>LCC v501</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1292,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v500 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v501 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v500</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v501</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4098,10 +4098,11 @@ async function load(){
   const _v495ReleaseAdded=ensureReleaseV495();
   const _v496ReleaseAdded=ensureReleaseV496();
   const _v497ReleaseAdded=ensureReleaseV497();
+  const _v501ReleaseAdded=ensureReleaseV501();
   const _v500ReleaseAdded=ensureReleaseV500();
   const _v499ReleaseAdded=ensureReleaseV499();
   const _v498ReleaseAdded=ensureReleaseV498();
-  if((_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4122,6 +4123,11 @@ function ensureReleaseV497(){
   S.items.push({id:'release-lcc-v497',name:'LCC v497 — Brain Dump Pulse + Home Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'497',releaseType:'enhancement',releaseModules:['Home','Brain Dump','Pulse / Headquarters','Execution Center'],releaseChangelog:'Added a collapsible Brain Dump To Process queue and story metrics to Home; added Brain Dump Pulse emotion capture using the existing Pulse emotion vocabulary; changed classified Goal/Project Brain Dump routing so all four classification questions plus matching recommended type are sufficient to leave Brain Dump and continue planning in Goal/Project Review; aligned Home Today/Overdue metric widgets to the exact same eligibility used by the visible Today Focus list.',releaseNotes:'v497 turns Brain Dump into an acknowledge-and-route workflow rather than a complete-every-field gate. Home keeps pending thoughts visible, Brain Dump Pulse records the emotion at the console, and Today/Overdue counts now match the visible focus list.',notes:'User Guide: Expand Brain Dump — To Process on Home to process pending thoughts without losing sight of them. For Goal/Project candidates, answer all four classification questions and make the saved Type match the recommendation, then Check & Route; remaining planning fields continue in Goal Review or Project Review. Brain Dump Pulse uses the same emotions as Pulse / Headquarters and Home summarizes captured, already-existing, actionable, and waiting thoughts as a mental-load story.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
+function ensureReleaseV501(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v501'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v501',name:'LCC v501 — Transactional Partial CSV Import',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'501',releaseType:'bugfix',releaseModules:['Bulk Add','CSV Import','Import History'],releaseChangelog:'Changed partial CSV imports from live-then-rollback behavior to staged approval behavior. LCC now evaluates the full batch, temporarily captures the valid staged result, restores the exact pre-import item state before displaying the PARTIAL report, and writes staged rows to live data only when Load Valid Rows is explicitly chosen. Reject Entire Import leaves the pre-import state untouched and retains the rejection report.',releaseNotes:'v501 makes the partial-import choice real: when an import is PARTIAL, no candidate rows are present in live LCC data while the decision screen is open. Load Valid Rows commits the staged valid records; Reject Entire Import commits zero records and keeps the report.',notes:'User Guide: Upload the CSV and review Import Results. COMPLETE imports load normally. PARTIAL imports are staged and do not appear in live LCC data until you click Load Valid Rows. Click Reject Entire Import to keep zero rows; the rejection report remains in Import History and can be downloaded. This release also follows the v500 two-pass Linked Item resolution.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
 function ensureReleaseV500(){
   if(S.items.some(i=>i&&i.id==='release-lcc-v500'))return false;
   const now=new Date().toISOString(),day=today();
@@ -10882,12 +10888,16 @@ function baDownloadRejectionReport(id){
 }
 function baRejectPartialImport(id){
   const r=baImportReportById(id);if(!r||!_baPartialDecision||_baPartialDecision.reportId!==id)return;
-  try{S.items=JSON.parse(_baPartialDecision.itemsJson);if(_baPartialDecision.itemTagsJson&&Array.isArray(S.itemTags))S.itemTags=JSON.parse(_baPartialDecision.itemTagsJson);}catch(e){alert('Could not restore the pre-import state. Please do not continue and restore your latest backup.');return;}
+  // v501 — live state was already restored before the decision screen opened; rejection commits nothing.
   r.decision='REJECTED';r.status='REJECTED';r.loaded=0;r.decidedAt=Date.now();_baPartialDecision=null;_baPartialApproved=false;invalidateItemIndex();save();baShowImportReport(id);toast('Partial import rejected — 0 rows loaded. Rejection report saved.',6000);
 }
 function baApprovePartialImport(id){
   const r=baImportReportById(id);if(!r||!_baPartialDecision||_baPartialDecision.reportId!==id)return;
-  r.decision='LOADED_VALID_ROWS';r.loaded=r.imported;r.decidedAt=Date.now();_baPartialDecision=null;_baPartialApproved=false;save();baShowImportReport(id);toast('Partial import accepted — '+r.loaded+' valid row'+(r.loaded===1?'':'s')+' loaded.',5000);
+  try{
+    S.items=JSON.parse(_baPartialDecision.stagedItemsJson);
+    if(_baPartialDecision.stagedItemTagsJson&&Array.isArray(S.itemTags))S.itemTags=JSON.parse(_baPartialDecision.stagedItemTagsJson);
+  }catch(e){alert('Could not commit the staged import. No rows were loaded; restore your latest backup before continuing.');return;}
+  r.decision='LOADED_VALID_ROWS';r.loaded=r.imported;r.decidedAt=Date.now();_baPartialDecision=null;_baPartialApproved=false;invalidateItemIndex();save();recalc();render();baShowImportReport(id);toast('Partial import accepted — '+r.loaded+' valid row'+(r.loaded===1?'':'s')+' loaded.',5000);
 }
 function saveBulk(){
   var _bCSkipped=0; // v191 — content items blocked from Stage=Published by the checklist gate
@@ -11350,12 +11360,21 @@ function saveBulk(){
     if(csvMode){
       const _partial=_baImportResults.some(x=>x.status==='Failed'||x.status==='Skipped');
       const _report={fileName:baImportFileName(),total:rows.length,results:_baImportResults,decision:_partial?'PENDING':(_baImportResults.length?'LOADED':'')};
-      baRecordImportReport(_report);
       if(_partial){
-        _baPartialDecision={reportId:_baImportReportActive.id,itemsJson:window._baV499Snapshot?.itemsJson||'[]',itemTagsJson:window._baV499Snapshot?.itemTagsJson||null};
+        // v501 — stage the evaluated valid result, then restore baseline BEFORE report persistence/UI.
+        // Nothing from a partial import is live until Load Valid Rows is explicitly chosen.
+        const _stagedItemsJson=JSON.stringify(S.items);
+        const _stagedItemTagsJson=Array.isArray(S.itemTags)?JSON.stringify(S.itemTags):null;
+        try{
+          S.items=JSON.parse(window._baV499Snapshot?.itemsJson||'[]');
+          if(window._baV499Snapshot?.itemTagsJson&&Array.isArray(S.itemTags))S.itemTags=JSON.parse(window._baV499Snapshot.itemTagsJson);
+        }catch(e){alert('Could not stage this partial import safely. No decision was applied; restore your latest backup before continuing.');return;}
+        invalidateItemIndex();
+        baRecordImportReport(_report);
+        _baPartialDecision={reportId:_baImportReportActive.id,stagedItemsJson:_stagedItemsJson,stagedItemTagsJson:_stagedItemTagsJson};
         _baImportReportActive.decision='PENDING';_baImportReportActive.loaded=null;
-        baShowImportReport(_baImportReportActive.id);
-      }
+        save();render();baShowImportReport(_baImportReportActive.id);
+      }else baRecordImportReport(_report);
       window._baV499Snapshot=null;
     }else toast(summaryMsg,(skippedListVals.size||skippedCatVals.size)?8000:4000);
     setTimeout(resetBulkForm,100);
@@ -29996,3 +30015,7 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- CHANGE LOG: v445 — Reworked the existing Inventory CSV/Notion import path to add pantry-app format detection, preview counts, repeat-safe duplicate detection, approved Pantry subcategory normalization, source metadata preservation, catalog updates for imported brands/stores, and supported pantry field mapping. Added browser Print/PDF review output grouped by Room or Category plus Needs Attention and All Inventory modes. No new Action Item type, Inventory field, linkable object, or controlled-value catalog was added; existing Inventory/Bulk Add/Bulk Update/type filters/inline type selector/keyMap/tBadge/missingFields/recalc/applyFilter/export structural mappings remain unchanged. Added only the v445 Release record. -->
 <!-- RELEASE NOTES: v445 — Home Inventory import/review release. Pantry-app CSVs can now move directly into the existing LCC Inventory model without multiplying catalog records by quantity or introducing unapproved category values, and Inventory can be printed to review-friendly PDFs by room, category, or attention status. -->
 
+
+<!-- USER GUIDE: v501 — PARTIAL Bulk Add CSV imports are transactional. LCC stages valid candidates, restores the pre-import live state before showing results, and commits staged rows only after Load Valid Rows. Reject Entire Import commits zero rows and retains the rejection report. -->
+<!-- CHANGE LOG: v501 — Fixed partial CSV imports appearing in live LCC data before user approval. Added staged-items commit on approval and no-op live-data rejection. -->
+<!-- RELEASE NOTES: v501 — Partial imports no longer touch live Action Items until explicitly approved. -->
