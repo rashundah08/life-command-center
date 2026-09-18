@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v502</title>
+<title>LCC v504</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1292,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v502 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v504 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v502</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v504</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4098,12 +4098,14 @@ async function load(){
   const _v495ReleaseAdded=ensureReleaseV495();
   const _v496ReleaseAdded=ensureReleaseV496();
   const _v497ReleaseAdded=ensureReleaseV497();
+  const _v503ReleaseAdded=ensureReleaseV504();
+ensureReleaseV503();
   const _v502ReleaseAdded=ensureReleaseV502();
   const _v501ReleaseAdded=ensureReleaseV501();
   const _v500ReleaseAdded=ensureReleaseV500();
   const _v499ReleaseAdded=ensureReleaseV499();
   const _v498ReleaseAdded=ensureReleaseV498();
-  if((_v502ReleaseAdded||_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v503ReleaseAdded||_v502ReleaseAdded||_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4122,6 +4124,17 @@ function ensureReleaseV497(){
   if(S.items.some(i=>i&&i.id==='release-lcc-v497'))return false;
   const now=Date.now(),day=today();
   S.items.push({id:'release-lcc-v497',name:'LCC v497 — Brain Dump Pulse + Home Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'497',releaseType:'enhancement',releaseModules:['Home','Brain Dump','Pulse / Headquarters','Execution Center'],releaseChangelog:'Added a collapsible Brain Dump To Process queue and story metrics to Home; added Brain Dump Pulse emotion capture using the existing Pulse emotion vocabulary; changed classified Goal/Project Brain Dump routing so all four classification questions plus matching recommended type are sufficient to leave Brain Dump and continue planning in Goal/Project Review; aligned Home Today/Overdue metric widgets to the exact same eligibility used by the visible Today Focus list.',releaseNotes:'v497 turns Brain Dump into an acknowledge-and-route workflow rather than a complete-every-field gate. Home keeps pending thoughts visible, Brain Dump Pulse records the emotion at the console, and Today/Overdue counts now match the visible focus list.',notes:'User Guide: Expand Brain Dump — To Process on Home to process pending thoughts without losing sight of them. For Goal/Project candidates, answer all four classification questions and make the saved Type match the recommendation, then Check & Route; remaining planning fields continue in Goal Review or Project Review. Brain Dump Pulse uses the same emotions as Pulse / Headquarters and Home summarizes captured, already-existing, actionable, and waiting thoughts as a mental-load story.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+
+function ensureReleaseV503(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v503'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v503',name:'LCC v503 — Focus Bulk Schedule Recalculation',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'503',releaseType:'bugfix',releaseModules:['Focus View','Bulk Update','Scheduling'],releaseChangelog:'Fixed Focus View quick Bulk Update so explicitly changing Start Date together with Duration recalculates Target Date even when the selected records already have an older Target Date. Likewise, explicitly changing Target Date with Duration recalculates Start Date. When both Start and Target are explicitly supplied, both remain authoritative.',releaseNotes:'v503 fixes stale schedule endpoints after Focus View bulk scheduling. Start + Duration now produces a fresh Target Date instead of preserving an old due date that can incorrectly leave tasks marked Behind.',notes:'User Guide: In Focus View, select linked items and use the quick bulk bar. Enter Start plus Duration to recalculate Target automatically, or Target plus Duration to recalculate Start. If you enter both Start and Target, LCC keeps both dates as entered. Status is recalculated after the schedule update, so a future Target Date clears an obsolete Behind status.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+function ensureReleaseV504(){
+  if((S.items||[]).some(i=>i.id==='release-lcc-v504'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v504',name:'LCC v504 — Today Live Refresh Repair',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'504',releaseType:'bugfix',releaseModules:['Home','Today Focus','Focus View','Inline Editing'],releaseChangelog:'Fixed stale Today / Focus cards after Focus View quick bulk updates, Focus anchor edits, and inline schedule/status edits. These mutation paths now refresh Today Focus, Today period metrics, Sprint summary, and Execution Today from the current saved Action Item state immediately after recalculation.',releaseNotes:'v504 keeps Today surfaces live after schedule changes so moved future work disappears from overdue immediately instead of showing stale dates/status until a full page rerender.',notes:'User Guide: When Start Date, Target Date, Duration, Status, Planning Stage, or other Focus scheduling fields are changed from Focus View or inline editing, Today / Focus refreshes immediately from the recalculated saved record. A task moved to a future Target Date no longer remains visually overdue on Today.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
 function ensureReleaseV502(){
@@ -13816,6 +13829,14 @@ function ldSort(col){
   else{ldTableSort={col,dir:'asc'};}
   renderListDetail();
 }
+function refreshTodaySurfacesV504(){
+  // v504 — mutation paths outside renderAll() must invalidate every Today-derived surface.
+  // All renderers read live S.items after recalc(); no cached card/status/date survives an edit.
+  try{if(typeof renderHubFocus==='function')renderHubFocus(id=>document.getElementById(id));}catch(e){console.error('Today Focus refresh failed',e);}
+  try{if(typeof renderHubPeriodLens==='function')renderHubPeriodLens();}catch(e){console.error('Today metrics refresh failed',e);}
+  try{if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();}catch(e){console.error('Sprint refresh failed',e);}
+  try{if(typeof renderExecutionToday==='function'&&document.getElementById('execution-view-today')?.style.display!=='none')renderExecutionToday();}catch(e){console.error('Execution Today refresh failed',e);}
+}
 function inlineField(id,field,val){
   const i=getItem(id);if(!i)return;
   const _oldSt=i.status;   // 0192 (v219)
@@ -13847,8 +13868,7 @@ function inlineField(id,field,val){
   recalc();save();
   // v346 — All Action Items and Master Plan Sprint are two views of the same records.
   // Refresh sprint-derived surfaces after inline edits so no stale view survives navigation/render timing.
-  if(typeof renderHubSprintWidget==='function')renderHubSprintWidget();
-  if(typeof renderHubPeriodLens==='function')renderHubPeriodLens();
+  refreshTodaySurfacesV504();
   if(['type','status','effort','askType','askChannel','rejectionType','responseStatus','date','startDate','duration','durationUnit','planningStage','estimatedMins'].includes(field))renderListDetail();
 }
 function inlineModulesField(id,field,val){
@@ -14296,10 +14316,20 @@ function fpBulkApply(){
     if(targetDate)item.date=targetDate;
     if(durationRaw!=='')item.duration=Math.max(0,parseInt(durationRaw,10)||0);
     if(durationUnit)item.durationUnit=durationUnit;
-    if(typeof syncDurationDatesV337==='function')syncDurationDatesV337(item);
+    // v503 — In Focus quick Bulk Update, an explicitly changed schedule anchor plus
+    // Duration must replace the stale opposite endpoint, not merely fill it when blank.
+    // Both dates explicitly entered remain authoritative.
+    if(durationRaw!==''&&startDate&&!targetDate){
+      const _u=item.durationUnit||'days',_m=_u==='weeks'?7:_u==='months'?30:_u==='years'?365:1;
+      item.date=addDays(startDate,item.duration*_m);
+    }else if(durationRaw!==''&&targetDate&&!startDate){
+      const _u=item.durationUnit||'days',_m=_u==='weeks'?7:_u==='months'?30:_u==='years'?365:1;
+      item.startDate=addDays(targetDate,-(item.duration*_m));
+    }else if(typeof syncDurationDatesV337==='function')syncDurationDatesV337(item);
     count++;
   });
   recalc();save();
+  refreshTodaySurfacesV504();
   _fpSelected.clear();
   const bar=document.getElementById('fp-bulk-bar');if(bar)bar.style.display='none';
   renderFocusLinked(getItem(window._fpItemId));
@@ -14512,6 +14542,7 @@ function saveFocusAnchor(silent){
   if(date!==undefined)item.date=date;
   if(notes!==undefined)item.notes=notes;
   recalc();save();
+  refreshTodaySurfacesV504();
   _fpDirty=false;
   const btn=document.getElementById('fp-save-btn');if(btn)btn.style.display='none';
   document.getElementById('fp-title').textContent=item.name||'(Unnamed)';
@@ -30014,6 +30045,13 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v473 — Put the main Habit record On Hold to pause it. LCC removes every unfinished dated occurrence owned by that habit while preserving completed history. Paused habits do not generate new dated occurrences and paused dates are not counted as misses. Resume the main habit to restart from the resume date without backfilling the paused period. -->
 <!-- CHANGE LOG: v473 — Fixed habit pause handling at the source: Bulk Update now runs habit status side effects; On Hold/Cancelled/Done habit masters are reconciled before miss sweeping/generation; inactive-master unfinished occurrences are purged; the miss sweep defensively removes inactive occurrences without recording misses. No new item type, persistent field, linkable object, controlled value, validation rule, progress rule, applyFilter type branch, or export field was added. Added only the v473 Release record. -->
 <!-- RELEASE NOTES: v473 — Habit On-Hold generation repair. Paused habits now truly stop producing dated action records, stale generated occurrences self-heal on load/render, completed habit history is preserved, and paused dates are excluded from miss accounting. -->
+
+<!-- USER GUIDE: v504 — Today / Focus is now a live derived view after Focus View quick bulk updates, Focus anchor edits, and inline Action Item changes. Schedule/status changes recalculate first, then immediately refresh Today Focus, Today metrics, Sprint summary, and Execution Today. -->
+<!-- CHANGE LOG: v504 — Added a single Today-surface refresh helper and wired it into Focus quick Bulk Update, Focus anchor save, and inline editing paths that previously saved/recalculated without rebuilding Today Focus cards. No new item type, field, controlled value, linkable object, validation rule, progress rule, filter branch, or export field was added. -->
+<!-- RELEASE NOTES: v504 — Fixed stale overdue cards on Today after moving work to future dates from Focus/inline editing. Today now reflects the saved Action Item schedule immediately. -->
+<!-- USER GUIDE: v503 — In Focus View quick Bulk Update, Start Date + Duration recalculates Target Date even when an older Target already exists. Target Date + Duration recalculates Start Date. If both Start and Target are entered, those explicit dates are preserved. -->
+<!-- CHANGE LOG: v503 — Repaired Focus View quick Bulk Update schedule recalculation so an old opposite endpoint cannot survive an explicit anchor + Duration change and leave records falsely Behind. No item type, field, controlled value, linked-item mapping, validation rule, progress rule, filter branch, or export schema changed. -->
+<!-- RELEASE NOTES: v503 — Focus bulk scheduling now treats Start + Duration and Target + Duration as schedule recalculation commands rather than missing-date-only fills. -->
 </html>
 
 <!-- USER GUIDE: v443 — Plan an Ask using TCD or Start Date + Duration. If the Ask is still Pending when that planning date arrives, it appears automatically in the 1,000 NOs Dashboard Follow-Up Center. Open the Ask from the widget to update its response or planning dates. No separate follow-up fields or seven-day rescheduling rule remain. -->
