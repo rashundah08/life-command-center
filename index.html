@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v504</title>
+<title>LCC v505</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1292,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v504 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v505 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v504</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v505</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -3803,6 +3803,9 @@ function loadFromDriveData(p){
   if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
   if(p.hubDisplayWeek)S.hubDisplayWeek=p.hubDisplayWeek;
   if(p.catalogSettings)S.catalogSettings=p.catalogSettings;
+  if(p.contentSeries)S.contentSeries=p.contentSeries;
+  if(p.companySops)S.companySops=p.companySops;
+  if(Array.isArray(p.bulkImportHistory))S.bulkImportHistory=p.bulkImportHistory;
   if(p.tagLibrary)S.tagLibrary=p.tagLibrary;
   if(p.itemTags)S.itemTags=p.itemTags; // v254
   if(p.fieldLibrary)S.fieldLibrary=p.fieldLibrary; // v197
@@ -3817,9 +3820,10 @@ function loadFromDriveData(p){
   const _v475ReleaseAdded=ensureReleaseV493();
   const _v494ReleaseAdded=ensureReleaseV494();
   const _v495ReleaseAdded=ensureReleaseV495();
+  const _v505ReleaseAdded=ensureReleaseV505();
   recalc();
   renderAll();
-  if((_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v505ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   const payload=buildSavePayload();
   saveDataStore(payload).catch(e=>console.warn('IDB save failed:',e));
 }
@@ -3962,6 +3966,17 @@ function restoreFromFile(){
       if(!p.items){toast('Invalid backup file',3000);input.remove();return;}
       const count=p.items.length;
       if(!confirm('Restore '+count+' items from backup? This will replace your current data.')){input.remove();return;}
+      // v505 — a missing key in an older manual backup means “not backed up”, not “erase it”.
+      if(!Object.prototype.hasOwnProperty.call(p,'brainDumps'))p.brainDumps=S.brainDumps;
+      if(!Object.prototype.hasOwnProperty.call(p,'knowledge'))p.knowledge=S.knowledge;
+      if(!Object.prototype.hasOwnProperty.call(p,'knowledgeCategories'))p.knowledgeCategories=S.knowledgeCategories;
+      if(!Object.prototype.hasOwnProperty.call(p,'focusBoard'))p.focusBoard=S.focusBoard;
+      if(!Object.prototype.hasOwnProperty.call(p,'companySops'))p.companySops=S.companySops;
+      if(!Object.prototype.hasOwnProperty.call(p,'tagLibrary'))p.tagLibrary=S.tagLibrary;
+      if(!Object.prototype.hasOwnProperty.call(p,'itemTags'))p.itemTags=S.itemTags;
+      if(!Object.prototype.hasOwnProperty.call(p,'fieldLibrary'))p.fieldLibrary=S.fieldLibrary;
+      if(!Object.prototype.hasOwnProperty.call(p,'dreamFund'))p.dreamFund=S.dreamFund;
+      if(!Object.prototype.hasOwnProperty.call(p,'bulkImportHistory'))p.bulkImportHistory=S.bulkImportHistory;
       loadFromDriveData(p);
       if(gdriveReady&&gdriveToken){await driveSaveNow(true);}
       toast('Restored '+count+' items from backup!',4000);
@@ -4071,6 +4086,13 @@ async function load(){
       const p=JSON.parse(raw);
       S.lists=p.lists||DEFAULT_LISTS;
       S.items=p.items||[];
+      // v505 — device storage restores the same complete datasets that it saves.
+      if(Array.isArray(p.knowledge))S.knowledge=p.knowledge;
+      if(Array.isArray(p.knowledgeCategories))S.knowledgeCategories=p.knowledgeCategories;
+      if(Array.isArray(p.brainDumps))S.brainDumps=p.brainDumps;
+      if(p.focusBoard)S.focusBoard=p.focusBoard;
+      if(p.companySops)S.companySops=p.companySops;
+      if(Array.isArray(p.bulkImportHistory))S.bulkImportHistory=p.bulkImportHistory;
       if(p.sot)S.sot=p.sot;
       if(p.rewards)S.rewards=p.rewards;
       if(p.rewardHistory)S.rewardHistory=p.rewardHistory;
@@ -4082,10 +4104,8 @@ async function load(){
   if(p.fieldLibrary)S.fieldLibrary=p.fieldLibrary; // v197
   if(p.dreamFund)S.dreamFund=p.dreamFund; // v201 — Dream Life Fund
   if(p.digitalLibrary)S.digitalLibrary=p.digitalLibrary; // v361 — Digital Library
-  if(p.focusBoard)S.focusBoard=p.focusBoard; // v492 — Home Focus Board
   if(Array.isArray(p.bulkImportHistory))S.bulkImportHistory=p.bulkImportHistory; // v498 — durable Bulk Add reconciliation history
       if(p.contentV191Migrated)S.contentV191Migrated=p.contentV191Migrated;if(p.wfV194Migrated)S.wfV194Migrated=p.wfV194Migrated;if(p.v203Migrated)S.v203Migrated=p.v203Migrated;
-      if(p.companySops)S.companySops=p.companySops; // v156 — Company SOP link registry
       // v324 — init() performs the single post-migration recalc.
       if(!S.lists.find(l=>l.id==='patches'))S.lists.push({id:'patches',name:'Patch Challenges',color:'#8b1a4a',system:true,numbered:true,maxNum:500});
       if(!S.lists.find(l=>l.id==='projtasks'))S.lists.push({id:'projtasks',name:'Project Tasks',color:'#185FA5',system:true,numbered:false,maxNum:null});
@@ -4098,6 +4118,7 @@ async function load(){
   const _v495ReleaseAdded=ensureReleaseV495();
   const _v496ReleaseAdded=ensureReleaseV496();
   const _v497ReleaseAdded=ensureReleaseV497();
+  const _v505ReleaseAdded=ensureReleaseV505();
   const _v503ReleaseAdded=ensureReleaseV504();
 ensureReleaseV503();
   const _v502ReleaseAdded=ensureReleaseV502();
@@ -4105,7 +4126,7 @@ ensureReleaseV503();
   const _v500ReleaseAdded=ensureReleaseV500();
   const _v499ReleaseAdded=ensureReleaseV499();
   const _v498ReleaseAdded=ensureReleaseV498();
-  if((_v503ReleaseAdded||_v502ReleaseAdded||_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v505ReleaseAdded||_v503ReleaseAdded||_v502ReleaseAdded||_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4130,6 +4151,11 @@ function ensureReleaseV503(){
   if(S.items.some(i=>i&&i.id==='release-lcc-v503'))return false;
   const now=Date.now(),day=today();
   S.items.push({id:'release-lcc-v503',name:'LCC v503 — Focus Bulk Schedule Recalculation',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'503',releaseType:'bugfix',releaseModules:['Focus View','Bulk Update','Scheduling'],releaseChangelog:'Fixed Focus View quick Bulk Update so explicitly changing Start Date together with Duration recalculates Target Date even when the selected records already have an older Target Date. Likewise, explicitly changing Target Date with Duration recalculates Start Date. When both Start and Target are explicitly supplied, both remain authoritative.',releaseNotes:'v503 fixes stale schedule endpoints after Focus View bulk scheduling. Start + Duration now produces a fresh Target Date instead of preserving an old due date that can incorrectly leave tasks marked Behind.',notes:'User Guide: In Focus View, select linked items and use the quick bulk bar. Enter Start plus Duration to recalculate Target automatically, or Target plus Duration to recalculate Start. If you enter both Start and Target, LCC keeps both dates as entered. Status is recalculated after the schedule update, so a future Target Date clears an obsolete Behind status.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
+function ensureReleaseV505(){
+  if((S.items||[]).some(i=>i.id==='release-lcc-v505'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v505',name:'LCC v505 — Complete Backup + Restore Protection',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'505',releaseType:'bugfix',releaseModules:['Backup','Restore','Google Drive','Brain Dump','Knowledge Hub','Focus Board'],releaseChangelog:'Replaced the incomplete manual Backup field list with the canonical complete save payload; repaired device-load restoration of Brain Dump and Knowledge state; completed restore coverage for canonical saved datasets; and made legacy backup restore preserve current datasets when the old backup never contained those keys.',releaseNotes:'v505 closes the backup/restore data-loss path that allowed Brain Dump history to disappear after restoring an older incomplete manual backup. Manual Backup, device save, and Google Drive now use the same canonical payload, and missing legacy sections no longer mean erase.',notes:'User Guide: Backup now downloads the same complete LCC dataset used for device and Google Drive saves. Restoring a legacy backup that lacks Brain Dump or other newer sections preserves the current value for those missing sections instead of replacing it with an empty dataset. New v505 backups include Brain Dump history and all canonical saved sections.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 function ensureReleaseV504(){
   if((S.items||[]).some(i=>i.id==='release-lcc-v504'))return false;
@@ -6137,7 +6163,7 @@ function stripEmptyFields(item){
   return out;
 }
 function buildSavePayload(){
-  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],brainDumps:S.brainDumps||[],focusBoard:S.focusBoard||{quarter:{label:'',start:'',end:'',statements:[]},monthly:{},weekly:{},daily:{}},sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
+  return JSON.stringify({lists:S.lists,items:S.items.map(stripEmptyFields),knowledge:S.knowledge||[],knowledgeCategories:S.knowledgeCategories||[],brainDumps:S.brainDumps||[],focusBoard:S.focusBoard||{quarter:{label:'',start:'',end:'',statements:[]},monthly:{},weekly:{},daily:{}},bulkImportHistory:S.bulkImportHistory||[],sot:S.sot,rewards:S.rewards,rewardHistory:S.rewardHistory,hubDisplayWeek:S.hubDisplayWeek,contentSeries:S.contentSeries,catalogSettings:S.catalogSettings,companySops:S.companySops,tagLibrary:S.tagLibrary,itemTags:S.itemTags,fieldLibrary:S.fieldLibrary,dreamFund:S.dreamFund,digitalLibrary:S.digitalLibrary,contentV191Migrated:S.contentV191Migrated,wfV194Migrated:S.wfV194Migrated,v203Migrated:S.v203Migrated,financeTxV283Migrated:S.financeTxV283Migrated,lastSaved:Date.now()});
 }
 function makeItem(o){
   const tcd=o.date||'';
@@ -30052,6 +30078,10 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v503 — In Focus View quick Bulk Update, Start Date + Duration recalculates Target Date even when an older Target already exists. Target Date + Duration recalculates Start Date. If both Start and Target are entered, those explicit dates are preserved. -->
 <!-- CHANGE LOG: v503 — Repaired Focus View quick Bulk Update schedule recalculation so an old opposite endpoint cannot survive an explicit anchor + Duration change and leave records falsely Behind. No item type, field, controlled value, linked-item mapping, validation rule, progress rule, filter branch, or export schema changed. -->
 <!-- RELEASE NOTES: v503 — Focus bulk scheduling now treats Start + Duration and Target + Duration as schedule recalculation commands rather than missing-date-only fills. -->
+
+<!-- USER GUIDE: v505 — Manual Backup now contains the same complete LCC dataset as device/Google Drive saves, including Brain Dump history. When restoring a legacy backup that never contained Brain Dump, Knowledge, Focus Board, tags, field library, company SOP, Dream Fund, or import-history keys, LCC preserves the current dataset for the missing section rather than interpreting the omission as an empty dataset. -->
+<!-- CHANGE LOG: v505 — Replaced backupToFile()'s incomplete hand-maintained payload with buildSavePayload(); added bulkImportHistory to the canonical payload; restored Brain Dump/Knowledge/company state during device load; completed Drive restore coverage; and protected legacy restores from erasing datasets whose keys were absent. No new Action Item type, Action Item field, linkable object, controlled value, validation requirement, progress rule, filter branch, or export field was introduced. -->
+<!-- RELEASE NOTES: v505 — Fixed the backup/restore data-loss defect that could erase Brain Dump history after restoring an older manual backup. Backup, device save, and Google Drive now share the canonical complete save payload. -->
 </html>
 
 <!-- USER GUIDE: v443 — Plan an Ask using TCD or Start Date + Duration. If the Ask is still Pending when that planning date arrives, it appears automatically in the 1,000 NOs Dashboard Follow-Up Center. Open the Ask from the widget to update its response or planning dates. No separate follow-up fields or seven-day rescheduling rule remain. -->
