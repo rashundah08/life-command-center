@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>LCC v501</title>
+<title>LCC v502</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
 <script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1292,11 +1292,11 @@ Item 3
 <div id="pg-hub" style="display:none">
 <div class="hq-master-hero" style="background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 52%,#9333EA 100%);border-radius:var(--rxl);padding:28px 32px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.12) 0%,transparent 60%);pointer-events:none"></div>
-<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v501 · Your Personal Command Center</div>
+<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">LCC v502 · Your Personal Command Center</div>
 <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;margin-bottom:4px">Home</div>
 <div style="font-size:13px;opacity:.75;margin-bottom:20px;font-style:italic">One Home for what matters now, what needs attention, and the signals shaping your capacity.</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v501</div>
+<div style="background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700">🧠 LCC v502</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">📅 <span id="hub-date">--</span></div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🌿 Rotation Week <strong id="hub-rot">--</strong> of 13</div>
 <div style="background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:12px">🕐 Calendar Week <strong id="hub-calwk">--</strong> of 53</div>
@@ -4098,11 +4098,12 @@ async function load(){
   const _v495ReleaseAdded=ensureReleaseV495();
   const _v496ReleaseAdded=ensureReleaseV496();
   const _v497ReleaseAdded=ensureReleaseV497();
+  const _v502ReleaseAdded=ensureReleaseV502();
   const _v501ReleaseAdded=ensureReleaseV501();
   const _v500ReleaseAdded=ensureReleaseV500();
   const _v499ReleaseAdded=ensureReleaseV499();
   const _v498ReleaseAdded=ensureReleaseV498();
-  if((_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
+  if((_v502ReleaseAdded||_v501ReleaseAdded||_v500ReleaseAdded||_v499ReleaseAdded||_v498ReleaseAdded||_v497ReleaseAdded||_v496ReleaseAdded||_v495ReleaseAdded||_v475ReleaseAdded||_v473HabitRepair)&&typeof driveSaveDebounced==='function')driveSaveDebounced();
   // Note: Drive reconnects manually each session via Connect Drive button
   // (Auto-reconnect removed to prevent auth cascade errors on token expiry)
 }
@@ -4123,6 +4124,11 @@ function ensureReleaseV497(){
   S.items.push({id:'release-lcc-v497',name:'LCC v497 — Brain Dump Pulse + Home Queue',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'497',releaseType:'enhancement',releaseModules:['Home','Brain Dump','Pulse / Headquarters','Execution Center'],releaseChangelog:'Added a collapsible Brain Dump To Process queue and story metrics to Home; added Brain Dump Pulse emotion capture using the existing Pulse emotion vocabulary; changed classified Goal/Project Brain Dump routing so all four classification questions plus matching recommended type are sufficient to leave Brain Dump and continue planning in Goal/Project Review; aligned Home Today/Overdue metric widgets to the exact same eligibility used by the visible Today Focus list.',releaseNotes:'v497 turns Brain Dump into an acknowledge-and-route workflow rather than a complete-every-field gate. Home keeps pending thoughts visible, Brain Dump Pulse records the emotion at the console, and Today/Overdue counts now match the visible focus list.',notes:'User Guide: Expand Brain Dump — To Process on Home to process pending thoughts without losing sight of them. For Goal/Project candidates, answer all four classification questions and make the saved Type match the recommendation, then Check & Route; remaining planning fields continue in Goal Review or Project Review. Brain Dump Pulse uses the same emotions as Pulse / Headquarters and Home summarizes captured, already-existing, actionable, and waiting thoughts as a mental-load story.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
 }
 
+function ensureReleaseV502(){
+  if(S.items.some(i=>i&&i.id==='release-lcc-v502'))return false;
+  const now=Date.now(),day=today();
+  S.items.push({id:'release-lcc-v502',name:'LCC v502 — Bulk Import Root-Cause Reporting',type:'release',status:'done',level:'supporting',planningStage:'na',effort:'small',startDate:day,date:day,completedDate:day,listIds:['releases'],categories:['💻 Technology'],releaseVersion:'502',releaseType:'bugfix',releaseModules:['Bulk Add','CSV Import','Import Results'],releaseChangelog:'Corrected Bulk Add dependency reporting so descendants of a failed CSV parent are classified as Skipped/Blocked instead of being misreported as independent Linked Item failures. This makes the import report distinguish root data/hierarchy problems from downstream rows that cannot be linked only because their parent failed. Transactional staging from v501 remains unchanged.',releaseNotes:'v502 makes partial hierarchy imports explain the real problem count. Root Linked Item and hierarchy defects remain Failed; descendants whose named parent failed earlier in the same CSV are shown as Skipped with a Blocked by failed parent reason. This prevents one missing root from appearing as hundreds of unrelated failures.',notes:'User Guide: In Bulk Add Import Results, treat Failed rows as root issues to correct first. Skipped rows marked Blocked by failed parent are downstream dependents and normally do not need individual edits; they will resolve once the parent/root issue is corrected. PARTIAL imports remain staged until Load Valid Rows or Reject Entire Import is selected.',createdAt:now,updatedAt:now});invalidateItemIndex();return true;
+}
 function ensureReleaseV501(){
   if(S.items.some(i=>i&&i.id==='release-lcc-v501'))return false;
   const now=Date.now(),day=today();
@@ -11333,7 +11339,15 @@ function saveBulk(){
         }else{
           const matchedLink=(S.items||[]).find(li=>li.id!==child.id&&li.name&&li.name.toLowerCase().trim()===_linkName);
           if(!matchedLink){
-            _err=(child.name||'Item')+': Linked Item "'+pl.linkedItem+'" was not found after checking existing LCC items and all successfully created rows in this CSV.';
+            // v502 — if the named parent existed in this CSV but already failed relationship validation,
+            // this row is downstream fallout, not another independent root failure.
+            const _failedParent=_baImportResults.find(x=>x._itemId!==pl.childId&&String(x.name||'').toLowerCase().trim()===_linkName&&(x.status==='Failed'||x.status==='Skipped'));
+            if(_failedParent){
+              _err=(child.name||'Item')+': Blocked by failed parent "'+pl.linkedItem+'" (CSV row '+_failedParent.row+'). Correct the parent/root issue; this descendant does not need a separate Linked Item fix.';
+              pl._blockedByParent=true;
+            }else{
+              _err=(child.name||'Item')+': Linked Item "'+pl.linkedItem+'" was not found after checking existing LCC items and all successfully created rows in this CSV.';
+            }
           }else{
             const _hv=hierarchyLinkValidationV314(matchedLink,pl.childType);
             if(!_hv.ok&&['project','phase','task'].includes(pl.childType))_err=(child.name||'Item')+': '+_hv.msg;
@@ -11346,7 +11360,7 @@ function saveBulk(){
         if(_err){
           _schema2BulkAddErrors.push(_err);
           const rr=_baImportResults.find(x=>x._itemId===pl.childId);
-          if(rr){rr.status='Failed';rr.reason=_err;}
+          if(rr){rr.status=pl._blockedByParent?'Skipped':'Failed';rr.reason=_err;}
           _removeFailedCandidate(pl.childId);_schema2BulkAddedCount=Math.max(0,_schema2BulkAddedCount-1);
         }
       });
@@ -29990,6 +30004,10 @@ function savedViews(){try{return JSON.parse(localStorage.getItem(CORE_FILTER_VIE
 <!-- USER GUIDE: v498 — Bulk Add CSV imports now open a persistent Import Results report with exact row counts, row-level reasons, Failed Rows CSV download, and recent Import History. Brain Dump Goal/Project candidates may save classification answers without List/Category or planning fields; routing completes after all four classification answers are present and Type matches the recommendation. -->
 <!-- CHANGE LOG: v498 — Added durable Bulk Add CSV reconciliation/history and repaired the Brain Dump managed Goal/Project save gate. No new Action Item type, Action Item field, linkable object, controlled value, progress rule, applyFilter branch, or export schema field was added. -->
 <!-- RELEASE NOTES: v498 — Large CSV imports are now auditable instead of disappearing into a toast, and Brain Dump Goal/Project routing no longer forces planning fields before classification can finish. -->
+
+<!-- USER GUIDE: v502 — In Bulk Add Import Results, Failed rows are root issues. Skipped rows with “Blocked by failed parent” are downstream dependencies and normally require no separate correction. Fix the root parent/hierarchy rows, then rerun the staged import. -->
+<!-- CHANGE LOG: v502 — Changed second-pass CSV dependency reporting so rows whose same-file parent already failed are marked Skipped/Blocked rather than Failed as independent missing-parent errors. Preserved v501 transactional staging and v500 two-pass resolution. Removed one duplicated bulk summary message line. No new Action Item type, field, linkable object, controlled value, progress rule, filter branch, or export field was added. -->
+<!-- RELEASE NOTES: v502 — Bulk hierarchy imports now distinguish root defects from cascading blocked descendants, so one missing/invalid parent no longer looks like hundreds of separate data errors. -->
 </body>
 
 
